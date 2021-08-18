@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>432957311030-a4bn2p5b8gmggtrs4grjrh0vld4jon3c.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.432957311030-a4bn2p5b8gmggtrs4grjrh0vld4jon3c</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>432957311030-09023gt23j35g52knu7lmrummbrv8hj5.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB_CArxWtUoHgzXC9yZk3eYdqaw2QVnivw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>432957311030</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.assaff.adminPanel</string>
+	<key>PROJECT_ID</key>
+	<string>af-fix-database</string>
+	<key>STORAGE_BUCKET</key>
+	<string>af-fix-database.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:432957311030:ios:28ff4cd8805045fa5a3097</string>
+	<key>DATABASE_URL</key>
+	<string>https://af-fix-database-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
