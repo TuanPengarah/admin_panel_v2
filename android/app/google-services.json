@@ -1,0 +1,135 @@
+{
+  "project_info": {
+    "project_number": "432957311030",
+    "firebase_url": "https://af-fix-database-default-rtdb.firebaseio.com",
+    "project_id": "af-fix-database",
+    "storage_bucket": "af-fix-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432957311030:android:ee5e37fa1cd74a5c5a3097",
+        "android_client_info": {
+          "package_name": "com.affix.services_form"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432957311030-dq1rtcf0e699mfc7gn3170secdcljasp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.affix.services_form",
+            "certificate_hash": "7ff984d9b6c8f875c3c07a01fa3b91ce7d4fd1cc"
+          }
+        },
+        {
+          "client_id": "432957311030-1q5qt1dk84vbgou3525kikcfagbpku18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiwuBFRWCGPYyFilPZP45kThYlJbS8rBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432957311030-1q5qt1dk84vbgou3525kikcfagbpku18.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "432957311030-uitmfacjqureuf0lg07lt0mf4s36i5jp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.affix.servicesForm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432957311030:android:82bc0d37b65094105a3097",
+        "android_client_info": {
+          "package_name": "com.assaff.admin_panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432957311030-09023gt23j35g52knu7lmrummbrv8hj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.assaff.admin_panel",
+            "certificate_hash": "7ff984d9b6c8f875c3c07a01fa3b91ce7d4fd1cc"
+          }
+        },
+        {
+          "client_id": "432957311030-1q5qt1dk84vbgou3525kikcfagbpku18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiwuBFRWCGPYyFilPZP45kThYlJbS8rBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432957311030-1q5qt1dk84vbgou3525kikcfagbpku18.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "432957311030-uitmfacjqureuf0lg07lt0mf4s36i5jp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.affix.servicesForm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432957311030:android:7d60a24036ad572f5a3097",
+        "android_client_info": {
+          "package_name": "com.example.affix_web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432957311030-1q5qt1dk84vbgou3525kikcfagbpku18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiwuBFRWCGPYyFilPZP45kThYlJbS8rBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432957311030-1q5qt1dk84vbgou3525kikcfagbpku18.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "432957311030-uitmfacjqureuf0lg07lt0mf4s36i5jp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.affix.servicesForm"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
