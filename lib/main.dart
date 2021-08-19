@@ -1,3 +1,4 @@
+import 'package:admin_panel/print.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class TestFirestore extends StatelessWidget {
-  const TestFirestore({Key? key}) : super(key: key);
+  const TestFirestore({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +47,20 @@ class TestFirestore extends StatelessWidget {
             );
           }
           return ListView(
-            children: snapshot.data!.docs.map((doc) {
+            children: snapshot.data.docs.map((doc) {
               return ListTile(
                 title: Text(doc['Nama']),
                 subtitle: Text(doc['No Phone']),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (c) => Print(
+                        name: doc['Nama'],
+                      ),
+                    ),
+                  );
+                },
               );
             }).toList(),
           );

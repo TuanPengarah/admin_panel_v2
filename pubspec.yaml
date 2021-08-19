@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.11.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -30,6 +30,11 @@ dependencies:
   # API Services
   firebase_core: ^1.5.0
   cloud_firestore: ^2.5.0
+
+  # Data Model
+  esc_pos_bluetooth: ^0.2.8
+  esc_pos_utils: ^0.3.6
+  flutter_bluetooth_basic: ^0.1.5
 
 dev_dependencies:
   flutter_test:
