@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.assaff.admin_panel">
    <application
-        android:label="admin_panel"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Admin Panel"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
