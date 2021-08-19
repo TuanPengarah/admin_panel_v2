@@ -1,7 +1,7 @@
-import 'package:admin_panel/print.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:admin_panel/login/view/view_login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,10 +10,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Af-Fix Admin Panel',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -22,50 +21,8 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: TestFirestore(),
-    );
-  }
-}
-
-class TestFirestore extends StatelessWidget {
-  const TestFirestore({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Af-Fix Admin Panel',
-        ),
-      ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('customer').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return ListView(
-            children: snapshot.data.docs.map((doc) {
-              return ListTile(
-                title: Text(doc['Nama']),
-                subtitle: Text(doc['No Phone']),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (c) => Print(
-                        name: doc['Nama'],
-                      ),
-                    ),
-                  );
-                },
-              );
-            }).toList(),
-          );
-        },
-      ),
+      getPages: [GetPage(name: '/login', page: () => LoginView())],
+      initialRoute: '/login',
     );
   }
 }

@@ -87,6 +87,12 @@ class _PrintState extends State<Print> {
   }
 
   @override
+  void dispose() {
+    _printerManager.stopScan();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
