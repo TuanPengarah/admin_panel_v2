@@ -1,10 +1,15 @@
 import 'dart:math';
-
+import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/API/firebaseAuth_controller.dart';
+import 'package:admin_panel/login/controller/show_password.dart';
+import 'package:admin_panel/login/view/login_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show HapticFeedback;
+import 'package:get/get.dart';
 
 class LoginView extends StatelessWidget {
   final _random = new Random();
+  final _loginController = Get.put(AuthController());
+  final _visibilityPassword = Get.put(ShowPasswordController());
   int _getRandom(int min, int max) => min + _random.nextInt(max - min);
 
   @override
@@ -50,8 +55,9 @@ class LoginView extends StatelessWidget {
                   Text(
                     'Admin Panel',
                     style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 23,
+                      letterSpacing: 1.3,
+                      fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
@@ -69,7 +75,9 @@ class LoginView extends StatelessWidget {
                     height: 55,
                     child: ElevatedButton(
                       onPressed: () {
-                        HapticFeedback.selectionClick();
+                        Haptic.feedbackClick();
+                        ShowBottomSheet.showLoginSheet(
+                            context, _loginController, _visibilityPassword);
                       },
                       child: Text(
                         'Log Masuk',

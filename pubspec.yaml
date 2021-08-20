@@ -14,18 +14,24 @@ dependencies:
 
   # UI/UX
   cupertino_icons: ^1.0.2
+  sliding_sheet: ^0.5.0
+  rounded_loading_button: ^1.0.18
 
   # API Services
   firebase_core: ^1.5.0
   cloud_firestore: ^2.5.0
+  firebase_auth: ^3.0.2
 
-  # Data Model
+  # Native Hardware
   esc_pos_bluetooth: ^0.2.8
   esc_pos_utils: ^0.3.6
   flutter_bluetooth_basic: ^0.1.5
 
   # State Management
   get: ^4.3.8
+
+  # I/O
+  get_storage: ^2.0.3
 
 dev_dependencies:
   flutter_test:
