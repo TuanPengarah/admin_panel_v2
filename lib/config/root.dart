@@ -1,5 +1,5 @@
 import 'package:admin_panel/home/view/home_view.dart';
-import 'package:admin_panel/login/view/view_login.dart';
+import 'package:admin_panel/login/view/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

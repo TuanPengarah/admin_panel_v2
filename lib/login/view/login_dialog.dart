@@ -1,4 +1,3 @@
-import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/API/firebaseAuth_controller.dart';
 import 'package:admin_panel/login/controller/show_password.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,8 +17,8 @@ class ShowBottomSheet {
     final btnController = RoundedLoadingButtonController();
     await showSlidingBottomSheet(context, builder: (context) {
       return SlidingSheetDialog(
+        isDismissable: false,
         color: Theme.of(context).scaffoldBackgroundColor,
-        dismissOnBackdropTap: true,
         duration: Duration(milliseconds: 400),
         snapSpec: SnapSpec(snappings: [1, 1]),
         elevation: 8,
@@ -31,19 +30,11 @@ class ShowBottomSheet {
             child: SafeArea(
               child: Material(
                 child: Container(
-                  // height: MediaQuery.of(context).size.height - 23,
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Column(
                       children: [
-                        IconButton(
-                          icon: Icon(Icons.dark_mode,
-                              color:
-                                  Get.isDarkMode ? Colors.amber : Colors.black),
-                          onPressed: MyThemes().switchTheme,
-                        ),
-                        SizedBox(height: 20),
                         Text(
                           'Assalamulaikum!',
                           style: TextStyle(
@@ -76,6 +67,9 @@ class ShowBottomSheet {
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: visiblityController.showPassword.value,
                             textInputAction: TextInputAction.done,
+                            onSubmitted: (text) {
+                              btnController.start();
+                            },
                             decoration: InputDecoration(
                               labelText: 'Kata Laluan',
                               hintText: 'Sila masukkan kata laluan yang sah',
@@ -120,6 +114,7 @@ class ShowBottomSheet {
                                 'Ingin membuat Akaun baru? Pastikan anda staff Af-Fix dan sila hubungi ',
                             style: TextStyle(
                               color: Colors.grey,
+                              fontSize: 12,
                             ),
                             children: [
                               TextSpan(

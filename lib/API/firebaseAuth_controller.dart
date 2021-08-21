@@ -1,6 +1,6 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
@@ -14,28 +14,14 @@ class AuthController extends GetxController {
     _auth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
-      Get.showSnackbar(
-        GetBar(
-          title: 'Selamat Kembali!',
-          message: 'Log masuk berjaya',
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 3),
-        ),
-      );
+      ShowSnackbar.success('Selamat Kembali', 'Log masuk berjaya!');
       btnController.success();
       Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 2));
       Get.offAllNamed('/home');
     }).catchError(
       (err) async {
-        Get.showSnackbar(
-          GetBar(
-            title: 'Kesalahan Telah berlaku',
-            message: err.toString(),
-            backgroundColor: Colors.amber[900],
-            duration: Duration(seconds: 5),
-          ),
-        );
+        ShowSnackbar.error('Kesalahan telah berlaku!', err.toString());
         btnController.error();
         Haptic.feedbackError();
         await Future.delayed(Duration(seconds: 2));
@@ -48,24 +34,10 @@ class AuthController extends GetxController {
   void performLogOut() {
     _auth.signOut().then((value) {
       Get.offAllNamed('/login');
-      Get.showSnackbar(
-        GetBar(
-          title: 'Log Keluar Berjaya!',
-          message: 'Anda telah di log keluar',
-          backgroundColor: Colors.green,
-          duration: Duration(seconds: 3),
-        ),
-      );
+      ShowSnackbar.success('Log Keluar Berjaya', 'Anda telah di log keluar!');
     }).catchError((err) {
       Haptic.feedbackError();
-      Get.showSnackbar(
-        GetBar(
-          title: 'Kesalahan Telah berlaku',
-          message: err.toString(),
-          backgroundColor: Colors.amber[900],
-          duration: Duration(seconds: 5),
-        ),
-      );
+      ShowSnackbar.error('Kesalahan telah berlaku', err.toString());
     });
   }
 }

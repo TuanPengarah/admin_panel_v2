@@ -1,73 +1,71 @@
-import 'dart:math';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/API/firebaseAuth_controller.dart';
+import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/login/controller/show_password.dart';
 import 'package:admin_panel/login/view/login_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginView extends StatelessWidget {
-  final _random = new Random();
   final _loginController = Get.put(AuthController());
   final _visibilityPassword = Get.put(ShowPasswordController());
-  int _getRandom(int min, int max) => min + _random.nextInt(max - min);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/login${_getRandom(0, 3)}.jpg'),
-                fit: BoxFit.cover,
+          SafeArea(
+            child: Container(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      Get.isDarkMode
+                          ? 'assets/images/splash_light.png'
+                          : 'assets/images/splash_dark.png',
+                      scale: 8,
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.dark_mode,
+                          color: Get.isDarkMode
+                              ? Colors.amber
+                              : Theme.of(context).primaryColor),
+                      onPressed: MyThemes().switchTheme,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.black87,
-                  Colors.transparent,
-                  Colors.transparent,
-                  Colors.black,
-                ],
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                stops: [0, 1.5, 0.2, 0.2],
-              ),
-            ),
+            alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+              child: ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 children: [
-                  Image.asset(
-                    'assets/images/splash_light.png',
-                    scale: 6,
-                  ),
+                  Lottie.asset('assets/lottie/lottie_login.json'),
                   Text(
                     'Admin Panel',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 23,
+                      fontSize: 30,
                       letterSpacing: 1.3,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                   SizedBox(height: 15),
                   Text(
                     'Urus segala maklumat dan data pelanggan yang telah atau masih dibaiki di Af-Fix Smartphone Repair!',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
                   ),
                   SizedBox(height: 30),
                   SizedBox(
@@ -80,7 +78,7 @@ class LoginView extends StatelessWidget {
                             context, _loginController, _visibilityPassword);
                       },
                       child: Text(
-                        'Log Masuk',
+                        'Mula Sekarang!',
                       ),
                       style: ButtonStyle(
                         shape:

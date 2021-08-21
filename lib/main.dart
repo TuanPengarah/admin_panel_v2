@@ -1,6 +1,6 @@
 import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/home/view/home_view.dart';
-import 'package:admin_panel/login/view/view_login.dart';
+import 'package:admin_panel/login/view/login_view.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -18,6 +19,7 @@ class MyThemes {
 
   /// Switch theme and save to local storage
   void switchTheme() {
+    Haptic.feedbackClick();
     Get.changeThemeMode(_loadThemeFromBox() ? ThemeMode.light : ThemeMode.dark);
     _saveThemeToBox(!_loadThemeFromBox());
   }
@@ -25,8 +27,8 @@ class MyThemes {
   //Theme Config
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    primarySwatch: Colors.red,
-    primaryColor: Colors.red,
+    primarySwatch: Colors.indigo,
+    primaryColor: Colors.indigo,
     appBarTheme: AppBarTheme(
       brightness: Brightness.dark,
     ),
@@ -45,7 +47,7 @@ class MyThemes {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
         borderSide: BorderSide(
-          color: Colors.red,
+          color: Colors.indigo,
           width: 2,
         ),
       ),
