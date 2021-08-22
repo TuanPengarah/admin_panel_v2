@@ -55,6 +55,7 @@ class MyThemes {
   );
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
+    scaffoldBackgroundColor: Colors.grey.shade900,
     primarySwatch: Colors.teal,
     primaryColor: Colors.teal,
     appBarTheme: AppBarTheme(

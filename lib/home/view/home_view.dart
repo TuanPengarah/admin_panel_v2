@@ -2,7 +2,7 @@ import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:admin_panel/home/page/customer_page.dart';
 import 'package:admin_panel/home/page/dashboard_page.dart';
 import 'package:admin_panel/home/page/mysid_page.dart';
-import 'package:admin_panel/home/page/settings_page.dart';
+import 'package:admin_panel/home/page/pos_page.dart';
 import 'package:admin_panel/home/page/sparepart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,8 +47,8 @@ class HomeView extends StatelessWidget {
               label: 'Spareparts',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Setting',
+              icon: Icon(Icons.point_of_sale),
+              label: 'POS',
             ),
           ],
         ),
