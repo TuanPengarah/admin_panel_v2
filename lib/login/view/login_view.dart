@@ -51,7 +51,11 @@ class LoginView extends StatelessWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  Lottie.asset('assets/lottie/lottie_login.json'),
+                  Lottie.asset(
+                    'assets/lottie/lottie_login.json',
+                    height: 500,
+                    width: 500,
+                  ),
                   Text(
                     'Admin Panel',
                     textAlign: TextAlign.center,

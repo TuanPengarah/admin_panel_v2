@@ -1,17 +1,19 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/graph/graph_monthly_sales.dart';
+import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends GetResponsiveView<HomeController> {
   @override
-  Widget build(BuildContext context) {
+  Widget builder() {
     return Scaffold(
       body: Stack(
         children: [
           Container(
               width: double.infinity,
               height: 300,
-              color: Theme.of(context).primaryColor),
+              color: Get.theme.primaryColor),
           RefreshIndicator(
             onRefresh: () async {
               Haptic.feedbackClick();
@@ -31,14 +33,16 @@ class DashboardPage extends StatelessWidget {
                       Column(
                         children: [
                           SizedBox(
-                            height: MediaQuery.of(context).size.height,
+                            height: screen.isPhone
+                                ? screen.height + 120
+                                : screen.height,
                             child: Stack(
                               children: [
                                 Container(
                                   height: 400,
-                                  width: MediaQuery.of(context).size.width,
+                                  width: screen.width,
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
+                                    color: Get.theme.primaryColor,
                                   ),
                                   child: Column(
                                     children: [
@@ -107,21 +111,70 @@ class DashboardPage extends StatelessWidget {
                                 ),
                                 Positioned(
                                   top: 330,
-                                  right: 17,
+                                  left: screen.isPhone
+                                      ? 20
+                                      : screen.isTablet
+                                          ? 60
+                                          : screen.isDesktop
+                                              ? 300
+                                              : 20,
+                                  right: screen.isPhone
+                                      ? 20
+                                      : screen.isTablet
+                                          ? 60
+                                          : screen.isDesktop
+                                              ? 300
+                                              : 20,
                                   child: Card(
                                     elevation: 10,
                                     child: Container(
-                                      alignment: Alignment.bottomCenter,
-                                      height: 350,
-                                      width: MediaQuery.of(context).size.width -
-                                          40,
+                                      // height: 500,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'Rekod Jumlah Keseluruhan',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            SizedBox(height: 20),
+                                            Wrap(
+                                              spacing: 15,
+                                              runSpacing: 15,
+                                              children: [
+                                                infoCard(),
+                                                infoCard(),
+                                                infoCard(),
+                                                infoCard(),
+                                                infoCard(),
+                                                infoCard(),
+                                              ],
+                                            ),
+                                            SizedBox(height: 30),
+                                            SizedBox(
+                                              height: 40,
+                                              width: 450,
+                                              child: ElevatedButton.icon(
+                                                onPressed: () {
+                                                  Haptic.feedbackClick();
+                                                },
+                                                label: Text('Add New Jobsheet'),
+                                                icon: Icon(Icons.add),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 30),
+                          SizedBox(height: 120),
                         ],
                       ),
                     ],
@@ -132,6 +185,14 @@ class DashboardPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Container infoCard() {
+    return Container(
+      width: 100,
+      height: 130,
+      color: Colors.amber,
     );
   }
 }

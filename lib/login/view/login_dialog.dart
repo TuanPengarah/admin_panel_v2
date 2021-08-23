@@ -36,7 +36,7 @@ class ShowBottomSheet {
                     child: Column(
                       children: [
                         Text(
-                          'Assalamulaikum!',
+                          'Log Masuk Sekarang!',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

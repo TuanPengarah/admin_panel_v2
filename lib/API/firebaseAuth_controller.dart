@@ -3,6 +3,7 @@ import 'package:admin_panel/config/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AuthController extends GetxController {
   final _auth = FirebaseAuth.instance;
@@ -14,7 +15,13 @@ class AuthController extends GetxController {
     _auth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
+      if (kIsWeb) {
+        await _auth
+            .setPersistence(Persistence.LOCAL)
+            .then((value) => print('persist set to local on web'));
+      }
       ShowSnackbar.success('Selamat Kembali', 'Log masuk berjaya!');
+
       btnController.success();
       Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 2));
