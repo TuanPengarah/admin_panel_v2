@@ -8,13 +8,13 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 
 class ShowBottomSheet {
   static void showLoginSheet(
-    BuildContext context,
-    AuthController loginController,
-    ShowPasswordController visiblityController,
+    BuildContext context, AuthController authController,
   ) async {
     final emailField = TextEditingController();
     final passwordField = TextEditingController();
     final btnController = RoundedLoadingButtonController();
+    final visiblityController = Get.put(ShowPasswordController());
+
     await showSlidingBottomSheet(context, builder: (context) {
       return SlidingSheetDialog(
         isDismissable: false,
@@ -29,6 +29,7 @@ class ShowBottomSheet {
             },
             child: SafeArea(
               child: Material(
+                color: Colors.transparent,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
@@ -100,7 +101,7 @@ class ShowBottomSheet {
                           errorColor: Colors.amber[900],
                           successColor: Colors.green,
                           onPressed: () {
-                            loginController.performLogin(
+                            authController.performLogin(
                               emailField.text,
                               passwordField.text,
                               btnController,

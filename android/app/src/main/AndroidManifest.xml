@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.assaff.admin_panel">
+    <uses-permission android:name="android.permission.VIBRATE" />
    <application
         android:label="Admin Panel"
         android:icon="@mipmap/ic_launcher">

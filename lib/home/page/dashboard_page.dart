@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/graph/graph_monthly_sales.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,9 @@ class DashboardPage extends GetResponsiveView<HomeController> {
   @override
   Widget builder() {
     return Scaffold(
+      backgroundColor: Get.isDarkMode
+          ? Colors.grey.shade900
+          : Get.theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           Container(
@@ -26,6 +30,15 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                 SliverAppBar(
                   title: Text('Dashboard'),
                   floating: true,
+                  actions: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.dark_mode,
+                        color: Get.isDarkMode ? Colors.amber : Colors.white,
+                      ),
+                      onPressed: MyThemes().switchTheme,
+                    ),
+                  ],
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(
@@ -34,7 +47,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                         children: [
                           SizedBox(
                             height: screen.isPhone
-                                ? screen.height + 120
+                                ? screen.height + 100
                                 : screen.height,
                             child: Stack(
                               children: [
@@ -126,7 +139,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               ? 300
                                               : 20,
                                   child: Card(
-                                    elevation: 10,
+                                    elevation: Get.isDarkMode ? 0 : 10,
                                     child: Container(
                                       // height: 500,
                                       child: Padding(
@@ -134,7 +147,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              'Rekod Jumlah Keseluruhan',
+                                              'Rekod Syarikat',
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
@@ -145,12 +158,14 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               spacing: 15,
                                               runSpacing: 15,
                                               children: [
-                                                infoCard(),
-                                                infoCard(),
-                                                infoCard(),
-                                                infoCard(),
-                                                infoCard(),
-                                                infoCard(),
+                                                infoCard(
+                                                    'Untung Kasar', 'RM 5443'),
+                                                infoCard(
+                                                    'Untung Bersih', 'RM 4354'),
+                                                infoCard('Modal Supplier',
+                                                    'RM 3034'),
+                                                infoCard(
+                                                    'Jumlah Spareparts', '23'),
                                               ],
                                             ),
                                             SizedBox(height: 30),
@@ -161,7 +176,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                                 onPressed: () {
                                                   Haptic.feedbackClick();
                                                 },
-                                                label: Text('Add New Jobsheet'),
+                                                label: Text('Tambah Jobsheet'),
                                                 icon: Icon(Icons.add),
                                               ),
                                             ),
@@ -174,7 +189,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 120),
+                          SizedBox(height: 10),
                         ],
                       ),
                     ],
@@ -188,11 +203,42 @@ class DashboardPage extends GetResponsiveView<HomeController> {
     );
   }
 
-  Container infoCard() {
+  Container infoCard(
+    String title,
+    String total,
+  ) {
     return Container(
-      width: 100,
-      height: 130,
-      color: Colors.amber,
-    );
+        width: 120,
+        height: 130,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Get.isDarkMode ? Colors.black12 : Colors.grey.shade200,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '$title',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+              Text(
+                total == '0' ? '--' : '$total',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
