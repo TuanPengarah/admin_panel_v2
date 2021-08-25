@@ -36,10 +36,16 @@ class JobsheetController extends GetxController {
   }
 
   void previousStep() {
+    Get.focusScope.unfocus();
     if (currentSteps.value > 0) {
       currentSteps.value = currentSteps.value - 1;
     } else {
       Get.back();
     }
+  }
+
+  void stepTap(int index) {
+    currentSteps.value = index;
+    Get.focusScope.unfocus();
   }
 }

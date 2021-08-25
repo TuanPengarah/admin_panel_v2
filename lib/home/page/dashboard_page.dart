@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DashboardPage extends GetResponsiveView<HomeController> {
+  final _homeController = Get.find<HomeController>();
   @override
   Widget builder() {
     return Scaffold(
@@ -175,7 +176,9 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               child: ElevatedButton.icon(
                                                 onPressed: () {
                                                   Haptic.feedbackClick();
-                                                  Get.toNamed('/jobsheet');
+                                                  _homeController
+                                                      .showBottomJosheet();
+                                                  // Get.toNamed('/jobsheet');
                                                 },
                                                 label: Text('Tambah Jobsheet'),
                                                 icon: Icon(Icons.add),
