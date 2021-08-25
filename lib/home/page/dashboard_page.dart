@@ -147,7 +147,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              'Rekod Syarikat',
+                                              'Rekod Data',
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
@@ -175,6 +175,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               child: ElevatedButton.icon(
                                                 onPressed: () {
                                                   Haptic.feedbackClick();
+                                                  Get.toNamed('/jobsheet');
                                                 },
                                                 label: Text('Tambah Jobsheet'),
                                                 icon: Icon(Icons.add),

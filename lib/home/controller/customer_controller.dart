@@ -1,4 +1,6 @@
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/home/model/customer_suggestion_model.dart';
+import 'package:admin_panel/home/model/popupmenu_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +8,7 @@ import 'package:get/get.dart';
 class CustomerController extends GetxController {
   var isSearch = false.obs;
   var status = ''.obs;
-  var descending = true.obs;
+  var descending = false.obs;
   final searchController = TextEditingController();
   final _firestore = FirebaseFirestore.instance.collection('customer');
   List customerList = [];
@@ -18,10 +20,23 @@ class CustomerController extends GetxController {
     super.onInit();
   }
 
-  void sorting() {
-    descending.value = !descending.value;
-    getCustomerDetails();
-    update();
+  void sorting(IconMenu value) {
+    // descending.value = !descending.value;
+    // getCustomerDetails();
+    // update();
+    switch (value) {
+      case PopupSortMenu.ascending:
+        descending.value = false;
+        Haptic.feedbackClick();
+        getCustomerDetails();
+        update();
+        break;
+      case PopupSortMenu.descending:
+        descending.value = true;
+        getCustomerDetails();
+        Haptic.feedbackClick();
+        update();
+    }
   }
 
   void clickSearch() {
@@ -44,6 +59,7 @@ class CustomerController extends GetxController {
       return 'Completed';
     }).catchError((err) {
       status.value = err.toString();
+      print(err);
       return 'Error';
     });
   }

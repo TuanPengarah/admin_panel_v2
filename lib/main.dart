@@ -1,5 +1,6 @@
 import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/home/view/home_view.dart';
+import 'package:admin_panel/jobsheet/view/jobsheet_view.dart';
 import 'package:admin_panel/login/view/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/login', page: () => LoginView()),
         GetPage(name: '/home', page: () => HomeView()),
+        GetPage(name: '/jobsheet', page: () => JobsheetView()),
       ],
     );
   }
