@@ -92,87 +92,107 @@ class CustomerPage extends StatelessWidget {
                     ],
                   ),
                 )
-              : _customerController.customerList.length == 0
-                  ? ListView.builder(
-                      itemCount: 20,
-                      itemBuilder: (context, i) {
-                        return Shimmer.fromColors(
-                          baseColor: Get.isDarkMode
-                              ? Colors.grey[900]
-                              : Colors.black38,
-                          highlightColor:
-                              Get.isDarkMode ? Colors.grey[700] : Colors.grey,
-                          child: ListTile(
-                            leading: CircleAvatar(),
-                            title: Container(
-                              height: 10,
-                              width: double.infinity,
-                              color: Colors.grey[50],
-                            ),
-                            subtitle: Container(
-                              height: 8,
-                              width: 35,
-                              color: Colors.grey[50],
-                            ),
-                          ),
-                        );
-                      })
-                  : Column(
+              : _customerController.isSearch.value == true &&
+                      _customerController.customerList.length == 0
+                  ? Center(
+                      child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () async {
-                              await _customerController.getCustomerDetails();
-                              Haptic.feedbackSuccess();
-                            },
-                            child: ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              itemCount:
-                                  _customerController.customerList.length,
-                              itemBuilder: (BuildContext context, int i) {
-                                var customer =
-                                    _customerController.customerList[i];
-                                var image = customer['photoURL'];
-                                return ListTile(
-                                  onTap: () {},
-                                  leading: AdvancedAvatar(
-                                    size: 40,
-                                    name: customer['Nama'],
-                                    image: image == ''
-                                        ? null
-                                        : NetworkImage(image),
-                                  ),
-                                  title: Text(customer['Nama']),
-                                  subtitle: Text(customer['No Phone']),
-                                );
-                              },
-                            ),
+                        Icon(Icons.person_search,
+                            size: 150, color: Colors.grey),
+                        SizedBox(height: 10),
+                        Text(
+                          'Pelanggan tidak dapat ditemui!',
+                          style: TextStyle(
+                            color: Colors.grey,
                           ),
                         ),
-                        Obx(() => Text.rich(
-                              TextSpan(
-                                text:
-                                    _customerController.isSearch.value == false
+                      ],
+                    ))
+                  : _customerController.customerList.length == 0
+                      ? ListView.builder(
+                          itemCount: 20,
+                          itemBuilder: (context, i) {
+                            return Shimmer.fromColors(
+                              baseColor: Get.isDarkMode
+                                  ? Colors.grey[900]
+                                  : Colors.black26,
+                              highlightColor: Get.isDarkMode
+                                  ? Colors.grey[700]
+                                  : Colors.grey.shade400,
+                              child: ListTile(
+                                leading: CircleAvatar(),
+                                title: Container(
+                                  height: 10,
+                                  width: double.infinity,
+                                  color: Colors.grey[50],
+                                ),
+                                subtitle: Container(
+                                  height: 8,
+                                  width: 35,
+                                  color: Colors.grey[50],
+                                ),
+                              ),
+                            );
+                          })
+                      : Column(
+                          children: [
+                            Expanded(
+                              child: RefreshIndicator(
+                                onRefresh: () async {
+                                  await _customerController
+                                      .getCustomerDetails();
+                                  Haptic.feedbackSuccess();
+                                },
+                                child: ListView.builder(
+                                  physics: BouncingScrollPhysics(),
+                                  itemCount:
+                                      _customerController.customerList.length,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    var customer =
+                                        _customerController.customerList[i];
+                                    var image = customer['photoURL'];
+                                    return ListTile(
+                                      onTap: () {},
+                                      leading: AdvancedAvatar(
+                                        size: 40,
+                                        name: customer['Nama'],
+                                        image: image == ''
+                                            ? null
+                                            : NetworkImage(image),
+                                      ),
+                                      title: Text(customer['Nama']),
+                                      subtitle: Text(customer['No Phone']),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            Obx(() => Text.rich(
+                                  TextSpan(
+                                    text: _customerController.isSearch.value ==
+                                            false
                                         ? 'Jumlah keseluruhan pelanggan: '
                                         : 'Jumlah pelanggan yang ditemui: ',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        '${_customerController.customerList.length}',
                                     style: TextStyle(
-                                      color: Get.theme.primaryColor,
+                                      color: Colors.grey,
                                     ),
+                                    children: [
+                                      TextSpan(
+                                        text:
+                                            '${_customerController.customerList.length}',
+                                        style: TextStyle(
+                                          color: Get.theme.primaryColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                              textAlign: TextAlign.center,
-                            )),
-                        SizedBox(height: 5),
-                      ],
-                    );
+                                  textAlign: TextAlign.center,
+                                )),
+                            SizedBox(height: 5),
+                          ],
+                        );
         },
       ),
     );
