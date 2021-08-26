@@ -1,3 +1,4 @@
+import 'package:admin_panel/home/page/customer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,10 +22,15 @@ class HomeController extends GetxController {
             ListTile(
                 leading: Icon(Icons.assignment_ind),
                 title: Text('Buat Jobsheet dengan pelanggan sedia ada'),
-                onTap: () {}),
+                onTap: () {
+                  Get.back();
+                  Get.to(() => CustomerPage());
+                }),
           ],
         ),
       ),
+      enterBottomSheetDuration: Duration(milliseconds: 150),
+      exitBottomSheetDuration: Duration(milliseconds: 150),
     );
   }
 }

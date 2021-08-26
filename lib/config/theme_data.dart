@@ -32,6 +32,11 @@ class MyThemes {
     appBarTheme: AppBarTheme(
       brightness: Brightness.dark,
     ),
+    cardTheme: CardTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.grey.shade200,
@@ -51,6 +56,23 @@ class MyThemes {
           width: 2,
         ),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(
+          color: Colors.amber.shade900,
+        ),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(
+          color: Colors.amber.shade900,
+          width: 2,
+        ),
+      ),
+      errorStyle: TextStyle(
+        color: Colors.amber.shade900,
+        fontWeight: FontWeight.bold,
+      ),
     ),
   );
   static ThemeData darkTheme = ThemeData(
@@ -61,9 +83,18 @@ class MyThemes {
     appBarTheme: AppBarTheme(
       brightness: Brightness.dark,
     ),
+    canvasColor: Color(0xff131313),
+    bottomNavigationBarTheme:
+        BottomNavigationBarThemeData(backgroundColor: Color(0xff131313)),
+    cardTheme: CardTheme(
+      color: Colors.grey.shade900,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+      ),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Colors.grey.shade800,
+      fillColor: Colors.grey.shade900,
       contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
@@ -79,6 +110,23 @@ class MyThemes {
           color: Colors.teal,
           width: 2,
         ),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(
+          color: Colors.amber.shade900,
+        ),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+        borderSide: BorderSide(
+          color: Colors.amber.shade900,
+          width: 2,
+        ),
+      ),
+      errorStyle: TextStyle(
+        color: Colors.amber.shade900,
+        fontWeight: FontWeight.bold,
       ),
     ),
   );

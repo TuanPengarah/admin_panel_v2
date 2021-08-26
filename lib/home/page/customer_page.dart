@@ -19,6 +19,7 @@ class CustomerPage extends StatelessWidget {
                   controller: _customerController.searchController,
                   autofocus: true,
                   style: TextStyle(color: Colors.white),
+                  textInputAction: TextInputAction.search,
                   cursorColor: Colors.white,
                   onChanged: (text) => _customerController.getCustomerDetails(),
                   decoration: InputDecoration(

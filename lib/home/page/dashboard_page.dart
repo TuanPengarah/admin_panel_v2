@@ -10,15 +10,13 @@ class DashboardPage extends GetResponsiveView<HomeController> {
   @override
   Widget builder() {
     return Scaffold(
-      backgroundColor: Get.isDarkMode
-          ? Colors.grey.shade900
-          : Get.theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           Container(
               width: double.infinity,
               height: 300,
-              color: Get.theme.primaryColor),
+              color:
+                  Get.isDarkMode ? Color(0xff131313) : Get.theme.primaryColor),
           RefreshIndicator(
             onRefresh: () async {
               Haptic.feedbackClick();
@@ -31,6 +29,9 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                 SliverAppBar(
                   title: Text('Dashboard'),
                   floating: true,
+                  backgroundColor: Get.isDarkMode
+                      ? Color(0xff131313)
+                      : Get.theme.primaryColor,
                   actions: [
                     IconButton(
                       icon: Icon(
@@ -56,7 +57,9 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                   height: 400,
                                   width: screen.width,
                                   decoration: BoxDecoration(
-                                    color: Get.theme.primaryColor,
+                                    color: Get.isDarkMode
+                                        ? Color(0xff131313)
+                                        : Get.theme.primaryColor,
                                   ),
                                   child: Column(
                                     children: [
@@ -178,7 +181,6 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                                   Haptic.feedbackClick();
                                                   _homeController
                                                       .showBottomJosheet();
-                                                  // Get.toNamed('/jobsheet');
                                                 },
                                                 label: Text('Tambah Jobsheet'),
                                                 icon: Icon(Icons.add),
