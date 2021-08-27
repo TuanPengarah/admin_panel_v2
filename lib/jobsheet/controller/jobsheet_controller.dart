@@ -1,11 +1,15 @@
 import 'dart:math';
+import 'package:admin_panel/API/firestoreAPI.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class JobsheetController extends GetxController {
+  final _firestoreController = Get.put(FirestoreContoller());
+
   final namaCust = TextEditingController();
   final noPhone = TextEditingController();
   final email = TextEditingController();
@@ -76,7 +80,7 @@ class JobsheetController extends GetxController {
     mySID.value = converter;
   }
 
-  void nextStep() {
+  void nextStep() async {
     Haptic.feedbackClick();
     if (currentSteps.value == 0) {
       if (namaCust.text.isEmpty) {
@@ -123,7 +127,58 @@ class JobsheetController extends GetxController {
         errPrice.value = false;
       }
     } else if (currentSteps.value == 7) {
-      Get.back();
+      Get.focusScope.unfocus();
+      Get.dialog(AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 30),
+            Text(
+              'Menambah Jobsheet ke pangkalan data...',
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 5),
+            Obx(() => Text(
+                  'Status: ${_firestoreController.status.value}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 11,
+                  ),
+                )),
+          ],
+        ),
+      ));
+      await _firestoreController
+          .addJobSheet(
+        email: email.text,
+        nama: namaCust.text,
+        noPhone: noPhone.text,
+        mysid: mySID.value,
+        model: modelPhone.text,
+        password: passPhone.text,
+        kerosakkan: kerosakkan.text,
+        harga: int.parse(harga.text),
+        technician: 'Akid Fikri Azhar',
+        remarks: remarks.text,
+      )
+          .then((v) {
+        if (v == 'operation-completed') {
+          Haptic.feedbackSuccess();
+
+          Get.back();
+          Get.back();
+          ShowSnackbar.success(
+              'Operasi Selesai!', 'Jobsheet telah ditambah ke pangkalan data');
+        }
+      }).catchError((err) async {
+        Haptic.feedbackError();
+        await Future.delayed(Duration(seconds: 6));
+        Get.back();
+        ShowSnackbar.error('Kesalahan telah berlaku!', '$err');
+        Get.focusScope.unfocus();
+      });
     }
   }
 

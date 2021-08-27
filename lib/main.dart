@@ -1,5 +1,6 @@
 import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/home/view/home_view.dart';
+import 'package:admin_panel/jobsheet/view/jobsheet_history.dart';
 import 'package:admin_panel/jobsheet/view/jobsheet_view.dart';
 import 'package:admin_panel/login/view/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +24,7 @@ Future<void> main() async {
     }
   });
   await GetStorage.init();
+
   runApp(MyApp(
     isLogin: _isLogin,
   ));
@@ -43,7 +45,11 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(name: '/login', page: () => LoginView()),
         GetPage(name: '/home', page: () => HomeView()),
-        GetPage(name: '/jobsheet', page: () => JobsheetView()),
+        GetPage(
+            name: '/jobsheet',
+            page: () => JobsheetView(),
+            fullscreenDialog: true),
+        GetPage(name: '/jobsheet-history', page: () => JobsheetHistory())
       ],
     );
   }

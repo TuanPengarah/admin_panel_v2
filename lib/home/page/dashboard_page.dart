@@ -177,11 +177,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               height: 40,
                                               width: 450,
                                               child: ElevatedButton.icon(
-                                                onPressed: () {
-                                                  Haptic.feedbackClick();
-                                                  _homeController
-                                                      .showBottomJosheet();
-                                                },
+                                                onPressed: () => _homeController
+                                                    .showBottomJosheet(),
                                                 label: Text('Tambah Jobsheet'),
                                                 icon: Icon(Icons.add),
                                               ),

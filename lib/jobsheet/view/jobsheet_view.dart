@@ -26,6 +26,12 @@ class JobsheetView extends StatelessWidget {
           elevation: 0,
           actions: [
             IconButton(
+              onPressed: () => Get.toNamed('/jobsheet-history'),
+              icon: Icon(
+                Icons.history,
+              ),
+            ),
+            IconButton(
               onPressed: () => _jobsheetController.selectContact(),
               icon: Icon(Icons.contact_page),
             ),
@@ -82,23 +88,31 @@ class JobsheetView extends StatelessWidget {
                         controlsBuilder: (BuildContext context,
                             {VoidCallback onStepContinue,
                             VoidCallback onStepCancel}) {
-                          return Row(
-                            children: <Widget>[
-                              TextButton(
-                                onPressed: onStepContinue,
-                                child: ElevatedButton(
-                                  onPressed: onStepContinue,
-                                  child: Text('Seterusnya'),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: onStepCancel,
-                                child: Text('Batal'),
+                          return Column(
+                            children: [
+                              SizedBox(height: 15),
+                              Row(
+                                children: <Widget>[
+                                  TextButton(
+                                    onPressed: onStepContinue,
+                                    child: ElevatedButton(
+                                      onPressed: onStepContinue,
+                                      child: Text('Seterusnya'),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: onStepCancel,
+                                    child: Text('Batal'),
+                                  ),
+                                ],
                               ),
                             ],
                           );
                         },
-                        onStepContinue: () => _jobsheetController.nextStep(),
+                        onStepContinue: () {
+                          _jobsheetController.nextStep();
+                          context.nextEditableTextFocus();
+                        },
                         onStepCancel: () => _jobsheetController.previousStep(),
                         steps: [
                           Step(

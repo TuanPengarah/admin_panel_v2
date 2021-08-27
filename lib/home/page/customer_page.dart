@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/model/popupmenu_model.dart';
 import 'package:flutter/material.dart';
@@ -155,7 +156,10 @@ class CustomerPage extends StatelessWidget {
                                         _customerController.customerList[i];
                                     var image = customer['photoURL'];
                                     return ListTile(
-                                      onTap: () {},
+                                      onTap: () {
+                                        ShowSnackbar.success('Operasi Selesai!',
+                                            'Jobsheet telah ditambah ke pangkalan data');
+                                      },
                                       leading: AdvancedAvatar(
                                         size: 40,
                                         name: customer['Nama'],

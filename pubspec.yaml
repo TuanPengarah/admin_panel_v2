@@ -37,10 +37,13 @@ dependencies:
 
   # I/O
   get_storage: ^2.0.3
+  sqflite: ^2.0.0+4
 
   # Data Models
   intl: ^0.17.0
   flutter_native_contact_picker: ^0.0.3
+  path_provider: ^2.0.2
+  
 
 dev_dependencies:
   flutter_test:
