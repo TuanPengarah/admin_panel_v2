@@ -4,16 +4,21 @@ class PopupSortMenu {
   static const items = <IconMenu>[
     ascending,
     descending,
+    time,
   ];
 
   static const ascending = IconMenu(
-    text: 'A Ke Z',
+    text: 'Mengikut Abjad A-Z',
     icon: Icons.expand_less,
   );
 
   static const descending = IconMenu(
-    text: 'Z Ke A',
+    text: 'Mengikut Abjad Z- A',
     icon: Icons.expand_more,
+  );
+  static const time = IconMenu(
+    text: 'Susun mengikut masa',
+    icon: Icons.history,
   );
 }
 

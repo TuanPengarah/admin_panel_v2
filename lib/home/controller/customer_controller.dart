@@ -9,6 +9,7 @@ class CustomerController extends GetxController {
   var isSearch = false.obs;
   var status = ''.obs;
   var descending = false.obs;
+  String orderBy = 'Nama';
   final searchController = TextEditingController();
   final _firestore = FirebaseFirestore.instance.collection('customer');
   List customerList = [];
@@ -28,14 +29,24 @@ class CustomerController extends GetxController {
       case PopupSortMenu.ascending:
         descending.value = false;
         Haptic.feedbackClick();
+        orderBy = 'Nama';
         getCustomerDetails();
         update();
         break;
       case PopupSortMenu.descending:
+        Haptic.feedbackClick();
+        descending.value = true;
+        orderBy = 'Nama';
+        getCustomerDetails();
+        update();
+        break;
+      case PopupSortMenu.time:
+        Haptic.feedbackClick();
+        orderBy = 'timeStamp';
         descending.value = true;
         getCustomerDetails();
-        Haptic.feedbackClick();
         update();
+        break;
     }
   }
 
@@ -49,7 +60,7 @@ class CustomerController extends GetxController {
 
   Future<void> getCustomerDetails() async {
     await _firestore
-        .orderBy('Nama', descending: descending.value)
+        .orderBy(orderBy, descending: descending.value)
         .get()
         .then((snapshot) {
       getFromFirestore = snapshot.docs;

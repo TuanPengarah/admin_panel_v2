@@ -2,6 +2,7 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/model/popupmenu_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:get/get.dart';
@@ -156,10 +157,7 @@ class CustomerPage extends StatelessWidget {
                                         _customerController.customerList[i];
                                     var image = customer['photoURL'];
                                     return ListTile(
-                                      onTap: () {
-                                        ShowSnackbar.success('Operasi Selesai!',
-                                            'Jobsheet telah ditambah ke pangkalan data');
-                                      },
+                                      onTap: () {},
                                       leading: AdvancedAvatar(
                                         size: 40,
                                         name: customer['Nama'],
