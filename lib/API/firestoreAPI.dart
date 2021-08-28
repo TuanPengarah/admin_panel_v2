@@ -62,7 +62,7 @@ class FirestoreContoller extends GetxController {
         app.delete();
         Haptic.feedbackError();
         status.value = 'Kesalahan telah berlaku! : $err';
-        ShowSnackbar.error('Kesalahan telah berlaku!', err);
+        ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
         app.delete();
         await Future.delayed(Duration(seconds: 3));
         Get.back();
@@ -115,7 +115,7 @@ class FirestoreContoller extends GetxController {
         .then((value) => status.value = 'Tambah ke repair history selesai')
         .catchError((err) {
       status.value = 'Kesalahan telah berlaku! : $err';
-      ShowSnackbar.error('Kesalahan telah berlaku!', err);
+      ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
     });
 
     // Tambah data ke MySID Collection
@@ -128,7 +128,7 @@ class FirestoreContoller extends GetxController {
         .then((value) => status.value = 'Tambah ke MySID selesai')
         .catchError((err) {
       status.value = 'Kesalahan telah berlaku! : $err';
-      ShowSnackbar.error('Kesalahan telah berlaku!', err);
+      ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
     });
 
     // Tambah point
@@ -140,8 +140,8 @@ class FirestoreContoller extends GetxController {
           DocumentSnapshot snap = await transaction.get(documentReference);
           if (!snap.exists) {
             status.value = 'Pengguna tidak dapat ditemui';
-            ShowSnackbar.error(
-                'Kesalahan telah berlaku!', 'Pengguna tidak dapat ditemui');
+            ShowSnackbar.error('Kesalahan telah berlaku!',
+                'Pengguna tidak dapat ditemui', false);
           }
           int newPoints = snap.get('Points');
           transaction.update(documentReference, {'Points': newPoints + 1});
@@ -149,7 +149,7 @@ class FirestoreContoller extends GetxController {
         .then((value) => status.value = 'operation-completed')
         .catchError((err) {
           status.value = 'Kesalahan telah berlaku! : $err';
-          ShowSnackbar.error('Kesalahan telah berlaku!', err);
+          ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
         });
 
     return status.value;

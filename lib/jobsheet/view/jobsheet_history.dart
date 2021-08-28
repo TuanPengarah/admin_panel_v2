@@ -45,8 +45,17 @@ class JobsheetHistory extends StatelessWidget {
                     : ListView(
                         children: snapshot.data.map((history) {
                           return ListTile(
+                            leading: Icon(Icons.history),
                             title: Text(history.name),
-                            subtitle: Text(history.noPhone),
+                            subtitle:
+                                Text('${history.noPhone} | ${history.model}'),
+                            enableFeedback: true,
+                            trailing: Text(
+                              'RM${history.price}',
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
                             onTap: () =>
                                 _historyController.showDetails(history),
                           );

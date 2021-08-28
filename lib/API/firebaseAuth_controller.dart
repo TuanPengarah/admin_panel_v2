@@ -20,7 +20,7 @@ class AuthController extends GetxController {
             .setPersistence(Persistence.LOCAL)
             .then((value) => print('persist set to local on web'));
       }
-      ShowSnackbar.success('Selamat Kembali', 'Log masuk berjaya!');
+      ShowSnackbar.success('Selamat Kembali', 'Log masuk berjaya!', true);
 
       btnController.success();
       Haptic.feedbackSuccess();
@@ -28,7 +28,7 @@ class AuthController extends GetxController {
       Get.offAllNamed('/home');
     }).catchError(
       (err) async {
-        ShowSnackbar.error('Kesalahan telah berlaku!', err.toString());
+        ShowSnackbar.error('Kesalahan telah berlaku!', err.toString(), true);
         btnController.error();
         Haptic.feedbackError();
         await Future.delayed(Duration(seconds: 2));
@@ -41,10 +41,10 @@ class AuthController extends GetxController {
   void performLogOut() {
     _auth.signOut().then((value) {
       Get.offAllNamed('/login');
-      ShowSnackbar.success('Log Keluar Berjaya', 'Anda telah di log keluar!');
+      ShowSnackbar.success('Log Keluar Berjaya', 'Anda telah di log keluar!', true);
     }).catchError((err) {
       Haptic.feedbackError();
-      ShowSnackbar.error('Kesalahan telah berlaku', err.toString());
+      ShowSnackbar.error('Kesalahan telah berlaku', err.toString(), true);
     });
   }
 }

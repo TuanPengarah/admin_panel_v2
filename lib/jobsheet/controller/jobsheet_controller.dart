@@ -184,14 +184,14 @@ class JobsheetController extends GetxController {
 
           Get.back();
           Get.back();
-          ShowSnackbar.success(
-              'Operasi Selesai!', 'Jobsheet telah ditambah ke pangkalan data');
+          ShowSnackbar.success('Operasi Selesai!',
+              'Jobsheet telah ditambah ke pangkalan data', false);
         }
       }).catchError((err) async {
         Haptic.feedbackError();
         await Future.delayed(Duration(seconds: 6));
         Get.back();
-        ShowSnackbar.error('Kesalahan telah berlaku!', '$err');
+        ShowSnackbar.error('Kesalahan telah berlaku!', '$err', false);
         Get.focusScope.unfocus();
       });
     }
