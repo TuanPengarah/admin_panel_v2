@@ -1,6 +1,7 @@
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 extension Utility on BuildContext {
   void nextEditableTextFocus() {
@@ -25,16 +26,20 @@ class JobsheetView extends StatelessWidget {
               Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
           elevation: 0,
           actions: [
-            IconButton(
-              onPressed: () => Get.toNamed('/jobsheet-history'),
-              icon: Icon(
-                Icons.history,
-              ),
-            ),
-            IconButton(
-              onPressed: () => _jobsheetController.selectContact(),
-              icon: Icon(Icons.contact_page),
-            ),
+            kIsWeb
+                ? Container()
+                : IconButton(
+                    onPressed: () => Get.toNamed('/jobsheet-history'),
+                    icon: Icon(
+                      Icons.history,
+                    ),
+                  ),
+            kIsWeb
+                ? Container()
+                : IconButton(
+                    onPressed: () => _jobsheetController.selectContact(),
+                    icon: Icon(Icons.contact_page),
+                  ),
           ],
         ),
         body: GestureDetector(

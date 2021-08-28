@@ -10,6 +10,7 @@ class JobsheetHistoryModel {
   final String kerosakkan;
   final String price;
   final String remarks;
+  final String userUID;
 
   JobsheetHistoryModel({
     this.id,
@@ -21,20 +22,21 @@ class JobsheetHistoryModel {
     @required this.kerosakkan,
     @required this.price,
     @required this.remarks,
+    @required this.userUID,
   });
 
   factory JobsheetHistoryModel.fromMap(Map<String, dynamic> json) =>
       new JobsheetHistoryModel(
-        id: json['id'],
-        email: json['email'],
-        kerosakkan: json['kerosakkan'],
-        name: json['name'],
-        noPhone: json['noPhone'],
-        password: json['password'],
-        price: json['price'],
-        remarks: json['remarks'],
-        model: json['model'],
-      );
+          id: json['id'],
+          email: json['email'],
+          kerosakkan: json['kerosakkan'],
+          name: json['name'],
+          noPhone: json['noPhone'],
+          password: json['password'],
+          price: json['price'],
+          remarks: json['remarks'],
+          model: json['model'],
+          userUID: json['userUID']);
 
   Map<String, dynamic> toMap() {
     return {
@@ -47,6 +49,7 @@ class JobsheetHistoryModel {
       'price': price,
       'remarks': remarks,
       'model': model,
+      'userUID': userUID,
     };
   }
 }

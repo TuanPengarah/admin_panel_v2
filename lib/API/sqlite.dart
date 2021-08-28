@@ -19,8 +19,8 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE jobsheetHistory
-    id INTEGER PRIMARY KEY autoincrement,
+    CREATE TABLE jobsheetHistory(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT,
     noPhone TEXT,
     email TEXT,
@@ -29,11 +29,36 @@ class DatabaseHelper {
     price TEXT,
     remarks TEXT,
     model TEXT,
+    userUID TEXT
+    )
     ''');
   }
 
   Future<List<JobsheetHistoryModel>> getHistory() async {
     Database db = await instance.database;
-    var history = '';
+    var history = await db.query(
+      'jobsheetHistory',
+      orderBy: 'id DESC',
+    );
+    List<JobsheetHistoryModel> historyList = history.isNotEmpty
+        ? history.map((c) => JobsheetHistoryModel.fromMap(c)).toList()
+        : [];
+    return historyList;
+  }
+
+  Future<int> add(JobsheetHistoryModel history) async {
+    Database db = await instance.database;
+    return await db.insert('jobsheetHistory', history.toMap());
+  }
+
+  Future<int> delete(int id) async {
+    Database db = await instance.database;
+    return await db.delete('jobsheetHistory', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> update(JobsheetHistoryModel history) async {
+    Database db = await instance.database;
+    return await db.update('jobsheetHistory', history.toMap(),
+        where: 'id = ?', whereArgs: [history.id]);
   }
 }

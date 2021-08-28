@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:admin_panel/API/firestoreAPI.dart';
+import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:get/get.dart';
@@ -150,6 +152,19 @@ class JobsheetController extends GetxController {
           ],
         ),
       ));
+      if (kIsWeb == false) {
+        await DatabaseHelper.instance.add(JobsheetHistoryModel(
+          name: namaCust.text,
+          noPhone: noPhone.text,
+          email: email.text,
+          model: modelPhone.text,
+          password: passPhone.text,
+          kerosakkan: kerosakkan.text,
+          price: harga.text,
+          remarks: remarks.text,
+          userUID: '',
+        ));
+      }
       await _firestoreController
           .addJobSheet(
         email: email.text,
@@ -196,26 +211,10 @@ class JobsheetController extends GetxController {
   }
 
   void selectContact() async {
-    if (kIsWeb) {
-      Get.dialog(
-        AlertDialog(
-          title: Text('Opps kesalahan telah berlaku'),
-          content: Text(
-              'Fungsi ini hanya boleh digunakan pada Android dan iOS sahaja!'),
-          actions: [
-            TextButton(
-              onPressed: () => Get.back(),
-              child: Text('Okayy'),
-            ),
-          ],
-        ),
-      );
-    } else {
-      final contact = await _contactPicker.selectContact();
-      if (contact != null) {
-        namaCust.text = contact.fullName;
-        noPhone.text = contact.phoneNumbers.first;
-      }
+    final contact = await _contactPicker.selectContact();
+    if (contact != null) {
+      namaCust.text = contact.fullName;
+      noPhone.text = contact.phoneNumbers.first;
     }
   }
 }
