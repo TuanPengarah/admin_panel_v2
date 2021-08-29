@@ -63,7 +63,7 @@ class CustomerPage extends StatelessWidget {
                 .toList(),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => Get.toNamed('/jobsheet'),
             icon: Icon(
               Icons.add,
             ),
@@ -155,13 +155,36 @@ class CustomerPage extends StatelessWidget {
                                         _customerController.customerList[i];
                                     var image = customer['photoURL'];
                                     return ListTile(
-                                      onTap: () {},
-                                      leading: AdvancedAvatar(
-                                        size: 40,
-                                        name: customer['Nama'],
-                                        image: image == ''
-                                            ? null
-                                            : NetworkImage(image),
+                                      onTap: () => Get.toNamed(
+                                        '/overview',
+                                        arguments: [
+                                          customer['UID'],
+                                          customer['Nama'],
+                                          customer['photoURL'],
+                                          customer['No Phone'],
+                                          customer['Email'],
+                                          customer['Points'],
+                                          customer['timeStamp'],
+                                        ],
+                                      ),
+                                      leading: Hero(
+                                        tag: customer['UID'],
+                                        child: SingleChildScrollView(
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          child: AdvancedAvatar(
+                                            size: 35,
+                                            name: customer['Nama'],
+                                            image: image == ''
+                                                ? null
+                                                : NetworkImage(image),
+                                            decoration: BoxDecoration(
+                                              color: Get.theme.primaryColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                       title: Text(customer['Nama']),
                                       subtitle: Text(customer['No Phone']),

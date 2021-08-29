@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/theme_data.dart';
+import 'package:admin_panel/cust_overview/view/view/cust_view.dart';
 import 'package:admin_panel/home/view/home_view.dart';
 import 'package:admin_panel/jobsheet/view/jobsheet_history.dart';
 import 'package:admin_panel/jobsheet/view/jobsheet_view.dart';
@@ -49,7 +50,8 @@ class MyApp extends StatelessWidget {
             name: '/jobsheet',
             page: () => JobsheetView(),
             fullscreenDialog: true),
-        GetPage(name: '/jobsheet-history', page: () => JobsheetHistory())
+        GetPage(name: '/jobsheet-history', page: () => JobsheetHistory()),
+        GetPage(name: '/overview', page: () => CustomerView()),
       ],
     );
   }

@@ -1,6 +1,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.assaff.admin_panel">
     <uses-permission android:name="android.permission.VIBRATE" />
+
+        <!-- Add the block below to your manifest file to configure apps with action.VIEW intent filters as visible to your app -->
+    <!-- START HERE -->
+    <queries>
+ <!-- If your app opens https URLs -->
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="https" />
+  </intent>
+  <!-- If your app makes calls -->
+  <intent>
+    <action android:name="android.intent.action.DIAL" />
+    <data android:scheme="tel" />
+  </intent>
+  <!-- If your app emails -->
+  <intent>
+    <action android:name="android.intent.action.SEND" />
+    <data android:mimeType="*/*" />
+  </intent>
+    </queries>
+    <!-- END HERE -->
+
+
    <application
         android:label="Admin Panel"
         android:icon="@mipmap/ic_launcher">
