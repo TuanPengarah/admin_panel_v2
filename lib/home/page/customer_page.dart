@@ -187,7 +187,7 @@ class CustomerPage extends StatelessWidget {
                                         ),
                                       ),
                                       title: Text(customer['Nama']),
-                                      subtitle: Text(customer['No Phone']),
+                                      subtitle: Text(customer['No Phone'] == ''?'--' :customer['No Phone']),
                                     );
                                   },
                                 ),

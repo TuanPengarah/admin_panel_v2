@@ -57,6 +57,7 @@ class FirestoreContoller extends GetxController {
           'photoURL': '',
           'timeStamp': FieldValue.serverTimestamp(),
         });
+        await credential.user.updateDisplayName(nama);
         status.value = 'Tahniah! data pelanggan telah di setkan!';
       }).catchError((err) async {
         app.delete();
@@ -132,25 +133,30 @@ class FirestoreContoller extends GetxController {
     });
 
     // Tambah point
+
     status.value = 'Menambah transaction Points...';
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('customer').doc(userUID);
-    await _firestore
-        .runTransaction((transaction) async {
-          DocumentSnapshot snap = await transaction.get(documentReference);
-          if (!snap.exists) {
-            status.value = 'Pengguna tidak dapat ditemui';
-            ShowSnackbar.error('Kesalahan telah berlaku!',
-                'Pengguna tidak dapat ditemui', false);
-          }
-          int newPoints = snap.get('Points');
-          transaction.update(documentReference, {'Points': newPoints + 1});
-        })
-        .then((value) => status.value = 'operation-completed')
-        .catchError((err) {
-          status.value = 'Kesalahan telah berlaku! : $err';
-          ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
-        });
+    if (userUID == null || userUID == '') {
+      await _firestore.collection('customer').doc(mysid).update({'Points': 10});
+    } else {
+      DocumentReference documentReference =
+          FirebaseFirestore.instance.collection('customer').doc(userUID);
+      await _firestore
+          .runTransaction((transaction) async {
+            DocumentSnapshot snap = await transaction.get(documentReference);
+            if (!snap.exists) {
+              status.value = 'Pengguna tidak dapat ditemui';
+              ShowSnackbar.error('Kesalahan telah berlaku!',
+                  'Pengguna tidak dapat ditemui', false);
+            }
+            int newPoints = snap.get('Points');
+            transaction.update(documentReference, {'Points': newPoints + 1});
+          })
+          .then((value) => status.value = 'operation-completed')
+          .catchError((err) {
+            status.value = 'Kesalahan telah berlaku! : $err';
+            ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
+          });
+    }
 
     return status.value;
   }

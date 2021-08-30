@@ -152,6 +152,9 @@ class JobsheetController extends GetxController {
           ],
         ),
       ));
+      String currentEmail = email.text;
+      String userName = namaCust.text;
+
       if (kIsWeb == false) {
         await DatabaseHelper.instance.add(JobsheetHistoryModel(
           name: namaCust.text,
@@ -165,9 +168,14 @@ class JobsheetController extends GetxController {
           userUID: '',
         ));
       }
+      if (currentEmail.isEmpty) {
+        currentEmail =
+            userName.split(" ").join("").toLowerCase() + '@email.com';
+        print(currentEmail);
+      }
       await _firestoreController
           .addJobSheet(
-        email: email.text,
+        email: currentEmail,
         nama: namaCust.text,
         noPhone: noPhone.text,
         mysid: mySID.value,

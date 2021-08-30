@@ -88,22 +88,19 @@ class CustomerInfoPage extends StatelessWidget {
                         ),
                       ),
                       infoCard(
-                        title: 'ID Pengguna',
-                        subtitle: _data[0],
-                        icon: Icons.badge,
-                        pressed: () =>
-                            _overviewController.launchWhatsapp(_data[3]),
-                      ),
+                          title: 'Nama Pelanggan',
+                          subtitle: _data[1] == '' ? '--' : _data[1],
+                          icon: Icons.badge,
+                          pressed: () {}),
                       infoCard(
                         title: 'Nombor Telefon',
-                        subtitle: _data[3],
+                        subtitle: _data[3] == '' ? '--' : _data[3],
                         icon: Icons.phone,
-                        pressed: () =>
-                            _overviewController.launchCaller(_data[3]),
+                        pressed: () => _overviewController.showSheet(_data[3]),
                       ),
                       infoCard(
                         title: 'Email',
-                        subtitle: _data[4],
+                        subtitle: _data[4] == '' ? '--' : _data[4],
                         icon: Icons.email,
                         pressed: () =>
                             _overviewController.launchEmail(_data[4], _data[1]),
@@ -112,9 +109,15 @@ class CustomerInfoPage extends StatelessWidget {
                         title: 'Repair Points',
                         subtitle: _data[5].toString(),
                         icon: Icons.toll,
-                        pressed: () => _overviewController.launchSms(_data[3]),
+                        pressed: () {},
                       ),
-                      SizedBox(height: 50),
+                      infoCard(
+                        title: 'ID Pengguna',
+                        subtitle: _data[0],
+                        icon: Icons.badge,
+                        pressed: () => _overviewController.copyUID(_data[0]),
+                      ),
+                      SizedBox(height: 30),
                     ],
                   ),
                 ),
