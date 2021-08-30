@@ -16,13 +16,16 @@ class OverviewController extends GetxController {
   }
 
   void launchEmail(String email, String nama) async {
-    final url =
-        "mailto:$email?subject=Pemberitahuan daripada Af-fix&body=Salam $nama,";
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: '$email',
+    );
+    var url = params.toString();
     if (await canLaunch(url)) {
       await launch(url);
     } else {
       ShowSnackbar.error(
-          'Kesalahan Telah berlaku', '$url tidak dapat diakses', false);
+          'Kesalahan Telah berlaku', 'Email tidak dapat diakses', false);
     }
   }
 
