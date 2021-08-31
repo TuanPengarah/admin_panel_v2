@@ -60,7 +60,7 @@ class CustomerInfoPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         onSelected: (value) => _overviewController
-                            .popupMenuSelected(value, _data[0]),
+                            .popupMenuSelected(value, _data[0], _data[1]),
                         itemBuilder: (context) => PopupMenuOverview.items
                             .map(
                               (i) => PopupMenuItem<IconMenuOverview>(
@@ -108,23 +108,25 @@ class CustomerInfoPage extends StatelessWidget {
                         () => infoCard(
                             title: 'Nama Pelanggan',
                             subtitle: _data[1] == '' ? '--' : _data[1],
-                            icon: Icons.badge,
-                            color: _overviewController.isEdit.value == true
-                                ? Colors.amber[400]
-                                : Get.theme.cardColor,
+                            icon: _overviewController.isEdit.value == true
+                                ? Icons.edit
+                                : Icons.badge,
                             pressed: () {}),
                       ),
                       Obx(
                         () => infoCard(
-                          title: 'Nombor Telefon',
-                          subtitle: _data[3] == '' ? '--' : _data[3],
-                          icon: Icons.phone,
-                          color: _overviewController.isEdit.value == true
-                              ? Colors.amber[400]
-                              : Get.theme.cardColor,
-                          pressed: () =>
-                              _overviewController.showSheet(_data[3]),
-                        ),
+                            title: 'Nombor Telefon',
+                            subtitle: _data[3] == '' ? '--' : _data[3],
+                            icon: _overviewController.isEdit.value == true
+                                ? Icons.edit
+                                : Icons.phone,
+                            pressed: () {
+                              if (_overviewController.isEdit.value != true) {
+                                _overviewController.showSheet(_data[3]);
+                              } else {
+                                print('edit username');
+                              }
+                            }),
                       ),
                       infoCard(
                         title: 'Email',
@@ -157,15 +159,14 @@ class CustomerInfoPage extends StatelessWidget {
     );
   }
 
-  Card infoCard(
-      {String title,
-      String subtitle,
-      IconData icon,
-      Function pressed,
-      Color color}) {
+  Card infoCard({
+    String title,
+    String subtitle,
+    IconData icon,
+    Function pressed,
+  }) {
     return Card(
       elevation: 2,
-      color: color ?? Get.theme.cardColor,
       child: Ink(
         child: InkWell(
           onTap: pressed ?? () {},

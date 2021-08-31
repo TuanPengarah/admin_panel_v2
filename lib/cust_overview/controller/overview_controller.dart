@@ -15,7 +15,7 @@ class OverviewController extends GetxController {
 
   final _customerController = Get.find<CustomerController>();
 
-  void popupMenuSelected(IconMenuOverview value, String uid) {
+  void popupMenuSelected(IconMenuOverview value, String uid, String nama) {
     switch (value) {
       case PopupMenuOverview.edit:
         Haptic.feedbackClick();
@@ -32,7 +32,7 @@ class OverviewController extends GetxController {
             ),
             actions: [
               TextButton(
-                onPressed: () => deleteUserData(uid),
+                onPressed: () => deleteUserData(uid, nama),
                 child: Text(
                   'Padam',
                   style: TextStyle(color: Colors.red),
@@ -65,7 +65,7 @@ class OverviewController extends GetxController {
     _firestore.collection('customer').doc(uid).update(data);
   }
 
-  void deleteUserData(String uid) async {
+  void deleteUserData(String uid, String name) async {
     var _firestore = FirebaseFirestore.instance;
     await _firestore
         .collection('customer')
@@ -86,8 +86,7 @@ class OverviewController extends GetxController {
     await _firestore.collection('customer').doc(uid).delete();
     Get.back();
     Get.back();
-    ShowSnackbar.success(
-        'Selesai!', 'Proses membuang untuk pelanggan ini telah selesai', true);
+    ShowSnackbar.success('Selesai!', 'Pelanggan $name telah dipadam', false);
     Haptic.feedbackSuccess();
     _customerController.getCustomerDetails();
   }
@@ -127,7 +126,7 @@ class OverviewController extends GetxController {
                   Get.back();
                   Clipboard.setData(ClipboardData(text: "$noFon"));
                   ShowSnackbar.notify('Nombor telefon di salin!',
-                      '$noFon telah disalin pada Clipboard anda');
+                      '$noFon telah disalin pada Clipboard peranti anda');
                 }),
           ],
         ),
