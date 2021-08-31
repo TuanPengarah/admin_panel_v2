@@ -33,10 +33,21 @@ class JobsheetController extends GetxController {
 
   var mySID = ''.obs;
 
+  final _data = Get.arguments;
+
   @override
   void onInit() {
     generateMySID();
+    checkExistingCust();
     super.onInit();
+  }
+
+  void checkExistingCust() {
+    if (_data[0] == true) {
+      namaCust.text = _data[1];
+      noPhone.text = _data[2];
+      email.text = _data[3];
+    }
   }
 
   Future<bool> exitJobSheet() async {
@@ -185,6 +196,8 @@ class JobsheetController extends GetxController {
         harga: int.parse(harga.text),
         technician: 'Akid Fikri Azhar',
         remarks: remarks.text,
+        isExisting: _data[0],
+        userUID: _data[4],
       )
           .then((v) {
         if (v == 'operation-completed') {

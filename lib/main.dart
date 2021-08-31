@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/cust_overview/view/view/cust_view.dart';
 import 'package:admin_panel/home/view/home_view.dart';
@@ -42,16 +43,16 @@ class MyApp extends StatelessWidget {
       theme: MyThemes.lightTheme,
       darkTheme: MyThemes.darkTheme,
       themeMode: MyThemes().themeMode,
-      initialRoute: isLogin == false ? '/login' : '/home',
+      initialRoute: isLogin == false ? MyRoutes.login : MyRoutes.home,
       getPages: [
-        GetPage(name: '/login', page: () => LoginView()),
-        GetPage(name: '/home', page: () => HomeView()),
+        GetPage(name: MyRoutes.login, page: () => LoginView()),
+        GetPage(name: MyRoutes.home, page: () => HomeView()),
         GetPage(
-            name: '/jobsheet',
+            name: MyRoutes.jobsheet,
             page: () => JobsheetView(),
             fullscreenDialog: true),
-        GetPage(name: '/jobsheet-history', page: () => JobsheetHistory()),
-        GetPage(name: '/overview', page: () => CustomerView()),
+        GetPage(name: MyRoutes.jobsheetHistory, page: () => JobsheetHistory()),
+        GetPage(name: MyRoutes.overview, page: () => CustomerView()),
       ],
     );
   }

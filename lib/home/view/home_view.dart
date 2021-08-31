@@ -47,8 +47,8 @@ class HomeView extends StatelessWidget {
               label: 'Spareparts',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.point_of_sale),
-              label: 'POS',
+              icon: Icon(Icons.more_horiz),
+              label: 'Lain',
             ),
           ],
         ),

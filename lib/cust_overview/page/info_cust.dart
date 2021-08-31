@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/cust_overview/controller/overview_controller.dart';
 import 'package:admin_panel/cust_overview/view/model/popupmenu_overview.dart';
 import 'package:flutter/material.dart';
@@ -43,19 +44,33 @@ class CustomerInfoPage extends StatelessWidget {
                     ),
             ),
             actions: [
-              PopupMenuButton<IconMenuOverview>(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                itemBuilder: (context) => PopupMenuOverview.items
-                    .map(
-                      (i) => PopupMenuItem<IconMenuOverview>(
-                        value: i,
-                        child: ListTile(
-                            leading: Icon(i.icon), title: Text(i.text)),
+              Obx(
+                () => _overviewController.isEdit.value == true
+                    ? IconButton(
+                        onPressed: () {
+                          Haptic.feedbackSuccess();
+                          _overviewController.isEdit.value = false;
+                        },
+                        icon: Icon(
+                          Icons.save,
+                        ),
+                      )
+                    : PopupMenuButton<IconMenuOverview>(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        onSelected: (value) => _overviewController
+                            .popupMenuSelected(value, _data[0]),
+                        itemBuilder: (context) => PopupMenuOverview.items
+                            .map(
+                              (i) => PopupMenuItem<IconMenuOverview>(
+                                value: i,
+                                child: ListTile(
+                                    leading: Icon(i.icon), title: Text(i.text)),
+                              ),
+                            )
+                            .toList(),
                       ),
-                    )
-                    .toList(),
               ),
             ],
           ),
@@ -67,11 +82,13 @@ class CustomerInfoPage extends StatelessWidget {
                   child: Column(
                     children: [
                       Card(
+                        elevation: 2,
                         child: Ink(
                           width: double.infinity,
                           height: 190,
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () => _overviewController.addToJobsheet(
+                                _data[1], _data[3], _data[4], _data[0]),
                             borderRadius: BorderRadius.circular(25),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -87,16 +104,27 @@ class CustomerInfoPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      infoCard(
-                          title: 'Nama Pelanggan',
-                          subtitle: _data[1] == '' ? '--' : _data[1],
-                          icon: Icons.badge,
-                          pressed: () {}),
-                      infoCard(
-                        title: 'Nombor Telefon',
-                        subtitle: _data[3] == '' ? '--' : _data[3],
-                        icon: Icons.phone,
-                        pressed: () => _overviewController.showSheet(_data[3]),
+                      Obx(
+                        () => infoCard(
+                            title: 'Nama Pelanggan',
+                            subtitle: _data[1] == '' ? '--' : _data[1],
+                            icon: Icons.badge,
+                            color: _overviewController.isEdit.value == true
+                                ? Colors.amber[400]
+                                : Get.theme.cardColor,
+                            pressed: () {}),
+                      ),
+                      Obx(
+                        () => infoCard(
+                          title: 'Nombor Telefon',
+                          subtitle: _data[3] == '' ? '--' : _data[3],
+                          icon: Icons.phone,
+                          color: _overviewController.isEdit.value == true
+                              ? Colors.amber[400]
+                              : Get.theme.cardColor,
+                          pressed: () =>
+                              _overviewController.showSheet(_data[3]),
+                        ),
                       ),
                       infoCard(
                         title: 'Email',
@@ -130,8 +158,14 @@ class CustomerInfoPage extends StatelessWidget {
   }
 
   Card infoCard(
-      {String title, String subtitle, IconData icon, Function pressed}) {
+      {String title,
+      String subtitle,
+      IconData icon,
+      Function pressed,
+      Color color}) {
     return Card(
+      elevation: 2,
+      color: color ?? Get.theme.cardColor,
       child: Ink(
         child: InkWell(
           onTap: pressed ?? () {},

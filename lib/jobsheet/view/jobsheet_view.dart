@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,7 @@ class JobsheetView extends StatelessWidget {
             kIsWeb
                 ? Container()
                 : IconButton(
-                    onPressed: () => Get.toNamed('/jobsheet-history'),
+                    onPressed: () => Get.toNamed(MyRoutes.jobsheetHistory),
                     icon: Icon(
                       Icons.history,
                     ),

@@ -22,9 +22,6 @@ class CustomerController extends GetxController {
   }
 
   void sorting(IconMenu value) {
-    // descending.value = !descending.value;
-    // getCustomerDetails();
-    // update();
     switch (value) {
       case PopupSortMenu.ascending:
         descending.value = false;

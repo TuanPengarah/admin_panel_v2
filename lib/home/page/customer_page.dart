@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/model/popupmenu_model.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,8 @@ class CustomerPage extends StatelessWidget {
                 .toList(),
           ),
           IconButton(
-            onPressed: () => Get.toNamed('/jobsheet'),
+            onPressed: () => Get.toNamed(MyRoutes.jobsheet,
+                arguments: [false, '', '', '', '']),
             icon: Icon(
               Icons.add,
             ),
@@ -156,7 +158,7 @@ class CustomerPage extends StatelessWidget {
                                     var image = customer['photoURL'];
                                     return ListTile(
                                       onTap: () => Get.toNamed(
-                                        '/overview',
+                                        MyRoutes.overview,
                                         arguments: [
                                           customer['UID'],
                                           customer['Nama'],
@@ -187,7 +189,9 @@ class CustomerPage extends StatelessWidget {
                                         ),
                                       ),
                                       title: Text(customer['Nama']),
-                                      subtitle: Text(customer['No Phone'] == ''?'--' :customer['No Phone']),
+                                      subtitle: Text(customer['No Phone'] == ''
+                                          ? '--'
+                                          : customer['No Phone']),
                                     );
                                   },
                                 ),

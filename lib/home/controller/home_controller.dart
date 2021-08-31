@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/page/customer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,8 @@ class HomeController extends GetxController {
               title: Text('Buat Jobsheet baru'),
               onTap: () {
                 Get.back();
-                Get.toNamed('/jobsheet');
+                Get.toNamed(MyRoutes.jobsheet,
+                    arguments: [false, '', '', '', '']);
               },
             ),
             ListTile(

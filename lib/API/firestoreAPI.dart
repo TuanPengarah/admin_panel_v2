@@ -36,9 +36,11 @@ class FirestoreContoller extends GetxController {
     @required String technician,
     @required String remarks,
     String userUID,
+    bool isExisting,
   }) async {
-    if (userUID == null || userUID == '') {
+    if (isExisting == false) {
       status.value = 'Menyediakan data pelanggan...';
+      print('Menyediakan data pelanggan...');
       FirebaseApp app = await Firebase.initializeApp(
         name: 'Secondary',
         options: Firebase.app().options,
@@ -57,6 +59,7 @@ class FirestoreContoller extends GetxController {
           'photoURL': '',
           'timeStamp': FieldValue.serverTimestamp(),
         });
+        print(userUID);
         await credential.user.updateDisplayName(nama);
         status.value = 'Tahniah! data pelanggan telah di setkan!';
       }).catchError((err) async {
@@ -135,8 +138,16 @@ class FirestoreContoller extends GetxController {
     // Tambah point
 
     status.value = 'Menambah transaction Points...';
-    if (userUID == null || userUID == '') {
-      await _firestore.collection('customer').doc(mysid).update({'Points': 10});
+    if (isExisting == false) {
+      await _firestore
+          .collection('customer')
+          .doc(userUID)
+          .update({'Points': 10})
+          .then((value) => status.value = 'operation-completed')
+          .catchError((err) {
+            status.value = 'Kesalahan telah berlaku! : $err';
+            ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
+          });
     } else {
       DocumentReference documentReference =
           FirebaseFirestore.instance.collection('customer').doc(userUID);
