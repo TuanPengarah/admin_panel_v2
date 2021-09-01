@@ -15,22 +15,43 @@ class CustomerPage extends StatelessWidget {
       appBar: AppBar(
         title: Obx(
           () => _customerController.isSearch.value == false
-              ? Text('Pelanggan')
-              : TextField(
-                  controller: _customerController.searchController,
-                  autofocus: true,
-                  style: TextStyle(color: Colors.white),
-                  textInputAction: TextInputAction.search,
-                  cursorColor: Colors.white,
-                  onChanged: (text) => _customerController.getCustomerDetails(),
-                  decoration: InputDecoration(
-                    hoverColor: Colors.white,
-                    hintText: 'Cari Pelanggan...',
-                    hintStyle: TextStyle(color: Colors.white60),
-                    filled: false,
-                    border: UnderlineInputBorder(),
-                    enabledBorder: UnderlineInputBorder(),
-                    focusedBorder: UnderlineInputBorder(),
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Pelanggan'),
+                    SizedBox(height: 3),
+                    Text(
+                      'Jumlah keseluruhan pelanggan: ${_customerController.customerList.length}',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                )
+              : Theme(
+                  data: Theme.of(context).copyWith(
+                      textSelectionTheme: TextSelectionThemeData(
+                          selectionColor: Colors.white54)),
+                  child: TextField(
+                    controller: _customerController.searchController,
+                    autofocus: true,
+                    style: TextStyle(color: Colors.white),
+                    textInputAction: TextInputAction.search,
+                    cursorColor: Colors.white,
+                    onChanged: (text) =>
+                        _customerController.getCustomerDetails(),
+                    decoration: InputDecoration(
+                      hoverColor: Colors.white,
+                      focusColor: Colors.white,
+                      fillColor: Colors.white,
+                      hintText: 'Cari Pelanggan...',
+                      hintStyle: TextStyle(color: Colors.white60),
+                      filled: false,
+                      border: UnderlineInputBorder(),
+                      enabledBorder: UnderlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(),
+                    ),
                   ),
                 ),
         ),
@@ -139,87 +160,56 @@ class CustomerPage extends StatelessWidget {
                               ),
                             );
                           })
-                      : Column(
-                          children: [
-                            Expanded(
-                              child: RefreshIndicator(
-                                onRefresh: () async {
-                                  await _customerController
-                                      .getCustomerDetails();
-                                  Haptic.feedbackSuccess();
-                                },
-                                child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  itemCount:
-                                      _customerController.customerList.length,
-                                  itemBuilder: (BuildContext context, int i) {
-                                    var customer =
-                                        _customerController.customerList[i];
-                                    var image = customer['photoURL'];
-                                    return ListTile(
-                                      onTap: () => Get.toNamed(
-                                        MyRoutes.overview,
-                                        arguments: [
-                                          customer['UID'],
-                                          customer['Nama'],
-                                          customer['photoURL'],
-                                          customer['No Phone'],
-                                          customer['Email'],
-                                          customer['Points'],
-                                          customer['timeStamp'],
-                                        ],
-                                      ),
-                                      leading: Hero(
-                                        tag: customer['UID'],
-                                        child: SingleChildScrollView(
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          child: AdvancedAvatar(
-                                            size: 35,
-                                            name: customer['Nama'],
-                                            image: image == ''
-                                                ? null
-                                                : NetworkImage(image),
-                                            decoration: BoxDecoration(
-                                              color: Get.theme.primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      title: Text(customer['Nama']),
-                                      subtitle: Text(customer['No Phone'] == ''
-                                          ? '--'
-                                          : customer['No Phone']),
-                                    );
-                                  },
+                      : RefreshIndicator(
+                          onRefresh: () async {
+                            await _customerController.getCustomerDetails();
+                            Haptic.feedbackSuccess();
+                          },
+                          child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: _customerController.customerList.length,
+                            itemBuilder: (BuildContext context, int i) {
+                              var customer =
+                                  _customerController.customerList[i];
+                              var image = customer['photoURL'];
+                              return ListTile(
+                                onTap: () => Get.toNamed(
+                                  MyRoutes.overview,
+                                  arguments: [
+                                    customer['UID'],
+                                    customer['Nama'],
+                                    customer['photoURL'],
+                                    customer['No Phone'],
+                                    customer['Email'],
+                                    customer['Points'],
+                                    customer['timeStamp'],
+                                  ],
                                 ),
-                              ),
-                            ),
-                            Obx(() => Text.rich(
-                                  TextSpan(
-                                    text: _customerController.isSearch.value ==
-                                            false
-                                        ? 'Jumlah keseluruhan pelanggan: '
-                                        : 'Jumlah pelanggan yang ditemui: ',
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text:
-                                            '${_customerController.customerList.length}',
-                                        style: TextStyle(
-                                          color: Get.theme.primaryColor,
-                                        ),
+                                leading: Hero(
+                                  tag: customer['UID'],
+                                  transitionOnUserGestures: true,
+                                  child: SingleChildScrollView(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    child: AdvancedAvatar(
+                                      size: 35,
+                                      name: customer['Nama'],
+                                      image: image == ''
+                                          ? null
+                                          : NetworkImage(image),
+                                      decoration: BoxDecoration(
+                                        color: Get.theme.primaryColor,
+                                        borderRadius: BorderRadius.circular(12),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                  textAlign: TextAlign.center,
-                                )),
-                            SizedBox(height: 5),
-                          ],
+                                ),
+                                title: Text(customer['Nama']),
+                                subtitle: Text(customer['No Phone'] == ''
+                                    ? '--'
+                                    : customer['No Phone']),
+                              );
+                            },
+                          ),
                         );
         },
       ),

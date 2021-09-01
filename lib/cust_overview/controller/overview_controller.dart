@@ -12,8 +12,39 @@ import 'package:url_launcher/url_launcher.dart';
 class OverviewController extends GetxController {
   var currentIndex = 0.obs;
   var isEdit = false.obs;
+  var customerName = ''.obs;
+  var noPhone = ''.obs;
 
   final _customerController = Get.find<CustomerController>();
+  final _data = Get.arguments;
+
+  @override
+  void onInit() {
+    checkEdit();
+    super.onInit();
+  }
+
+  Future<bool> exitSaveuser() async {
+    bool result = false;
+    if (isEdit.value == true && customerName != _data[1] ||
+        noPhone != _data[3]) {
+      await saveUserData(_data[0]).then((value) {
+        if (value == true) {
+          result = true;
+        }
+      });
+      result = true;
+    } else {
+      result = true;
+    }
+
+    return result;
+  }
+
+  void checkEdit() {
+    customerName.value = _data[1];
+    noPhone.value = _data[3];
+  }
 
   void popupMenuSelected(IconMenuOverview value, String uid, String nama) {
     switch (value) {
@@ -50,19 +81,148 @@ class OverviewController extends GetxController {
     }
   }
 
-  void saveUserData(
-    String uid,
-    String nama,
-    String phone,
-  ) {
-    var _firestore = FirebaseFirestore.instance;
+  void editUsername() {
+    var errName = false.obs;
+    final namaEdit = TextEditingController();
+    namaEdit.text = customerName.value;
+    Get.dialog(
+      AlertDialog(
+        title: Text('Sunting Nama Pelanggan'),
+        content: Obx(
+          () => TextField(
+            controller: namaEdit,
+            autofocus: true,
+            textCapitalization: TextCapitalization.words,
+            decoration: InputDecoration(
+                errorText: errName.value == true
+                    ? 'Sila masukkan nama pelanggan'
+                    : null),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              'Batal',
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              if (namaEdit.text.isEmpty) {
+                errName.value = true;
+              } else {
+                errName.value = false;
+                customerName.value = namaEdit.text;
+                Get.back();
+              }
+            },
+            child: Text(
+              'Simpan',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-    Map<String, dynamic> data = {
-      'Nama': nama,
-      'No Phone': phone,
-    };
+  void editPhone() {
+    var errPhone = false.obs;
+    final phoneEdit = TextEditingController();
+    phoneEdit.text = noPhone.value;
+    Get.dialog(
+      AlertDialog(
+        title: Text('Sunting Nombor Panggilan'),
+        content: Obx(
+          () => TextField(
+            controller: phoneEdit,
+            autofocus: true,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+                errorText: errPhone.value == true
+                    ? 'Sila masukkan nombor panggilan'
+                    : null),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              'Batal',
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              if (phoneEdit.text.isEmpty) {
+                errPhone.value = true;
+              } else {
+                errPhone.value = false;
+                noPhone.value = phoneEdit.text;
+                Get.back();
+              }
+            },
+            child: Text(
+              'Simpan',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-    _firestore.collection('customer').doc(uid).update(data);
+  Future<bool> saveUserData(String uid) async {
+    bool result = false;
+    Haptic.feedbackSuccess();
+    if (customerName != _data[1] || noPhone != _data[3]) {
+      await Get.dialog(AlertDialog(
+        title: Text('Simpan suntingan anda?'),
+        content: Text(
+            'Adakah anda pasti untuk menyimpan segala suntingan anda ke server pelanggan?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              isEdit.value = false;
+              result = false;
+              Get.back();
+            },
+            child: Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () async {
+              var _firestore = FirebaseFirestore.instance;
+
+              Map<String, dynamic> data = {
+                'Nama': customerName.value,
+                'No Phone': noPhone.value,
+              };
+
+              await _firestore
+                  .collection('customer')
+                  .doc(uid)
+                  .update(data)
+                  .then((value) {
+                result = true;
+                Get.back();
+                ShowSnackbar.success('Operasi Selesai!',
+                    'Data pelanggan anda telah di kemas kini', false);
+                Haptic.feedbackSuccess();
+                isEdit.value = false;
+                _customerController.getCustomerDetails();
+              }).catchError((err) {
+                Get.back();
+                isEdit.value = false;
+                Haptic.feedbackError();
+                ShowSnackbar.error('Opps!',
+                    'Gagal untuk mengemaskini data pelanggan: $err', false);
+              });
+            },
+            child: Text('Simpan'),
+          ),
+        ],
+      ));
+    } else {
+      isEdit.value = false;
+    }
+    return result;
   }
 
   void deleteUserData(String uid, String name) async {

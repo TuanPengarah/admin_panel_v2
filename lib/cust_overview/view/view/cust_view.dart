@@ -13,19 +13,22 @@ class CustomerView extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-            onTap: (index) => _overviewController.currentIndex.value = index,
-            currentIndex: _overviewController.currentIndex.value,
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: 'Maklumat'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.history), label: 'Sejarah Baiki'),
-            ],
-          )),
-      body: Obx(
-        () => _screen[_overviewController.currentIndex.value],
+    return WillPopScope(
+      onWillPop: () async => await _overviewController.exitSaveuser(),
+      child: Scaffold(
+        bottomNavigationBar: Obx(() => BottomNavigationBar(
+              onTap: (index) => _overviewController.currentIndex.value = index,
+              currentIndex: _overviewController.currentIndex.value,
+              items: [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: 'Maklumat'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.history), label: 'Sejarah Baiki'),
+              ],
+            )),
+        body: Obx(
+          () => _screen[_overviewController.currentIndex.value],
+        ),
       ),
     );
   }

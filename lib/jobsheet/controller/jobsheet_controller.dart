@@ -47,6 +47,7 @@ class JobsheetController extends GetxController {
       namaCust.text = _data[1];
       noPhone.text = _data[2];
       email.text = _data[3];
+      currentSteps.value = 3;
     }
   }
 

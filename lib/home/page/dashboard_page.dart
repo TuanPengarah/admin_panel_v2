@@ -1,5 +1,4 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/graph/graph_monthly_sales.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
@@ -32,15 +31,6 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                   backgroundColor: Get.isDarkMode
                       ? Color(0xff131313)
                       : Get.theme.primaryColor,
-                  actions: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.dark_mode,
-                        color: Get.isDarkMode ? Colors.amber : Colors.white,
-                      ),
-                      onPressed: MyThemes().switchTheme,
-                    ),
-                  ],
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(

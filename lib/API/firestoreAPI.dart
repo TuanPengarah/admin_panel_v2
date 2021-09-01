@@ -85,6 +85,7 @@ class FirestoreContoller extends GetxController {
       'Tarikh Waranti': _tarikh,
       'isWarranti': false,
       'Technician': technician,
+      'Remarks': remarks,
       'Status': 'Belum Selesai',
       'timeStamp': FieldValue.serverTimestamp(),
     };
