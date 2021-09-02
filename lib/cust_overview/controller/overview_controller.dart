@@ -66,7 +66,7 @@ class OverviewController extends GetxController {
                 onPressed: () => deleteUserData(uid, nama),
                 child: Text(
                   'Padam',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Colors.amber[900]),
                 ),
               ),
               TextButton(
