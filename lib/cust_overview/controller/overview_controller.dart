@@ -1,7 +1,7 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
-import 'package:admin_panel/cust_overview/view/model/popupmenu_overview.dart';
+import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -24,23 +24,6 @@ class OverviewController extends GetxController {
     super.onInit();
   }
 
-  Future<bool> exitSaveuser() async {
-    bool result = false;
-    if (isEdit.value == true && customerName != _data[1] ||
-        noPhone != _data[3]) {
-      await saveUserData(_data[0]).then((value) {
-        if (value == true) {
-          result = true;
-        }
-      });
-      result = true;
-    } else {
-      result = true;
-    }
-
-    return result;
-  }
-
   void checkEdit() {
     customerName.value = _data[1];
     noPhone.value = _data[3];
@@ -50,7 +33,8 @@ class OverviewController extends GetxController {
     switch (value) {
       case PopupMenuOverview.edit:
         Haptic.feedbackClick();
-        print('edit engage');
+        ShowSnackbar.notify('Mod suntingan aktif!',
+            'Tekan butang simpan jika anda ingin menyimpan suntingan anda ke server pelanggan');
         isEdit.value = true;
         break;
       case PopupMenuOverview.delete:

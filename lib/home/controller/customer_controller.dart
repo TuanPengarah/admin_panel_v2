@@ -1,9 +1,12 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
+import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/model/customer_suggestion_model.dart';
 import 'package:admin_panel/home/model/popupmenu_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CustomerController extends GetxController {
   var isSearch = false.obs;
@@ -14,11 +17,92 @@ class CustomerController extends GetxController {
   final _firestore = FirebaseFirestore.instance.collection('customer');
   List customerList = [];
   List getFromFirestore = [];
+  var customerListRead = ''.obs;
 
   @override
   void onInit() {
     getCustomerDetails();
     super.onInit();
+  }
+
+  void deleteUser(String uid, String nama) {
+    Get.dialog(
+      AlertDialog(
+        title: Text('Amaran!'),
+        content: Text(
+          'Jika anda membuang pelanggan ini, segala maklumat sejarah baiki dan data peribadi pada pelanggan ini akan dipadam!',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              var _firestoreDelete = FirebaseFirestore.instance;
+              await _firestoreDelete
+                  .collection('customer')
+                  .doc(uid)
+                  .collection('repair history')
+                  .get()
+                  .then((value) {
+                value.docs.forEach((element) {
+                  _firestoreDelete
+                      .collection('customer')
+                      .doc(uid)
+                      .collection('repair history')
+                      .doc(element.id)
+                      .delete();
+                });
+              });
+
+              await _firestoreDelete.collection('customer').doc(uid).delete();
+              Get.back();
+              Get.back();
+              ShowSnackbar.success(
+                  'Selesai!', 'Pelanggan $nama telah dipadam', false);
+              Haptic.feedbackSuccess();
+              getCustomerDetails();
+            },
+            child: Text(
+              'Padam',
+              style: TextStyle(color: Colors.amber[900]),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              'Batal',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void addToJobsheet(String nama, String phone, String email, String uid) {
+    Haptic.feedbackClick();
+    Get.toNamed(MyRoutes.jobsheet, arguments: [true, nama, phone, email, uid]);
+  }
+
+  void launchCaller(String noFon) async {
+    Haptic.feedbackClick();
+    final url = "tel:$noFon";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Get.back();
+      ShowSnackbar.error('Kesalahan Telah berlaku',
+          'Nombor telefon tidak dapat diakses', false);
+    }
+  }
+
+  void launchSms(String noFon) async {
+    Haptic.feedbackClick();
+    final url = "sms:$noFon";
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      Get.back();
+      ShowSnackbar.error(
+          'Kesalahan Telah berlaku', 'SMS tidak dapat diakses', false);
+    }
   }
 
   void sorting(IconMenu value) {
@@ -64,6 +148,7 @@ class CustomerController extends GetxController {
       status.value = '';
       searchResultList();
       update();
+      customerListRead.value = customerList.length.toString();
       return 'Completed';
     }).catchError((err) {
       status.value = err.toString();

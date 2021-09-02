@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:admin_panel/API/firestoreAPI.dart';
 import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class JobsheetController extends GetxController {
   var errModel = false.obs;
   var errKerosakkan = false.obs;
   var errPrice = false.obs;
+  var errFirestore = true.obs;
 
   var currentSteps = 0.obs;
 
@@ -52,6 +54,7 @@ class JobsheetController extends GetxController {
   }
 
   Future<bool> exitJobSheet() async {
+    Haptic.feedbackError();
     bool result = false;
     if (namaCust.text.isNotEmpty) {
       await Get.dialog(
@@ -75,7 +78,7 @@ class JobsheetController extends GetxController {
               child: Text(
                 'Keluar',
                 style: TextStyle(
-                  color: Colors.red,
+                  color: Colors.amber[900],
                 ),
               ),
             ),
@@ -203,18 +206,18 @@ class JobsheetController extends GetxController {
           .then((v) {
         if (v == 'operation-completed') {
           Haptic.feedbackSuccess();
-
-          Get.back();
-          Get.back();
+          errFirestore.value = false;
+          Get.toNamed(MyRoutes.jobsheetDone);
           ShowSnackbar.success('Operasi Selesai!',
-              'Jobsheet telah ditambah ke pangkalan data', false);
+              'Jobsheet telah ditambah ke pangkalan data', true);
         }
       }).catchError((err) async {
         Haptic.feedbackError();
+        errFirestore.value = true;
         await Future.delayed(Duration(seconds: 6));
-        Get.back();
-        ShowSnackbar.error('Kesalahan telah berlaku!', '$err', false);
         Get.focusScope.unfocus();
+        Get.toNamed(MyRoutes.jobsheetDone);
+        ShowSnackbar.error('Kesalahan telah berlaku!', '$err', true);
       });
     }
   }

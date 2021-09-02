@@ -41,6 +41,14 @@ class JobsheetView extends StatelessWidget {
                     onPressed: () => _jobsheetController.selectContact(),
                     icon: Icon(Icons.contact_page),
                   ),
+            IconButton(
+              onPressed: () {
+                Get.toNamed(MyRoutes.jobsheetDone, arguments: [false]);
+              },
+              icon: Icon(
+                Icons.done,
+              ),
+            ),
           ],
         ),
         body: GestureDetector(

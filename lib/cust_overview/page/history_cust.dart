@@ -6,95 +6,90 @@ import 'package:get/get.dart';
 class RepairHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _data = Get.arguments;
     final _historyController = Get.put(RepairHistoryController());
-    return Hero(
-      tag: _data[0],
-      child: NestedScrollView(
-        physics: BouncingScrollPhysics(),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              expandedHeight: 180.0,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text('Sejarah Baiki'),
-              ),
+    return NestedScrollView(
+      physics: BouncingScrollPhysics(),
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            expandedHeight: 180.0,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text('Sejarah Baiki'),
             ),
-          ];
-        },
-        body: FutureBuilder(
-          future: _historyController.getFromFirestore(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (_historyController.items.isEmpty) {
-              return Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.browser_not_supported,
-                      color: Colors.grey,
-                      size: 120,
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Pelanggan ini tidak pernah membaiki sebarang peranti',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            return Column(
-              children: [
-                SizedBox(height: 20),
-                Obx(
-                  () => _historyController.totalPrice.value == '0.0'
-                      ? Text(
-                          'Pelanggan ini tidak pernah mengeluarkan modal',
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      : Text.rich(
-                          TextSpan(
-                            text: 'Jumlah yang telah dibelanjakan:',
-                            style: TextStyle(color: Colors.grey),
-                            children: [
-                              TextSpan(
-                                text:
-                                    ' RM${_historyController.totalPrice.value}',
-                                style: TextStyle(
-                                  color: Get.theme.primaryColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: _historyController.items.length,
-                    itemBuilder: (context, int i) {
-                      var doc = _historyController.items[i];
-                      return historyCard(doc);
-                    },
-                  ),
-                ),
-              ],
+          ),
+        ];
+      },
+      body: FutureBuilder(
+        future: _historyController.getFromFirestore(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        ),
+          }
+          if (_historyController.items.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.browser_not_supported,
+                    color: Colors.grey,
+                    size: 120,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Pelanggan ini tidak pernah membaiki sebarang peranti',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return Column(
+            children: [
+              SizedBox(height: 20),
+              Obx(
+                () => _historyController.totalPrice.value == '0.0'
+                    ? Text(
+                        'Pelanggan ini tidak pernah mengeluarkan modal',
+                        style: TextStyle(color: Colors.grey),
+                      )
+                    : Text.rich(
+                        TextSpan(
+                          text: 'Jumlah yang telah dibelanjakan:',
+                          style: TextStyle(color: Colors.grey),
+                          children: [
+                            TextSpan(
+                              text: ' RM${_historyController.totalPrice.value}',
+                              style: TextStyle(
+                                color: Get.theme.primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: _historyController.items.length,
+                  itemBuilder: (context, int i) {
+                    var doc = _historyController.items[i];
+                    return historyCard(doc);
+                  },
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -146,6 +141,16 @@ class RepairHistoryPage extends StatelessWidget {
                 StatusIcon(doc['Status']),
               ],
             ),
+            SizedBox(height: 5),
+            doc['Status'] == 'Selesai'
+                ? Text(
+                    'Waranti bermula dari ${doc['Tarikh']} hingga ${doc['Tarikh Waranti']}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  )
+                : Container(),
             Text(
               'Di uruskan oleh: ${doc['Technician']} pada tarikh ${doc['Tarikh']}',
               style: TextStyle(

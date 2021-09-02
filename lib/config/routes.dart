@@ -4,4 +4,5 @@ class MyRoutes {
   static const login = '/login';
   static const overview = '/customer/details';
   static const jobsheetHistory = '/jobsheet/history';
+  static const jobsheetDone = '/jobsheet/completed';
 }

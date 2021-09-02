@@ -4,6 +4,7 @@ import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/model/popupmenu_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,7 +22,7 @@ class CustomerPage extends StatelessWidget {
                     Text('Pelanggan'),
                     SizedBox(height: 3),
                     Text(
-                      'Jumlah keseluruhan pelanggan: ${_customerController.customerList.length}',
+                      'Jumlah keseluruhan pelanggan: ${_customerController.customerListRead.value}',
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
@@ -85,8 +86,11 @@ class CustomerPage extends StatelessWidget {
                 .toList(),
           ),
           IconButton(
-            onPressed: () => Get.toNamed(MyRoutes.jobsheet,
-                arguments: [false, '', '', '', '']),
+            onPressed: () {
+              Haptic.feedbackClick();
+              Get.toNamed(MyRoutes.jobsheet,
+                  arguments: [false, '', '', '', '']);
+            },
             icon: Icon(
               Icons.add,
             ),
@@ -172,41 +176,82 @@ class CustomerPage extends StatelessWidget {
                               var customer =
                                   _customerController.customerList[i];
                               var image = customer['photoURL'];
-                              return ListTile(
-                                onTap: () => Get.toNamed(
-                                  MyRoutes.overview,
-                                  arguments: [
-                                    customer['UID'],
-                                    customer['Nama'],
-                                    customer['photoURL'],
-                                    customer['No Phone'],
-                                    customer['Email'],
-                                    customer['Points'],
-                                    customer['timeStamp'],
-                                  ],
-                                ),
-                                leading: Hero(
-                                  tag: customer['UID'],
-                                  transitionOnUserGestures: true,
-                                  child: SingleChildScrollView(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    child: AdvancedAvatar(
-                                      size: 35,
-                                      name: customer['Nama'],
-                                      image: image == ''
-                                          ? null
-                                          : NetworkImage(image),
-                                      decoration: BoxDecoration(
-                                        color: Get.theme.primaryColor,
-                                        borderRadius: BorderRadius.circular(12),
+                              return Slidable(
+                                actionPane: SlidableDrawerActionPane(),
+                                actionExtentRatio: 0.25,
+                                child: ListTile(
+                                  onTap: () => Get.toNamed(
+                                    MyRoutes.overview,
+                                    arguments: [
+                                      customer['UID'],
+                                      customer['Nama'],
+                                      customer['photoURL'],
+                                      customer['No Phone'],
+                                      customer['Email'],
+                                      customer['Points'],
+                                      customer['timeStamp'],
+                                    ],
+                                  ),
+                                  leading: Hero(
+                                    tag: customer['UID'],
+                                    transitionOnUserGestures: true,
+                                    child: SingleChildScrollView(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      child: AdvancedAvatar(
+                                        size: 35,
+                                        name: customer['Nama'],
+                                        image: image == ''
+                                            ? null
+                                            : NetworkImage(image),
+                                        decoration: BoxDecoration(
+                                          color: Get.theme.primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
                                       ),
                                     ),
                                   ),
+                                  title: Text(customer['Nama']),
+                                  subtitle: Text(customer['No Phone'] == ''
+                                      ? '--'
+                                      : customer['No Phone']),
                                 ),
-                                title: Text(customer['Nama']),
-                                subtitle: Text(customer['No Phone'] == ''
-                                    ? '--'
-                                    : customer['No Phone']),
+                                actions: [
+                                  IconSlideAction(
+                                    color: Colors.green,
+                                    caption: 'Hubungi',
+                                    icon: Icons.phone,
+                                    onTap: () => _customerController
+                                        .launchCaller(customer['No Phone']),
+                                  ),
+                                  IconSlideAction(
+                                    color: Colors.amber[900],
+                                    caption: 'Mesej',
+                                    icon: Icons.sms,
+                                    onTap: () => _customerController
+                                        .launchSms(customer['No Phone']),
+                                  ),
+                                ],
+                                secondaryActions: [
+                                  IconSlideAction(
+                                    color: Colors.indigo,
+                                    caption: 'Jobsheet',
+                                    icon: Icons.receipt_long,
+                                    onTap: () =>
+                                        _customerController.addToJobsheet(
+                                            customer['Nama'],
+                                            customer['No Phone'],
+                                            customer['Email'],
+                                            customer['UID']),
+                                  ),
+                                  IconSlideAction(
+                                    color: Colors.red,
+                                    caption: 'Buang',
+                                    icon: Icons.delete,
+                                    onTap: () => _customerController.deleteUser(
+                                        customer['UID'], customer['Nama']),
+                                  ),
+                                ],
                               );
                             },
                           ),

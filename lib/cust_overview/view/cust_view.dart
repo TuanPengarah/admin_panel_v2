@@ -6,15 +6,16 @@ import 'package:get/get.dart';
 
 class CustomerView extends StatelessWidget {
   final _overviewController = Get.put(OverviewController());
-
+  final _data = Get.arguments;
   final _screen = [
     CustomerInfoPage(),
     RepairHistoryPage(),
   ];
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => await _overviewController.exitSaveuser(),
+    return Hero(
+      tag: _data[0],
+      transitionOnUserGestures: true,
       child: Scaffold(
         bottomNavigationBar: Obx(() => BottomNavigationBar(
               onTap: (index) => _overviewController.currentIndex.value = index,

@@ -37,6 +37,15 @@ class MyThemes {
         borderRadius: BorderRadius.circular(25),
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+      ),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: Colors.grey.shade200,
@@ -91,6 +100,15 @@ class MyThemes {
       color: Colors.grey.shade900,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(

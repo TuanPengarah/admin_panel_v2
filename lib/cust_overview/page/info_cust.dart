@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:admin_panel/cust_overview/controller/overview_controller.dart';
-import 'package:admin_panel/cust_overview/view/model/popupmenu_overview.dart';
+import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,33 +19,25 @@ class CustomerInfoPage extends StatelessWidget {
           flexibleSpace: FlexibleSpaceBar(
             title: Obx(() => Text(_overviewController.customerName.value)),
             background: _data[2] == ''
-                ? Hero(
-                    tag: _data[0],
-                    transitionOnUserGestures: true,
-                    child: Container(),
-                  )
-                : Hero(
-                    tag: _data[0],
-                    transitionOnUserGestures: true,
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Image.network(
-                          _data[2],
-                          fit: BoxFit.cover,
-                          colorBlendMode: BlendMode.darken,
-                        ),
-                        ClipRRect(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                            child: Container(
-                              color: Colors.black45,
-                              alignment: Alignment.center,
-                            ),
+                ? Container()
+                : Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.network(
+                        _data[2],
+                        fit: BoxFit.cover,
+                        colorBlendMode: BlendMode.darken,
+                      ),
+                      ClipRRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Container(
+                            color: Colors.black45,
+                            alignment: Alignment.center,
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
           ),
           actions: [

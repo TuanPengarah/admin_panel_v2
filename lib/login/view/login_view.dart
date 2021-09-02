@@ -43,6 +43,7 @@ class LoginView extends StatelessWidget {
               ),
             ),
             Container(
+              height: MediaQuery.of(context).size.height - 160,
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
