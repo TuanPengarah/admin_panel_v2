@@ -1,11 +1,13 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/jobsheet/controller/done_order_controller.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 class JobsheetCompleted extends StatelessWidget {
-  final _controller = Get.find<JobsheetController>();
+  final _jobsheetController = Get.find<JobsheetController>();
+  final _doneController = Get.put(DoneJobsheetController());
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -31,7 +33,7 @@ class JobsheetCompleted extends StatelessWidget {
                     width: 350,
                   ),
                   Obx(() => Text(
-                        _controller.errFirestore.value == true
+                        _jobsheetController.errFirestore.value == true
                             ? 'Jobsheet untuk pelanggan ini telah berjaya di buka tetapi gagal untuk memasukan ke Server Pelanggan. Sila cuba sebentar lagi!'
                             : 'Tahniah! Jobsheet untuk pelanggan ini telah berjaya di buka dan telah dimasukkan di Server Pelanggan',
                         textAlign: TextAlign.center,
@@ -46,7 +48,7 @@ class JobsheetCompleted extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton.icon(
                         icon: Icon(Icons.share),
-                        onPressed: () {},
+                        onPressed: () => _doneController.showShareJobsheet(),
                         label: Text('Hantar maklumat Jobsheet')),
                   ),
                   SizedBox(height: 10),

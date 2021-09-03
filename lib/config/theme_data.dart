@@ -27,8 +27,8 @@ class MyThemes {
   //Theme Config
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    primarySwatch: Colors.indigo,
-    primaryColor: Colors.indigo,
+    primarySwatch: Colors.blue,
+    primaryColor: Colors.blue,
     appBarTheme: AppBarTheme(
       brightness: Brightness.dark,
     ),
@@ -61,7 +61,7 @@ class MyThemes {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
         borderSide: BorderSide(
-          color: Colors.indigo,
+          color: Colors.blue,
           width: 2,
         ),
       ),

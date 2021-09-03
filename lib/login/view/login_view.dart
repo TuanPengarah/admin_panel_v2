@@ -49,7 +49,7 @@ class LoginView extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: BouncingScrollPhysics(),
                   children: [
                     Lottie.asset(
                       'assets/lottie/lottie_login.json',
