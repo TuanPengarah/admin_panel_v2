@@ -45,6 +45,8 @@ dependencies:
   intl: ^0.17.0
   flutter_native_contact_picker: ^0.0.3
   path_provider: ^2.0.2
+  pdf: 
+  flutter_full_pdf_viewer: ^1.0.6
   
 
 dev_dependencies:

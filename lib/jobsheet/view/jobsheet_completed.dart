@@ -1,5 +1,4 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:admin_panel/jobsheet/controller/done_order_controller.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +6,6 @@ import 'package:lottie/lottie.dart';
 
 class JobsheetCompleted extends StatelessWidget {
   final _jobsheetController = Get.find<JobsheetController>();
-  final _doneController = Get.put(DoneJobsheetController());
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -48,7 +46,8 @@ class JobsheetCompleted extends StatelessWidget {
                     height: 50,
                     child: ElevatedButton.icon(
                         icon: Icon(Icons.share),
-                        onPressed: () => _doneController.showShareJobsheet(),
+                        onPressed: () =>
+                            _jobsheetController.showShareJobsheet(),
                         label: Text('Hantar maklumat Jobsheet')),
                   ),
                   SizedBox(height: 10),
