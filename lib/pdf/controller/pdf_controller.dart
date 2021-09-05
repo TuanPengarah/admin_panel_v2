@@ -1,14 +1,35 @@
 import 'dart:io';
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:share_plus/share_plus.dart';
 
 class PdfController extends GetxController {
   final pdf = pw.Document();
 
   String fullPath = '';
+
+  void sendEmailPDF() async {
+    final MailOptions mailOptions = MailOptions(
+      body: 'Resit Jobsheet anda!',
+      subject: 'Akid Fikri Azhar daripada Af-Fix Smartphone Repair',
+      recipients: ['akidfikriazhar@gmail.com'],
+      isHTML: true,
+      attachments: [
+        '$fullPath',
+      ],
+    );
+    await FlutterMailer.send(mailOptions);
+    Haptic.feedbackSuccess();
+  }
+
+  void sharePDF() {
+    Share.shareFiles(['$fullPath'], text: 'Maklumat PDF');
+  }
 
   Future<void> writeJobsheetPdf() async {
     var assetImage = pw.MemoryImage(
@@ -69,8 +90,10 @@ class PdfController extends GetxController {
             pw.SizedBox(height: 10),
             pw.Text(
               'Untuk maklumat lebih lanjut tentang terma ,syarat dan juga privasi. Sila layari website kami - https://af-fix-database.web.app/terms',
+              textAlign: pw.TextAlign.center,
               style: pw.TextStyle(
                 color: PdfColors.grey,
+                fontSize: 10,
               ),
             ),
           ];

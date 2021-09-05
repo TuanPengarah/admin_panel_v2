@@ -18,7 +18,20 @@ class PdfViewer extends StatelessWidget {
             );
           }
           return PDFViewerScaffold(
-              appBar: AppBar(), path: _pdfController.fullPath);
+              appBar: AppBar(
+                title: Text('Jobsheet details'),
+                actions: [
+                  IconButton(
+                    onPressed: () => _pdfController.sendEmailPDF(),
+                    icon: Icon(Icons.email),
+                  ),
+                  IconButton(
+                    onPressed: () => _pdfController.sharePDF(),
+                    icon: Icon(Icons.share),
+                  ),
+                ],
+              ),
+              path: _pdfController.fullPath);
         });
   }
 }

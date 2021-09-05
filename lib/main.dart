@@ -7,6 +7,7 @@ import 'package:admin_panel/jobsheet/view/jobsheet_history.dart';
 import 'package:admin_panel/jobsheet/view/jobsheet_view.dart';
 import 'package:admin_panel/login/view/login_view.dart';
 import 'package:admin_panel/pdf/view/pdf_view.dart';
+import 'package:admin_panel/print/view/print_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.overview, page: () => CustomerView()),
         GetPage(name: MyRoutes.jobsheetDone, page: () => JobsheetCompleted()),
         GetPage(name: MyRoutes.pdfviewer, page: () => PdfViewer()),
+        GetPage(name: MyRoutes.printviewer, page: () => PrintView()),
       ],
     );
   }

@@ -12,7 +12,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class JobsheetController extends GetxController {
   final _firestoreController = Get.put(FirestoreContoller());
-
   final namaCust = TextEditingController();
   final noPhone = TextEditingController();
   final email = TextEditingController();
@@ -63,13 +62,19 @@ class JobsheetController extends GetxController {
               leading: Icon(Icons.print),
               title: Text('Print'),
               subtitle: Text('Print maklumat Jobsheet ini!'),
-              onTap: () {},
+              onTap: () {
+                Get.back();
+                Get.toNamed(MyRoutes.printviewer);
+              },
             ),
             ListTile(
               leading: Icon(Icons.picture_as_pdf),
               title: Text('PDF'),
               subtitle: Text('Hasilkan maklumat Jobsheet berformat PDF!'),
-              onTap: () => Get.toNamed(MyRoutes.pdfviewer),
+              onTap: () {
+                Get.back();
+                Get.toNamed(MyRoutes.pdfviewer);
+              },
             ),
             SizedBox(height: 10),
           ],

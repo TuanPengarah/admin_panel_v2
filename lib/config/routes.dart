@@ -6,4 +6,5 @@ class MyRoutes {
   static const jobsheetHistory = '/jobsheet/history';
   static const jobsheetDone = '/jobsheet/completed';
   static const pdfviewer = '/pdfview';
+  static const printviewer = '/print';
 }
