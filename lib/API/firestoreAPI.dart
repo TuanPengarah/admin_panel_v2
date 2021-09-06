@@ -95,7 +95,7 @@ class FirestoreContoller extends GetxController {
       'Database UID': userUID,
       'Nama': nama,
       'No Phone': noPhone,
-      'Percent': 0.0,
+      'Percent': 0.1,
       'MID': mysid,
       'Model': model,
       'Password': password,
@@ -106,6 +106,13 @@ class FirestoreContoller extends GetxController {
       'Technician': technician,
       'Status': 'In Queue',
       'isPayment': false,
+      'timeStamp': FieldValue.serverTimestamp(),
+    };
+
+    //Tambah repair log status
+    Map<String, dynamic> repairLog = {
+      'Repair Log': 'Pesanan diterima',
+      'isError': false,
       'timeStamp': FieldValue.serverTimestamp(),
     };
 
@@ -131,6 +138,17 @@ class FirestoreContoller extends GetxController {
         .doc(mysid)
         .set(mySID)
         .then((value) => status.value = 'Tambah ke MySID selesai')
+        .catchError((err) {
+      status.value = 'Kesalahan telah berlaku! : $err';
+      ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
+    });
+
+    await _firestore
+        .collection('MyrepairID')
+        .doc(mysid)
+        .collection('repair log')
+        .add(repairLog)
+        .then((value) => status.value = 'Tambah ke repair log selesai')
         .catchError((err) {
       status.value = 'Kesalahan telah berlaku! : $err';
       ShowSnackbar.error('Kesalahan telah berlaku!', err, false);

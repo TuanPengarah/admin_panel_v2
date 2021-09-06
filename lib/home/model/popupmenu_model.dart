@@ -8,12 +8,12 @@ class PopupSortMenu {
   ];
 
   static const ascending = IconMenu(
-    text: 'Mengikut Abjad A-Z',
+    text: 'Mengikut abjad A-Z',
     icon: Icons.expand_less,
   );
 
   static const descending = IconMenu(
-    text: 'Mengikut Abjad Z- A',
+    text: 'Mengikut abjad Z-A',
     icon: Icons.expand_more,
   );
   static const time = IconMenu(

@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:esc_pos_bluetooth/esc_pos_bluetooth.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:image/image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bluetooth_basic/flutter_bluetooth_basic.dart';
 import 'package:get/get.dart';
+import 'package:image/image.dart';
 
 class PrintController extends GetxController {
   PrinterBluetoothManager _printerManager = PrinterBluetoothManager();
@@ -14,6 +15,7 @@ class PrintController extends GetxController {
   var devicesMsg = ''.obs;
   var isScan = true.obs;
   BluetoothManager bluetoothManager = BluetoothManager.instance;
+  final _data = Get.parameters;
 
   @override
   void onInit() {
@@ -93,19 +95,23 @@ class PrintController extends GetxController {
     ticket.feed(1);
     ticket.text('Jobsheet',
         styles: PosStyles(align: PosAlign.center, bold: true));
-    ticket.text('MySID: 2333242',
+    ticket.text('MySID: ${_data['mysid']}',
         styles: PosStyles(align: PosAlign.center, bold: true));
     ticket.feed(1);
-    ticket.text('Nama: Abu', styles: PosStyles(align: PosAlign.left));
-    ticket.text('Nombor tel: 0123234322',
+    ticket.text('Nama: ${_data['nama']}',
         styles: PosStyles(align: PosAlign.left));
-    ticket.text('Model: Nova 2i', styles: PosStyles(align: PosAlign.left));
-    ticket.text('Kerosakkan: LCD', styles: PosStyles(align: PosAlign.left));
-    ticket.text('Anggaran Harga: RM 180',
+    ticket.text('Nombor tel: ${_data['noTel']}',
         styles: PosStyles(align: PosAlign.left));
-    ticket.text('Remarks: *Lcd crack', styles: PosStyles(align: PosAlign.left));
+    ticket.text('Model: ${_data['model']}',
+        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Kerosakkan: ${_data['kerosakkan']}',
+        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Anggaran Harga: RM${_data['price']}',
+        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Remarks: *${_data['remarks']}',
+        styles: PosStyles(align: PosAlign.left));
     ticket.feed(1);
-    ticket.qrcode('https://af-fix-database.web.app/mysid?id=125752',
+    ticket.qrcode('https://af-fix-database.web.app/mysid?id=${_data['mysid']}',
         size: QRSize.Size5);
 
     ticket.feed(1);
@@ -116,18 +122,24 @@ class PrintController extends GetxController {
     if (isNew == true) {
       ticket.hr(len: 32);
       ticket.text(
-        'Anda juga boleh login ke website kami untuk semak warranti dan  status baiki peranti',
+        'Anda juga boleh login ke website kami untuk semak waranti dan   status baiki peranti',
         styles: PosStyles(align: PosAlign.center),
       );
       ticket.feed(1);
-      ticket.text('Email: example@email.com');
+      ticket.text('Email: ${_data['email']}');
       ticket.text('Password: 123456');
       ticket.feed(1);
-      ticket.text('Terima Kasih!');
+      ticket.text(
+        'Terima Kasih!',
+        styles: PosStyles(align: PosAlign.center),
+      );
       ticket.cut();
     } else {
       ticket.feed(1);
-      ticket.text('Terima Kasih!');
+      ticket.text(
+        'Terima Kasih!',
+        styles: PosStyles(align: PosAlign.center),
+      );
       ticket.cut();
     }
 

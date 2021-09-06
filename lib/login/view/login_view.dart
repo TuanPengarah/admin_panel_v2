@@ -11,96 +11,91 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: ListView(
-          children: [
-            SafeArea(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Image.asset(
-                        Get.isDarkMode
-                            ? 'assets/images/splash_light.png'
-                            : 'assets/images/splash_dark.png',
-                        scale: 8,
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.dark_mode,
-                            color: Get.isDarkMode
-                                ? Colors.amber
-                                : Theme.of(context).primaryColor),
-                        onPressed: MyThemes().switchTheme,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height - 160,
-              alignment: Alignment.bottomCenter,
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          SafeArea(
+            child: Container(
+              alignment: Alignment.topLeft,
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: ListView(
-                  shrinkWrap: true,
-                  physics: BouncingScrollPhysics(),
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Lottie.asset(
-                      'assets/lottie/lottie_login.json',
-                      width: 300,
-                      height: 300,
+                    Image.asset(
+                      Get.isDarkMode
+                          ? 'assets/images/splash_light.png'
+                          : 'assets/images/splash_dark.png',
+                      scale: 8,
                     ),
-                    Text(
-                      'Admin Panel',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 30,
-                        letterSpacing: 1.3,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                    IconButton(
+                      icon: Icon(Icons.dark_mode,
+                          color: Get.isDarkMode
+                              ? Colors.amber
+                              : Theme.of(context).primaryColor),
+                      onPressed: MyThemes().switchTheme,
                     ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Urus segala maklumat dan data pelanggan yang telah atau masih dibaiki di Af-Fix Smartphone Repair!',
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 30),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 40,
-                      height: 55,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Haptic.feedbackClick();
-                          ShowBottomSheet.showLoginSheet(
-                              context, _authController);
-                        },
-                        child: Text(
-                          'Mula Sekarang!',
-                        ),
-                        style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
                   ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Lottie.asset(
+                    'assets/lottie/lottie_login.json',
+                    width: 300,
+                    height: 300,
+                  ),
+                  Text(
+                    'Admin Panel',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      letterSpacing: 1.3,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    'Urus segala maklumat dan data pelanggan yang telah atau masih dibaiki di Af-Fix Smartphone Repair!',
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 30),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 40,
+                    height: 55,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Haptic.feedbackClick();
+                        ShowBottomSheet.showLoginSheet(
+                            context, _authController);
+                      },
+                      child: Text(
+                        'Mula Sekarang!',
+                      ),
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

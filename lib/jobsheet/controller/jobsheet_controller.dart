@@ -38,7 +38,9 @@ class JobsheetController extends GetxController {
 
   @override
   void onInit() {
-    generateMySID();
+    if (mySID.value == '') {
+      generateMySID();
+    }
     checkExistingCust();
     super.onInit();
   }
@@ -52,7 +54,7 @@ class JobsheetController extends GetxController {
     }
   }
 
-  void showShareJobsheet() {
+  void showShareJobsheet(Map<String, String> data) {
     Get.bottomSheet(
       Material(
         child: Column(
@@ -64,7 +66,7 @@ class JobsheetController extends GetxController {
               subtitle: Text('Print maklumat Jobsheet ini!'),
               onTap: () {
                 Get.back();
-                Get.toNamed(MyRoutes.printviewer);
+                Get.toNamed(MyRoutes.printviewer, parameters: data);
               },
             ),
             ListTile(
@@ -73,7 +75,7 @@ class JobsheetController extends GetxController {
               subtitle: Text('Hasilkan maklumat Jobsheet berformat PDF!'),
               onTap: () {
                 Get.back();
-                Get.toNamed(MyRoutes.pdfviewer);
+                Get.toNamed(MyRoutes.pdfviewer, parameters: data);
               },
             ),
             SizedBox(height: 10),
@@ -210,7 +212,7 @@ class JobsheetController extends GetxController {
           kerosakkan: kerosakkan.text,
           price: harga.text,
           remarks: remarks.text,
-          userUID: '',
+          userUID: mySID.value,
         ));
       }
       if (currentEmail.isEmpty) {
@@ -237,7 +239,17 @@ class JobsheetController extends GetxController {
         if (v == 'operation-completed') {
           Haptic.feedbackSuccess();
           errFirestore.value = false;
-          Get.toNamed(MyRoutes.jobsheetDone);
+          var payload = <String, String>{
+            'nama': namaCust.text,
+            'noTel': noPhone.text,
+            'model': modelPhone.text,
+            'kerosakkan': kerosakkan.text,
+            'price': harga.text,
+            'remarks': remarks.text,
+            'mysid': mySID.value,
+            'email' : currentEmail,
+          };
+          Get.toNamed(MyRoutes.jobsheetDone, parameters: payload);
           ShowSnackbar.success('Operasi Selesai!',
               'Jobsheet telah ditambah ke pangkalan data', true);
         }
@@ -246,7 +258,17 @@ class JobsheetController extends GetxController {
         errFirestore.value = true;
         await Future.delayed(Duration(seconds: 6));
         Get.focusScope.unfocus();
-        Get.toNamed(MyRoutes.jobsheetDone);
+        var payload = <String, String>{
+          'nama': namaCust.text,
+          'noTel': noPhone.text,
+          'model': modelPhone.text,
+          'kerosakkan': kerosakkan.text,
+          'price': harga.text,
+          'remarks': remarks.text,
+          'mysid': mySID.value,
+          'email' : currentEmail,
+        };
+        Get.toNamed(MyRoutes.jobsheetDone, parameters: payload);
         ShowSnackbar.error('Kesalahan telah berlaku!', '$err', true);
       });
     }

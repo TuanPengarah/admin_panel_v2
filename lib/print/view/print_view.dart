@@ -11,7 +11,6 @@ class PrintView extends StatelessWidget {
         title: Text('Print'),
       ),
       body: GetBuilder<PrintController>(
-        init: PrintController(),
         builder: (_) {
           if (_printController.devices.isEmpty) {
             return Center(
@@ -45,13 +44,19 @@ class PrintView extends StatelessWidget {
                                     'Adakah anda ingin memberitahu pengguna untuk fungsi e-waranti?'),
                                 actions: [
                                   TextButton(
-                                    onPressed: () => _printController
-                                        .startPrintJobsheet(printer, false),
+                                    onPressed: () {
+                                       _printController
+                                        .startPrintJobsheet(printer, false);
+                                       Get.back();
+                                    },
                                     child: Text('Tidak'),
                                   ),
                                   TextButton(
-                                    onPressed: () => _printController
-                                        .startPrintJobsheet(printer, true),
+                                    onPressed: () {
+                                       _printController
+                                        .startPrintJobsheet(printer, true);
+                                       Get.back();
+                                    },
                                     child: Text('Ya'),
                                   ),
                                 ],

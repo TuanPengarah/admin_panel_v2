@@ -44,6 +44,7 @@ class HistoryController extends GetxController {
     _jobsheetController.modelPhone.text = history.model;
     _jobsheetController.remarks.text = history.remarks;
     _jobsheetController.passPhone.text = history.password;
+    _jobsheetController.mySID.value = history.userUID;
     Get.back();
     Get.back();
   }

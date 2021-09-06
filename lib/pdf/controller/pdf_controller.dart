@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -12,12 +14,20 @@ class PdfController extends GetxController {
   final pdf = pw.Document();
 
   String fullPath = '';
+  String tarikh = DateFormat('dd/mm/yyyy').format(DateTime.now());
 
-  void sendEmailPDF() async {
+  void sendEmailPDF(String email, String technician, userName) async {
+    String currentEmail = email;
+    if (email.isEmpty) {
+      currentEmail = userName.split(" ").join("").toLowerCase() + '@email.com';
+      print(currentEmail);
+    }
+    // dan boleh semak status baiki peranti di website kami https://af-fix.com/mysid dan masukkan nombor MyStatus Identification (MySID) yang tertulis pada resit Jobsheet ini atau lebih mudah boleh terus mengimbas QR Code yang juga terdapat pada resit ini',
     final MailOptions mailOptions = MailOptions(
-      body: 'Resit Jobsheet anda!',
-      subject: 'Akid Fikri Azhar daripada Af-Fix Smartphone Repair',
-      recipients: ['akidfikriazhar@gmail.com'],
+      body:
+          'Assalumalaikum dan salam sejahtera $userName!<br><br>Disini kami lampirkan resit Jobsheet untuk peranti awak. $userName boleh simpan resit ini untuk tujuan rujukan😁<br><br>------------------<br>Pssst! Untuk pengetahuan, $userName boleh semak status baiki peranti dengan mengimbas kod QR atau boleh terus melayari aplikasi web kami https://af-fix.com/mysid dan masukkan nombor MyStatus Identification (MySID) yang terdapat pada resit Jobsheet awak🤫<br><br>--AINA',
+      subject: '$technician dari Juruteknik Af-Fix🧑‍🔧',
+      recipients: ['$currentEmail'],
       isHTML: true,
       attachments: [
         '$fullPath',
@@ -31,7 +41,17 @@ class PdfController extends GetxController {
     Share.shareFiles(['$fullPath'], text: 'Maklumat PDF');
   }
 
-  Future<void> writeJobsheetPdf() async {
+  Future<void> writeJobsheetPdf({
+    @required String mysid,
+    @required String namaCust,
+    @required String noTel,
+    @required String model,
+    @required String kerosakkan,
+    @required String price,
+    @required String remarks,
+    @required String technician,
+    @required String cawangan,
+  }) async {
     var assetImage = pw.MemoryImage(
       (await rootBundle.load('assets/images/splash_dark.png'))
           .buffer
@@ -44,20 +64,20 @@ class PdfController extends GetxController {
         margin: pw.EdgeInsets.all(15),
         build: (pw.Context context) {
           return <pw.Widget>[
-            _jobheetHeader(assetImage),
+            _jobheetHeader(assetImage, mysid),
             pw.Row(
               mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
               children: [
                 pw.Column(
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    _jobsheetSubheader('Tarikh: ', '1/1/2022'),
-                    _jobsheetSubheader('Juruteknik: ', 'Akid Fikri Azhar'),
-                    _jobsheetSubheader('Cawangan: ', 'Kajang'),
+                    _jobsheetSubheader('Tarikh: ', '$tarikh'),
+                    _jobsheetSubheader('Juruteknik: ', '$technician'),
+                    _jobsheetSubheader('Cawangan: ', '$cawangan'),
                   ],
                 ),
                 pw.BarcodeWidget(
-                  data: 'https://af-fix-database.web.app/mysid?id=125752',
+                  data: 'https://af-fix-database.web.app/mysid?id=$mysid',
                   width: 60,
                   height: 60,
                   barcode: pw.Barcode.qrCode(),
@@ -66,12 +86,12 @@ class PdfController extends GetxController {
               ],
             ),
             pw.SizedBox(height: 10),
-            _jobsheetContent('Nama Pelanggan: ', 'Aqlan Fathullah'),
-            _jobsheetContent('No Telefon: ', '0156987456'),
-            _jobsheetContent('Model: ', 'iPhone 11 Pro Max'),
-            _jobsheetContent('Kerosakkan: ', 'LCD'),
-            _jobsheetContent('Anggaran Harga: ', 'RM820'),
-            _jobsheetContent('Remarks: ', '*Screen crack, Sparepart OLED'),
+            _jobsheetContent('Nama Pelanggan: ', '$namaCust'),
+            _jobsheetContent('No Telefon: ', '$noTel'),
+            _jobsheetContent('Model: ', '$model'),
+            _jobsheetContent('Kerosakkan: ', '$kerosakkan'),
+            _jobsheetContent('Anggaran Harga: ', 'RM$price'),
+            _jobsheetContent('Remarks: ', '*$remarks'),
             pw.SizedBox(height: 10),
             pw.Divider(thickness: 0.5),
             pw.Text(
@@ -100,15 +120,15 @@ class PdfController extends GetxController {
         },
       ),
     );
-    String titleName = 'we';
+    String titleName = 'Jobsheet';
     final String dir = (await getApplicationDocumentsDirectory()).path;
-    final String path = '$dir/$titleName-resit.pdf';
+    final String path = '$dir/$titleName.pdf';
     fullPath = path;
     final File file = File(path);
     await file.writeAsBytes(await pdf.save());
   }
 
-  pw.Header _jobheetHeader(pw.MemoryImage assetImage) {
+  pw.Header _jobheetHeader(pw.MemoryImage assetImage, String mysid) {
     return pw.Header(
       child: pw.Row(
         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
@@ -126,7 +146,7 @@ class PdfController extends GetxController {
               ),
               pw.SizedBox(height: 2),
               pw.Text(
-                'MyStatus Identification: 2342456',
+                'MyStatus Identification: $mysid',
               ),
               pw.SizedBox(height: 2),
             ],

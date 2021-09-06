@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 
 class JobsheetCompleted extends StatelessWidget {
   final _jobsheetController = Get.find<JobsheetController>();
+  final _data = Get.parameters;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -47,7 +48,7 @@ class JobsheetCompleted extends StatelessWidget {
                     child: ElevatedButton.icon(
                         icon: Icon(Icons.share),
                         onPressed: () =>
-                            _jobsheetController.showShareJobsheet(),
+                            _jobsheetController.showShareJobsheet(_data),
                         label: Text('Hantar maklumat Jobsheet')),
                   ),
                   SizedBox(height: 10),

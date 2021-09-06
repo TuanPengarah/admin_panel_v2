@@ -71,7 +71,7 @@ class CustomerPage extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            icon: Icon(Icons.sort_by_alpha),
+            icon: Icon(Icons.sort),
             onSelected: (value) => _customerController.sorting(value),
             itemBuilder: (context) => PopupSortMenu.items
                 .map(

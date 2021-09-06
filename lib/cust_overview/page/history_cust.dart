@@ -83,7 +83,7 @@ class RepairHistoryPage extends StatelessWidget {
                   itemCount: _historyController.items.length,
                   itemBuilder: (context, int i) {
                     var doc = _historyController.items[i];
-                    return historyCard(doc);
+                    return historyCard(doc, _historyController);
                   },
                 ),
               ),
@@ -94,71 +94,90 @@ class RepairHistoryPage extends StatelessWidget {
     );
   }
 
-  Card historyCard(doc) {
+  Card historyCard(dynamic doc, RepairHistoryController controller) {
+    final _data = Get.arguments;
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Ink(
+        child: InkWell(
+          onTap: () {
+            var payload = <String, String>{
+              'nama': _data[1],
+              'noTel': _data[3],
+              'model': doc['Model'],
+              'kerosakkan': doc['Kerosakkan'],
+              'price': doc['Harga'].toString(),
+              'remarks': doc['Remarks'],
+              'mysid': doc['MID'],
+              'email': _data[4],
+            };
+            controller.showShareJobsheet(payload);
+          },
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  child: Text(
-                    doc['Model'],
-                    style: TextStyle(fontSize: 20),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        doc['Model'],
+                        style: TextStyle(fontSize: 20),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Text(
+                      doc['MID'],
+                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+                  ],
                 ),
+                SizedBox(height: 10),
                 Text(
-                  doc['MID'],
-                  style: TextStyle(fontSize: 13, color: Colors.grey),
+                  doc['Kerosakkan'],
+                  style: TextStyle(color: Colors.grey),
                 ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Text(
-              doc['Kerosakkan'],
-              style: TextStyle(color: Colors.grey),
-            ),
-            SizedBox(height: 5),
-            Text(
-              doc['Remarks'],
-              style: TextStyle(color: Colors.grey),
-            ),
-            SizedBox(height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+                SizedBox(height: 5),
                 Text(
-                  'RM${doc['Harga']}',
+                  doc['Remarks'],
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'RM${doc['Harga']}',
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    StatusIcon(doc['Status']),
+                  ],
+                ),
+                SizedBox(height: 5),
+                doc['Status'] == 'Selesai'
+                    ? Text(
+                        'Waranti bermula dari ${doc['Tarikh']} hingga ${doc['Tarikh Waranti']}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      )
+                    : Container(),
+                Text(
+                  'Di uruskan oleh: ${doc['Technician']} pada tarikh ${doc['Tarikh']}',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 12,
                     color: Colors.grey,
                   ),
                 ),
-                StatusIcon(doc['Status']),
               ],
             ),
-            SizedBox(height: 5),
-            doc['Status'] == 'Selesai'
-                ? Text(
-                    'Waranti bermula dari ${doc['Tarikh']} hingga ${doc['Tarikh Waranti']}',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  )
-                : Container(),
-            Text(
-              'Di uruskan oleh: ${doc['Technician']} pada tarikh ${doc['Tarikh']}',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

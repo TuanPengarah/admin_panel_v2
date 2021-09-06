@@ -5,10 +5,23 @@ import 'package:get/get.dart';
 
 class PdfViewer extends StatelessWidget {
   final _pdfController = Get.put(PdfController());
+  final _data = Get.parameters;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _pdfController.writeJobsheetPdf(),
+        future: _pdfController.writeJobsheetPdf(
+          //TODO: Buat dynamic cawangan!
+          cawangan: 'Kajang',
+          kerosakkan: Get.parameters["kerosakkan"],
+          model: _data['model'],
+          mysid: _data['mysid'],
+          namaCust: _data['nama'],
+          noTel: _data['noTel'],
+          price: _data['price'],
+          remarks: _data['remarks'],
+          //TODO: Buat dynamic technician!
+          technician: 'Akid Fikri Azhar',
+        ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Scaffold(
@@ -22,11 +35,18 @@ class PdfViewer extends StatelessWidget {
                 title: Text('Jobsheet details'),
                 actions: [
                   IconButton(
-                    onPressed: () => _pdfController.sendEmailPDF(),
+                    onPressed: () => _pdfController.sendEmailPDF(
+                      _data['email'],
+                      'Akid Fikri Azhar', //TODO: buat dynamic techician
+                      _data['nama'],
+                    ),
                     icon: Icon(Icons.email),
                   ),
                   IconButton(
-                    onPressed: () => _pdfController.sharePDF(),
+                    onPressed: () {
+                      print(_data['kerosakkan']);
+                      _pdfController.sharePDF();
+                    },
                     icon: Icon(Icons.share),
                   ),
                 ],

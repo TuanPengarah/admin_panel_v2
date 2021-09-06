@@ -1,8 +1,8 @@
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 extension Utility on BuildContext {
   void nextEditableTextFocus() {
@@ -41,14 +41,6 @@ class JobsheetView extends StatelessWidget {
                     onPressed: () => _jobsheetController.selectContact(),
                     icon: Icon(Icons.contact_page),
                   ),
-            IconButton(
-              onPressed: () {
-                Get.toNamed(MyRoutes.jobsheetDone, arguments: [false]);
-              },
-              icon: Icon(
-                Icons.done,
-              ),
-            ),
           ],
         ),
         body: GestureDetector(
