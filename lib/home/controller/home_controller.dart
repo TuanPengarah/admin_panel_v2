@@ -1,7 +1,6 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
-import 'package:admin_panel/home/page/customer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

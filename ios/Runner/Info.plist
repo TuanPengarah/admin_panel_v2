@@ -30,6 +30,7 @@
 		<array>
 			<string>bluetooth-central</string>
 			<string>bluetooth-peripheral</string>
+			<string>remote-notification</string>
 		</array>
 		<key>UILaunchStoryboardName</key>
 		<string>LaunchScreen</string>
@@ -57,9 +58,5 @@
 			<string>https</string>
 			<string>http</string>
 		</array>
-        <key>UIBackgroundModes</key>
-        <array>
-            <string>remote-notification</string>
-        </array>
 	</dict>
 </plist>

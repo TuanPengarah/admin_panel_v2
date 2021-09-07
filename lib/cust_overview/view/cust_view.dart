@@ -16,7 +16,6 @@ class CustomerView extends StatelessWidget {
     return Material(
       child: Hero(
         tag: _data[0],
-        transitionOnUserGestures: true,
         child: Scaffold(
           bottomNavigationBar: Obx(() => BottomNavigationBar(
                 onTap: (index) =>

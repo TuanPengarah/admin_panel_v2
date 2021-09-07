@@ -184,21 +184,23 @@ class CustomerPage extends StatelessWidget {
                                   actionPane: SlidableDrawerActionPane(),
                                   actionExtentRatio: 0.25,
                                   child: ListTile(
-                                    onTap: () => Get.toNamed(
-                                      MyRoutes.overview,
-                                      arguments: [
-                                        customer['UID'],
-                                        customer['Nama'],
-                                        customer['photoURL'],
-                                        customer['No Phone'],
-                                        customer['Email'],
-                                        customer['Points'],
-                                        customer['timeStamp'],
-                                      ],
-                                    ),
+                                    onTap: () {
+                                      Haptic.feedbackClick();
+                                      Get.toNamed(
+                                        MyRoutes.overview,
+                                        arguments: [
+                                          customer['UID'],
+                                          customer['Nama'],
+                                          customer['photoURL'],
+                                          customer['No Phone'],
+                                          customer['Email'],
+                                          customer['Points'],
+                                          customer['timeStamp'],
+                                        ],
+                                      );
+                                    },
                                     leading: Hero(
                                       tag: customer['UID'],
-                                      transitionOnUserGestures: true,
                                       child: SingleChildScrollView(
                                         physics: NeverScrollableScrollPhysics(),
                                         child: AdvancedAvatar(
