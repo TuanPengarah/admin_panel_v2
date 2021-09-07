@@ -22,7 +22,6 @@ class PdfController extends GetxController {
       currentEmail = userName.split(" ").join("").toLowerCase() + '@email.com';
       print(currentEmail);
     }
-    // dan boleh semak status baiki peranti di website kami https://af-fix.com/mysid dan masukkan nombor MyStatus Identification (MySID) yang tertulis pada resit Jobsheet ini atau lebih mudah boleh terus mengimbas QR Code yang juga terdapat pada resit ini',
     final MailOptions mailOptions = MailOptions(
       body:
           'Assalumalaikum dan salam sejahtera $userName!<br><br>Disini kami lampirkan resit Jobsheet untuk peranti awak. $userName boleh simpan resit ini untuk tujuan rujukan😁<br><br>------------------<br>Pssst! Untuk pengetahuan, $userName boleh semak status baiki peranti dengan mengimbas kod QR atau boleh terus melayari aplikasi web kami https://af-fix.com/mysid dan masukkan nombor MyStatus Identification (MySID) yang terdapat pada resit Jobsheet awak🤫<br><br>--AINA',
@@ -38,7 +37,7 @@ class PdfController extends GetxController {
   }
 
   void sharePDF() {
-    Share.shareFiles(['$fullPath'], text: 'Maklumat PDF');
+    Share.shareFiles(['$fullPath'], text: 'Maklumat Jobsheet');
   }
 
   Future<void> writeJobsheetPdf({
@@ -126,6 +125,7 @@ class PdfController extends GetxController {
     fullPath = path;
     final File file = File(path);
     await file.writeAsBytes(await pdf.save());
+    Haptic.feedbackSuccess();
   }
 
   pw.Header _jobheetHeader(pw.MemoryImage assetImage, String mysid) {

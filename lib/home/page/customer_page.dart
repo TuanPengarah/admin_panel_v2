@@ -139,121 +139,128 @@ class CustomerPage extends StatelessWidget {
                       ],
                     ))
                   : _customerController.customerList.length == 0
-                      ? ListView.builder(
-                          itemCount: 20,
-                          itemBuilder: (context, i) {
-                            return Shimmer.fromColors(
-                              baseColor: Get.isDarkMode
-                                  ? Colors.grey[900]
-                                  : Colors.black26,
-                              highlightColor: Get.isDarkMode
-                                  ? Colors.grey[700]
-                                  : Colors.grey.shade400,
-                              child: ListTile(
-                                leading: CircleAvatar(),
-                                title: Container(
-                                  height: 10,
-                                  width: double.infinity,
-                                  color: Colors.grey[50],
-                                ),
-                                subtitle: Container(
-                                  height: 8,
-                                  width: 35,
-                                  color: Colors.grey[50],
-                                ),
-                              ),
-                            );
-                          })
+                      ? Scrollbar(
+                          child: ListView.builder(
+                              itemCount: 20,
+                              itemBuilder: (context, i) {
+                                return Shimmer.fromColors(
+                                  baseColor: Get.isDarkMode
+                                      ? Colors.grey[900]
+                                      : Colors.black26,
+                                  highlightColor: Get.isDarkMode
+                                      ? Colors.grey[700]
+                                      : Colors.grey.shade400,
+                                  child: ListTile(
+                                    leading: CircleAvatar(),
+                                    title: Container(
+                                      height: 10,
+                                      width: double.infinity,
+                                      color: Colors.grey[50],
+                                    ),
+                                    subtitle: Container(
+                                      height: 8,
+                                      width: 35,
+                                      color: Colors.grey[50],
+                                    ),
+                                  ),
+                                );
+                              }),
+                        )
                       : RefreshIndicator(
                           onRefresh: () async {
                             await _customerController.getCustomerDetails();
                             Haptic.feedbackSuccess();
                           },
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: _customerController.customerList.length,
-                            itemBuilder: (BuildContext context, int i) {
-                              var customer =
-                                  _customerController.customerList[i];
-                              var image = customer['photoURL'];
-                              return Slidable(
-                                actionPane: SlidableDrawerActionPane(),
-                                actionExtentRatio: 0.25,
-                                child: ListTile(
-                                  onTap: () => Get.toNamed(
-                                    MyRoutes.overview,
-                                    arguments: [
-                                      customer['UID'],
-                                      customer['Nama'],
-                                      customer['photoURL'],
-                                      customer['No Phone'],
-                                      customer['Email'],
-                                      customer['Points'],
-                                      customer['timeStamp'],
-                                    ],
-                                  ),
-                                  leading: Hero(
-                                    tag: customer['UID'],
-                                    transitionOnUserGestures: true,
-                                    child: SingleChildScrollView(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      child: AdvancedAvatar(
-                                        size: 35,
-                                        name: customer['Nama'],
-                                        image: image == ''
-                                            ? null
-                                            : NetworkImage(image),
-                                        decoration: BoxDecoration(
-                                          color: Get.theme.primaryColor,
-                                          borderRadius:
-                                              BorderRadius.circular(12),
+                          child: Scrollbar(
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount:
+                                  _customerController.customerList.length,
+                              itemBuilder: (BuildContext context, int i) {
+                                var customer =
+                                    _customerController.customerList[i];
+                                var image = customer['photoURL'];
+                                return Slidable(
+                                  actionPane: SlidableDrawerActionPane(),
+                                  actionExtentRatio: 0.25,
+                                  child: ListTile(
+                                    onTap: () => Get.toNamed(
+                                      MyRoutes.overview,
+                                      arguments: [
+                                        customer['UID'],
+                                        customer['Nama'],
+                                        customer['photoURL'],
+                                        customer['No Phone'],
+                                        customer['Email'],
+                                        customer['Points'],
+                                        customer['timeStamp'],
+                                      ],
+                                    ),
+                                    leading: Hero(
+                                      tag: customer['UID'],
+                                      transitionOnUserGestures: true,
+                                      child: SingleChildScrollView(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        child: AdvancedAvatar(
+                                          size: 35,
+                                          name: customer['Nama'],
+                                          image: image == ''
+                                              ? null
+                                              : NetworkImage(image),
+                                          decoration: BoxDecoration(
+                                            color: Get.theme.primaryColor,
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
                                         ),
                                       ),
                                     ),
+                                    title: Text(customer['Nama']),
+                                    subtitle: Text(customer['No Phone'] == ''
+                                        ? '--'
+                                        : customer['No Phone']),
                                   ),
-                                  title: Text(customer['Nama']),
-                                  subtitle: Text(customer['No Phone'] == ''
-                                      ? '--'
-                                      : customer['No Phone']),
-                                ),
-                                actions: [
-                                  IconSlideAction(
-                                    color: Colors.green,
-                                    caption: 'Hubungi',
-                                    icon: Icons.phone,
-                                    onTap: () => _customerController
-                                        .launchCaller(customer['No Phone']),
-                                  ),
-                                  IconSlideAction(
-                                    color: Colors.amber[900],
-                                    caption: 'Mesej',
-                                    icon: Icons.sms,
-                                    onTap: () => _customerController
-                                        .launchSms(customer['No Phone']),
-                                  ),
-                                ],
-                                secondaryActions: [
-                                  IconSlideAction(
-                                    color: Colors.indigo,
-                                    caption: 'Jobsheet',
-                                    icon: Icons.receipt_long,
-                                    onTap: () =>
-                                        _customerController.addToJobsheet(
-                                            customer['Nama'],
-                                            customer['No Phone'],
-                                            customer['Email'],
-                                            customer['UID']),
-                                  ),
-                                  IconSlideAction(
-                                    color: Colors.red,
-                                    caption: 'Buang',
-                                    icon: Icons.delete,
-                                    onTap: () => _customerController.deleteUser(
-                                        customer['UID'], customer['Nama']),
-                                  ),
-                                ],
-                              );
-                            },
+                                  actions: [
+                                    IconSlideAction(
+                                      color: Colors.green,
+                                      caption: 'Hubungi',
+                                      icon: Icons.phone,
+                                      onTap: () => _customerController
+                                          .launchCaller(customer['No Phone']),
+                                    ),
+                                    IconSlideAction(
+                                      color: Colors.amber[900],
+                                      caption: 'Mesej',
+                                      icon: Icons.sms,
+                                      onTap: () => _customerController
+                                          .launchSms(customer['No Phone']),
+                                    ),
+                                  ],
+                                  secondaryActions: [
+                                    IconSlideAction(
+                                      color: Colors.blue,
+                                      caption: 'Jobsheet',
+                                      icon: Icons.receipt_long,
+                                      onTap: () =>
+                                          _customerController.addToJobsheet(
+                                              customer['Nama'],
+                                              customer['No Phone'],
+                                              customer['Email'],
+                                              customer['UID']),
+                                    ),
+                                    IconSlideAction(
+                                      color: Colors.red,
+                                      caption: 'Buang',
+                                      icon: Icons.delete,
+                                      onTap: () =>
+                                          _customerController.deleteUser(
+                                              customer['UID'],
+                                              customer['Nama']),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                           ),
                         );
         },

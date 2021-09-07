@@ -4,6 +4,7 @@ import 'package:admin_panel/home/page/dashboard_page.dart';
 import 'package:admin_panel/home/page/mysid_page.dart';
 import 'package:admin_panel/home/page/pos_page.dart';
 import 'package:admin_panel/home/page/sparepart_page.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,7 +40,19 @@ class HomeView extends StatelessWidget {
               label: 'Pelanggan',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.date_range),
+              icon: _homeController.totalMysid.value == 0
+                  ? Icon(Icons.date_range)
+                  : Badge(
+                      badgeContent: Obx(
+                        () => Text(
+                          '${_homeController.totalMysid.value}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      child: Icon(Icons.date_range),
+                      animationType: BadgeAnimationType.scale,
+                      animationDuration: Duration(milliseconds: 200),
+                    ),
               label: 'MySID',
             ),
             BottomNavigationBarItem(

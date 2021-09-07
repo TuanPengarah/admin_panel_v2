@@ -16,6 +16,6 @@ class Haptic {
   }
 
   static void feedbackClick() async {
-    HapticFeedback.mediumImpact();
+    HapticFeedback.lightImpact();
   }
 }

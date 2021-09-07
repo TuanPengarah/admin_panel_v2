@@ -31,6 +31,9 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                   backgroundColor: Get.isDarkMode
                       ? Color(0xff131313)
                       : Get.theme.primaryColor,
+                  actions: [
+                    IconButton(onPressed: () {}, icon: Icon(Icons.lock))
+                  ],
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(

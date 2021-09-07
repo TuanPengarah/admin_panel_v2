@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:esc_pos_bluetooth/esc_pos_bluetooth.dart';
 import 'package:esc_pos_utils/esc_pos_utils.dart';
@@ -39,6 +40,7 @@ class PrintController extends GetxController {
         } else if (val == 10) {
           print('off');
           devicesMsg.value = 'Bluetooth di tutup!';
+          Haptic.feedbackError();
           update();
         }
       });
@@ -51,12 +53,14 @@ class PrintController extends GetxController {
     isScan.value = true;
     _printerManager.startScan(Duration(seconds: 3));
     Future.delayed(Duration(seconds: 3), () => isScan.value = false);
+    Haptic.feedbackSuccess();
     _printerManager.scanResults.listen((val) {
       print(val);
       devices = val;
       update();
       if (devices.isEmpty) {
         devicesMsg.value = 'Tiada peranti berdekatan';
+        Haptic.feedbackError();
         update();
       }
     });
@@ -134,6 +138,7 @@ class PrintController extends GetxController {
         styles: PosStyles(align: PosAlign.center),
       );
       ticket.cut();
+      Haptic.feedbackSuccess();
     } else {
       ticket.feed(1);
       ticket.text(
@@ -141,6 +146,7 @@ class PrintController extends GetxController {
         styles: PosStyles(align: PosAlign.center),
       );
       ticket.cut();
+      Haptic.feedbackSuccess();
     }
 
     return ticket;

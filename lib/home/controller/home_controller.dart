@@ -1,12 +1,13 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
+import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/page/customer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   var currentIndex = 0.obs;
-
+  var totalMysid = 0.obs;
   void showBottomJosheet() async {
     Haptic.feedbackClick();
     await Get.bottomSheet(
@@ -28,7 +29,9 @@ class HomeController extends GetxController {
                 title: Text('Buat Jobsheet dengan pelanggan sedia ada'),
                 onTap: () {
                   Get.back();
-                  Get.to(() => CustomerPage());
+                  currentIndex.value = 1;
+                  ShowSnackbar.notify('Pilih Pelanggan',
+                      'Sila pilih pelanggan dan tekan tambah Jobsheet');
                 }),
           ],
         ),

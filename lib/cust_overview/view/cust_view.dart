@@ -13,22 +13,25 @@ class CustomerView extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: _data[0],
-      transitionOnUserGestures: true,
-      child: Scaffold(
-        bottomNavigationBar: Obx(() => BottomNavigationBar(
-              onTap: (index) => _overviewController.currentIndex.value = index,
-              currentIndex: _overviewController.currentIndex.value,
-              items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.person), label: 'Maklumat'),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.history), label: 'Sejarah Baiki'),
-              ],
-            )),
-        body: Obx(
-          () => _screen[_overviewController.currentIndex.value],
+    return Material(
+      child: Hero(
+        tag: _data[0],
+        transitionOnUserGestures: true,
+        child: Scaffold(
+          bottomNavigationBar: Obx(() => BottomNavigationBar(
+                onTap: (index) =>
+                    _overviewController.currentIndex.value = index,
+                currentIndex: _overviewController.currentIndex.value,
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.person), label: 'Maklumat'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.history), label: 'Sejarah Baiki'),
+                ],
+              )),
+          body: Obx(
+            () => _screen[_overviewController.currentIndex.value],
+          ),
         ),
       ),
     );
