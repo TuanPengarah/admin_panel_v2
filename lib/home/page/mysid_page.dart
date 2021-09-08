@@ -1,5 +1,6 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
+import 'package:admin_panel/home/controller/mysid_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class MySidPage extends StatelessWidget {
   final _homeController = Get.find<HomeController>();
+  final _mysidController = Get.put(MysidController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +35,13 @@ class MySidPage extends StatelessWidget {
             Future.delayed(Duration(seconds: 1), () {
               _homeController.totalMysid.value = snapshot.data.size;
               if (snapshot.data.docs.isEmpty) {
-                FlutterAppBadger.removeBadge();
+                if (!GetPlatform.isWeb) {
+                  FlutterAppBadger.removeBadge();
+                }
               } else {
-                FlutterAppBadger.updateBadgeCount(snapshot.data.size);
+                if (!GetPlatform.isWeb) {
+                  FlutterAppBadger.updateBadgeCount(snapshot.data.size);
+                }
               }
             });
           }
@@ -75,6 +81,12 @@ class MySidPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         onTap: () {
                           Haptic.feedbackClick();
+                          _mysidController.controllMysid(
+                              context: context,
+                              nama: document['Nama'],
+                              model: document['Model'],
+                              password: document['Password'],
+                              remarks: document['Remarks']);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),

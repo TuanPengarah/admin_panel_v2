@@ -164,7 +164,7 @@ class OverviewController extends GetxController {
         actions: [
           TextButton(
             onPressed: () {
-              isEdit.value = false;
+              isEdit.value = true;
               result = false;
               Get.back();
             },

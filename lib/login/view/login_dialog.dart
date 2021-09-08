@@ -8,7 +8,8 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 
 class ShowBottomSheet {
   static void showLoginSheet(
-    BuildContext context, AuthController authController,
+    BuildContext context,
+    AuthController authController,
   ) async {
     final emailField = TextEditingController();
     final passwordField = TextEditingController();
@@ -18,7 +19,7 @@ class ShowBottomSheet {
     await showSlidingBottomSheet(context, builder: (context) {
       return SlidingSheetDialog(
         isDismissable: false,
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Theme.of(context).canvasColor,
         duration: Duration(milliseconds: 400),
         snapSpec: SnapSpec(snappings: [1, 1]),
         elevation: 8,
