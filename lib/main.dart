@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'home/view/mysid_update.dart';
+
 // flutter run -d web-server --web-port 8080 --web-hostname 192.168.1.17
 Future<void> main() async {
   bool _isLogin = false;
@@ -59,6 +61,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.jobsheetDone, page: () => JobsheetCompleted()),
         GetPage(name: MyRoutes.pdfviewer, page: () => PdfViewer()),
         GetPage(name: MyRoutes.printviewer, page: () => PrintView()),
+        GetPage(name: MyRoutes.mysidUpdate, page: () => MysidUpdate()),
       ],
     );
   }

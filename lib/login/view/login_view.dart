@@ -27,7 +27,7 @@ class LoginView extends StatelessWidget {
                       Get.isDarkMode
                           ? 'assets/images/splash_light.png'
                           : 'assets/images/splash_dark.png',
-                      scale: 8,
+                      scale: 7,
                     ),
                     IconButton(
                       icon: Icon(Icons.dark_mode,

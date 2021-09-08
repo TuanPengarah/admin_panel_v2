@@ -1,15 +1,14 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
-import 'package:admin_panel/home/controller/mysid_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 class MySidPage extends StatelessWidget {
   final _homeController = Get.find<HomeController>();
-  final _mysidController = Get.put(MysidController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,49 +75,123 @@ class MySidPage extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 3),
-                    child: Card(
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20),
-                        onTap: () {
-                          Haptic.feedbackClick();
-                          _mysidController.controllMysid(
-                              context: context,
-                              nama: document['Nama'],
-                              model: document['Model'],
-                              password: document['Password'],
-                              remarks: document['Remarks']);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      document['Model'],
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(fontSize: 18),
+                    child: Hero(
+                      tag: document.id,
+                      child: Card(
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(20),
+                          onTap: () {
+                            Haptic.feedbackClick();
+                            var params = <String, String>{
+                              'id': document.id,
+                            };
+
+                            var args = {
+                              'Nama': document['Nama'],
+                              'Model': document['Model'],
+                              'Kerosakkan': document['Kerosakkan'],
+                              'Password': document['Password'],
+                              'Remarks': document['Remarks'],
+                              'Percent': document['Percent'],
+                             'No Phone': document['No Phone'],
+                            };
+                            Get.toNamed(
+                              MyRoutes.mysidUpdate,
+                              parameters: params,
+                              arguments: args,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        document['Model'],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          document['Kerosakkan'],
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        Text(
+                                          document.id.toString(),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Text(
+                                    document['Nama'],
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
                                     ),
                                   ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Text(
+                                    document['No Phone'],
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                LinearPercentIndicator(
+                                  leading:
+                                      Icon(Icons.history, color: Colors.grey),
+                                  trailing:
+                                      Icon(Icons.done, color: Colors.grey),
+                                  width:
+                                      MediaQuery.of(context).size.width - 110,
+                                  lineHeight: 3.2,
+                                  percent: document['Percent'],
+                                  progressColor: Get.theme.accentColor,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        document['Kerosakkan'],
+                                        'RM ${document['Harga'].toString()}',
                                         style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: 22,
                                           color: Colors.grey,
                                         ),
                                       ),
                                       Text(
-                                        document.id.toString(),
+                                        document['Tarikh'],
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.grey,
@@ -126,80 +199,9 @@ class MySidPage extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text(
-                                  document['Nama'],
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey,
-                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Text(
-                                  document['No Phone'],
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              LinearPercentIndicator(
-                                leading:
-                                    Icon(Icons.history, color: Colors.grey),
-                                trailing: Icon(Icons.done, color: Colors.grey),
-                                width: MediaQuery.of(context).size.width - 110,
-                                lineHeight: 3.2,
-                                percent: document['Percent'],
-                                progressColor: Get.theme.accentColor,
-                              ),
-                              Center(
-                                child: Text(
-                                  'PERATUS UNTUK SIAP:',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                child: Text(
-                                  ' ${document['Percent'] * 100.round()}%',
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 5.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'RM ${document['Harga'].toString()}',
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      document['Tarikh'],
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
