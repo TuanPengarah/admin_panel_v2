@@ -1,4 +1,5 @@
 import 'package:admin_panel/home/controller/mysid_controller.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -135,6 +136,27 @@ class MysidUpdate extends StatelessWidget {
                         subtitle: Text(_data['Remarks']),
                       ),
                     ),
+                    SizedBox(height: 10),
+                    Text.rich(
+                      TextSpan(
+                        text: 'Sila ',
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'klik sini',
+                            style: TextStyle(
+                              color: Get.theme.primaryColor,
+                            ),
+                            recognizer: TapGestureRecognizer()..onTap = () {},
+                          ),
+                          TextSpan(text: ' untuk melihat status Repair Log'),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -142,9 +164,8 @@ class MysidUpdate extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             heroTag: null,
-
             onPressed: () {},
-            child: Icon(Icons.add)
+            child: Icon(Icons.add),
           ),
         ),
       ),
