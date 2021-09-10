@@ -72,99 +72,88 @@ class MysidUpdate extends StatelessWidget {
                 ),
               ];
             },
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: [
-                    Text(
-                      'Maklumat Kerosakkan',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                elevation: 8,
+                child: SafeArea(
+                  child: ListView(
+                    physics: BouncingScrollPhysics(),
+                    children: [
+                      Text(
+                        'Maklumat Kerosakkan',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    Card(
-                      child: ListTile(
+                      SizedBox(height: 20),
+                      ListTile(
                         leading: Icon(Icons.date_range),
                         title: Text('No MySID'),
                         subtitle: Text(_params['id']),
                       ),
-                    ),
-                    Card(
-                      child: ListTile(
-                        leading: Icon(Icons.phone_android_outlined),
-                        title: Text('Model'),
-                        subtitle: Text(_data['Model']),
-                      ),
-                    ),
-                    Card(
-                      child: ListTile(
+                      ListTile(
                         leading: Icon(Icons.phonelink_erase_outlined),
                         title: Text('Kerosakkan'),
                         subtitle: Text(_data['Kerosakkan']),
                       ),
-                    ),
-                    Card(
-                      child: ListTile(
+                      ListTile(
+                        leading: Icon(Icons.phone_android_outlined),
+                        title: Text('Model'),
+                        subtitle: Text(_data['Model']),
+                      ),
+                      ListTile(
                         leading: Icon(Icons.pattern),
                         title: Text('Password'),
                         subtitle: Text(_data['Password']),
                       ),
-                    ),
-                    Card(
-                      child: ListTile(
+                      ListTile(
                         leading: Icon(Icons.person),
                         title: Text('Pelanggan'),
                         subtitle: Text(_data['Nama']),
                       ),
-                    ),
-                    Card(
-                      child: ListTile(
+                      ListTile(
                         leading: Icon(Icons.phone),
                         title: Text('Nombor Telefon'),
                         subtitle: Text(_data['No Phone']),
                       ),
-                    ),
-                    Card(
-                      child: ListTile(
+                      ListTile(
                         leading: Icon(Icons.text_snippet_outlined),
                         title: Text('Catatan'),
                         subtitle: Text(_data['Remarks']),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Text.rich(
-                      TextSpan(
-                        text: 'Sila ',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: 'klik sini',
-                            style: TextStyle(
-                              color: Get.theme.primaryColor,
-                            ),
-                            recognizer: TapGestureRecognizer()..onTap = () {},
+                      SizedBox(height: 10),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Sila ',
+                          style: TextStyle(
+                            color: Colors.grey,
                           ),
-                          TextSpan(text: ' untuk melihat status Repair Log'),
-                        ],
+                          children: [
+                            TextSpan(
+                              text: 'klik sini',
+                              style: TextStyle(
+                                color: Get.theme.primaryColor,
+                              ),
+                              recognizer: TapGestureRecognizer()..onTap = () {},
+                            ),
+                            TextSpan(text: ' untuk melihat status Repair Log'),
+                          ],
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 30),
-                  ],
+                      SizedBox(height: 30),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
           floatingActionButton: FloatingActionButton(
             heroTag: null,
-            onPressed: () {},
+            onPressed: () => _mysidController.setMysid(context),
             child: Icon(Icons.add),
           ),
         ),
