@@ -8,4 +8,6 @@ class MyRoutes {
   static const pdfviewer = '/pdfview';
   static const printviewer = '/print';
   static const mysidUpdate = '/home/update';
+  static const repairLog = '/repair-log';
+  static const mysidHisory = '/mysid-history';
 }

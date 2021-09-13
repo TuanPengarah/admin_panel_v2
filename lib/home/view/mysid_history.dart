@@ -1,58 +1,27 @@
-import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:admin_panel/config/routes.dart';
-import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:admin_panel/home/widget/mysid_list_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:get/get.dart';
 
-class MySidPage extends StatelessWidget {
-  final _homeController = Get.find<HomeController>();
-
+class MysidHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'MyStatus ID',
+          'Sejarah MyStatus ID',
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.history),
-            onPressed: () {
-              Haptic.feedbackClick();
-              Get.toNamed(MyRoutes.mysidHisory);
-            },
-          ),
-        ],
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('MyrepairID')
-            .orderBy('isPayment', descending: false)
-            .where('isPayment', isNotEqualTo: true)
-            .orderBy('timeStamp', descending: false)
+            .orderBy('timeStamp', descending: true)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          }
-          if (snapshot.hasData) {
-            Future.delayed(Duration(seconds: 1), () {
-              _homeController.totalMysid.value = snapshot.data.size;
-              if (snapshot.data.docs.isEmpty) {
-                if (!GetPlatform.isWeb) {
-                  FlutterAppBadger.removeBadge();
-                }
-              } else {
-                if (!GetPlatform.isWeb) {
-                  FlutterAppBadger.updateBadgeCount(snapshot.data.size);
-                }
-              }
-            });
           }
           if (snapshot.data.docs.isEmpty) {
             return Container(
@@ -69,7 +38,7 @@ class MySidPage extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Nampak gayanya anda tidak mempunyai sebarang Pending Job!',
+                    'Nampak gayanya anda tidak mempunyai sebarang MyStatus ID!',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey),
                   )
