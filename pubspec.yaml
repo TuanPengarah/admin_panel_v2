@@ -44,7 +44,7 @@ dependencies:
   get_storage: ^2.0.3
   sqflite: ^2.0.0+4
   url_launcher: ^6.0.9
-  share_plus: ^2.1.4
+  share_plus: ^2.1.4 
 
   # Data Models
   intl: ^0.17.0
