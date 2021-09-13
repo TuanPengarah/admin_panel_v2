@@ -123,7 +123,7 @@ class PrintController extends GetxController {
     if (isNew == true) {
       ticket.hr(len: 32);
       ticket.text(
-        'Anda juga boleh login ke website kami untuk semak waranti dan   status baiki peranti',
+        'Anda juga boleh auth ke website kami untuk semak waranti dan   status baiki peranti',
         styles: PosStyles(align: PosAlign.center),
       );
       ticket.feed(1);

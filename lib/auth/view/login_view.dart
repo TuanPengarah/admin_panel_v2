@@ -1,7 +1,7 @@
-import 'package:admin_panel/API/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/view/login_dialog.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/theme_data.dart';
-import 'package:admin_panel/login/view/login_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';

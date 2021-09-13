@@ -1,5 +1,5 @@
-import 'package:admin_panel/API/firebaseAuth_controller.dart';
-import 'package:admin_panel/login/controller/show_password.dart';
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/show_password.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
