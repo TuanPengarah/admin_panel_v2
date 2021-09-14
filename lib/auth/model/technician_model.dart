@@ -25,6 +25,6 @@ class Technician {
         'cawangan': cawangan.toString(),
         'jumlahRepair': jumlahRepair,
         'jumlahKeuntungan': jumlahKeuntungan,
-        'email' : email.toString(),
+        'email': email.toString(),
       };
 }

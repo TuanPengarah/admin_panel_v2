@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:admin_panel/API/firestoreAPI.dart';
 import 'package:admin_panel/API/sqlite.dart';
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 
 class JobsheetController extends GetxController {
   final _firestoreController = Get.put(FirestoreContoller());
+  final _authController = Get.find<AuthController>();
   final namaCust = TextEditingController();
   final noPhone = TextEditingController();
   final email = TextEditingController();
@@ -230,7 +232,7 @@ class JobsheetController extends GetxController {
         password: passPhone.text,
         kerosakkan: kerosakkan.text,
         harga: int.parse(harga.text),
-        technician: 'Akid Fikri Azhar',
+        technician: _authController.userName.toString(),
         remarks: remarks.text,
         isExisting: _data[0],
         userUID: _data[4],
@@ -247,7 +249,7 @@ class JobsheetController extends GetxController {
             'price': harga.text,
             'remarks': remarks.text,
             'mysid': mySID.value,
-            'email' : currentEmail,
+            'email': currentEmail,
           };
           Get.toNamed(MyRoutes.jobsheetDone, parameters: payload);
           ShowSnackbar.success('Operasi Selesai!',
@@ -266,7 +268,7 @@ class JobsheetController extends GetxController {
           'price': harga.text,
           'remarks': remarks.text,
           'mysid': mySID.value,
-          'email' : currentEmail,
+          'email': currentEmail,
         };
         Get.toNamed(MyRoutes.jobsheetDone, parameters: payload);
         ShowSnackbar.error('Kesalahan telah berlaku!', '$err', true);

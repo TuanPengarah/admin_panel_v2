@@ -1,3 +1,4 @@
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/pdf/controller/pdf_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
@@ -5,13 +6,13 @@ import 'package:get/get.dart';
 
 class PdfViewer extends StatelessWidget {
   final _pdfController = Get.put(PdfController());
+  final _authController = Get.find<AuthController>();
   final _data = Get.parameters;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: _pdfController.writeJobsheetPdf(
-          //TODO: Buat dynamic cawangan!
-          cawangan: 'Kajang',
+          cawangan: _authController.cawangan.toString(),
           kerosakkan: Get.parameters["kerosakkan"],
           model: _data['model'],
           mysid: _data['mysid'],
@@ -19,8 +20,7 @@ class PdfViewer extends StatelessWidget {
           noTel: _data['noTel'],
           price: _data['price'],
           remarks: _data['remarks'],
-          //TODO: Buat dynamic technician!
-          technician: 'Akid Fikri Azhar',
+          technician: _authController.userName.toString(),
         ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -37,7 +37,7 @@ class PdfViewer extends StatelessWidget {
                   IconButton(
                     onPressed: () => _pdfController.sendEmailPDF(
                       _data['email'],
-                      'Akid Fikri Azhar', //TODO: buat dynamic techician
+                      _authController.userName.toString(),
                       _data['nama'],
                     ),
                     icon: Icon(Icons.email),

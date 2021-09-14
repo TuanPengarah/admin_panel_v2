@@ -54,7 +54,11 @@ class SettingPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                CrudTechnician.checkTechnician(_authController.userUID);
+                print(_authController.userName);
+                print(_authController.userUID);
+                print(_authController.userEmail);
+                print(_authController.jumlahKeuntungan);
+                print(_authController.jumlahRepair);
               },
               child: Text('Check Technician'),
             ),

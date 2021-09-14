@@ -1,3 +1,4 @@
+import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +11,17 @@ class AuthController extends GetxController {
   final _auth = FirebaseAuth.instance;
   String userUID = '';
   String userEmail = '';
+  String userName = '';
+  String cawangan = '';
+  var jumlahRepair = 0.obs;
+  var jumlahKeuntungan = 0.obs;
+
+  @override
+  void onReady() {
+    final user = _auth.currentUser;
+    checkUserData(user.uid, user.email);
+    super.onReady();
+  }
 
   ///LOGIN
   void performLogin(String email, String password,
@@ -41,8 +53,7 @@ class AuthController extends GetxController {
           await Future.delayed(Duration(seconds: 2));
           btnController.reset();
         } else {
-          userUID = value.user.uid;
-          userEmail = value.user.email;
+          await checkUserData(value.user.uid, value.user.email);
           ShowSnackbar.success('Selamat Kembali', 'Log masuk berjaya!', true);
           btnController.success();
           Haptic.feedbackSuccess();
@@ -70,6 +81,24 @@ class AuthController extends GetxController {
     }).catchError((err) {
       Haptic.feedbackError();
       ShowSnackbar.error('Kesalahan telah berlaku', err.toString(), true);
+    });
+  }
+
+  Future<void> checkUserData(String uid, String email) async {
+    await FirebaseDatabase.instance
+        .reference()
+        .child('Technician')
+        .child(uid)
+        .once()
+        .then((snapshot) {
+      final json = snapshot.value as Map<dynamic, dynamic>;
+      final technician = Technician.fromJson(json);
+      userUID = uid;
+      userEmail = email;
+      userName = technician.nama;
+      cawangan = technician.cawangan;
+      jumlahRepair.value = technician.jumlahRepair;
+      jumlahKeuntungan.value = technician.jumlahKeuntungan;
     });
   }
 }
