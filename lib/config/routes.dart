@@ -10,4 +10,5 @@ class MyRoutes {
   static const mysidUpdate = '/home/update';
   static const repairLog = '/repair-log';
   static const mysidHisory = '/mysid-history';
+  static const spareparts = '/spareparts';
 }

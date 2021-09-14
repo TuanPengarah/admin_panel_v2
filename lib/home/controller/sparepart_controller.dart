@@ -1,27 +1,31 @@
-import 'package:admin_panel/home/model/sparepart_mode.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
 
 class SparepartController extends GetxController {
   List spareparts = [];
-  List keys = [];
+  var totalPartsPrice = 00.00.obs;
+  Future getPartList;
 
   @override
   void onInit() {
-    getSparepartsList();
+    getPartList = getSparepartsList();
     super.onInit();
   }
 
   Future<void> getSparepartsList() async {
-    FirebaseDatabase.instance
+    print('running');
+    await FirebaseDatabase.instance
         .reference()
         .child("Spareparts")
+        .orderByChild('Model')
         .once()
         .then((snapshot) {
+      spareparts.clear();
+      totalPartsPrice.value = 00.00;
       Map<dynamic, dynamic> values = snapshot.value;
       values.forEach((key, values) {
         spareparts.add(values);
-        keys.add(key);
+        totalPartsPrice.value += int.parse(values['Harga']);
       });
     });
 

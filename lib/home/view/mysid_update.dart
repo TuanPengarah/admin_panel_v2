@@ -38,7 +38,7 @@ class MysidUpdate extends StatelessWidget {
                           animation: true,
                           arcType: ArcType.HALF,
                           arcBackgroundColor: Get.isDarkMode
-                              ? Colors.red.shade700
+                              ? Colors.blueGrey.shade700
                               : Colors.blue.shade600,
                           percent: _mysidController.progressPercent.value,
                           center: Column(

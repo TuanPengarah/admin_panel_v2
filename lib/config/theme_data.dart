@@ -87,9 +87,9 @@ class MyThemes {
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: Colors.black,
-    primarySwatch: Colors.red,
-    accentColor: Colors.redAccent[100],
-    primaryColor: Colors.red,
+    primarySwatch: Colors.blueGrey,
+    accentColor: Colors.blueGrey,
+    primaryColor: Colors.blueGrey,
     appBarTheme: AppBarTheme(
       brightness: Brightness.dark,
     ),
@@ -126,7 +126,7 @@ class MyThemes {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
         borderSide: BorderSide(
-          color: Colors.red,
+          color: Colors.blueGrey,
           width: 2,
         ),
       ),

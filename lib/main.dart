@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.mysidUpdate, page: () => MysidUpdate()),
         GetPage(name: MyRoutes.repairLog, page: () => RepairLogView()),
         GetPage(name: MyRoutes.mysidHisory, page: () => MysidHistoryView()),
+        GetPage(name: MyRoutes.spareparts, page: () => AllSparepartsView()),
       ],
     );
   }
