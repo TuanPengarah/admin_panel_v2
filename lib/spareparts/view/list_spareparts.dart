@@ -1,36 +1,31 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
+import 'package:admin_panel/spareparts/widget/detail_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ListSpareparts extends StatefulWidget {
+class ListSpareparts extends StatelessWidget {
   final List list;
 
-  const ListSpareparts({
+  ListSpareparts({
     Key key,
     this.list,
   }) : super(key: key);
 
-  @override
-  _ListSparepartsState createState() => _ListSparepartsState();
-}
-
-class _ListSparepartsState extends State<ListSpareparts> {
   final _sparepartsController = Get.find<SparepartController>();
+
   @override
   Widget build(BuildContext context) {
-    return widget.list.length > 0
+    return list.length > 0
         ? RefreshIndicator(
             onRefresh: () async {
               await _sparepartsController.getSparepartsList();
-              setState(() {});
             },
             child: ListView.builder(
                 physics: BouncingScrollPhysics(),
-                itemCount: widget.list.length,
+                itemCount: list.length,
                 itemBuilder: (context, i) {
-                  var spareparts = widget.list[i];
+                  var spareparts = list[i];
                   return ListTile(
                       leading: CircleAvatar(
                         child: Text(
@@ -39,10 +34,21 @@ class _ListSparepartsState extends State<ListSpareparts> {
                         ),
                       ),
                       title: Text(
-                          '${spareparts['Jenis Spareparts']} ${spareparts['Model']}'),
+                          '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})'),
                       subtitle: Text(spareparts['Maklumat Spareparts']),
+                      trailing: Text('RM${spareparts['Harga']}'),
                       onTap: () {
-                        print(spareparts['id']);
+                        ShowDetailParts.details(
+                          title:
+                              '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
+                          id: spareparts['id'],
+                          tarikh: spareparts['Tarikh'],
+                          harga: spareparts['Harga'],
+                          supplier: spareparts['Supplier'],
+                          jenisSparepart: spareparts['Jenis Spareparts'],
+                          maklumatSparepart: spareparts['Maklumat Spareparts'],
+                          kualiti: spareparts['Kualiti'],
+                        );
                       });
                 }),
           )
@@ -78,12 +84,7 @@ class _ListSparepartsState extends State<ListSpareparts> {
                 ),
                 TextButton.icon(
                   onPressed: () async {
-                    Haptic.feedbackClick();
-                    await _sparepartsController.getSparepartsList();
-                    ShowSnackbar.success(
-                        'Segar Semula', 'Segar semula selesai', false);
-                    Haptic.feedbackSuccess();
-                    setState(() {});
+                    await _sparepartsController.refreshDialog();
                   },
                   icon: Icon(Icons.refresh),
                   label: Text('Segar Semula'),

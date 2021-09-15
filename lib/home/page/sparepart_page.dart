@@ -21,6 +21,7 @@ class SparepartPage extends StatelessWidget {
           ];
         },
         body: Column(
+
           children: [
             SizedBox(height: 20),
             Container(
@@ -45,14 +46,16 @@ class SparepartPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 5),
-                    Text(
-                      '${_sparepartController.spareparts.length}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    Obx(() {
+                      return Text(
+                        '${_sparepartController.totalSpareparts}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    }),
                     SizedBox(height: 10),
                     Text(
                       'Harga Keseluruhan: ',

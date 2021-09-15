@@ -12,6 +12,18 @@ class AllSparepartsView extends GetView<SparepartController> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Senarai Spareparts'),
+          actions: [
+            IconButton(
+              onPressed: () async => await controller.refreshDialog(),
+              icon: Icon(
+                Icons.refresh,
+              ),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(Icons.add),
+            ),
+          ],
           bottom: TabBar(
             isScrollable: true,
             tabs: [
@@ -66,133 +78,139 @@ class AllSparepartsView extends GetView<SparepartController> {
             ],
           ),
         ),
-        body: TabBarView(
-          physics: BouncingScrollPhysics(),
-          children: [
-            ListSpareparts(
-              list: controller.spareparts,
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.iphone.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.xiaomi.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.redmi.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.poco.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.samsung.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.huawei.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.oppo.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.vivo.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.realme.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.oneplus.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.lenovo.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.htc.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.asus.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.nokia.toLowerCase()))
-                  .toList(),
-            ),
-            ListSpareparts(
-              list: controller.spareparts
-                  .where((e) => e['Model']
-                      .toString()
-                      .toLowerCase()
-                      .contains(ModelBrands.sony.toLowerCase()))
-                  .toList(),
-            ),
-          ],
+        body: GetBuilder<SparepartController>(
+          assignId: true,
+          autoRemove: false,
+          builder: (logic) {
+            return TabBarView(
+              physics: BouncingScrollPhysics(),
+              children: [
+                ListSpareparts(
+                  list: controller.spareparts,
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.iphone.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.xiaomi.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.redmi.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.poco.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.samsung.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.huawei.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.oppo.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.vivo.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.realme.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.oneplus.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.lenovo.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.htc.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.asus.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.nokia.toLowerCase()))
+                      .toList(),
+                ),
+                ListSpareparts(
+                  list: controller.spareparts
+                      .where((e) => e['Model']
+                          .toString()
+                          .toLowerCase()
+                          .contains(ModelBrands.sony.toLowerCase()))
+                      .toList(),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
