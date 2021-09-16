@@ -83,6 +83,12 @@ class MyThemes {
         fontWeight: FontWeight.bold,
       ),
     ),
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
   );
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
@@ -147,6 +153,12 @@ class MyThemes {
         color: Colors.amber.shade900,
         fontWeight: FontWeight.bold,
       ),
+    ),
+    pageTransitionsTheme: PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
     ),
   );
 }

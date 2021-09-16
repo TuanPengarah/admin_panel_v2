@@ -1,6 +1,8 @@
+import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
-import 'package:admin_panel/spareparts/model/brands_list.dart';
-import 'package:admin_panel/spareparts/view/list_spareparts.dart';
+import 'package:admin_panel/config/smarphone_brand.dart';
+import 'package:admin_panel/spareparts/widget/list_spareparts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +22,10 @@ class AllSparepartsView extends GetView<SparepartController> {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Haptic.feedbackClick();
+                Get.toNamed(MyRoutes.sparepartsAdd);
+              },
               icon: Icon(Icons.add),
             ),
           ],

@@ -11,4 +11,6 @@ class MyRoutes {
   static const repairLog = '/repair-log';
   static const mysidHisory = '/mysid-history';
   static const spareparts = '/spareparts';
+  static const sparepartsDetails = '/spareparts/details';
+  static const sparepartsAdd = '/spareparts/add';
 }

@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'config/get_route_export.dart';
 import 'config/routes.dart';
 
@@ -53,6 +52,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.repairLog, page: () => RepairLogView()),
         GetPage(name: MyRoutes.mysidHisory, page: () => MysidHistoryView()),
         GetPage(name: MyRoutes.spareparts, page: () => AllSparepartsView()),
+        GetPage(
+            name: MyRoutes.sparepartsDetails, page: () => DetailsSpareparts()),
+        GetPage(name: MyRoutes.sparepartsAdd, page: () => AddSparepart()),
       ],
     );
   }

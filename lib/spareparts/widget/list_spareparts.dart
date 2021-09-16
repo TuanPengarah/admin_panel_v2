@@ -1,6 +1,6 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
-import 'package:admin_panel/spareparts/widget/detail_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,10 +27,13 @@ class ListSpareparts extends StatelessWidget {
                 itemBuilder: (context, i) {
                   var spareparts = list[i];
                   return ListTile(
-                      leading: CircleAvatar(
-                        child: Text(
-                          spareparts['Supplier'],
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                      leading: Hero(
+                        tag: spareparts['id'],
+                        child: CircleAvatar(
+                          child: Text(
+                            spareparts['Supplier'],
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                       title: Text(
@@ -38,16 +41,34 @@ class ListSpareparts extends StatelessWidget {
                       subtitle: Text(spareparts['Maklumat Spareparts']),
                       trailing: Text('RM${spareparts['Harga']}'),
                       onTap: () {
-                        ShowDetailParts.details(
-                          title:
-                              '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
-                          id: spareparts['id'],
-                          tarikh: spareparts['Tarikh'],
-                          harga: spareparts['Harga'],
-                          supplier: spareparts['Supplier'],
-                          jenisSparepart: spareparts['Jenis Spareparts'],
-                          maklumatSparepart: spareparts['Maklumat Spareparts'],
-                          kualiti: spareparts['Kualiti'],
+                        // ShowDetailParts.details(
+                        //   title:
+                        //       '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
+                        //   id: spareparts['id'],
+                        //   tarikh: spareparts['Tarikh'],
+                        //   harga: spareparts['Harga'],
+                        //   supplier: spareparts['Supplier'],
+                        //   jenisSparepart: spareparts['Jenis Spareparts'],
+                        //   maklumatSparepart: spareparts['Maklumat Spareparts'],
+                        //   kualiti: spareparts['Kualiti'],
+                        // );
+                        var arguments = {
+                          'Model': spareparts['Model'],
+                          'Kualiti': spareparts['Kualiti'],
+                          'Jenis Spareparts': spareparts['Jenis Spareparts'],
+                          'Tarikh': spareparts['Tarikh'],
+                          'Harga': spareparts['Harga'],
+                          'Supplier': spareparts['Supplier'],
+                          'Maklumat Spareparts':
+                              spareparts['Maklumat Spareparts'],
+                        };
+
+                        Get.toNamed(
+                          MyRoutes.sparepartsDetails,
+                          arguments: arguments,
+                          parameters: {
+                            'id': spareparts['id'],
+                          },
                         );
                       });
                 }),

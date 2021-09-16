@@ -102,6 +102,7 @@ class ShowBottomSheet {
                           errorColor: Colors.amber[900],
                           successColor: Colors.green,
                           onPressed: () {
+                            FocusScope.of(context).unfocus();
                             authController.performLogin(
                               emailField.text,
                               passwordField.text,

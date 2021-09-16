@@ -19,7 +19,9 @@ class AuthController extends GetxController {
   @override
   void onReady() {
     final user = _auth.currentUser;
-    checkUserData(user.uid, user.email);
+    if (user != null) {
+      checkUserData(user.uid, user.email);
+    }
     super.onReady();
   }
 
