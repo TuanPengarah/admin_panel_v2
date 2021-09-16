@@ -1,4 +1,4 @@
-import 'package:admin_panel/config/supplier.dart';
+import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -101,7 +101,7 @@ class DetailsSpareparts extends StatelessWidget {
                               child: ListTile(
                                 leading: Icon(Icons.precision_manufacturing),
                                 title: Text('Supplier'),
-                                subtitle: Text(Supplier.getSupplierCode(
+                                subtitle: Text(Inventory.getSupplierCode(
                                     _data['Supplier'])),
                               ),
                             ),

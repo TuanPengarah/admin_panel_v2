@@ -1,4 +1,4 @@
-class Supplier {
+class Inventory {
   static const List<String> supplier = [
     'MG',
     'GM',
@@ -6,6 +6,19 @@ class Supplier {
     'OR',
     'RnJ',
     'Lain...',
+  ];
+  static final List<String> quality = [
+    'OEM',
+    'ORI',
+    'AAA',
+    'AA',
+    'AP',
+    'OLED',
+    'OLED Burn In',
+    'GX OLED',
+    'ORI Change Glass',
+    'ORI China',
+    'ORI Used',
   ];
 
   static String getSupplierCode(String code) {

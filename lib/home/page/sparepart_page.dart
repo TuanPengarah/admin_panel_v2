@@ -21,7 +21,6 @@ class SparepartPage extends StatelessWidget {
           ];
         },
         body: Column(
-
           children: [
             SizedBox(height: 20),
             Container(
@@ -83,6 +82,7 @@ class SparepartPage extends StatelessWidget {
                       child: ElevatedButton.icon(
                         onPressed: () {
                           Haptic.feedbackClick();
+                          Get.toNamed(MyRoutes.sparepartsAdd);
                         },
                         icon: Icon(Icons.add),
                         label: Padding(

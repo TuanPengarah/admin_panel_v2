@@ -1,5 +1,5 @@
-import 'package:admin_panel/config/supplier.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
+import 'package:admin_panel/spareparts/widget/stepper_add_sparepart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +32,7 @@ class AddSparepart extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Parts Identification: 21413234',
+                    'Parts Identification: ${_controller.generateID()}',
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -55,27 +55,37 @@ class AddSparepart extends StatelessWidget {
               ),
               child: Obx(() => Stepper(
                     currentStep: _controller.currentSteps.value,
-                    steps: [
-                      Step(
-                        title: Text('Supplier'),
-                        content: DropdownButton(
-                          items: Supplier.supplier.map((String value) {
-                            return DropdownMenuItem(
-                              child: Text(
-                                Supplier.getSupplierCode(
-                                  value.toString(),
+                    onStepContinue: () => _controller.nextStepper(),
+                    onStepCancel: _controller.currentSteps.value == 0
+                        ? null
+                        : () => _controller.backStepper(),
+                    steps: AddSparepartStepper().getStepper(),
+                    controlsBuilder: (context, {onStepContinue, onStepCancel}) {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 50),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: onStepContinue,
+                                child: Text(
+                                  'Seterusnya',
                                 ),
                               ),
-                              value: value,
-                            );
-                          }).toList(),
-                          value: _controller.selectedSupplier.value,
-                          onChanged: (String newValue) {
-                            _controller.selectedSupplier.value = newValue;
-                          },
+                            ),
+                            if (_controller.currentSteps.value != 0)
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: onStepCancel,
+                                  child: Text(
+                                    'Batal',
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
-                      )
-                    ],
+                      );
+                    },
                   )),
             ),
           ),
