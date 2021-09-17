@@ -1,5 +1,6 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,9 +17,19 @@ class SparepartController extends GetxController {
     super.onInit();
   }
 
-  void showDetailsDiaolog() async {}
-  Future<void> refreshDialog() async {
-    Haptic.feedbackClick();
+  void popupMenuSeleceted(
+      IconMenuOverview value, String id, String model, String jenis) async {
+    switch (value) {
+      case PopupMenuOverview.edit:
+        print('edit');
+        break;
+      case PopupMenuOverview.delete:
+        await deleteSpareparts(id, model, jenis);
+        break;
+    }
+  }
+
+  Future<void> deleteSpareparts(String id, String model, String jenis) async {
     Get.dialog(
       AlertDialog(
         content: Column(
@@ -29,10 +40,44 @@ class SparepartController extends GetxController {
         ),
       ),
     );
+    await FirebaseDatabase.instance
+        .reference()
+        .child('Spareparts')
+        .child(id)
+        .remove()
+        .then((value) async {
+      await refreshDialog(false);
+      Haptic.feedbackSuccess();
+      Get.back();
+      Get.back();
+      Get.back();
+
+      ShowSnackbar.notify('Padam Spareparts',
+          'Spareparts $model ($jenis) telah dipadam dari server!');
+    });
+  }
+
+  Future<void> refreshDialog(bool onAppBar) async {
+    Haptic.feedbackClick();
+    if (onAppBar == true) {
+      Get.dialog(
+        AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+            ],
+          ),
+        ),
+      );
+    }
+
     await getSparepartsList();
 
     Haptic.feedbackSuccess();
-    Get.back();
+    if (onAppBar == true) {
+      Get.back();
+    }
     update();
     ShowSnackbar.success('Segar Semula', 'Segar semula selesai', false);
   }

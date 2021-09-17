@@ -1,9 +1,10 @@
 import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
+import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DetailsSpareparts extends StatelessWidget {
+class DetailsSpareparts extends GetView<SparepartController> {
   final _params = Get.parameters;
   final _data = Get.arguments;
 
@@ -29,8 +30,11 @@ class DetailsSpareparts extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
-                    // onSelected: (value) => _overviewController
-                    //     .popupMenuSelected(value, _data[0], _data[1]),
+                    onSelected: (value) => controller.popupMenuSeleceted(
+                        value,
+                        _params['id'],
+                        _data['Model'],
+                        _data['Jenis Spareparts']),
                     itemBuilder: (context) => PopupMenuOverview.items
                         .map(
                           (i) => PopupMenuItem<IconMenuOverview>(

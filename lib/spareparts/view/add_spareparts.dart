@@ -31,12 +31,12 @@ class AddSparepart extends StatelessWidget {
                         fontSize: 40,
                         fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    'Parts Identification: ${_controller.generateID()}',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
+                  Obx(() => Text(
+                        'Parts Identification: ${_controller.timeStamp.value}',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )),
                   SizedBox(height: 18),
                 ],
               ),
@@ -69,7 +69,9 @@ class AddSparepart extends StatelessWidget {
                               child: ElevatedButton(
                                 onPressed: onStepContinue,
                                 child: Text(
-                                  'Seterusnya',
+                                  _controller.currentSteps.value == 7
+                                      ? 'Selesai'
+                                      : 'Seterusnya',
                                 ),
                               ),
                             ),

@@ -16,7 +16,7 @@ class AllSparepartsView extends GetView<SparepartController> {
           title: Text('Senarai Spareparts'),
           actions: [
             IconButton(
-              onPressed: () async => await controller.refreshDialog(),
+              onPressed: () async => await controller.refreshDialog(true),
               icon: Icon(
                 Icons.refresh,
               ),

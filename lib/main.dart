@@ -9,17 +9,17 @@ import 'config/routes.dart';
 // flutter run -d web-server --web-port 8080 --web-hostname 192.168.1.17
 Future<void> main() async {
   bool _isLogin = false;
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FirebaseAuth.instance.authStateChanges().listen((User user) {
-    if (user == null) {
-      print('User is currently signed out!');
-      _isLogin = false;
-    } else {
-      print('user already signed in!');
-      _isLogin = true;
-    }
-  });
+  final _user = FirebaseAuth.instance.currentUser;
+  if (_user != null) {
+    print('user already signed in');
+    _isLogin = true;
+  } else {
+    print('User is curently signed out');
+    _isLogin = false;
+  }
   await GetStorage.init();
 
   runApp(MyApp(

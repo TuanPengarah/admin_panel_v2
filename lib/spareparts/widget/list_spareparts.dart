@@ -19,7 +19,7 @@ class ListSpareparts extends StatelessWidget {
     return list.length > 0
         ? RefreshIndicator(
             onRefresh: () async {
-              await _sparepartsController.getSparepartsList();
+              await _sparepartsController.refreshDialog(false);
             },
             child: ListView.builder(
                 physics: BouncingScrollPhysics(),
@@ -31,7 +31,9 @@ class ListSpareparts extends StatelessWidget {
                         tag: spareparts['id'],
                         child: CircleAvatar(
                           child: Text(
-                            spareparts['Supplier'],
+                            spareparts['Supplier'] == 'Lain...'
+                                ? '...'
+                                : spareparts['Supplier'],
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -105,7 +107,7 @@ class ListSpareparts extends StatelessWidget {
                 ),
                 TextButton.icon(
                   onPressed: () async {
-                    await _sparepartsController.refreshDialog();
+                    await _sparepartsController.refreshDialog(true);
                   },
                   icon: Icon(Icons.refresh),
                   label: Text('Segar Semula'),

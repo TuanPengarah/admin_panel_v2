@@ -48,7 +48,12 @@ class AddSparepartStepper {
           content: TextField(
             controller: _controller.modelParts,
             focusNode: _controller.focusModelSmartphone,
-            textCapitalization: TextCapitalization.words,
+            textCapitalization: TextCapitalization.characters,
+            decoration: InputDecoration(
+                hintText: 'cth: Huawei Nova 2i, iPhone 7...',
+                errorText: _controller.errModelParts.value == true
+                    ? 'Sila masukkan model smartphone!'
+                    : null),
           ),
         ),
         Step(
@@ -60,7 +65,12 @@ class AddSparepartStepper {
           content: TextField(
             controller: _controller.jenisParts,
             focusNode: _controller.focusJenisSparepart,
-            textCapitalization: TextCapitalization.words,
+            textCapitalization: TextCapitalization.characters,
+            decoration: InputDecoration(
+                hintText: 'cth: Lcd, Battery, Back Camera...',
+                errorText: _controller.errJenisParts.value == true
+                    ? 'Sila masukkan jenis spareparts!'
+                    : null),
           ),
         ),
         Step(
@@ -103,6 +113,11 @@ class AddSparepartStepper {
             keyboardType: TextInputType.number,
             controller: _controller.hargaParts,
             focusNode: _controller.focusHargaParts,
+            decoration: InputDecoration(
+                hintText: 'RM',
+                errorText: _controller.errHargaParts.value == true
+                    ? 'Sila masukkan harga spareparts!'
+                    : null),
           ),
         ),
         Step(
@@ -114,6 +129,12 @@ class AddSparepartStepper {
           content: TextField(
             controller: _controller.maklumatParts,
             focusNode: _controller.focusMaklumatParts,
+            textCapitalization: TextCapitalization.characters,
+            decoration: InputDecoration(
+                hintText: 'cth: Warna Hitam, Tarikh 2019...',
+                errorText: _controller.errMaklumatParts.value == true
+                    ? 'Sila masukkan maklumat spareparts!'
+                    : null),
           ),
         ),
         Step(
@@ -126,12 +147,51 @@ class AddSparepartStepper {
             controller: _controller.kuantitiParts,
             focusNode: _controller.focusKuantitiParts,
             keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+                hintText: 'Jumlah sparepart yang diterima',
+                errorText: _controller.errKuantitiParts.value == true
+                    ? 'Sila masukkan kuantiti spareparts!'
+                    : null),
           ),
         ),
         Step(
           isActive: _controller.currentSteps.value >= 6,
           title: Text('Kepastian'),
-          content: Container(),
+          content: Column(
+            children: [
+              kepastianContent(
+                  'Supplier: ',
+                  Inventory.getSupplierCode(
+                      _controller.selectedSupplier.value)),
+              kepastianContent(
+                  'Model Smartphone: ', _controller.modelParts.text),
+              kepastianContent(
+                  'Jenis Spareparts: ', _controller.jenisParts.text),
+              kepastianContent(
+                  'Kualiti Spareparts: ', _controller.selectedQuality.value),
+              kepastianContent('Harga: ', 'RM ${_controller.hargaParts.text}'),
+              kepastianContent(
+                  'Maklumat Spareparts: ', _controller.maklumatParts.text),
+              kepastianContent('Kuantiti: ', _controller.kuantitiParts.text),
+            ],
+          ),
         ),
       ];
+
+  Widget kepastianContent(String title, String subtitle) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text('$title'),
+          Text(
+            '$subtitle',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
 }
