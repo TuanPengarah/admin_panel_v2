@@ -1,5 +1,6 @@
 import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -49,11 +50,16 @@ class AddSparepartStepper {
             controller: _controller.modelParts,
             focusNode: _controller.focusModelSmartphone,
             textCapitalization: TextCapitalization.characters,
+            textInputAction: TextInputAction.next,
+            onSubmitted: (newText) {
+              _controller.nextStepper();
+            },
             decoration: InputDecoration(
-                hintText: 'cth: Huawei Nova 2i, iPhone 7...',
-                errorText: _controller.errModelParts.value == true
-                    ? 'Sila masukkan model smartphone!'
-                    : null),
+              hintText: 'cth: Huawei Nova 2i, iPhone 7...',
+              errorText: _controller.errModelParts.value == true
+                  ? 'Sila masukkan model smartphone!'
+                  : null,
+            ),
           ),
         ),
         Step(
@@ -66,6 +72,10 @@ class AddSparepartStepper {
             controller: _controller.jenisParts,
             focusNode: _controller.focusJenisSparepart,
             textCapitalization: TextCapitalization.characters,
+            textInputAction: TextInputAction.next,
+            onSubmitted: (newText) {
+              _controller.nextStepper();
+            },
             decoration: InputDecoration(
                 hintText: 'cth: Lcd, Battery, Back Camera...',
                 errorText: _controller.errJenisParts.value == true
@@ -113,6 +123,10 @@ class AddSparepartStepper {
             keyboardType: TextInputType.number,
             controller: _controller.hargaParts,
             focusNode: _controller.focusHargaParts,
+            textInputAction: TextInputAction.next,
+            onSubmitted: (newText) {
+              _controller.nextStepper();
+            },
             decoration: InputDecoration(
                 hintText: 'RM',
                 errorText: _controller.errHargaParts.value == true
@@ -130,6 +144,10 @@ class AddSparepartStepper {
             controller: _controller.maklumatParts,
             focusNode: _controller.focusMaklumatParts,
             textCapitalization: TextCapitalization.characters,
+            textInputAction: TextInputAction.next,
+            onSubmitted: (newText) {
+              _controller.nextStepper();
+            },
             decoration: InputDecoration(
                 hintText: 'cth: Warna Hitam, Tarikh 2019...',
                 errorText: _controller.errMaklumatParts.value == true
@@ -147,6 +165,10 @@ class AddSparepartStepper {
             controller: _controller.kuantitiParts,
             focusNode: _controller.focusKuantitiParts,
             keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (newText) {
+              _controller.nextStepper();
+            },
             decoration: InputDecoration(
                 hintText: 'Jumlah sparepart yang diterima',
                 errorText: _controller.errKuantitiParts.value == true

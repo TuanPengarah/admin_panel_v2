@@ -107,7 +107,6 @@ class AddSparepartsController extends GetxController {
         focusKuantitiParts.unfocus();
       }
     } else if (currentSteps.value == 7) {
-      print('send to backend');
       addToRTDB();
     }
   }

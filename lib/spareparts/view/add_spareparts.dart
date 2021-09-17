@@ -32,7 +32,7 @@ class AddSparepart extends StatelessWidget {
                         fontWeight: FontWeight.bold),
                   ),
                   Obx(() => Text(
-                        'Parts Identification: ${_controller.timeStamp.value}',
+                        'Parts Identification: ${_controller.partsID}',
                         style: TextStyle(
                           color: Colors.white,
                         ),

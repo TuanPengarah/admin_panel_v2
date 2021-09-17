@@ -1,12 +1,15 @@
 import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
+import 'package:admin_panel/spareparts/controller/details_spareparts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DetailsSpareparts extends GetView<SparepartController> {
   final _params = Get.parameters;
   final _data = Get.arguments;
+
+  final _detailsController = Get.put(DetailsSparepartsController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,25 +29,36 @@ class DetailsSpareparts extends GetView<SparepartController> {
                 floating: true,
                 pinned: true,
                 actions: [
-                  PopupMenuButton<IconMenuOverview>(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    onSelected: (value) => controller.popupMenuSeleceted(
-                        value,
-                        _params['id'],
-                        _data['Model'],
-                        _data['Jenis Spareparts']),
-                    itemBuilder: (context) => PopupMenuOverview.items
-                        .map(
-                          (i) => PopupMenuItem<IconMenuOverview>(
-                            value: i,
-                            child: ListTile(
-                                leading: Icon(i.icon), title: Text(i.text)),
-                          ),
-                        )
-                        .toList(),
-                  ),
+                  Obx(() {
+                    return _detailsController.editMode.value == false
+                        ? PopupMenuButton<IconMenuOverview>(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            onSelected: (value) =>
+                                _detailsController.popupMenuSeleceted(
+                                    value,
+                                    _params['id'],
+                                    _data['Model'],
+                                    _data['Jenis Spareparts']),
+                            itemBuilder: (context) => PopupMenuOverview.items
+                                .map(
+                                  (i) => PopupMenuItem<IconMenuOverview>(
+                                    value: i,
+                                    child: ListTile(
+                                        leading: Icon(i.icon),
+                                        title: Text(i.text)),
+                                  ),
+                                )
+                                .toList(),
+                          )
+                        : IconButton(
+                            onPressed: () {
+                              _detailsController.editMode.value = false;
+                            },
+                            icon: Icon(Icons.save),
+                          );
+                  }),
                 ],
               ),
               SliverList(
@@ -57,22 +71,28 @@ class DetailsSpareparts extends GetView<SparepartController> {
                           Card(
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
-                              onTap: () {},
+                              onTap: () =>
+                                  _detailsController.editJenisSpareparts(),
                               child: ListTile(
                                 leading: Icon(Icons.hardware),
                                 title: Text('Jenis Spareparts'),
-                                subtitle: Text(_data['Jenis Spareparts']),
+                                subtitle: Obx(() {
+                                  return Text(
+                                      _detailsController.jenisParts.value);
+                                }),
                               ),
                             ),
                           ),
                           Card(
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
-                              onTap: () {},
+                              onTap: () => _detailsController.editModel(),
                               child: ListTile(
                                 leading: Icon(Icons.phone_android),
                                 title: Text('Model'),
-                                subtitle: Text(_data['Model']),
+                                subtitle: Obx(() {
+                                  return Text(_detailsController.model.value);
+                                }),
                               ),
                             ),
                           ),
@@ -83,41 +103,52 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               child: ListTile(
                                 leading: Icon(Icons.pending_actions),
                                 title: Text('Tarikh Kemaskini'),
-                                subtitle: Text(_data['Tarikh']),
+                                subtitle: Text(
+                                    controller.convertEpoch(_data['Tarikh'])),
                               ),
                             ),
                           ),
                           Card(
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
-                              onTap: () {},
+                              onTap: () => _detailsController.editKualiti(),
                               child: ListTile(
                                 leading: Icon(Icons.phonelink_setup),
                                 title: Text('Kualiti'),
-                                subtitle: Text(_data['Kualiti']),
+                                subtitle: Obx(() {
+                                  return Text(_detailsController
+                                      .selectedKualitiParts.value);
+                                }),
                               ),
                             ),
                           ),
                           Card(
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
-                              onTap: () {},
+                              onTap: () => _detailsController.editSupplier(),
                               child: ListTile(
                                 leading: Icon(Icons.precision_manufacturing),
                                 title: Text('Supplier'),
-                                subtitle: Text(Inventory.getSupplierCode(
-                                    _data['Supplier'])),
+                                subtitle: Obx(() {
+                                  return Text(Inventory.getSupplierCode(
+                                      _detailsController
+                                          .selectedSupplier.value));
+                                }),
                               ),
                             ),
                           ),
                           Card(
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
-                              onTap: () {},
+                              onTap: () =>
+                                  _detailsController.editMaklumatParts(),
                               child: ListTile(
                                 leading: Icon(Icons.summarize),
                                 title: Text('Maklumat Spareparts'),
-                                subtitle: Text(_data['Maklumat Spareparts']),
+                                subtitle: Obx(() {
+                                  return Text(
+                                      _detailsController.maklumatParts.value);
+                                }),
                               ),
                             ),
                           ),
@@ -135,11 +166,14 @@ class DetailsSpareparts extends GetView<SparepartController> {
                           Card(
                             child: InkWell(
                               borderRadius: BorderRadius.circular(20),
-                              onTap: () {},
+                              onTap: () => _detailsController.editHargaParts(),
                               child: ListTile(
                                 leading: Icon(Icons.request_quote),
                                 title: Text('Harga Supplier'),
-                                subtitle: Text('RM ${_data['Harga']}'),
+                                subtitle: Obx(() {
+                                  return Text(
+                                      'RM ${_detailsController.hargaParts.value}');
+                                }),
                               ),
                             ),
                           ),

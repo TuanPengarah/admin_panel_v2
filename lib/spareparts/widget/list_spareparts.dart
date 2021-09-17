@@ -43,17 +43,7 @@ class ListSpareparts extends StatelessWidget {
                       subtitle: Text(spareparts['Maklumat Spareparts']),
                       trailing: Text('RM${spareparts['Harga']}'),
                       onTap: () {
-                        // ShowDetailParts.details(
-                        //   title:
-                        //       '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
-                        //   id: spareparts['id'],
-                        //   tarikh: spareparts['Tarikh'],
-                        //   harga: spareparts['Harga'],
-                        //   supplier: spareparts['Supplier'],
-                        //   jenisSparepart: spareparts['Jenis Spareparts'],
-                        //   maklumatSparepart: spareparts['Maklumat Spareparts'],
-                        //   kualiti: spareparts['Kualiti'],
-                        // );
+                        Haptic.feedbackClick();
                         var arguments = {
                           'Model': spareparts['Model'],
                           'Kualiti': spareparts['Kualiti'],
@@ -100,6 +90,7 @@ class ListSpareparts extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () {
                       Haptic.feedbackClick();
+                      Get.toNamed(MyRoutes.sparepartsAdd);
                     },
                     icon: Icon(Icons.add),
                     label: Text('Tambah Spareparts'),

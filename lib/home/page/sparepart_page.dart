@@ -137,25 +137,52 @@ class SparepartPage extends StatelessWidget {
                   );
                 }
                 return Expanded(
-                  child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: 5,
-                      itemBuilder: (context, i) {
-                        var spareparts = _sparepartController.spareparts[i];
-                        return ListTile(
-                          leading: CircleAvatar(
-                            child: Text(
-                              spareparts['Supplier'],
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          title: Text(
-                              '${spareparts['Jenis Spareparts']} ${spareparts['Model']}'),
-                          subtitle: Text(spareparts['Maklumat Spareparts']),
-                        );
-                      }),
+                  child: GetBuilder<SparepartController>(
+                    assignId: true,
+                    builder: (logic) {
+                      return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemCount: 5,
+                          itemBuilder: (context, i) {
+                            var spareparts = _sparepartController.spareparts[i];
+                            return ListTile(
+                              leading: CircleAvatar(
+                                child: Text(
+                                  spareparts['Supplier'],
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              title: Text(
+                                  '${spareparts['Jenis Spareparts']} ${spareparts['Model']}'),
+                              subtitle: Text(spareparts['Maklumat Spareparts']),
+                              onTap: () {
+                                Haptic.feedbackClick();
+                                var arguments = {
+                                  'Model': spareparts['Model'],
+                                  'Kualiti': spareparts['Kualiti'],
+                                  'Jenis Spareparts':
+                                      spareparts['Jenis Spareparts'],
+                                  'Tarikh': spareparts['Tarikh'],
+                                  'Harga': spareparts['Harga'],
+                                  'Supplier': spareparts['Supplier'],
+                                  'Maklumat Spareparts':
+                                      spareparts['Maklumat Spareparts'],
+                                };
+
+                                Get.toNamed(
+                                  MyRoutes.sparepartsDetails,
+                                  arguments: arguments,
+                                  parameters: {
+                                    'id': spareparts['id'],
+                                  },
+                                );
+                              },
+                            );
+                          });
+                    },
+                  ),
                 );
               },
             ),
