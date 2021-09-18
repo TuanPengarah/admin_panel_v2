@@ -10,6 +10,7 @@ export 'package:admin_panel/jobsheet/view/jobsheet_history.dart';
 export 'package:admin_panel/jobsheet/view/jobsheet_view.dart';
 export 'package:admin_panel/pdf/view/pdf_view.dart';
 export 'package:admin_panel/print/view/print_view.dart';
+export 'package:admin_panel/spareparts/view/add_spareparts.dart';
 export 'package:admin_panel/spareparts/view/all_sparepart.dart';
 export 'package:admin_panel/spareparts/view/details_spareparts.dart';
-export 'package:admin_panel/spareparts/view/add_spareparts.dart';
+export 'package:admin_panel/spareparts/view/history_spareparts.dart';

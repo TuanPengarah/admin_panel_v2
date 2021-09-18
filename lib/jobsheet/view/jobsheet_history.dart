@@ -18,7 +18,7 @@ class JobsheetHistory extends StatelessWidget {
         builder: (_) {
           return Center(
             child: FutureBuilder<List<JobsheetHistoryModel>>(
-              future: DatabaseHelper.instance.getHistory(),
+              future: DatabaseHelper.instance.getCustomerHistory(),
               builder: (BuildContext context,
                   AsyncSnapshot<List<JobsheetHistoryModel>> snapshot) {
                 if (!snapshot.hasData) {

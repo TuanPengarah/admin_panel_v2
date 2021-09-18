@@ -205,7 +205,7 @@ class JobsheetController extends GetxController {
       String userName = namaCust.text;
 
       if (kIsWeb == false) {
-        await DatabaseHelper.instance.add(JobsheetHistoryModel(
+        await DatabaseHelper.instance.addCustomerHistory(JobsheetHistoryModel(
           name: namaCust.text,
           noPhone: noPhone.text,
           email: email.text,

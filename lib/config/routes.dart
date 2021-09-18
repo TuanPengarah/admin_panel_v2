@@ -13,4 +13,5 @@ class MyRoutes {
   static const spareparts = '/spareparts';
   static const sparepartsDetails = '/spareparts/details';
   static const sparepartsAdd = '/spareparts/add';
+  static const sparepartsHistory = '/spareparts/add/history';
 }

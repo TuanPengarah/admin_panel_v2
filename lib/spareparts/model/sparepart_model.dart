@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
+
 class Spareparts {
-  final String key;
+  final int id;
   final String model;
   final String jenisSpareparts;
   final String supplier;
@@ -7,29 +9,31 @@ class Spareparts {
   final String maklumatSpareparts;
   final String tarikh;
   final String harga;
-  final String id;
+  final String partsID;
 
-  Spareparts(
-    this.key,
-    this.model,
-    this.jenisSpareparts,
-    this.supplier,
-    this.kualiti,
-    this.maklumatSpareparts,
-    this.tarikh,
-    this.harga,
+  Spareparts({
     this.id,
-  );
+    @required this.model,
+    @required this.jenisSpareparts,
+    @required this.supplier,
+    @required this.kualiti,
+    @required this.maklumatSpareparts,
+    @required this.tarikh,
+    @required this.harga,
+    @required this.partsID,
+  });
 
-  // Spareparts.fromSnapshot(DataSnapshot snapshot)
-  //     : key = snapshot.key,
-  //       model = snapshot.value['Model'],
-  //       jenisSpareparts = snapshot.value['Jenis Spareparts'],
-  //       supplier = snapshot.value['Supplier'],
-  //       kualiti = snapshot.value['Kualiti'],
-  //       maklumatSpareparts = snapshot.value['Maklumat Spareparts'],
-  //       tarikh = snapshot.value['Tarikh'],
-  //       harga = snapshot.value['Harga'];
+  factory Spareparts.fromMap(Map<String, dynamic> json) => new Spareparts(
+        id: json['id'],
+        model: json['model'],
+        jenisSpareparts: json['jenisParts'],
+        supplier: json['supplier'],
+        kualiti: json['kualitiParts'],
+        maklumatSpareparts: json['maklumatParts'],
+        tarikh: json[''],
+        harga: json['harga'],
+        partsID: json['id'],
+      );
 
   toJson() {
     return {
@@ -40,7 +44,20 @@ class Spareparts {
       'Maklumat Spareparts': maklumatSpareparts,
       'Tarikh': tarikh,
       'Harga': harga,
-      'id': id,
+      'id': partsID,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'model': model,
+      'jenisParts': jenisSpareparts,
+      'supplier': supplier,
+      'kualitiParts': kualiti,
+      'maklumatParts': maklumatSpareparts,
+      'harga': harga,
+      'tarikh': '',
+      'partsID': partsID,
     };
   }
 }

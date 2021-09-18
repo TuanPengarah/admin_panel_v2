@@ -38,6 +38,15 @@ class DetailsSparepartsController extends GetxController {
     super.onInit();
   }
 
+  void setArguments() {
+    _data['Jenis Spareparts'] = jenisParts.value;
+    _data['Model'] = model.value;
+    _data['Kualiti'] = selectedKualitiParts.value;
+    _data['Maklumat Spareparts'] = maklumatParts.value;
+    _data['Harga'] = hargaParts.value;
+    _data['Supplier'] = selectedSupplier.value;
+  }
+
   void initEditable() {
     jenisParts.value = _data['Jenis Spareparts'];
     model.value = _data['Model'];
@@ -53,65 +62,77 @@ class DetailsSparepartsController extends GetxController {
   }
 
   Future<void> saveSpareparts(String id) async {
-    Haptic.feedbackClick();
-    Get.dialog(AlertDialog(
-      title: Text('Simpan perubahan?'),
-      content:
-          Text('Pastikan segala maklumat pada spareparts ini adalah betul!'),
-      actions: [
-        TextButton(
-          onPressed: () => Get.back(),
-          child: Text('Batal'),
-        ),
-        TextButton(
-          onPressed: () async {
-            Spareparts spareparts = Spareparts(
-              id,
-              model.value,
-              jenisParts.value,
-              selectedSupplier.value,
-              selectedKualitiParts.value,
-              maklumatParts.value,
-              DateTime.now().millisecondsSinceEpoch.toString(),
-              hargaParts.value,
-              id,
-            );
-            Get.dialog(
-              AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            );
-            try {
-              await FirebaseDatabase.instance
-                  .reference()
-                  .child('Spareparts')
-                  .child(id)
-                  .update(spareparts.toJson());
-
-              await _sparepartsController.refreshDialog(false);
+    if (jenisParts.value != _data['Jenis Spareparts'] ||
+        model.value != _data['Model'] ||
+        selectedKualitiParts.value != _data['Kualiti'] ||
+        maklumatParts.value != _data['Maklumat Spareparts'] ||
+        selectedSupplier.value != _data['Supplier']) {
+      Haptic.feedbackClick();
+      Get.dialog(AlertDialog(
+        title: Text('Simpan perubahan?'),
+        content:
+            Text('Pastikan segala maklumat pada spareparts ini adalah betul!'),
+        actions: [
+          TextButton(
+            onPressed: () {
               editMode.value = false;
+              initEditable();
               Get.back();
-              Get.back();
-              Get.back();
-              ShowSnackbar.success('Kemaskini Spareparts',
-                  'Spareparts anda telah dikemaskini', false);
-            } on Exception catch (e) {
-              Get.back();
-              Get.back();
-              Get.back();
-              ShowSnackbar.error('Gagal untuk mengemaskini spareparts',
-                  'Kesalahan telah berlaku: $e', false);
-            }
-          },
-          child: Text('Simpan perubahan'),
-        ),
-      ],
-    ));
+            },
+            child: Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Spareparts spareparts = Spareparts(
+                model: model.value,
+                jenisSpareparts: jenisParts.value,
+                supplier: selectedSupplier.value,
+                kualiti: selectedKualitiParts.value,
+                maklumatSpareparts: maklumatParts.value,
+                tarikh: DateTime.now().millisecondsSinceEpoch.toString(),
+                harga: hargaParts.value,
+                partsID: id,
+              );
+              Get.dialog(
+                AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircularProgressIndicator(),
+                    ],
+                  ),
+                ),
+              );
+              try {
+                await FirebaseDatabase.instance
+                    .reference()
+                    .child('Spareparts')
+                    .child(id)
+                    .update(spareparts.toJson());
+
+                await _sparepartsController.refreshDialog(false);
+                setArguments();
+                editMode.value = false;
+                Get.back();
+                Get.back();
+                Get.back();
+                ShowSnackbar.success('Kemaskini Spareparts',
+                    'Spareparts anda telah dikemaskini', false);
+              } on Exception catch (e) {
+                Get.back();
+                Get.back();
+                Get.back();
+                ShowSnackbar.error('Gagal untuk mengemaskini spareparts',
+                    'Kesalahan telah berlaku: $e', false);
+              }
+            },
+            child: Text('Simpan perubahan'),
+          ),
+        ],
+      ));
+    } else {
+      editMode.value = false;
+    }
   }
 
   Future<void> deleteSpareparts(String id, String model, String jenis) async {

@@ -73,7 +73,12 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               onTap: () =>
                                   _detailsController.editJenisSpareparts(),
                               child: ListTile(
-                                leading: Icon(Icons.hardware),
+                                leading: Obx(() {
+                                  return _detailsController.editMode.value ==
+                                          true
+                                      ? Icon(Icons.edit)
+                                      : Icon(Icons.hardware);
+                                }),
                                 title: Text('Jenis Spareparts'),
                                 subtitle: Obx(() {
                                   return Text(
@@ -87,7 +92,12 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               borderRadius: BorderRadius.circular(20),
                               onTap: () => _detailsController.editModel(),
                               child: ListTile(
-                                leading: Icon(Icons.phone_android),
+                                leading: Obx(() {
+                                  return _detailsController.editMode.value ==
+                                          true
+                                      ? Icon(Icons.edit)
+                                      : Icon(Icons.phone_android);
+                                }),
                                 title: Text('Model'),
                                 subtitle: Obx(() {
                                   return Text(_detailsController.model.value);
@@ -112,7 +122,12 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               borderRadius: BorderRadius.circular(20),
                               onTap: () => _detailsController.editKualiti(),
                               child: ListTile(
-                                leading: Icon(Icons.phonelink_setup),
+                                leading: Obx(() {
+                                  return _detailsController.editMode.value ==
+                                          true
+                                      ? Icon(Icons.edit)
+                                      : Icon(Icons.phonelink_setup);
+                                }),
                                 title: Text('Kualiti'),
                                 subtitle: Obx(() {
                                   return Text(_detailsController
@@ -126,7 +141,12 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               borderRadius: BorderRadius.circular(20),
                               onTap: () => _detailsController.editSupplier(),
                               child: ListTile(
-                                leading: Icon(Icons.precision_manufacturing),
+                                leading: Obx(() {
+                                  return _detailsController.editMode.value ==
+                                          true
+                                      ? Icon(Icons.edit)
+                                      : Icon(Icons.precision_manufacturing);
+                                }),
                                 title: Text('Supplier'),
                                 subtitle: Obx(() {
                                   return Text(Inventory.getSupplierCode(
@@ -142,7 +162,12 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               onTap: () =>
                                   _detailsController.editMaklumatParts(),
                               child: ListTile(
-                                leading: Icon(Icons.summarize),
+                                leading: Obx(() {
+                                  return _detailsController.editMode.value ==
+                                          true
+                                      ? Icon(Icons.edit)
+                                      : Icon(Icons.summarize);
+                                }),
                                 title: Text('Maklumat Spareparts'),
                                 subtitle: Obx(() {
                                   return Text(
@@ -167,7 +192,12 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               borderRadius: BorderRadius.circular(20),
                               onTap: () => _detailsController.editHargaParts(),
                               child: ListTile(
-                                leading: Icon(Icons.request_quote),
+                                leading: Obx(() {
+                                  return _detailsController.editMode.value ==
+                                          true
+                                      ? Icon(Icons.edit)
+                                      : Icon(Icons.request_quote);
+                                }),
                                 title: Text('Harga Supplier'),
                                 subtitle: Obx(() {
                                   return Text(

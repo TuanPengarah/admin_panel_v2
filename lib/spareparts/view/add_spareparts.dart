@@ -1,3 +1,5 @@
+import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
 import 'package:admin_panel/spareparts/widget/stepper_add_sparepart.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,17 @@ class AddSparepart extends StatelessWidget {
         backgroundColor:
             Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Haptic.feedbackClick();
+              Get.toNamed(MyRoutes.sparepartsHistory);
+            },
+            icon: Icon(
+              Icons.history,
+            ),
+          ),
+        ],
       ),
       body: Column(
         children: [

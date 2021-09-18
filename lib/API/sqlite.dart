@@ -1,7 +1,9 @@
 import 'dart:io';
+
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -14,7 +16,7 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, 'af-fix.db');
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(path, version: 2, onCreate: _onCreate);
   }
 
   Future _onCreate(Database db, int version) async {
@@ -32,9 +34,23 @@ class DatabaseHelper {
     userUID TEXT
     )
     ''');
+
+    await db.execute('''
+    CREATE TABLE sparepartsHistory(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    supplier TEXT,
+    model TEXT,
+    kualitiParts TEXT,
+    jenisParts TEXT,
+    harga TEXT,
+    maklumatParts TEXT,
+    tarikh TEXT,
+    partsID TEXT
+    )
+    ''');
   }
 
-  Future<List<JobsheetHistoryModel>> getHistory() async {
+  Future<List<JobsheetHistoryModel>> getCustomerHistory() async {
     Database db = await instance.database;
     var history = await db.query(
       'jobsheetHistory',
@@ -46,19 +62,64 @@ class DatabaseHelper {
     return historyList;
   }
 
-  Future<int> add(JobsheetHistoryModel history) async {
+  Future<int> addCustomerHistory(JobsheetHistoryModel history) async {
     Database db = await instance.database;
     return await db.insert('jobsheetHistory', history.toMap());
   }
 
-  Future<int> delete(int id) async {
+  Future<int> deleteCustomerHistory(int id) async {
     Database db = await instance.database;
     return await db.delete('jobsheetHistory', where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<int> update(JobsheetHistoryModel history) async {
+  Future<int> updateCustomerHistory(JobsheetHistoryModel history) async {
     Database db = await instance.database;
     return await db.update('jobsheetHistory', history.toMap(),
         where: 'id = ?', whereArgs: [history.id]);
+  }
+
+  Future<List<Spareparts>> getSparepartsHistory() async {
+    Database db = await instance.database;
+    print('init query');
+    var history = await db.query(
+      'sparepartsHistory',
+      orderBy: 'id DESC',
+    );
+    // List<Spareparts> historyList = history.isNotEmpty
+    //     ? history.map((c) {
+    //         print('data ada');
+    //         Spareparts.fromMap(c);
+    //       }).toList()
+    //     : [];
+
+    return List.generate(history.length, (i) {
+      var maps = history[i];
+      return Spareparts(
+          model: maps['model'],
+          jenisSpareparts: maps['jenisParts'],
+          supplier: maps['supplier'],
+          kualiti: maps['kualitiParts'],
+          maklumatSpareparts: maps['maklumatParts'],
+          tarikh: maps['tarikh'],
+          harga: maps['harga'],
+          partsID: maps['partsID']);
+    });
+  }
+
+  Future<int> addSparepartsHistory(Spareparts history) async {
+    Database db = await instance.database;
+    return await db.insert('sparepartsHistory', history.toMap());
+  }
+
+  Future<int> deleteSparepartsHistory(int id) async {
+    Database db = await instance.database;
+    return await db
+        .delete('sparepartsHistory', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> updateSparepartsHistory(Spareparts history) async {
+    Database db = await instance.database;
+    return await db.update('sparepartsHistory', history.toMap(),
+        where: 'id = ?', whereArgs: [history.partsID]);
   }
 }

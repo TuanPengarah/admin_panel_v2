@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
@@ -139,18 +140,30 @@ class AddSparepartsController extends GetxController {
     ));
 
     try {
+      await DatabaseHelper.instance.addSparepartsHistory(
+        Spareparts(
+          model: modelParts.text,
+          jenisSpareparts: jenisParts.text,
+          supplier: selectedSupplier.value,
+          kualiti: selectedQuality.value,
+          maklumatSpareparts: maklumatParts.text,
+          tarikh: timeStamp.value,
+          harga: hargaParts.text,
+          partsID: partsID.value,
+        ),
+      );
       for (int i = 0; i < int.parse(kuantitiParts.text); i++) {
         generatePartsID();
         Spareparts spareparts = new Spareparts(
-            partsID.value,
-            modelParts.text,
-            jenisParts.text,
-            selectedSupplier.value,
-            selectedQuality.value,
-            maklumatParts.text,
-            timeStamp.value,
-            hargaParts.text,
-            partsID.value);
+          model: modelParts.text,
+          jenisSpareparts: jenisParts.text,
+          supplier: selectedSupplier.value,
+          kualiti: selectedQuality.value,
+          maklumatSpareparts: maklumatParts.text,
+          tarikh: timeStamp.value,
+          harga: hargaParts.text,
+          partsID: partsID.value,
+        );
         await Future.delayed(Duration(milliseconds: 100));
         status.value =
             'Memasukkan maklumat spareparts anda ke pangkalan data...';

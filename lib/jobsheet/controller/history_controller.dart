@@ -20,7 +20,7 @@ class HistoryController extends GetxController {
           ),
           TextButton(
             onPressed: () async {
-              await DatabaseHelper.instance.delete(id);
+              await DatabaseHelper.instance.deleteCustomerHistory(id);
               Get.back();
               Get.back();
               update();
