@@ -1,7 +1,7 @@
 import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
-import 'package:admin_panel/spareparts/controller/details_spareparts.dart';
+import 'package:admin_panel/spareparts/controller/details_spareparts_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -53,9 +53,8 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                 .toList(),
                           )
                         : IconButton(
-                            onPressed: () {
-                              _detailsController.editMode.value = false;
-                            },
+                            onPressed: () => _detailsController
+                                .saveSpareparts(_params['id']),
                             icon: Icon(Icons.save),
                           );
                   }),

@@ -3,6 +3,7 @@ import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
+import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,6 +50,118 @@ class DetailsSparepartsController extends GetxController {
     modelController.text = model.value;
     maklumatPartsController.text = maklumatParts.value;
     hargaPartsController.text = hargaParts.value;
+  }
+
+  Future<void> saveSpareparts(String id) async {
+    Haptic.feedbackClick();
+    Get.dialog(AlertDialog(
+      title: Text('Simpan perubahan?'),
+      content:
+          Text('Pastikan segala maklumat pada spareparts ini adalah betul!'),
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(),
+          child: Text('Batal'),
+        ),
+        TextButton(
+          onPressed: () async {
+            Spareparts spareparts = Spareparts(
+              id,
+              model.value,
+              jenisParts.value,
+              selectedSupplier.value,
+              selectedKualitiParts.value,
+              maklumatParts.value,
+              DateTime.now().millisecondsSinceEpoch.toString(),
+              hargaParts.value,
+              id,
+            );
+            Get.dialog(
+              AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              ),
+            );
+            try {
+              await FirebaseDatabase.instance
+                  .reference()
+                  .child('Spareparts')
+                  .child(id)
+                  .update(spareparts.toJson());
+
+              await _sparepartsController.refreshDialog(false);
+              editMode.value = false;
+              Get.back();
+              Get.back();
+              Get.back();
+              ShowSnackbar.success('Kemaskini Spareparts',
+                  'Spareparts anda telah dikemaskini', false);
+            } on Exception catch (e) {
+              Get.back();
+              Get.back();
+              Get.back();
+              ShowSnackbar.error('Gagal untuk mengemaskini spareparts',
+                  'Kesalahan telah berlaku: $e', false);
+            }
+          },
+          child: Text('Simpan perubahan'),
+        ),
+      ],
+    ));
+  }
+
+  Future<void> deleteSpareparts(String id, String model, String jenis) async {
+    Haptic.feedbackError();
+    Get.dialog(AlertDialog(
+      title: Text('Adakah anda pasti?'),
+      content:
+          Text('Adakah anda pasti untuk membuang sparepart $jenis $model?'),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            Get.dialog(
+              AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              ),
+            );
+            await FirebaseDatabase.instance
+                .reference()
+                .child('Spareparts')
+                .child(id)
+                .remove()
+                .then((value) async {
+              await _sparepartsController.refreshDialog(false);
+              Haptic.feedbackSuccess();
+              Get.back();
+              Get.back();
+              Get.back();
+              Get.back();
+              ShowSnackbar.notify('Padam Spareparts',
+                  'Spareparts $jenis $model telah dipadam dari server!');
+            });
+          },
+          child: Text(
+            'Buang',
+            style: TextStyle(
+              color: Colors.amber.shade900,
+            ),
+          ),
+        ),
+        TextButton(
+          onPressed: () => Get.back(),
+          child: Text('Batal'),
+        ),
+      ],
+    ));
   }
 
   void editJenisSpareparts() {
@@ -341,55 +454,5 @@ class DetailsSparepartsController extends GetxController {
         await deleteSpareparts(id, model, jenis);
         break;
     }
-  }
-
-  Future<void> deleteSpareparts(String id, String model, String jenis) async {
-    Haptic.feedbackError();
-    Get.dialog(AlertDialog(
-      title: Text('Adakah anda pasti?'),
-      content:
-          Text('Adakah anda pasti untuk membuang sparepart $jenis $model?'),
-      actions: [
-        TextButton(
-          onPressed: () async {
-            Get.dialog(
-              AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            );
-            await FirebaseDatabase.instance
-                .reference()
-                .child('Spareparts')
-                .child(id)
-                .remove()
-                .then((value) async {
-              await _sparepartsController.refreshDialog(false);
-              Haptic.feedbackSuccess();
-              Get.back();
-              Get.back();
-              Get.back();
-              Get.back();
-              ShowSnackbar.notify('Padam Spareparts',
-                  'Spareparts $jenis $model telah dipadam dari server!');
-            });
-          },
-          child: Text(
-            'Buang',
-            style: TextStyle(
-              color: Colors.amber.shade900,
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: () => Get.back(),
-          child: Text('Batal'),
-        ),
-      ],
-    ));
   }
 }

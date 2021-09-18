@@ -150,7 +150,9 @@ class SparepartPage extends StatelessWidget {
                             return ListTile(
                               leading: CircleAvatar(
                                 child: Text(
-                                  spareparts['Supplier'],
+                                  spareparts['Supplier'] == 'Lain...'
+                                      ? '...'
+                                      : spareparts['Supplier'],
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ),
