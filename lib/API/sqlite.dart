@@ -11,12 +11,16 @@ class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
   static Database _database;
-  Future<Database> get database async => _database ??= await _initDatabase();
+  Future<Database> get database async {
+    if (_database != null) return _database;
+    _database = await _initDatabase();
+    return _database;
+  }
 
   Future<Database> _initDatabase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, 'af-fix.db');
-    return await openDatabase(path, version: 2, onCreate: _onCreate);
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
   Future _onCreate(Database db, int version) async {
@@ -114,7 +118,7 @@ class DatabaseHelper {
   Future<int> deleteSparepartsHistory(int id) async {
     Database db = await instance.database;
     return await db
-        .delete('sparepartsHistory', where: 'id = ?', whereArgs: [id]);
+        .delete('sparepartsHistory', where: 'partsID = ?', whereArgs: [id]);
   }
 
   Future<int> updateSparepartsHistory(Spareparts history) async {

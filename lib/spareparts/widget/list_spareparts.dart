@@ -30,11 +30,12 @@ class ListSpareparts extends StatelessWidget {
                       leading: Hero(
                         tag: spareparts['id'],
                         child: CircleAvatar(
+                          backgroundColor: Get.theme.primaryColor,
                           child: Text(
                             spareparts['Supplier'] == 'Lain...'
                                 ? '...'
                                 : spareparts['Supplier'],
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white,),
                           ),
                         ),
                       ),

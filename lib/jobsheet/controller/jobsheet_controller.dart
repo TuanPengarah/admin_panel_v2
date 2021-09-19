@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:admin_panel/API/firestoreAPI.dart';
 import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
@@ -6,10 +7,10 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class JobsheetController extends GetxController {
   final _firestoreController = Get.put(FirestoreContoller());
@@ -22,6 +23,15 @@ class JobsheetController extends GetxController {
   final kerosakkan = TextEditingController();
   final harga = TextEditingController();
   final remarks = TextEditingController();
+
+  final focusNamaCust = new FocusNode();
+  final focusNoPhone = new FocusNode();
+  final focusEmail = new FocusNode();
+  final focusModelPhone = new FocusNode();
+  final focusPassPhone = new FocusNode();
+  final focusKerosakkan = new FocusNode();
+  final focusHarga = new FocusNode();
+  final focusRemarks = new FocusNode();
 
   final FlutterContactPicker _contactPicker = new FlutterContactPicker();
 
@@ -140,6 +150,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errNama.value = false;
+        focusNoPhone.requestFocus();
       }
     } else if (currentSteps.value == 1) {
       if (noPhone.text.isEmpty) {
@@ -148,9 +159,11 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errNoPhone.value = false;
+        focusEmail.requestFocus();
       }
     } else if (currentSteps.value == 2) {
       currentSteps.value++;
+      focusModelPhone.requestFocus();
     } else if (currentSteps.value == 3) {
       if (modelPhone.text.isEmpty) {
         errModel.value = true;
@@ -158,9 +171,11 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errModel.value = false;
+        focusPassPhone.requestFocus();
       }
     } else if (currentSteps.value == 4) {
       currentSteps.value++;
+      focusKerosakkan.requestFocus();
     } else if (currentSteps.value == 5) {
       if (kerosakkan.text.isEmpty) {
         errKerosakkan.value = true;
@@ -168,6 +183,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errKerosakkan.value = false;
+        focusHarga.requestFocus();
       }
     } else if (currentSteps.value == 6) {
       if (harga.text.isEmpty) {
@@ -176,6 +192,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errPrice.value = false;
+        focusRemarks.requestFocus();
       }
     } else if (currentSteps.value == 7) {
       Get.focusScope.unfocus();

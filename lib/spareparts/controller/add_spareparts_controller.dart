@@ -46,6 +46,44 @@ class AddSparepartsController extends GetxController {
     super.onInit();
   }
 
+  Future<bool> exitSpareparts() async {
+    Haptic.feedbackError();
+    bool result = false;
+    if (modelParts.text.isNotEmpty) {
+      await Get.dialog(
+        AlertDialog(
+          title: Text('Anda pasti untuk keluar?'),
+          content: Text(
+              'Segala maklumat yang telah anda masukkan di Spareparts ini akan di padam!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                result = false;
+                Get.back();
+              },
+              child: Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                result = true;
+                Get.back();
+              },
+              child: Text(
+                'Keluar',
+                style: TextStyle(
+                  color: Colors.amber[900],
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      result = true;
+    }
+    return result;
+  }
+
   void generateTimestamp() {
     var dateID = DateTime.now().millisecondsSinceEpoch.toString();
     timeStamp.value = dateID;

@@ -31,6 +31,7 @@ class MysidUpdate extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          SizedBox(height: 30),
                           Obx(() {
                             return CircularPercentIndicator(
                               radius: 200.0,
@@ -67,7 +68,7 @@ class MysidUpdate extends StatelessWidget {
                               progressColor: Colors.white,
                             );
                           }),
-                          SizedBox(height: 120),
+                          SizedBox(height: 40),
                         ],
                       ),
                     )),

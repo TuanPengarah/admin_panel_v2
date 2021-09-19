@@ -99,40 +99,46 @@ class JobsheetView extends StatelessWidget {
                               SizedBox(height: 15),
                               Row(
                                 children: <Widget>[
-                                  TextButton(
-                                    onPressed: onStepContinue,
+                                  Expanded(
                                     child: ElevatedButton(
                                       onPressed: onStepContinue,
-                                      child: Text('Seterusnya'),
+                                      child: Text(_jobsheetController
+                                                  .currentSteps.value ==
+                                              7
+                                          ? 'Tambah Jobsheet'
+                                          : 'Seterusnya'),
                                     ),
                                   ),
-                                  TextButton(
-                                    onPressed: onStepCancel,
-                                    child: Text('Batal'),
-                                  ),
+                                  if (_jobsheetController.currentSteps.value !=
+                                      0)
+                                    Expanded(
+                                      child: TextButton(
+                                        onPressed: onStepCancel,
+                                        child: Text('Batal'),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ],
                           );
                         },
-                        onStepContinue: () {
-                          _jobsheetController.nextStep();
-                          context.nextEditableTextFocus();
-                        },
+                        onStepContinue: () => _jobsheetController.nextStep(),
                         onStepCancel: () => _jobsheetController.previousStep(),
                         steps: [
                           Step(
+                            state: _jobsheetController.currentSteps.value != 0
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive:
-                                _jobsheetController.currentSteps.value <= 0,
+                                _jobsheetController.currentSteps.value >= 0,
                             content: TextField(
                               autofocus: true,
+                              focusNode: _jobsheetController.focusNamaCust,
                               controller: _jobsheetController.namaCust,
                               textInputAction: TextInputAction.next,
                               textCapitalization: TextCapitalization.words,
-                              onEditingComplete: () {
-                                _jobsheetController.nextStep();
-                                context.nextEditableTextFocus();
-                              },
+                              onSubmitted: (text) =>
+                                  _jobsheetController.nextStep(),
                               decoration: InputDecoration(
                                 errorText:
                                     _jobsheetController.errNama.value == true
@@ -145,17 +151,18 @@ class JobsheetView extends StatelessWidget {
                             ),
                           ),
                           Step(
+                            state: _jobsheetController.currentSteps.value > 1
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive:
-                                _jobsheetController.currentSteps.value == 1,
+                                _jobsheetController.currentSteps.value >= 1,
                             content: TextField(
-                              autofocus: true,
+                              focusNode: _jobsheetController.focusNoPhone,
                               controller: _jobsheetController.noPhone,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.phone,
-                              onEditingComplete: () {
-                                _jobsheetController.nextStep();
-                                context.nextEditableTextFocus();
-                              },
+                              onSubmitted: (text) =>
+                                  _jobsheetController.nextStep(),
                               decoration: InputDecoration(
                                 errorText: _jobsheetController
                                             .errNoPhone.value ==
@@ -169,32 +176,36 @@ class JobsheetView extends StatelessWidget {
                             ),
                           ),
                           Step(
+                            state: _jobsheetController.currentSteps.value > 2
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive:
-                                _jobsheetController.currentSteps.value == 2,
+                                _jobsheetController.currentSteps.value >= 2,
                             content: TextField(
+                              focusNode: _jobsheetController.focusEmail,
                               controller: _jobsheetController.email,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.emailAddress,
-                              onEditingComplete: () {
-                                _jobsheetController.nextStep();
-                                context.nextEditableTextFocus();
-                              },
+                              onSubmitted: (text) =>
+                                  _jobsheetController.nextStep(),
                             ),
                             title: Text(
                               'Email *Optional',
                             ),
                           ),
                           Step(
+                            state: _jobsheetController.currentSteps.value > 3
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive:
-                                _jobsheetController.currentSteps.value == 3,
+                                _jobsheetController.currentSteps.value >= 3,
                             content: TextField(
+                              focusNode: _jobsheetController.focusModelPhone,
                               controller: _jobsheetController.modelPhone,
                               textInputAction: TextInputAction.next,
                               textCapitalization: TextCapitalization.words,
-                              onEditingComplete: () {
-                                _jobsheetController.nextStep();
-                                context.nextEditableTextFocus();
-                              },
+                              onSubmitted: (text) =>
+                                  _jobsheetController.nextStep(),
                               decoration: InputDecoration(
                                 errorText:
                                     _jobsheetController.errModel.value == true
@@ -207,25 +218,31 @@ class JobsheetView extends StatelessWidget {
                             ),
                           ),
                           Step(
+                            state: _jobsheetController.currentSteps.value > 4
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive:
-                                _jobsheetController.currentSteps.value == 4,
+                                _jobsheetController.currentSteps.value >= 4,
                             content: TextField(
+                              focusNode: _jobsheetController.focusPassPhone,
                               controller: _jobsheetController.passPhone,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.visiblePassword,
-                              onEditingComplete: () {
-                                _jobsheetController.nextStep();
-                                context.nextEditableTextFocus();
-                              },
+                              onSubmitted: (text) =>
+                                  _jobsheetController.nextStep(),
                             ),
                             title: Text(
                               'Password Smartphone *Optional',
                             ),
                           ),
                           Step(
+                            state: _jobsheetController.currentSteps.value > 5
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive:
-                                _jobsheetController.currentSteps.value == 5,
+                                _jobsheetController.currentSteps.value >= 5,
                             content: TextField(
+                              focusNode: _jobsheetController.focusKerosakkan,
                               controller: _jobsheetController.kerosakkan,
                               textInputAction: TextInputAction.newline,
                               textCapitalization: TextCapitalization.sentences,
@@ -243,16 +260,18 @@ class JobsheetView extends StatelessWidget {
                             ),
                           ),
                           Step(
+                            state: _jobsheetController.currentSteps.value > 6
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive:
-                                _jobsheetController.currentSteps.value == 6,
+                                _jobsheetController.currentSteps.value >= 6,
                             content: TextField(
+                              focusNode: _jobsheetController.focusHarga,
                               controller: _jobsheetController.harga,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.number,
-                              onEditingComplete: () {
-                                _jobsheetController.nextStep();
-                                context.nextEditableTextFocus();
-                              },
+                              onSubmitted: (text) =>
+                                  _jobsheetController.nextStep(),
                               decoration: InputDecoration(
                                 errorText:
                                     _jobsheetController.errPrice.value == true
@@ -265,9 +284,13 @@ class JobsheetView extends StatelessWidget {
                             ),
                           ),
                           Step(
+                            state: _jobsheetController.currentSteps.value > 7
+                                ? StepState.complete
+                                : StepState.indexed,
                             isActive:
-                                _jobsheetController.currentSteps.value == 7,
+                                _jobsheetController.currentSteps.value >= 7,
                             content: TextField(
+                                focusNode: _jobsheetController.focusRemarks,
                                 controller: _jobsheetController.remarks,
                                 textInputAction: TextInputAction.newline,
                                 textCapitalization:

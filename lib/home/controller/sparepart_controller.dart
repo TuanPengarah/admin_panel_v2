@@ -24,7 +24,6 @@ class SparepartController extends GetxController {
     return dateFormat.format(convertDate);
   }
 
-
   Future<void> refreshDialog(bool onAppBar) async {
     Haptic.feedbackClick();
     if (onAppBar == true) {
@@ -47,7 +46,8 @@ class SparepartController extends GetxController {
       Get.back();
     }
     update();
-    ShowSnackbar.success('Segar Semula', 'Segar semula selesai', false);
+    if (onAppBar == true)
+      ShowSnackbar.success('Segar Semula', 'Segar semula selesai', false);
   }
 
   Future<void> getSparepartsList() async {
