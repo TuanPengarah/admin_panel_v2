@@ -67,7 +67,7 @@ class MysidUpdate extends StatelessWidget {
                               progressColor: Colors.white,
                             );
                           }),
-                          SizedBox(height: 60),
+                          SizedBox(height: 120),
                         ],
                       ),
                     )),

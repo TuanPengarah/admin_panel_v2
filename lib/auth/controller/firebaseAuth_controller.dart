@@ -1,5 +1,6 @@
 import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -21,6 +22,13 @@ class AuthController extends GetxController {
     final user = _auth.currentUser;
     if (user != null) {
       checkUserData(user.uid, user.email);
+    }
+    if (kIsWeb) {
+      if (user != null) {
+        Get.offAllNamed(MyRoutes.home);
+      } else {
+        Get.offAndToNamed(MyRoutes.login);
+      }
     }
     super.onReady();
   }
@@ -56,11 +64,13 @@ class AuthController extends GetxController {
           btnController.reset();
         } else {
           await checkUserData(value.user.uid, value.user.email);
-          ShowSnackbar.success('Selamat Kembali', 'Log masuk berjaya!', true);
+
           btnController.success();
           Haptic.feedbackSuccess();
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(Duration(seconds: 1));
           Get.offAllNamed('/home');
+          ShowSnackbar.success(
+              'Selamat Kembali $userName', 'Log masuk berjaya!', true);
         }
       });
     }).catchError(
@@ -77,7 +87,7 @@ class AuthController extends GetxController {
   ///LOG OUT
   void performLogOut() {
     _auth.signOut().then((value) {
-      Get.offAllNamed('/auth');
+      Get.offAllNamed(MyRoutes.login);
       ShowSnackbar.success(
           'Log Keluar Berjaya', 'Anda telah di log keluar!', true);
     }).catchError((err) {

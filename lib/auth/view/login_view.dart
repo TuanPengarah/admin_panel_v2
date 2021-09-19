@@ -1,33 +1,13 @@
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/auth/view/login_dialog.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/theme_data.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-class LoginView extends StatefulWidget {
-  @override
-  _LoginViewState createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
-  final _authController = Get.put(AuthController());
-
-  @override
-  void initState() {
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('user already signed in!');
-        Get.offAllNamed(MyRoutes.home);
-      }
-    });
-    super.initState();
-  }
+class LoginView extends StatelessWidget {
+  final _authController = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {

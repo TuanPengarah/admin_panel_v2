@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/initial_binding.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Af-Fix Admin Panel',
       debugShowCheckedModeBanner: false,
+      initialBinding: InitialBinding(),
       theme: MyThemes.lightTheme,
       darkTheme: MyThemes.darkTheme,
       themeMode: MyThemes().themeMode,

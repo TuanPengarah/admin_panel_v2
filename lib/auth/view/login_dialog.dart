@@ -14,7 +14,7 @@ class ShowBottomSheet {
     final emailField = TextEditingController();
     final passwordField = TextEditingController();
     final btnController = RoundedLoadingButtonController();
-    final visiblityController = Get.put(ShowPasswordController());
+    final visiblityController = Get.put(ShowPasswordController(), tag: 'sign');
 
     await showSlidingBottomSheet(context, builder: (context) {
       return SlidingSheetDialog(
