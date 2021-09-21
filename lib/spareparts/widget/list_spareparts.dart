@@ -21,50 +21,55 @@ class ListSpareparts extends StatelessWidget {
             onRefresh: () async {
               await _sparepartsController.refreshDialog(false);
             },
-            child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: list.length,
-                itemBuilder: (context, i) {
-                  var spareparts = list[i];
-                  return ListTile(
-                      leading: Hero(
-                        tag: spareparts['id'],
-                        child: CircleAvatar(
-                          backgroundColor: Get.theme.primaryColor,
-                          child: Text(
-                            spareparts['Supplier'] == 'Lain...'
-                                ? '...'
-                                : spareparts['Supplier'],
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white,),
+            child: Scrollbar(
+              child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: list.length,
+                  itemBuilder: (context, i) {
+                    var spareparts = list[i];
+                    return ListTile(
+                        leading: Hero(
+                          tag: spareparts['id'],
+                          child: CircleAvatar(
+                            backgroundColor: Get.theme.primaryColor,
+                            child: Text(
+                              spareparts['Supplier'] == 'Lain...'
+                                  ? '...'
+                                  : spareparts['Supplier'],
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      title: Text(
-                          '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})'),
-                      subtitle: Text(spareparts['Maklumat Spareparts']),
-                      trailing: Text('RM${spareparts['Harga']}'),
-                      onTap: () {
-                        Haptic.feedbackClick();
-                        var arguments = {
-                          'Model': spareparts['Model'],
-                          'Kualiti': spareparts['Kualiti'],
-                          'Jenis Spareparts': spareparts['Jenis Spareparts'],
-                          'Tarikh': spareparts['Tarikh'],
-                          'Harga': spareparts['Harga'],
-                          'Supplier': spareparts['Supplier'],
-                          'Maklumat Spareparts':
-                              spareparts['Maklumat Spareparts'],
-                        };
+                        title: Text(
+                            '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})'),
+                        subtitle: Text(spareparts['Maklumat Spareparts']),
+                        trailing: Text('RM${spareparts['Harga']}'),
+                        onTap: () {
+                          Haptic.feedbackClick();
+                          var arguments = {
+                            'Model': spareparts['Model'],
+                            'Kualiti': spareparts['Kualiti'],
+                            'Jenis Spareparts': spareparts['Jenis Spareparts'],
+                            'Tarikh': spareparts['Tarikh'],
+                            'Harga': spareparts['Harga'],
+                            'Supplier': spareparts['Supplier'],
+                            'Maklumat Spareparts':
+                                spareparts['Maklumat Spareparts'],
+                          };
 
-                        Get.toNamed(
-                          MyRoutes.sparepartsDetails,
-                          arguments: arguments,
-                          parameters: {
-                            'id': spareparts['id'],
-                          },
-                        );
-                      });
-                }),
+                          Get.toNamed(
+                            MyRoutes.sparepartsDetails,
+                            arguments: arguments,
+                            parameters: {
+                              'id': spareparts['id'],
+                            },
+                          );
+                        });
+                  }),
+            ),
           )
         : Padding(
             padding: const EdgeInsets.all(8.0),

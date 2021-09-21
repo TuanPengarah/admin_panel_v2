@@ -12,7 +12,7 @@ class AuthController extends GetxController {
   final _auth = FirebaseAuth.instance;
   String userUID = '';
   String userEmail = '';
-  String userName = '';
+  String userName = '---';
   String cawangan = '';
   var jumlahRepair = 0.obs;
   var jumlahKeuntungan = 0.obs;

@@ -2,11 +2,17 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   var currentIndex = 0.obs;
   var totalMysid = 0.obs;
+
+  void navTap(int index) {
+    currentIndex.value = index;
+  }
+
   void showBottomJosheet() async {
     Haptic.feedbackClick();
     await Get.bottomSheet(

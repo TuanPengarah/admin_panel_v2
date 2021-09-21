@@ -2,7 +2,7 @@ import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:admin_panel/home/page/customer_page.dart';
 import 'package:admin_panel/home/page/dashboard_page.dart';
 import 'package:admin_panel/home/page/mysid_page.dart';
-import 'package:admin_panel/home/page/pos_page.dart';
+import 'package:admin_panel/home/page/others_page.dart';
 import 'package:admin_panel/home/page/sparepart_page.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class HomeView extends StatelessWidget {
         () => BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           currentIndex: _homeController.currentIndex.value,
-          onTap: (index) => _homeController.currentIndex.value = index,
+          onTap: (index) => _homeController.navTap(index),
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.dashboard),
