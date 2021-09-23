@@ -25,13 +25,14 @@ dependencies:
   badges: ^2.0.1
   percent_indicator: ^3.0.1
   another_xlider: ^1.0.0
+  line_icons: ^2.0.1
 
   # API Services
   firebase_core: ^1.5.0
   cloud_firestore: ^2.5.0
   firebase_auth: ^3.0.2
   flutter_mailer: ^2.0.0
-  firebase_database: ^ 8.0.0
+  firebase_database: ^8.0.0
 
   # Native Hardware
   esc_pos_bluetooth: ^0.2.8
@@ -54,6 +55,7 @@ dependencies:
   pdf: 
   flutter_full_pdf_viewer: ^1.0.6
   flutter_app_badger: ^1.2.0
+  device_info_plus: ^2.1.0
   
 
 dev_dependencies:

@@ -14,4 +14,5 @@ class MyRoutes {
   static const sparepartsDetails = '/spareparts/details';
   static const sparepartsAdd = '/spareparts/add';
   static const sparepartsHistory = '/spareparts/add/history';
+  static const priceCalc = '/price-calculator';
 }

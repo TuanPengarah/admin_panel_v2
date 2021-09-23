@@ -1,4 +1,5 @@
 export 'package:admin_panel/auth/view/login_view.dart';
+export 'package:admin_panel/calculator/view/price_calc_view.dart';
 export 'package:admin_panel/config/theme_data.dart';
 export 'package:admin_panel/cust_overview/view/cust_view.dart';
 export 'package:admin_panel/home/view/home_view.dart';

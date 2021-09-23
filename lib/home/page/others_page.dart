@@ -1,10 +1,13 @@
 import 'package:admin_panel/config/theme_data.dart';
+import 'package:admin_panel/home/controller/other_controller.dart';
+import 'package:admin_panel/home/widget/other_setting.dart';
 import 'package:admin_panel/home/widget/profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 
 class SettingPage extends StatelessWidget {
-  // final _authController = Get.find<AuthController>();
+  final _otherController = Get.put(OtherController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,12 +37,37 @@ class SettingPage extends StatelessWidget {
               ProfileAvatar().profile(context),
               SizedBox(height: 30),
               ProfileAvatar().yourRecord(context),
+              SizedBox(height: 30),
+              OtherSettings().otherAndSetting(context),
+              SizedBox(height: 40),
+              OtherSettings().logOutButton(),
+              SizedBox(height: 40),
+              Icon(
+                  GetPlatform.isIOS
+                      ? LineIcons.apple
+                      : GetPlatform.isAndroid
+                          ? LineIcons.android
+                          : LineIcons.tablet,
+                  color: Colors.grey),
+              Obx(() {
+                return Text(
+                  'Af-Fix Admin Panel V2.0\n- ${_otherController.deviceModel.value} -\nDibangunkan oleh Akid Fikri Azhar',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 13,
+                  ),
+                );
+              }),
+              SizedBox(height: 20),
             ],
           ),
         ),
       ],
     ));
   }
+
+
 }
 // Scaffold(
 //       appBar: AppBar(

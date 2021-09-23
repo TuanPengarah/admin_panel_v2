@@ -73,7 +73,7 @@ class ProfileAvatar {
                   decoration: BoxDecoration(
                     color: Theme.of(context).brightness == Brightness.dark
                         ? Colors.grey.shade900
-                        : Colors.grey.shade300,
+                        : Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Center(
@@ -83,26 +83,32 @@ class ProfileAvatar {
                       children: [
                         Icon(
                           Icons.handyman_outlined,
-                          color: Colors.grey,
+                          color: Theme.of(context).primaryColor,
                           size: 40,
                         ),
                         SizedBox(height: 10),
                         Text(
                           'Jumlah Repair',
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Get.isDarkMode
+                                ? Colors.grey.shade300
+                                : Colors.grey.shade700,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 10),
-                        Text(
-                          '${_authController.jumlahRepair.value}',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
+                        Obx(() {
+                          return Text(
+                            '${_authController.jumlahRepair.value}',
+                            style: TextStyle(
+                              color: Get.isDarkMode
+                                  ? Colors.grey.shade300
+                                  : Colors.grey.shade700,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        })
                       ],
                     ),
                   ),
@@ -115,7 +121,7 @@ class ProfileAvatar {
                   decoration: BoxDecoration(
                     color: Theme.of(context).brightness == Brightness.dark
                         ? Colors.grey.shade900
-                        : Colors.grey.shade300,
+                        : Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Center(
@@ -125,27 +131,33 @@ class ProfileAvatar {
                       children: [
                         Icon(
                           Icons.toll_outlined,
-                          color: Colors.grey,
+                          color: Theme.of(context).primaryColor,
                           size: 40,
                         ),
                         SizedBox(height: 10),
                         Text(
                           'Jumlah Keuntunggan',
                           style: TextStyle(
-                            color: Colors.grey,
+                            color: Get.isDarkMode
+                                ? Colors.grey.shade300
+                                : Colors.grey.shade700,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 10),
-                        Text(
-                          'RM${_authController.jumlahKeuntungan.value}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
+                        Obx(() {
+                          return Text(
+                            'RM${_authController.jumlahKeuntungan.value}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Get.isDarkMode
+                                  ? Colors.grey.shade300
+                                  : Colors.grey.shade700,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        })
                       ],
                     ),
                   ),

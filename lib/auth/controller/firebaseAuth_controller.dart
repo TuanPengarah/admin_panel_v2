@@ -5,6 +5,7 @@ import 'package:admin_panel/config/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
@@ -86,14 +87,43 @@ class AuthController extends GetxController {
 
   ///LOG OUT
   void performLogOut() {
-    _auth.signOut().then((value) {
-      Get.offAllNamed(MyRoutes.login);
-      ShowSnackbar.success(
-          'Log Keluar Berjaya', 'Anda telah di log keluar!', true);
-    }).catchError((err) {
-      Haptic.feedbackError();
-      ShowSnackbar.error('Kesalahan telah berlaku', err.toString(), true);
-    });
+    Get.dialog(
+      AlertDialog(
+        title: Text('Log Keluar'),
+        content: Text('Adakah anda pasti untuk log keluar?'),
+        actions: [
+          TextButton(
+            child: Text(
+              'Log Keluar',
+              style: TextStyle(
+                color: Colors.amber[900],
+              ),
+            ),
+            onPressed: () {
+              _auth.signOut().then((value) {
+                userUID = '';
+                userEmail = '';
+                userName = '---';
+                cawangan = '';
+                jumlahRepair.value = 0;
+                jumlahKeuntungan.value = 0;
+                Get.offAllNamed(MyRoutes.login);
+                ShowSnackbar.success(
+                    'Log Keluar Berjaya', 'Anda telah di log keluar!', true);
+              }).catchError((err) {
+                Haptic.feedbackError();
+                ShowSnackbar.error(
+                    'Kesalahan telah berlaku', err.toString(), true);
+              });
+            },
+          ),
+          TextButton(
+            child: Text('Batal'),
+            onPressed: () => Get.back(),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> checkUserData(String uid, String email) async {
