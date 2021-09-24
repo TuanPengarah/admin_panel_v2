@@ -109,6 +109,7 @@ class PriceCalculatorWidget {
             controller: _priceController.supplierPriceTitle,
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.done,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
             ],

@@ -87,6 +87,7 @@ class AuthController extends GetxController {
 
   ///LOG OUT
   void performLogOut() {
+    Haptic.feedbackError();
     Get.dialog(
       AlertDialog(
         title: Text('Log Keluar'),
@@ -108,6 +109,7 @@ class AuthController extends GetxController {
                 jumlahRepair.value = 0;
                 jumlahKeuntungan.value = 0;
                 Get.offAllNamed(MyRoutes.login);
+                Haptic.feedbackSuccess();
                 ShowSnackbar.success(
                     'Log Keluar Berjaya', 'Anda telah di log keluar!', true);
               }).catchError((err) {

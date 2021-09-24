@@ -63,7 +63,7 @@ class PriceCalculatorView extends StatelessWidget {
                       FlutterSlider(
                         values: [
                           _priceController.tempohWarranti.value == '1 Bulan'
-                              ? 20
+                              ? 30
                               : 1
                         ],
                         max: 4,
@@ -72,7 +72,7 @@ class PriceCalculatorView extends StatelessWidget {
                           FlutterSliderFixedValue(
                               percent: 1, value: "1 Minggu"),
                           FlutterSliderFixedValue(
-                              percent: 20, value: "1 Bulan"),
+                              percent: 30, value: "1 Bulan"),
                           FlutterSliderFixedValue(
                               percent: 60, value: "2 Bulan"),
                           FlutterSliderFixedValue(
@@ -105,6 +105,7 @@ class PriceCalculatorView extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.grey, fontSize: 12),
                       ),
+                      SizedBox(height: 30),
                     ],
                   ),
                 ),

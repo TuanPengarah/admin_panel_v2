@@ -1,4 +1,5 @@
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
@@ -234,13 +235,8 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                   text: 'sini untuk melihat Pengiraan Harga!',
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      var payload = {
-                                        'hargaParts':
-                                            _detailsController.hargaParts.value,
-                                        'waranti': 30
-                                      };
-                                      Get.toNamed(MyRoutes.priceCalc,
-                                          arguments: payload);
+                                      Haptic.feedbackClick();
+                                      Get.toNamed(MyRoutes.priceCalc);
                                     },
                                   style: TextStyle(
                                     color: Get.theme.primaryColor,

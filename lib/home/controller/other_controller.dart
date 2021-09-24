@@ -17,7 +17,8 @@ class OtherController extends GetxController {
       deviceModel.value = android.model;
     } else if (GetPlatform.isIOS) {
       IosDeviceInfo ios = await info.iosInfo;
-      deviceModel.value = ios.model;
+
+      deviceModel.value = '${ios.model} iOS${ios.systemVersion}';
     } else if (GetPlatform.isWeb) {
       WebBrowserInfo web = await info.webBrowserInfo;
 
