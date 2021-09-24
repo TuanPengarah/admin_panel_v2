@@ -1,5 +1,6 @@
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class PriceCalculatorWidget {
@@ -34,13 +35,13 @@ class PriceCalculatorWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'RM 1200',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    Obx(() => Text(
+                          'RM ${_priceController.jumlah.value.toStringAsFixed(0)}',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )),
                     Text(
                       'Anggaran Harga',
                       style: TextStyle(
@@ -55,7 +56,10 @@ class PriceCalculatorWidget {
                           'RM ${_priceController.supplierPrice}');
                     }),
                     SizedBox(height: 7),
-                    _details('Waranti ', '1 Bulan'),
+                    Obx(
+                      () => _details(
+                          'Waranti ', _priceController.tempohWarranti.value),
+                    ),
                   ],
                 ),
               ),
@@ -105,10 +109,22 @@ class PriceCalculatorWidget {
             controller: _priceController.supplierPriceTitle,
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            ],
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
+            onChanged: (newText) {
+              try {
+                _priceController.supplierPrice.value = newText;
+                _priceController.calculatePrice(
+                    int.parse(_priceController.supplierPrice.value));
+              } on Exception catch (e) {
+                print(e);
+              }
+            },
             decoration: InputDecoration(
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
@@ -117,6 +133,28 @@ class PriceCalculatorWidget {
             ),
           ),
         ),
+      ],
+    );
+  }
+
+  Row titleContent2() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Jumlah Tempoh Waranti',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Obx(() => Text(
+              _priceController.tempohWarranti.value,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            )),
       ],
     );
   }

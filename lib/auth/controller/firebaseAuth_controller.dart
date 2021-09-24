@@ -11,10 +11,10 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class AuthController extends GetxController {
   final _auth = FirebaseAuth.instance;
-  String userUID = '';
-  String userEmail = '';
-  String userName = '---';
-  String cawangan = '';
+  var userUID = ''.obs;
+  var userEmail = ''.obs;
+  var userName = '---'.obs;
+  var cawangan = ''.obs;
   var jumlahRepair = 0.obs;
   var jumlahKeuntungan = 0.obs;
 
@@ -101,10 +101,10 @@ class AuthController extends GetxController {
             ),
             onPressed: () {
               _auth.signOut().then((value) {
-                userUID = '';
-                userEmail = '';
-                userName = '---';
-                cawangan = '';
+                userUID.value = '';
+                userEmail.value = '';
+                userName.value = '---';
+                cawangan.value = '';
                 jumlahRepair.value = 0;
                 jumlahKeuntungan.value = 0;
                 Get.offAllNamed(MyRoutes.login);
@@ -135,10 +135,10 @@ class AuthController extends GetxController {
         .then((snapshot) {
       final json = snapshot.value as Map<dynamic, dynamic>;
       final technician = Technician.fromJson(json);
-      userUID = uid;
-      userEmail = email;
-      userName = technician.nama;
-      cawangan = technician.cawangan;
+      userUID.value = uid;
+      userEmail.value = email;
+      userName.value = technician.nama;
+      cawangan.value = technician.cawangan;
       jumlahRepair.value = technician.jumlahRepair;
       jumlahKeuntungan.value = technician.jumlahKeuntungan;
     });

@@ -13,34 +13,34 @@ class ProfileAvatar {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AdvancedAvatar(
-              size: 120,
-              name: _authController.userName,
-              style: TextStyle(fontSize: 50),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(200),
-              ),
-            ),
+            Obx(() => AdvancedAvatar(
+                  size: 120,
+                  name: _authController.userName.value,
+                  style: TextStyle(fontSize: 50),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(200),
+                  ),
+                )),
             SizedBox(height: 20),
-            Text(
-              _authController.userName.toString(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
-            ),
+            Obx(() => Text(
+                  _authController.userName.value,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                )),
             SizedBox(height: 8),
             Text(
               'Sr. Technician | Founder',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Text(_authController.userEmail.toString(),
+            Obx(() => Text(_authController.userEmail.value,
                 style: TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.bold,
-                )),
+                ))),
           ],
         ),
       ),

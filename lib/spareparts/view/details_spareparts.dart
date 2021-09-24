@@ -1,13 +1,17 @@
+import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/inventory.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:admin_panel/spareparts/controller/details_spareparts_controller.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DetailsSpareparts extends GetView<SparepartController> {
   final _params = Get.parameters;
   final _data = Get.arguments;
+  final _priceController = Get.put(PriceCalculatorController());
 
   final _detailsController = Get.put(DetailsSparepartsController());
 
@@ -213,7 +217,8 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               child: ListTile(
                                 leading: Icon(Icons.payment),
                                 title: Text('Harga Jual'),
-                                subtitle: Text('RM --'),
+                                subtitle: Text(
+                                    'RM ${_priceController.calculateFromWidget(int.parse(_detailsController.hargaParts.value)).toStringAsFixed(0)}'),
                               ),
                             ),
                           ),
@@ -227,6 +232,16 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               children: [
                                 TextSpan(
                                   text: 'sini untuk melihat Pengiraan Harga!',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      var payload = {
+                                        'hargaParts':
+                                            _detailsController.hargaParts.value,
+                                        'waranti': 30
+                                      };
+                                      Get.toNamed(MyRoutes.priceCalc,
+                                          arguments: payload);
+                                    },
                                   style: TextStyle(
                                     color: Get.theme.primaryColor,
                                   ),
