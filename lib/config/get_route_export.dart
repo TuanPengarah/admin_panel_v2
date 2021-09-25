@@ -15,3 +15,6 @@ export 'package:admin_panel/spareparts/view/add_spareparts.dart';
 export 'package:admin_panel/spareparts/view/all_sparepart.dart';
 export 'package:admin_panel/spareparts/view/details_spareparts.dart';
 export 'package:admin_panel/spareparts/view/history_spareparts.dart';
+export 'package:admin_panel/technicians/view/technician_add.dart';
+export 'package:admin_panel/technicians/view/technician_info.dart';
+export 'package:admin_panel/technicians/view/technician_view.dart';

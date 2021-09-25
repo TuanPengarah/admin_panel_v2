@@ -30,6 +30,7 @@ class PdfViewer extends StatelessWidget {
               ),
             );
           }
+
           return PDFViewerScaffold(
               appBar: AppBar(
                 title: Text('Jobsheet details'),

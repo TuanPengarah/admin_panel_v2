@@ -2,6 +2,7 @@ import 'package:admin_panel/config/initial_binding.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'config/get_route_export.dart';
@@ -9,9 +10,9 @@ import 'config/routes.dart';
 
 // flutter run -d web-server --web-port 8080 --web-hostname 192.168.1.17
 Future<void> main() async {
-  bool _isLogin = false;
-
   WidgetsFlutterBinding.ensureInitialized();
+  bool _isLogin = false;
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   await Firebase.initializeApp();
   final _user = FirebaseAuth.instance.currentUser;
   if (_user != null) {
@@ -61,6 +62,9 @@ class MyApp extends StatelessWidget {
             name: MyRoutes.sparepartsHistory,
             page: () => HistorySparepartsView()),
         GetPage(name: MyRoutes.priceCalc, page: () => PriceCalculatorView()),
+        GetPage(name: MyRoutes.technician, page: () => TechnicianView()),
+        GetPage(name: MyRoutes.technicianAdd, page: () => TechnicianAdd()),
+        GetPage(name: MyRoutes.technicianDetails, page: () => TechnicianInfo()),
       ],
     );
   }

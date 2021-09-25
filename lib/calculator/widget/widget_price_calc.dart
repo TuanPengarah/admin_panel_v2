@@ -43,7 +43,7 @@ class PriceCalculatorWidget {
                           ),
                         )),
                     Text(
-                      'Anggaran Harga',
+                      'Anggaran Harga Jual',
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.grey,
@@ -52,7 +52,7 @@ class PriceCalculatorWidget {
                     ),
                     SizedBox(height: 30),
                     Obx(() {
-                      return _details('Harga Supplier: ',
+                      return _details('Harga Sparepart: ',
                           'RM ${_priceController.supplierPrice}');
                     }),
                     SizedBox(height: 7),

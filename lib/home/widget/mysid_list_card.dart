@@ -101,7 +101,7 @@ class MysidUI{
                 width: MediaQuery.of(context).size.width - 110,
                 lineHeight: 3.2,
                 percent: document['Percent'],
-                progressColor: Get.theme.accentColor,
+                progressColor: Get.theme.colorScheme.secondary,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 5.0),

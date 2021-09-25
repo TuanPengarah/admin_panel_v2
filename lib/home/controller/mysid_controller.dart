@@ -40,6 +40,7 @@ class MysidController extends GetxController {
       return SlidingSheetDialog(
           avoidStatusBar: true,
           snapSpec: SnapSpec(snappings: [1, 1]),
+          duration: Duration(milliseconds: 500),
           cornerRadius: 20,
           builder: (context, state) {
             return Material(
@@ -72,7 +73,7 @@ class MysidController extends GetxController {
                       ],
                     ),
                     SizedBox(
-                      height: 380,
+                      height: 320,
                       width: 100,
                       child: FlutterSlider(
                         axis: Axis.vertical,

@@ -212,7 +212,7 @@ class CustomerPage extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             color: Get.theme.primaryColor,
                                             borderRadius:
-                                                BorderRadius.circular(12),
+                                                BorderRadius.circular(200),
                                           ),
                                         ),
                                       ),

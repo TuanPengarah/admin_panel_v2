@@ -1,11 +1,15 @@
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:get/get.dart';
 
 class ProfileAvatar {
-  final _authController = Get.find<AuthController>();
-  Container profile(BuildContext context) {
+  Container profile({
+    @required BuildContext context,
+    @required String name,
+    @required String photoURL,
+    @required String email,
+    @required String jawatan,
+  }) {
     return Container(
       width: Get.width,
       child: Padding(
@@ -13,41 +17,47 @@ class ProfileAvatar {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Obx(() => AdvancedAvatar(
-                  size: 120,
-                  name: _authController.userName.value,
-                  style: TextStyle(fontSize: 50),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(200),
-                  ),
-                )),
+            AdvancedAvatar(
+              size: 120,
+              name: name,
+              image: photoURL == null || photoURL == ''
+                  ? null
+                  : NetworkImage(photoURL),
+              style: TextStyle(fontSize: 50),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(200),
+              ),
+            ),
             SizedBox(height: 20),
-            Obx(() => Text(
-                  _authController.userName.value,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                  ),
-                )),
+            Text(
+              name,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
             SizedBox(height: 8),
             Text(
-              'Sr. Technician | Founder',
+              jawatan,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Obx(() => Text(_authController.userEmail.value,
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                ))),
+            Text(
+              email,
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Padding yourRecord(BuildContext context) {
+  Padding yourRecord(
+      BuildContext context, int jumlahRepair, int jumlahKeuntungan, bool isMy) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Column(
@@ -56,7 +66,7 @@ class ProfileAvatar {
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(left: 5),
             child: Text(
-              'Rekod Anda',
+              isMy == true ? 'Rekod Anda' : 'Rekod Juruteknik',
               style: TextStyle(
                 fontSize: 18,
                 // fontWeight: FontWeight.bold,
@@ -97,18 +107,16 @@ class ProfileAvatar {
                           ),
                         ),
                         SizedBox(height: 10),
-                        Obx(() {
-                          return Text(
-                            '${_authController.jumlahRepair.value}',
-                            style: TextStyle(
-                              color: Get.isDarkMode
-                                  ? Colors.grey.shade300
-                                  : Colors.grey.shade700,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        })
+                        Text(
+                          '$jumlahRepair',
+                          style: TextStyle(
+                            color: Get.isDarkMode
+                                ? Colors.grey.shade300
+                                : Colors.grey.shade700,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -145,19 +153,17 @@ class ProfileAvatar {
                           ),
                         ),
                         SizedBox(height: 10),
-                        Obx(() {
-                          return Text(
-                            'RM${_authController.jumlahKeuntungan.value}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Get.isDarkMode
-                                  ? Colors.grey.shade300
-                                  : Colors.grey.shade700,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        })
+                        Text(
+                          'RM$jumlahKeuntungan',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Get.isDarkMode
+                                ? Colors.grey.shade300
+                                : Colors.grey.shade700,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ),

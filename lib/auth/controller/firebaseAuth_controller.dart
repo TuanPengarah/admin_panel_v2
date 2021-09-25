@@ -14,6 +14,8 @@ class AuthController extends GetxController {
   var userUID = ''.obs;
   var userEmail = ''.obs;
   var userName = '---'.obs;
+  var photoURL = ''.obs;
+  var jawatan = ''.obs;
   var cawangan = ''.obs;
   var jumlahRepair = 0.obs;
   var jumlahKeuntungan = 0.obs;
@@ -143,6 +145,8 @@ class AuthController extends GetxController {
       cawangan.value = technician.cawangan;
       jumlahRepair.value = technician.jumlahRepair;
       jumlahKeuntungan.value = technician.jumlahKeuntungan;
+      jawatan.value = technician.jawatan;
+      photoURL.value = technician.photoURL;
     });
   }
 }

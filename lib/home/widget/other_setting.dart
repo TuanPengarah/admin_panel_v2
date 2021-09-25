@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 class OtherSettings {
   final _authController = Get.find<AuthController>();
+
   Padding otherAndSetting(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -40,14 +41,14 @@ class OtherSettings {
           Card(
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () {},
+              onTap: () => Get.toNamed(MyRoutes.technician),
               child: ListTile(
                 leading: Icon(
                   Icons.badge,
                   color: Theme.of(context).primaryColor,
                 ),
-                title: Text('Technician'),
-                subtitle: Text('Senerai semua technician di Af-Fix'),
+                title: Text('Juruteknik'),
+                subtitle: Text('Senerai semua juruteknik di Af-Fix'),
               ),
             ),
           ),

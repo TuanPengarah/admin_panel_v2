@@ -1,13 +1,16 @@
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/theme_data.dart';
 import 'package:admin_panel/home/controller/other_controller.dart';
 import 'package:admin_panel/home/widget/other_setting.dart';
 import 'package:admin_panel/home/widget/profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SettingPage extends StatelessWidget {
   final _otherController = Get.put(OtherController());
+  final _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,9 +19,9 @@ class SettingPage extends StatelessWidget {
       slivers: [
         SliverAppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          brightness: Theme.of(context).brightness == Brightness.light
-              ? Brightness.light
-              : Brightness.dark,
+          systemOverlayStyle: Theme.of(context).brightness == Brightness.light
+              ? SystemUiOverlayStyle.dark
+              : SystemUiOverlayStyle.light,
           elevation: 0,
           snap: false,
           pinned: false,
@@ -34,9 +37,24 @@ class SettingPage extends StatelessWidget {
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              ProfileAvatar().profile(context),
+              Obx(
+                () => ProfileAvatar().profile(
+                  email: _authController.userEmail.value,
+                  name: _authController.userName.value,
+                  jawatan: _authController.jawatan.value,
+                  context: context,
+                  photoURL: _authController.photoURL.value,
+                ),
+              ),
               SizedBox(height: 30),
-              ProfileAvatar().yourRecord(context),
+              Obx(
+                () => ProfileAvatar().yourRecord(
+                  context,
+                  _authController.jumlahRepair.value,
+                  _authController.jumlahKeuntungan.value,
+                  true,
+                ),
+              ),
               SizedBox(height: 30),
               OtherSettings().otherAndSetting(context),
               SizedBox(height: 40),
@@ -66,8 +84,6 @@ class SettingPage extends StatelessWidget {
       ],
     ));
   }
-
-
 }
 // Scaffold(
 //       appBar: AppBar(
@@ -98,12 +114,12 @@ class SettingPage extends StatelessWidget {
 //           children: [
 //             ElevatedButton(
 //               onPressed: () {
-//                 final technician = Technician('Akid Fikri Azhar', 'Kajang',
+//                 final technicians = Technician('Akid Fikri Azhar', 'Kajang',
 //                     _authController.userEmail, 44, 1084);
 //                 CrudTechnician.createTechnician(
-//                     _authController.userUID, technician);
+//                     _authController.userUID, technicians);
 //               },
-//               child: Text('Tambah technician'),
+//               child: Text('Tambah technicians'),
 //             ),
 //             ElevatedButton(
 //               onPressed: () {
