@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/technicians/controller/technician_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
@@ -12,7 +13,7 @@ class TechnicianView extends StatelessWidget {
         title: Text('Semua Juruteknik'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => Get.toNamed(MyRoutes.technicianAdd),
             icon: Icon(Icons.add),
           ),
         ],

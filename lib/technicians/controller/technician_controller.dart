@@ -16,16 +16,18 @@ class TechnicianController extends GetxController {
     var technician = technicians[i];
 
     var payload = {
-      'name':     technician['nama'],
+      'name': technician['nama'],
       'email': technician['email'],
       'cawangan': technician['cawangan'],
-      'jawatan':  technician['jawatan'],
-      'photoURL':    technician['photoURL'],
-      'jumlahKeuntungan':   technician['jumlahKeuntungan'],
-      'jumlahRepair':  technician['jumlahRepair'],
+      'jawatan': technician['jawatan'],
+      'photoURL': technician['photoURL'],
+      'jumlahKeuntungan': technician['jumlahKeuntungan'],
+      'jumlahRepair': technician['jumlahRepair'],
     };
 
-    var params = <String, String>{'id':  technician['id'],};
+    var params = <String, String>{
+      'id': technician['id'],
+    };
 
     Get.toNamed(MyRoutes.technicianDetails,
         parameters: params, arguments: payload);

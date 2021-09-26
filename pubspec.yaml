@@ -33,6 +33,7 @@ dependencies:
   firebase_auth: ^3.0.2
   flutter_mailer: ^2.0.0
   firebase_database: ^8.0.0
+  firebase_storage: ^10.0.3
 
   # Native Hardware
   esc_pos_bluetooth: ^0.2.8
@@ -56,9 +57,8 @@ dependencies:
   flutter_full_pdf_viewer: ^1.0.6
   flutter_app_badger: ^1.2.0
   device_info_plus: ^2.1.0
-
-
-
+  image_picker: ^0.8.4+2
+  image_cropper: ^1.4.1
 
 dev_dependencies:
   flutter_test:

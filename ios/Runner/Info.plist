@@ -58,5 +58,11 @@
 			<string>https</string>
 			<string>http</string>
 		</array>
+		 <key>NSPhotoLibraryUsageDescription</key>
+          <string>Upload images for Technician's user profile</string>
+          <key>NSCameraUsageDescription</key>
+          <string>Upload image from camera for Technician's user profile</string>
+          <key>NSMicrophoneUsageDescription</key>
+            <string>Upload videos to profile</string>
 	</dict>
 </plist>

@@ -12,36 +12,22 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.dark_mode,
+                color: Get.isDarkMode
+                    ? Colors.amber
+                    : Theme.of(context).primaryColor),
+            onPressed: MyThemes().switchTheme,
+          ),
+        ],
+      ),
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          SafeArea(
-            child: Container(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      Get.isDarkMode
-                          ? 'assets/images/splash_light.png'
-                          : 'assets/images/splash_dark.png',
-                      scale: 7,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.dark_mode,
-                          color: Get.isDarkMode
-                              ? Colors.amber
-                              : Theme.of(context).primaryColor),
-                      onPressed: MyThemes().switchTheme,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -53,6 +39,13 @@ class LoginView extends StatelessWidget {
                     width: 300,
                     height: 300,
                   ),
+                  Image.asset(
+                    Get.isDarkMode
+                        ? 'assets/images/splash_light.png'
+                        : 'assets/images/splash_dark.png',
+                    scale: 7,
+                  ),
+                  SizedBox(height: 10),
                   Text(
                     'Admin Panel',
                     textAlign: TextAlign.center,
@@ -60,7 +53,7 @@ class LoginView extends StatelessWidget {
                       fontSize: 30,
                       letterSpacing: 1.3,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor,
+                      color: Colors.blue,
                     ),
                   ),
                   SizedBox(height: 15),

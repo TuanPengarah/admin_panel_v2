@@ -7,10 +7,15 @@ class TechnicianInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        foregroundColor: Get.isDarkMode ? Colors.white : Colors.black,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment : CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ProfileAvatar().profile(
               context: context,
@@ -20,7 +25,12 @@ class TechnicianInfo extends StatelessWidget {
               jawatan: _data['jawatan'],
             ),
             SizedBox(height: 30),
-            ProfileAvatar().yourRecord(context, _data['jumlahRepair'], _data['jumlahKeuntungan'], false,),
+            ProfileAvatar().yourRecord(
+              context,
+              _data['jumlahRepair'],
+              _data['jumlahKeuntungan'],
+              false,
+            ),
           ],
         ),
       ),
