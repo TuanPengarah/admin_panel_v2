@@ -19,7 +19,7 @@ Future<void> main() async {
     print('user already signed in');
     _isLogin = true;
   } else {
-    print('User is curently signed out');
+    print('User is currently signed out');
     _isLogin = false;
   }
   await GetStorage.init();
@@ -55,12 +55,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.repairLog, page: () => RepairLogView()),
         GetPage(name: MyRoutes.mysidHisory, page: () => MysidHistoryView()),
         GetPage(name: MyRoutes.spareparts, page: () => AllSparepartsView()),
-        GetPage(
-            name: MyRoutes.sparepartsDetails, page: () => DetailsSpareparts()),
+        GetPage(name: MyRoutes.sparepartsDetails, page: () => DetailsSpareparts()),
         GetPage(name: MyRoutes.sparepartsAdd, page: () => AddSparepart()),
-        GetPage(
-            name: MyRoutes.sparepartsHistory,
-            page: () => HistorySparepartsView()),
+        GetPage(name: MyRoutes.sparepartsHistory, page: () => HistorySparepartsView()),
         GetPage(name: MyRoutes.priceCalc, page: () => PriceCalculatorView()),
         GetPage(name: MyRoutes.technician, page: () => TechnicianView()),
         GetPage(name: MyRoutes.technicianAdd, page: () => TechnicianAdd()),

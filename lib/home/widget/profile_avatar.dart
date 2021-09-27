@@ -144,7 +144,7 @@ class ProfileAvatar {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'Jumlah Keuntunggan',
+                          'Jumlah Keuntungan',
                           style: TextStyle(
                             color: Get.isDarkMode
                                 ? Colors.grey.shade300

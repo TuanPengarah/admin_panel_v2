@@ -40,10 +40,12 @@ class TechnicianController extends GetxController {
         .once()
         .then((snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
-
+technicians = [];
       values.forEach((key, value) {
         technicians.add(value);
       });
+      technicians..sort((a,b) => a['nama'].compareTo(b['nama']));
     });
+    update();
   }
 }

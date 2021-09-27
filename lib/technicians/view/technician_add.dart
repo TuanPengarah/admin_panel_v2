@@ -68,7 +68,7 @@ class TechnicianAdd extends StatelessWidget {
                             flex: 2,
                             child: ElevatedButton(
                               onPressed: onStepContinue,
-                              child: Text(_controller.currentSteps.value != 7
+                              child: Text(_controller.currentSteps.value != 5
                                   ? 'Seterusnya'
                                   : 'Tambah Staff'),
                             ),

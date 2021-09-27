@@ -50,27 +50,32 @@ class TechnicianView extends StatelessWidget {
               ),
             );
           }
-          return ListView.builder(
-            physics: BouncingScrollPhysics(),
-            itemCount: _technicianController.technicians.length,
-            itemBuilder: (BuildContext context, int i) {
-              var technician = _technicianController.technicians[i];
-              return ListTile(
-                leading: AdvancedAvatar(
-                  name: '${technician['nama']}',
-                  size: 40,
-                  image: technician['photoURL'] == null ||
+          return GetBuilder<TechnicianController>(
+            assignId: true,
+            builder: (logic) {
+              return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                itemCount: _technicianController.technicians.length,
+                itemBuilder: (BuildContext context, int i) {
+                  var technician = _technicianController.technicians[i];
+                  return ListTile(
+                    leading: AdvancedAvatar(
+                      name: '${technician['nama']}',
+                      size: 40,
+                      image: technician['photoURL'] == null ||
                           technician['photoURL'] == ''
-                      ? null
-                      : NetworkImage(technician['photoURL']),
-                  decoration: BoxDecoration(
-                    color: Get.theme.primaryColor,
-                    borderRadius: BorderRadius.circular(200),
-                  ),
-                ),
-                title: Text('${technician['nama']}'),
-                subtitle: Text('${technician['jawatan']}'),
-                onTap: () => _technicianController.techInfo(i),
+                          ? null
+                          : NetworkImage(technician['photoURL']),
+                      decoration: BoxDecoration(
+                        color: Get.theme.primaryColor,
+                        borderRadius: BorderRadius.circular(200),
+                      ),
+                    ),
+                    title: Text('${technician['nama']}'),
+                    subtitle: Text('${technician['jawatan']}'),
+                    onTap: () => _technicianController.techInfo(i),
+                  );
+                },
               );
             },
           );
