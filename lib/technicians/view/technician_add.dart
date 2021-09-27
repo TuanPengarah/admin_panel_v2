@@ -58,33 +58,34 @@ class TechnicianAdd extends StatelessWidget {
                   currentStep: _controller.currentSteps.value,
                   onStepContinue: () => _controller.nextStepper(),
                   onStepCancel: () => _controller.backStepper(),
+                  onStepTapped: (step) => _controller.currentSteps.value = step,
                   steps: StepperTechnician().step(),
-                  controlsBuilder: (context, {onStepContinue, onStepCancel}) {
-                    return Container(
-                      margin: const EdgeInsets.only(top: 50),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              onPressed: onStepContinue,
-                              child: Text(_controller.currentSteps.value != 5
-                                  ? 'Seterusnya'
-                                  : 'Tambah Staff'),
-                            ),
-                          ),
-                          _controller.currentSteps.value == 0
-                              ? Container()
-                              : Expanded(
-                                  child: TextButton(
-                                    onPressed: onStepCancel,
-                                    child: Text('Batal'),
-                                  ),
-                                ),
-                        ],
-                      ),
-                    );
-                  },
+                  // controlsBuilder: (context, {onStepContinue, onStepCancel}) {
+                  //   return Container(
+                  //     margin: const EdgeInsets.only(top: 50),
+                  //     child: Row(
+                  //       children: [
+                  //         Expanded(
+                  //           flex: 2,
+                  //           child: ElevatedButton(
+                  //             onPressed: onStepContinue,
+                  //             child: Text(_controller.currentSteps.value != 5
+                  //                 ? 'Seterusnya'
+                  //                 : 'Tambah Staff'),
+                  //           ),
+                  //         ),
+                  //         _controller.currentSteps.value == 0
+                  //             ? Container()
+                  //             : Expanded(
+                  //                 child: TextButton(
+                  //                   onPressed: onStepCancel,
+                  //                   child: Text('Batal'),
+                  //                 ),
+                  //               ),
+                  //       ],
+                  //     ),
+                  //   );
+                  // },
                 );
               }),
             ),
