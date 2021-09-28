@@ -8,11 +8,9 @@ class TechnicianAdd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
+      backgroundColor: Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
       appBar: AppBar(
-        backgroundColor:
-            Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
+        backgroundColor: Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
         elevation: 0,
       ),
       body: Column(
@@ -26,10 +24,8 @@ class TechnicianAdd extends StatelessWidget {
                 children: [
                   Text(
                     'Tambah Staff',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     'Tambah staff atau juruteknik Af-Fix',
@@ -45,9 +41,7 @@ class TechnicianAdd extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Get.isDarkMode
-                    ? Color(0xff131313)
-                    : Get.theme.scaffoldBackgroundColor,
+                color: Get.isDarkMode ? Color(0xff131313) : Get.theme.scaffoldBackgroundColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25),
                   topRight: Radius.circular(25),
@@ -60,32 +54,27 @@ class TechnicianAdd extends StatelessWidget {
                   onStepCancel: () => _controller.backStepper(),
                   onStepTapped: (step) => _controller.currentSteps.value = step,
                   steps: StepperTechnician().step(),
-                  // controlsBuilder: (context, {onStepContinue, onStepCancel}) {
-                  //   return Container(
-                  //     margin: const EdgeInsets.only(top: 50),
-                  //     child: Row(
-                  //       children: [
-                  //         Expanded(
-                  //           flex: 2,
-                  //           child: ElevatedButton(
-                  //             onPressed: onStepContinue,
-                  //             child: Text(_controller.currentSteps.value != 5
-                  //                 ? 'Seterusnya'
-                  //                 : 'Tambah Staff'),
-                  //           ),
-                  //         ),
-                  //         _controller.currentSteps.value == 0
-                  //             ? Container()
-                  //             : Expanded(
-                  //                 child: TextButton(
-                  //                   onPressed: onStepCancel,
-                  //                   child: Text('Batal'),
-                  //                 ),
-                  //               ),
-                  //       ],
-                  //     ),
-                  //   );
-                  // },
+                  controlsBuilder: (context, {onStepContinue, onStepCancel}) {
+                    return Container(
+                      margin: const EdgeInsets.only(top: 50),
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: onStepContinue,
+                            child: Text(_controller.currentSteps.value != 5
+                                ? 'Seterusnya'
+                                : 'Tambah Staff'),
+                          ),
+                          _controller.currentSteps.value == 0
+                              ? Container()
+                              : TextButton(
+                                  onPressed: onStepCancel,
+                                  child: Text('Batal'),
+                                ),
+                        ],
+                      ),
+                    );
+                  },
                 );
               }),
             ),

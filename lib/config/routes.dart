@@ -18,4 +18,8 @@ class MyRoutes {
   static const technician = '/technician';
   static const technicianAdd = '/technician/add';
   static const technicianDetails = '/technician/details';
+  static const posview = '/payment';
+  static const paymentSetup = '/payment/setup';
+  static const bills = '/payment/bills';
+  static const paymentCompleted = '/payment-completed';
 }

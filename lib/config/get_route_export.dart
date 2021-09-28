@@ -1,3 +1,7 @@
+export 'package:admin_panel/POS/view/bills_view.dart';
+export 'package:admin_panel/POS/view/payment_completed.dart';
+export 'package:admin_panel/POS/view/payment_repair_setup.dart';
+export 'package:admin_panel/POS/view/pos_view.dart';
 export 'package:admin_panel/auth/view/login_view.dart';
 export 'package:admin_panel/calculator/view/price_calc_view.dart';
 export 'package:admin_panel/config/theme_data.dart';

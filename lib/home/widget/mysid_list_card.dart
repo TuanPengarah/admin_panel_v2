@@ -3,36 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../../config/haptic_feedback.dart';
-import '../../config/routes.dart';
-
 class MysidUI{
  static Card mySidListCard(
-      QueryDocumentSnapshot<Object> document, BuildContext context) {
+      QueryDocumentSnapshot<Object> document, BuildContext context, Function tap) {
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          Haptic.feedbackClick();
-          var params = <String, String>{
-            'id': document.id,
-          };
-
-          var args = {
-            'Nama': document['Nama'],
-            'Model': document['Model'],
-            'Kerosakkan': document['Kerosakkan'],
-            'Password': document['Password'],
-            'Remarks': document['Remarks'],
-            'Percent': document['Percent'],
-            'No Phone': document['No Phone'],
-          };
-          Get.toNamed(
-            MyRoutes.mysidUpdate,
-            parameters: params,
-            arguments: args,
-          );
-        },
+        onTap:tap,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(

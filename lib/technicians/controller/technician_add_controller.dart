@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
@@ -72,8 +73,7 @@ class TechnicianAddController extends GetxController {
     try {
       status.value = 'Mencipta akaun staff...';
       await FirebaseAuth.instanceFor(app: app)
-          .createUserWithEmailAndPassword(
-              email: emailStaff.text, password: staffPassword)
+          .createUserWithEmailAndPassword(email: emailStaff.text, password: staffPassword)
           .then((credential) async {
         status.value = 'Mencipta akaun selesai! UID: ${credential.user.uid}';
         uid = credential.user.uid.toString();
@@ -82,9 +82,7 @@ class TechnicianAddController extends GetxController {
           final destination =
               'technicians/photoURL/${namaStaff.text.toLowerCase().replaceAll(' ', '')}.jpg';
           final ref = FirebaseStorage.instance.ref(destination);
-          await ref
-              .putFile(imageFile)
-              .then((p0) async => photoURL = await p0.ref.getDownloadURL());
+          await ref.putFile(imageFile).then((p0) async => photoURL = await p0.ref.getDownloadURL());
           status.value = 'Memuat naik gambar selesai!';
         }
         await Future.delayed(Duration(seconds: 1));
@@ -100,7 +98,7 @@ class TechnicianAddController extends GetxController {
                 emailStaff.text,
                 0,
                 0,
-                selectedCawangan.value,
+                selectedJawatan.value,
                 photoURL,
                 uid,
               ).toJson(),
@@ -112,16 +110,13 @@ class TechnicianAddController extends GetxController {
         Haptic.feedbackSuccess();
         Get.back();
         Get.back();
-        ShowSnackbar.success('Tambah Staff',
-            'Tahniah penambahan staff ke server selesai', false);
+        ShowSnackbar.success('Tambah Staff', 'Tahniah penambahan staff ke server selesai', false);
       });
-    } on FirebaseException catch (e) {
+    } on Exception catch (e) {
       await Future.delayed(Duration(seconds: 1));
       app.delete();
       ShowSnackbar.error(
-          'Tambah Staff',
-          'Kesalahan telah berlaku apabila menambah staff ker server: $e',
-          false);
+          'Tambah Staff', 'Kesalahan telah berlaku apabila menambah staff ker server: $e', false);
       Haptic.feedbackError();
       Get.back();
     }
@@ -138,8 +133,7 @@ class TechnicianAddController extends GetxController {
         currentSteps.value++;
         errStaff.value = false;
         staffFocus.unfocus();
-        generateEmail =
-            namaStaff.text.toLowerCase().replaceAll(' ', '') + '@assaff.com';
+        generateEmail = namaStaff.text.toLowerCase().replaceAll(' ', '') + '@assaff.com';
         emailStaff.text = generateEmail;
       }
     } else if (currentSteps.value == 1) {
@@ -179,8 +173,8 @@ class TechnicianAddController extends GetxController {
               title: Text('Ambil gambar dari kamera'),
               onTap: () async {
                 Haptic.feedbackClick();
-                final file = await _pickImage(
-                    source: ImageSource.camera, cropImage: _cropSquareImage);
+                final file =
+                    await _pickImage(source: ImageSource.camera, cropImage: _cropSquareImage);
                 if (file == null) return;
                 imageFile = file;
                 Get.back();
@@ -191,8 +185,8 @@ class TechnicianAddController extends GetxController {
               title: Text('Ambil dari galeri'),
               onTap: () async {
                 Haptic.feedbackClick();
-                final file = await _pickImage(
-                    source: ImageSource.gallery, cropImage: _cropSquareImage);
+                final file =
+                    await _pickImage(source: ImageSource.gallery, cropImage: _cropSquareImage);
                 if (file == null) return;
                 imageFile = file;
                 Get.back();
@@ -205,17 +199,13 @@ class TechnicianAddController extends GetxController {
     );
   }
 
-  Future<File> _cropSquareImage(File imageFile) async =>
-      await ImageCropper.cropImage(
-          sourcePath: imageFile.path,
-          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-          aspectRatioPresets: [
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.square
-          ],
-          compressQuality: 70,
-          compressFormat: ImageCompressFormat.jpg,
-          androidUiSettings: _androidUiCrop());
+  Future<File> _cropSquareImage(File imageFile) async => await ImageCropper.cropImage(
+      sourcePath: imageFile.path,
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatioPresets: [CropAspectRatioPreset.original, CropAspectRatioPreset.square],
+      compressQuality: 70,
+      compressFormat: ImageCompressFormat.jpg,
+      androidUiSettings: _androidUiCrop());
 
   AndroidUiSettings _androidUiCrop() => AndroidUiSettings(
         toolbarTitle: 'Sunting Gambar',
@@ -223,8 +213,7 @@ class TechnicianAddController extends GetxController {
         toolbarWidgetColor: Colors.white,
       );
 
-  Future<File> _pickImage(
-      {ImageSource source, Future<File> Function(File file) cropImage}) async {
+  Future<File> _pickImage({ImageSource source, Future<File> Function(File file) cropImage}) async {
     final pickImage = await ImagePicker().pickImage(source: source);
 
     if (pickImage == null) return null;

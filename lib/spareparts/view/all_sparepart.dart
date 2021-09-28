@@ -1,7 +1,7 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
-import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:admin_panel/config/smarphone_brand.dart';
+import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:admin_panel/spareparts/widget/list_spareparts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +13,7 @@ class AllSparepartsView extends GetView<SparepartController> {
       length: 16,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Senarai Spareparts'),
+          title: Text('Spareparts'),
           actions: [
             IconButton(
               onPressed: () async => await controller.refreshDialog(true),

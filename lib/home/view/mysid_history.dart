@@ -1,3 +1,5 @@
+import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/widget/mysid_list_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +58,27 @@ class MysidHistoryView extends StatelessWidget {
                         horizontal: 10.0, vertical: 3),
                     child: Hero(
                       tag: document.id,
-                      child: MysidUI.mySidListCard(document, context),
+                      child: MysidUI.mySidListCard(document, context, (){
+                        Haptic.feedbackClick();
+                        var params = <String, String>{
+                          'id': document.id,
+                        };
+
+                        var args = {
+                          'Nama': document['Nama'],
+                          'Model': document['Model'],
+                          'Kerosakkan': document['Kerosakkan'],
+                          'Password': document['Password'],
+                          'Remarks': document['Remarks'],
+                          'Percent': document['Percent'],
+                          'No Phone': document['No Phone'],
+                        };
+                        Get.toNamed(
+                          MyRoutes.mysidUpdate,
+                          parameters: params,
+                          arguments: args,
+                        );
+                      }),
                     ),
                   );
                 },

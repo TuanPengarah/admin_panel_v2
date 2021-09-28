@@ -27,7 +27,7 @@ class OtherSettings {
           Card(
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () {},
+              onTap: () => Get.toNamed(MyRoutes.posview),
               child: ListTile(
                 leading: Icon(
                   Icons.point_of_sale,

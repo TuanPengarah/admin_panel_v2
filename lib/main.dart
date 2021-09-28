@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
 import 'config/get_route_export.dart';
 import 'config/routes.dart';
 
@@ -62,6 +63,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.technician, page: () => TechnicianView()),
         GetPage(name: MyRoutes.technicianAdd, page: () => TechnicianAdd()),
         GetPage(name: MyRoutes.technicianDetails, page: () => TechnicianInfo()),
+        GetPage(name: MyRoutes.posview, page: () => POSView()),
+        GetPage(name: MyRoutes.bills, page: () => BillsView()),
+        GetPage(name: MyRoutes.paymentSetup, page: () => PaymentSetup()),
+        GetPage(name: MyRoutes.paymentCompleted, page: () => PaymentCompleted()),
       ],
     );
   }
