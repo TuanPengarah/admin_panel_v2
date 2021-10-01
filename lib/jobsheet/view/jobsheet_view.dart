@@ -20,11 +20,9 @@ class JobsheetView extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => await _jobsheetController.exitJobSheet(),
       child: Scaffold(
-        backgroundColor:
-            Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
+        backgroundColor: Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
         appBar: AppBar(
-          backgroundColor:
-              Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
+          backgroundColor: Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
           elevation: 0,
           actions: [
             kIsWeb
@@ -57,9 +55,7 @@ class JobsheetView extends StatelessWidget {
                       Text(
                         'Job Sheet',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold),
+                            color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),
                       ),
                       Obx(() => Text(
                             'MyStatus Identification: ${_jobsheetController.mySID.value}',
@@ -77,9 +73,7 @@ class JobsheetView extends StatelessWidget {
                   onTap: () => Get.focusScope.unfocus(),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Get.isDarkMode
-                          ? Color(0xff131313)
-                          : Get.theme.scaffoldBackgroundColor,
+                      color: Get.isDarkMode ? Color(0xff131313) : Get.theme.scaffoldBackgroundColor,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25),
@@ -89,39 +83,38 @@ class JobsheetView extends StatelessWidget {
                       () => Stepper(
                         physics: BouncingScrollPhysics(),
                         currentStep: _jobsheetController.currentSteps.value,
-                        onStepTapped: (index) =>
-                            _jobsheetController.stepTap(index),
-                        controlsBuilder: (BuildContext context,
-                            {VoidCallback onStepContinue,
-                            VoidCallback onStepCancel}) {
-                          return Column(
-                            children: [
-                              SizedBox(height: 15),
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: onStepContinue,
-                                      child: Text(_jobsheetController
-                                                  .currentSteps.value ==
-                                              7
-                                          ? 'Tambah Jobsheet'
-                                          : 'Seterusnya'),
-                                    ),
-                                  ),
-                                  if (_jobsheetController.currentSteps.value !=
-                                      0)
-                                    Expanded(
-                                      child: TextButton(
-                                        onPressed: onStepCancel,
-                                        child: Text('Batal'),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ],
-                          );
-                        },
+                        onStepTapped: (index) => _jobsheetController.stepTap(index),
+                        // controlsBuilder: (BuildContext context,
+                        //     {VoidCallback onStepContinue,
+                        //     VoidCallback onStepCancel}) {
+                        //   return Column(
+                        //     children: [
+                        //       SizedBox(height: 15),
+                        //       Row(
+                        //         children: <Widget>[
+                        //           Expanded(
+                        //             child: ElevatedButton(
+                        //               onPressed: onStepContinue,
+                        //               child: Text(_jobsheetController
+                        //                           .currentSteps.value ==
+                        //                       7
+                        //                   ? 'Tambah Jobsheet'
+                        //                   : 'Seterusnya'),
+                        //             ),
+                        //           ),
+                        //           if (_jobsheetController.currentSteps.value !=
+                        //               0)
+                        //             Expanded(
+                        //               child: TextButton(
+                        //                 onPressed: onStepCancel,
+                        //                 child: Text('Batal'),
+                        //               ),
+                        //             ),
+                        //         ],
+                        //       ),
+                        //     ],
+                        //   );
+                        // },
                         onStepContinue: () => _jobsheetController.nextStep(),
                         onStepCancel: () => _jobsheetController.previousStep(),
                         steps: [
@@ -129,21 +122,18 @@ class JobsheetView extends StatelessWidget {
                             state: _jobsheetController.currentSteps.value != 0
                                 ? StepState.complete
                                 : StepState.indexed,
-                            isActive:
-                                _jobsheetController.currentSteps.value >= 0,
+                            isActive: _jobsheetController.currentSteps.value >= 0,
                             content: TextField(
                               autofocus: true,
                               focusNode: _jobsheetController.focusNamaCust,
                               controller: _jobsheetController.namaCust,
                               textInputAction: TextInputAction.next,
                               textCapitalization: TextCapitalization.words,
-                              onSubmitted: (text) =>
-                                  _jobsheetController.nextStep(),
+                              onSubmitted: (text) => _jobsheetController.nextStep(),
                               decoration: InputDecoration(
-                                errorText:
-                                    _jobsheetController.errNama.value == true
-                                        ? 'Sila masukkan nama pelanggan'
-                                        : null,
+                                errorText: _jobsheetController.errNama.value == true
+                                    ? 'Sila masukkan nama pelanggan'
+                                    : null,
                               ),
                             ),
                             title: Text(
@@ -154,19 +144,15 @@ class JobsheetView extends StatelessWidget {
                             state: _jobsheetController.currentSteps.value > 1
                                 ? StepState.complete
                                 : StepState.indexed,
-                            isActive:
-                                _jobsheetController.currentSteps.value >= 1,
+                            isActive: _jobsheetController.currentSteps.value >= 1,
                             content: TextField(
                               focusNode: _jobsheetController.focusNoPhone,
                               controller: _jobsheetController.noPhone,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.phone,
-                              onSubmitted: (text) =>
-                                  _jobsheetController.nextStep(),
+                              onSubmitted: (text) => _jobsheetController.nextStep(),
                               decoration: InputDecoration(
-                                errorText: _jobsheetController
-                                            .errNoPhone.value ==
-                                        true
+                                errorText: _jobsheetController.errNoPhone.value == true
                                     ? 'Sila masukkan nombor telefon pelanggan'
                                     : null,
                               ),
@@ -179,15 +165,13 @@ class JobsheetView extends StatelessWidget {
                             state: _jobsheetController.currentSteps.value > 2
                                 ? StepState.complete
                                 : StepState.indexed,
-                            isActive:
-                                _jobsheetController.currentSteps.value >= 2,
+                            isActive: _jobsheetController.currentSteps.value >= 2,
                             content: TextField(
                               focusNode: _jobsheetController.focusEmail,
                               controller: _jobsheetController.email,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.emailAddress,
-                              onSubmitted: (text) =>
-                                  _jobsheetController.nextStep(),
+                              onSubmitted: (text) => _jobsheetController.nextStep(),
                             ),
                             title: Text(
                               'Email *Optional',
@@ -197,20 +181,17 @@ class JobsheetView extends StatelessWidget {
                             state: _jobsheetController.currentSteps.value > 3
                                 ? StepState.complete
                                 : StepState.indexed,
-                            isActive:
-                                _jobsheetController.currentSteps.value >= 3,
+                            isActive: _jobsheetController.currentSteps.value >= 3,
                             content: TextField(
                               focusNode: _jobsheetController.focusModelPhone,
                               controller: _jobsheetController.modelPhone,
                               textInputAction: TextInputAction.next,
                               textCapitalization: TextCapitalization.words,
-                              onSubmitted: (text) =>
-                                  _jobsheetController.nextStep(),
+                              onSubmitted: (text) => _jobsheetController.nextStep(),
                               decoration: InputDecoration(
-                                errorText:
-                                    _jobsheetController.errModel.value == true
-                                        ? 'Sila masukkan model peranti'
-                                        : null,
+                                errorText: _jobsheetController.errModel.value == true
+                                    ? 'Sila masukkan model peranti'
+                                    : null,
                               ),
                             ),
                             title: Text(
@@ -221,15 +202,13 @@ class JobsheetView extends StatelessWidget {
                             state: _jobsheetController.currentSteps.value > 4
                                 ? StepState.complete
                                 : StepState.indexed,
-                            isActive:
-                                _jobsheetController.currentSteps.value >= 4,
+                            isActive: _jobsheetController.currentSteps.value >= 4,
                             content: TextField(
                               focusNode: _jobsheetController.focusPassPhone,
                               controller: _jobsheetController.passPhone,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.visiblePassword,
-                              onSubmitted: (text) =>
-                                  _jobsheetController.nextStep(),
+                              onSubmitted: (text) => _jobsheetController.nextStep(),
                             ),
                             title: Text(
                               'Password Smartphone *Optional',
@@ -239,8 +218,7 @@ class JobsheetView extends StatelessWidget {
                             state: _jobsheetController.currentSteps.value > 5
                                 ? StepState.complete
                                 : StepState.indexed,
-                            isActive:
-                                _jobsheetController.currentSteps.value >= 5,
+                            isActive: _jobsheetController.currentSteps.value >= 5,
                             content: TextField(
                               focusNode: _jobsheetController.focusKerosakkan,
                               controller: _jobsheetController.kerosakkan,
@@ -248,11 +226,9 @@ class JobsheetView extends StatelessWidget {
                               textCapitalization: TextCapitalization.sentences,
                               maxLines: 3,
                               decoration: InputDecoration(
-                                errorText:
-                                    _jobsheetController.errKerosakkan.value ==
-                                            true
-                                        ? 'Sila masukkan jenis kerosakkan'
-                                        : null,
+                                errorText: _jobsheetController.errKerosakkan.value == true
+                                    ? 'Sila masukkan jenis kerosakkan'
+                                    : null,
                               ),
                             ),
                             title: Text(
@@ -263,20 +239,17 @@ class JobsheetView extends StatelessWidget {
                             state: _jobsheetController.currentSteps.value > 6
                                 ? StepState.complete
                                 : StepState.indexed,
-                            isActive:
-                                _jobsheetController.currentSteps.value >= 6,
+                            isActive: _jobsheetController.currentSteps.value >= 6,
                             content: TextField(
                               focusNode: _jobsheetController.focusHarga,
                               controller: _jobsheetController.harga,
                               textInputAction: TextInputAction.next,
                               keyboardType: TextInputType.number,
-                              onSubmitted: (text) =>
-                                  _jobsheetController.nextStep(),
+                              onSubmitted: (text) => _jobsheetController.nextStep(),
                               decoration: InputDecoration(
-                                errorText:
-                                    _jobsheetController.errPrice.value == true
-                                        ? 'Sila masukkan anggaran harga'
-                                        : null,
+                                errorText: _jobsheetController.errPrice.value == true
+                                    ? 'Sila masukkan anggaran harga'
+                                    : null,
                               ),
                             ),
                             title: Text(
@@ -287,14 +260,12 @@ class JobsheetView extends StatelessWidget {
                             state: _jobsheetController.currentSteps.value > 7
                                 ? StepState.complete
                                 : StepState.indexed,
-                            isActive:
-                                _jobsheetController.currentSteps.value >= 7,
+                            isActive: _jobsheetController.currentSteps.value >= 7,
                             content: TextField(
                                 focusNode: _jobsheetController.focusRemarks,
                                 controller: _jobsheetController.remarks,
                                 textInputAction: TextInputAction.newline,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
+                                textCapitalization: TextCapitalization.sentences,
                                 maxLines: 5),
                             title: Text(
                               'Remarks',

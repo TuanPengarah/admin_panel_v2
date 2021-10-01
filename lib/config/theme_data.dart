@@ -1,6 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -9,8 +8,7 @@ class MyThemes {
   final _key = 'isDarkMode';
 
   /// Get isDarkMode info from local storage and return ThemeMode
-  ThemeMode get themeMode =>
-      _loadThemeFromBox() ? ThemeMode.dark : ThemeMode.light;
+  ThemeMode get themeMode => _loadThemeFromBox() ? ThemeMode.dark : ThemeMode.light;
 
   /// Load isDArkMode from local storage and if it's empty, returns false (that means default theme is light)
   bool _loadThemeFromBox() => _box.read(_key) ?? false;
@@ -100,8 +98,7 @@ class MyThemes {
       backgroundColor: Colors.blueGrey,
     ),
     canvasColor: Color(0xff131313),
-    bottomNavigationBarTheme:
-        BottomNavigationBarThemeData(backgroundColor: Color(0xff131313)),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Color(0xff131313)),
     cardTheme: CardTheme(
       color: Colors.grey.shade900,
       shape: RoundedRectangleBorder(

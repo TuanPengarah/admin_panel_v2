@@ -1,6 +1,5 @@
 import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,17 +8,13 @@ class AddSparepartStepper {
 
   List<Step> getStepper() => [
         Step(
-          state: _controller.currentSteps.value != 0
-              ? StepState.complete
-              : StepState.indexed,
+          state: _controller.currentSteps.value != 0 ? StepState.complete : StepState.indexed,
           title: Text('Supplier'),
           isActive: _controller.currentSteps.value >= 0,
           content: Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-                color: Get.isDarkMode
-                    ? Colors.grey.shade900
-                    : Colors.grey.shade200,
+                color: Get.isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10)),
             child: DropdownButton(
               underline: SizedBox(),
@@ -41,9 +36,7 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 1
-              ? StepState.complete
-              : StepState.indexed,
+          state: _controller.currentSteps.value > 1 ? StepState.complete : StepState.indexed,
           isActive: _controller.currentSteps.value >= 1,
           title: Text('Model Smartphone'),
           content: TextField(
@@ -63,9 +56,7 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 2
-              ? StepState.complete
-              : StepState.indexed,
+          state: _controller.currentSteps.value > 2 ? StepState.complete : StepState.indexed,
           isActive: _controller.currentSteps.value >= 2,
           title: Text('Jenis Spareparts'),
           content: TextField(
@@ -84,17 +75,13 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 3
-              ? StepState.complete
-              : StepState.indexed,
+          state: _controller.currentSteps.value > 3 ? StepState.complete : StepState.indexed,
           isActive: _controller.currentSteps.value >= 3,
           title: Text('Kualiti Spareparts'),
           content: Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-                color: Get.isDarkMode
-                    ? Colors.grey.shade900
-                    : Colors.grey.shade200,
+                color: Get.isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10)),
             child: DropdownButton(
               underline: SizedBox(),
@@ -114,9 +101,7 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 4
-              ? StepState.complete
-              : StepState.indexed,
+          state: _controller.currentSteps.value > 4 ? StepState.complete : StepState.indexed,
           isActive: _controller.currentSteps.value >= 4,
           title: Text('Harga'),
           content: TextField(
@@ -135,9 +120,7 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 5
-              ? StepState.complete
-              : StepState.indexed,
+          state: _controller.currentSteps.value > 5 ? StepState.complete : StepState.indexed,
           isActive: _controller.currentSteps.value >= 5,
           title: Text('Maklumat Spareparts'),
           content: TextField(
@@ -156,9 +139,7 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 6
-              ? StepState.complete
-              : StepState.indexed,
+          state: _controller.currentSteps.value > 6 ? StepState.complete : StepState.indexed,
           isActive: _controller.currentSteps.value >= 6,
           title: Text('Kuantiti'),
           content: TextField(
@@ -182,18 +163,12 @@ class AddSparepartStepper {
           content: Column(
             children: [
               kepastianContent(
-                  'Supplier: ',
-                  Inventory.getSupplierCode(
-                      _controller.selectedSupplier.value)),
-              kepastianContent(
-                  'Model Smartphone: ', _controller.modelParts.text),
-              kepastianContent(
-                  'Jenis Spareparts: ', _controller.jenisParts.text),
-              kepastianContent(
-                  'Kualiti Spareparts: ', _controller.selectedQuality.value),
+                  'Supplier: ', Inventory.getSupplierCode(_controller.selectedSupplier.value)),
+              kepastianContent('Model Smartphone: ', _controller.modelParts.text),
+              kepastianContent('Jenis Spareparts: ', _controller.jenisParts.text),
+              kepastianContent('Kualiti Spareparts: ', _controller.selectedQuality.value),
               kepastianContent('Harga: ', 'RM ${_controller.hargaParts.text}'),
-              kepastianContent(
-                  'Maklumat Spareparts: ', _controller.maklumatParts.text),
+              kepastianContent('Maklumat Spareparts: ', _controller.maklumatParts.text),
               kepastianContent('Kuantiti: ', _controller.kuantitiParts.text),
             ],
           ),

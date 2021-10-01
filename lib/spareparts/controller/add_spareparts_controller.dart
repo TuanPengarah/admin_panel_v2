@@ -6,7 +6,6 @@ import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -53,8 +52,8 @@ class AddSparepartsController extends GetxController {
       await Get.dialog(
         AlertDialog(
           title: Text('Anda pasti untuk keluar?'),
-          content: Text(
-              'Segala maklumat yang telah anda masukkan di Spareparts ini akan di padam!'),
+          content:
+              Text('Segala maklumat yang telah anda masukkan di Spareparts ini akan di padam!'),
           actions: [
             TextButton(
               onPressed: () {
@@ -203,8 +202,7 @@ class AddSparepartsController extends GetxController {
           partsID: partsID.value,
         );
         await Future.delayed(Duration(milliseconds: 100));
-        status.value =
-            'Memasukkan maklumat spareparts anda ke pangkalan data...';
+        status.value = 'Memasukkan maklumat spareparts anda ke pangkalan data...';
         await FirebaseDatabase.instance
             .reference()
             .child('Spareparts')
@@ -226,8 +224,7 @@ class AddSparepartsController extends GetxController {
       Haptic.feedbackError();
       await Future.delayed(Duration(seconds: 2));
       Get.back();
-      ShowSnackbar.error('Gagal untuk menambah spareparts',
-          'Kesalahan telah berlaku: $e', false);
+      ShowSnackbar.error('Gagal untuk menambah spareparts', 'Kesalahan telah berlaku: $e', false);
     }
   }
 }
