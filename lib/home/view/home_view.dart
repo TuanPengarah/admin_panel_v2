@@ -13,6 +13,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool _isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Obx(
         () => IndexedStack(
@@ -29,7 +30,8 @@ class HomeView extends StatelessWidget {
       bottomNavigationBar: Obx(() {
         return NavigationBarTheme(
           data: NavigationBarThemeData(
-            indicatorColor: Get.isDarkMode ? Colors.blueGrey : Colors.blue.shade100,
+            indicatorColor:
+                _isDarkMode ? Colors.blueGrey : Colors.blue.shade100,
             labelTextStyle: MaterialStateProperty.all(
               TextStyle(
                 fontSize: 12,
@@ -38,7 +40,7 @@ class HomeView extends StatelessWidget {
             ),
           ),
           child: NavigationBar(
-            backgroundColor: Get.isDarkMode ? Colors.blueGrey.shade800 : Colors.blue.shade50,
+            backgroundColor: Theme.of(context).canvasColor,
             height: 65,
             selectedIndex: _homeController.currentIndex.value,
             onDestinationSelected: (index) => _homeController.navTap(index),

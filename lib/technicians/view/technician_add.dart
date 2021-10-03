@@ -54,27 +54,27 @@ class TechnicianAdd extends StatelessWidget {
                   onStepCancel: () => _controller.backStepper(),
                   onStepTapped: (step) => _controller.currentSteps.value = step,
                   steps: StepperTechnician().step(),
-                  // controlsBuilder: (context, {onStepContinue, onStepCancel}) {
-                  //   return Container(
-                  //     margin: const EdgeInsets.only(top: 50),
-                  //     child: Row(
-                  //       children: [
-                  //         ElevatedButton(
-                  //           onPressed: onStepContinue,
-                  //           child: Text(_controller.currentSteps.value != 5
-                  //               ? 'Seterusnya'
-                  //               : 'Tambah Staff'),
-                  //         ),
-                  //         _controller.currentSteps.value == 0
-                  //             ? Container()
-                  //             : TextButton(
-                  //                 onPressed: onStepCancel,
-                  //                 child: Text('Batal'),
-                  //               ),
-                  //       ],
-                  //     ),
-                  //   );
-                  // },
+                  controlsBuilder: (context, details) {
+                    return Container(
+                      margin: const EdgeInsets.only(top: 50),
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: details.onStepContinue,
+                            child: Text(_controller.currentSteps.value != 5
+                                ? 'Seterusnya'
+                                : 'Tambah Staff'),
+                          ),
+                          _controller.currentSteps.value == 0
+                              ? Container()
+                              : TextButton(
+                                  onPressed: details.onStepCancel,
+                                  child: Text('Batal'),
+                                ),
+                        ],
+                      ),
+                    );
+                  },
                 );
               }),
             ),

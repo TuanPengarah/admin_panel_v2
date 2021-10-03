@@ -11,4 +11,12 @@ class Management {
     'Admin',
     'Human Resources'
   ];
+
+  static const List<String> waranti = [
+    'Tiada Waranti',
+    '1 Minggu',
+    '1 Bulan',
+    '2 Bulan',
+    '3 Bulan'
+  ];
 }

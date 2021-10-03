@@ -13,6 +13,7 @@ class ListSpareparts extends StatelessWidget {
   }) : super(key: key);
 
   final _sparepartsController = Get.find<SparepartController>();
+  final _data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -48,25 +49,29 @@ class ListSpareparts extends StatelessWidget {
                         subtitle: Text(spareparts['Maklumat Spareparts']),
                         trailing: Text('RM${spareparts['Harga']}'),
                         onTap: () {
-                          Haptic.feedbackClick();
-                          var arguments = {
-                            'Model': spareparts['Model'],
-                            'Kualiti': spareparts['Kualiti'],
-                            'Jenis Spareparts': spareparts['Jenis Spareparts'],
-                            'Tarikh': spareparts['Tarikh'],
-                            'Harga': spareparts['Harga'],
-                            'Supplier': spareparts['Supplier'],
-                            'Maklumat Spareparts':
-                                spareparts['Maklumat Spareparts'],
-                          };
-
-                          Get.toNamed(
-                            MyRoutes.sparepartsDetails,
-                            arguments: arguments,
-                            parameters: {
+                          if (_data == null) {
+                            var arguments = {
+                              'Model': spareparts['Model'],
+                              'Kualiti': spareparts['Kualiti'],
+                              'Jenis Spareparts':
+                                  spareparts['Jenis Spareparts'],
+                              'Tarikh': spareparts['Tarikh'],
+                              'Harga': spareparts['Harga'],
+                              'Supplier': spareparts['Supplier'],
+                              'Maklumat Spareparts':
+                                  spareparts['Maklumat Spareparts'],
+                            };
+                            _sparepartsController.goToDetails(
+                                arguments, spareparts['id']);
+                          } else {
+                            final data = {
+                              'model':
+                                  '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
                               'id': spareparts['id'],
-                            },
-                          );
+                              'harga': spareparts['Harga'],
+                            };
+                            Get.back(result: data);
+                          }
                         });
                   }),
             ),

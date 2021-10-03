@@ -36,6 +36,6 @@ class Technician {
         'email': email.toString(),
         'photoURL' : photoURL.toString(),
         'jawatan': jawatan.toString(),
-    'id' : id.toString(),
+        'id' : id.toString(),
       };
 }

@@ -12,9 +12,11 @@ class AddSparepart extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => await _controller.exitSpareparts(),
       child: Scaffold(
-        backgroundColor: Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
+        backgroundColor:
+            Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
         appBar: AppBar(
-          backgroundColor: Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
+          backgroundColor:
+              Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
           elevation: 0,
           actions: [
             IconButton(
@@ -39,8 +41,10 @@ class AddSparepart extends StatelessWidget {
                   children: [
                     Text(
                       'Spareparts',
-                      style:
-                          TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
                     ),
                     Obx(() => Text(
                           'Parts Identification: ${_controller.partsID}',
@@ -56,7 +60,9 @@ class AddSparepart extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Get.isDarkMode ? Color(0xff131313) : Get.theme.scaffoldBackgroundColor,
+                  color: Get.isDarkMode
+                      ? Color(0xff131313)
+                      : Get.theme.scaffoldBackgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25),
@@ -69,35 +75,34 @@ class AddSparepart extends StatelessWidget {
                           ? null
                           : () => _controller.backStepper(),
                       steps: AddSparepartStepper().getStepper(),
-                      // controlsBuilder: (context,
-                      //     {onStepContinue, onStepCancel}) {
-                      //   return Container(
-                      //     margin: const EdgeInsets.only(top: 50),
-                      //     child: Row(
-                      //       children: [
-                      //         Expanded(
-                      //           child: ElevatedButton(
-                      //             onPressed: onStepContinue,
-                      //             child: Text(
-                      //               _controller.currentSteps.value == 7
-                      //                   ? 'Selesai'
-                      //                   : 'Seterusnya',
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         if (_controller.currentSteps.value != 0)
-                      //           Expanded(
-                      //             child: TextButton(
-                      //               onPressed: onStepCancel,
-                      //               child: Text(
-                      //                 'Batal',
-                      //               ),
-                      //             ),
-                      //           ),
-                      //       ],
-                      //     ),
-                      //   );
-                      // },
+                      controlsBuilder: (context, details) {
+                        return Container(
+                          margin: const EdgeInsets.only(top: 50),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: details.onStepContinue,
+                                  child: Text(
+                                    _controller.currentSteps.value == 7
+                                        ? 'Selesai'
+                                        : 'Seterusnya',
+                                  ),
+                                ),
+                              ),
+                              if (_controller.currentSteps.value != 0)
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: details.onStepCancel,
+                                    child: Text(
+                                      'Batal',
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        );
+                      },
                     )),
               ),
             ),

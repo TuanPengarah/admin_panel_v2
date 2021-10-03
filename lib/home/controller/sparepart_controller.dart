@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,18 @@ class SparepartController extends GetxController {
   void onInit() {
     getPartList = getSparepartsList();
     super.onInit();
+  }
+
+  void goToDetails(Map<String, dynamic> arguments, String id) {
+    Haptic.feedbackClick();
+
+    Get.toNamed(
+      MyRoutes.sparepartsDetails,
+      arguments: arguments,
+      parameters: {
+        'id': id,
+      },
+    );
   }
 
   String convertEpoch(String unix) {

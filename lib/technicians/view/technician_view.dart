@@ -5,6 +5,7 @@ import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:get/get.dart';
 
 class TechnicianView extends StatelessWidget {
+  final _data = Get.arguments;
   @override
   Widget build(BuildContext context) {
     final _technicianController = Get.put(TechnicianController());
@@ -63,7 +64,7 @@ class TechnicianView extends StatelessWidget {
                       name: '${technician['nama']}',
                       size: 40,
                       image: technician['photoURL'] == null ||
-                          technician['photoURL'] == ''
+                              technician['photoURL'] == ''
                           ? null
                           : NetworkImage(technician['photoURL']),
                       decoration: BoxDecoration(
@@ -73,7 +74,18 @@ class TechnicianView extends StatelessWidget {
                     ),
                     title: Text('${technician['nama']}'),
                     subtitle: Text('${technician['jawatan']}'),
-                    onTap: () => _technicianController.techInfo(i),
+                    onTap: () {
+                      if (_data == null) {
+                        _technicianController.techInfo(i);
+                      } else {
+                        var result = {
+                          'nama': technician['nama'],
+                          'id': technician['id'],
+                        };
+
+                        Get.back(result: result);
+                      }
+                    },
                   );
                 },
               );

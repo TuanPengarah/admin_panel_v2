@@ -1,0 +1,160 @@
+import 'package:admin_panel/POS/controller/payment_controller.dart';
+import 'package:admin_panel/config/management.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+class StepsPayment {
+  final _controller = Get.find<PaymentController>();
+
+  List<Step> stepper() => [
+        Step(
+          state: _controller.currentSteps.value != 0
+              ? StepState.complete
+              : StepState.indexed,
+          isActive: _controller.currentSteps.value >= 0,
+          title: Text('Jenis Stock / Servis'),
+          content: Container(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Obx(() {
+                  return Text(
+                    _controller.currentStock.value,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }),
+                TextButton(
+                  onPressed: () => _controller.chooseServices(),
+                  child: Text('Klik sini untuk pilih...'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Step(
+          state: _controller.currentSteps.value > 1
+              ? StepState.complete
+              : StepState.indexed,
+          isActive: _controller.currentSteps.value >= 1,
+          title: Text('Pilih Juruteknik'),
+          content: Container(
+            alignment: Alignment.bottomCenter,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Obx(
+                  () => Text(
+                    _controller.currentTechnician.value,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => _controller.chooseTechnician(),
+                  child: Text('Pilih juruteknik lain..'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Step(
+          state: _controller.currentSteps.value > 2
+              ? StepState.complete
+              : StepState.indexed,
+          isActive: _controller.currentSteps.value >= 2,
+          title: Text('Waranti'),
+          content: Container(
+            width: Get.width,
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+                color: Get.isDarkMode
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10)),
+            child: DropdownButton(
+              icon: Container(),
+              underline: SizedBox(),
+              items: Management.waranti.map((String value) {
+                return DropdownMenuItem(
+                  child: Text(
+                    value.toString(),
+                  ),
+                  value: value,
+                );
+              }).toList(),
+              value: _controller.selectedWaranti.value,
+              onChanged: (String newValue) {
+                _controller.selectedWaranti.value = newValue;
+              },
+            ),
+          ),
+        ),
+        Step(
+          state: _controller.currentSteps.value > 3
+              ? StepState.complete
+              : StepState.indexed,
+          isActive: _controller.currentSteps.value >= 3,
+          title: Text('Harga'),
+          content: Container(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Obx(
+                  () => TextField(
+                    controller: _controller.priceText,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        hintText: _controller.recommendedPrice.value.toString(),
+                        errorText: _controller.errPriceMiss.value == true
+                            ? 'Sila masukkan harga!'
+                            : null),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Harga yang disarankan oleh AINA: RM${_controller.recommendedPrice.value}',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        Step(
+          state: _controller.currentSteps.value > 4
+              ? StepState.complete
+              : StepState.indexed,
+          isActive: _controller.currentSteps.value >= 4,
+          title: Text('Kepastian'),
+          content: Column(
+            children: [
+              _info('Jenis Stock: ', _controller.currentStock.value),
+              _info('Juruteknik: ', _controller.currentTechnician.value),
+              _info('Waranti: ', _controller.selectedWaranti.value),
+              _info('Harga: ', 'RM${_controller.priceText.text}'),
+            ],
+          ),
+        ),
+      ];
+
+  Row _info(String title, String info) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('$title'),
+        Text(
+          '$info',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}

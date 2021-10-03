@@ -45,6 +45,15 @@ class PriceCalculatorController extends GetxController {
     }
   }
 
+  void calculatePriceFromPayment(int hargaSupplier, int waranti) {
+    double total = upahPasang + waranti * hargaSupplier / 100 + hargaSupplier;
+    if (hargaSupplier < 10) {
+      jumlah.value = 20.0;
+    } else {
+      jumlah.value = total.round() + markup.toDouble();
+    }
+  }
+
   void changeWaranti() {
     switch (tempohWarranti.value) {
       case '1 Minggu':

@@ -94,6 +94,7 @@ class SparepartPage extends StatelessWidget {
                                   Colors.white24),
                               shadowColor: MaterialStateProperty.all<Color>(
                                   Colors.transparent),
+                              elevation: MaterialStateProperty.all<double>(0),
                             ),
                           ),
                         ),

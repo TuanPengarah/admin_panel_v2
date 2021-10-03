@@ -3,7 +3,7 @@ description: Admin apps to control Af-Fix Smartphone Repair
 
 publish_to: 'none'
 
-version: 1.0.0+2
+version: 1.0.0+3
 
 environment:
   sdk: ">=2.11.0 <3.0.0"
