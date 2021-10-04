@@ -90,6 +90,8 @@ class StepsPayment {
               value: _controller.selectedWaranti.value,
               onChanged: (String newValue) {
                 _controller.selectedWaranti.value = newValue;
+                _controller.changeWaranti();
+                _controller.calculatePrice(_controller.hargaSpareparts);
               },
             ),
           ),

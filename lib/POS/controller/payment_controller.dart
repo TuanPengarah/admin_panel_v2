@@ -35,6 +35,36 @@ class PaymentController extends GetxController {
     super.onInit();
   }
 
+  void calculatePrice(int harga) {
+    hargaSpareparts = harga;
+    _priceController.calculatePriceFromPayment(hargaSpareparts, warantiCost);
+    print(hargaSpareparts);
+    recommendedPrice.value = _priceController.jumlah.value;
+  }
+
+  void changeWaranti() {
+    switch (selectedWaranti.value) {
+      case 'Tiada Waranti':
+        warantiCost = 0;
+        break;
+      case '1 Minggu':
+        warantiCost = 10;
+
+        break;
+      case '1 Bulan':
+        warantiCost = 30;
+        break;
+      case '2 Bulan':
+        warantiCost = 50;
+        break;
+      case '3 Bulan':
+        warantiCost = 70;
+        break;
+      default:
+        warantiCost = 10;
+    }
+  }
+
   void nextSteps() {
     if (currentSteps.value == 0) {
       if (currentStock.value != '...') {
@@ -95,6 +125,8 @@ class PaymentController extends GetxController {
             );
 
             print(bills);
+            Get.back();
+            Get.offNamed(MyRoutes.bills);
           },
           child: Text('Pasti'),
         ),
@@ -131,11 +163,7 @@ class PaymentController extends GetxController {
               if (data == null) return;
               Get.back();
               currentStock.value = data['model'];
-              hargaSpareparts = int.parse(data['harga']);
-              _priceController.calculatePriceFromPayment(
-                  hargaSpareparts, warantiCost);
-              print(hargaSpareparts);
-              recommendedPrice.value = _priceController.jumlah.value;
+              calculatePrice(int.parse(data['harga']));
             },
           ),
           ListTile(

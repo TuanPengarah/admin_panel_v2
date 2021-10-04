@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PaymentSetup extends StatelessWidget {
-  final _controller = Get.put(PaymentController());
+  final _controller = Get.put(PaymentController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
