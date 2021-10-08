@@ -9,7 +9,7 @@ class POSView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('POS'),
+        title: Text('Pending Payment'),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -42,7 +42,7 @@ class POSView extends StatelessWidget {
                   ]),
             ));
           }
-          return Column(
+          return ListView(
             children: snapshot.data.docs.map((doc) {
               return MysidUI.mySidListCard(doc, context, () {
                 var data = {'model': doc['Model']};

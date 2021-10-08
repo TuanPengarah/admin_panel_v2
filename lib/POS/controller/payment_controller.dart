@@ -28,6 +28,9 @@ class PaymentController extends GetxController {
   int hargaSpareparts = 0;
   var recommendedPrice = 0.0.obs;
 
+  var totalBillsPrice = 0.obs;
+  bool isPending = false;
+
   @override
   void onInit() {
     currentTechnician.value = _authController.userName.value;
@@ -63,6 +66,37 @@ class PaymentController extends GetxController {
       default:
         warantiCost = 10;
     }
+  }
+
+  void addBills() {
+    Get.dialog(AlertDialog(
+      title: Text('Tambah Resit'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.pending_actions),
+            title: Text('Ambil dari Pending Payment'),
+            onTap: () {
+              Get.back();
+              isPending = true;
+              Haptic.feedbackClick();
+              Get.toNamed(MyRoutes.posview);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.add),
+            title: Text('Hasilkan resit baru'),
+            onTap: () {
+              Get.back();
+              isPending = false;
+              Haptic.feedbackClick();
+              Get.toNamed(MyRoutes.paymentSetup);
+            },
+          ),
+        ],
+      ),
+    ));
   }
 
   void nextSteps() {
@@ -121,17 +155,37 @@ class PaymentController extends GetxController {
                 currentTechnician.value,
                 selectedWaranti.value,
                 int.parse(priceText.text),
+                isPending,
               ).toJson(),
             );
+            totalBillsPrice.value += int.parse(priceText.text);
 
-            print(bills);
             Get.back();
-            Get.offNamed(MyRoutes.bills);
+            Get.back();
+            if (isPending == true) {
+              Get.back();
+            }
+
+            reset();
+            update();
           },
           child: Text('Pasti'),
         ),
       ],
     ));
+  }
+
+  void reset() {
+    currentStock.value = '...';
+    currentSteps.value = 0;
+    currentTechnician.value = _authController.userName.value;
+    currentTechnicianID = _authController.userUID.value;
+    price.value = 0;
+    priceText.text = '';
+    selectedWaranti.value = '1 Bulan';
+    warantiCost = 30;
+    hargaSpareparts = 0;
+    recommendedPrice.value = 0.0;
   }
 
   void backSteps() {
