@@ -27,9 +27,8 @@ class BillsView extends StatelessWidget {
                         itemBuilder: (context, i) {
                           var receipt = _paymentController.bills[i];
                           return ListTile(
-                            leading: Icon(receipt['isPending'] == true
-                                ? Icons.pending_actions
-                                : Icons.add),
+                            leading: Icon(
+                                receipt['isPending'] == true ? Icons.pending_actions : Icons.add),
                             title: Text(receipt['title']),
                             subtitle: Text(receipt['waranti']),
                             trailing: Text('RM ${receipt['harga'].toString()}'),
@@ -39,9 +38,7 @@ class BillsView extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      color: Get.isDarkMode
-                          ? Colors.grey.shade900
-                          : Colors.grey.shade200,
+                      color: Get.isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200,
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -49,11 +46,10 @@ class BillsView extends StatelessWidget {
                           Container(
                             width: Get.width - 140,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () => _paymentController.choosePrint(),
                               child: Text('Hasilkan Resit'),
                               style: ButtonStyle(
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(0),
                                   ),
@@ -88,6 +84,7 @@ class BillsView extends StatelessWidget {
                         SizedBox(height: 18),
                         Text(
                           'Sila tekan + untuk membuat pembayaran dan mencetak resit',
+                          textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.grey),
                         )
                       ],

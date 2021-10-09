@@ -13,7 +13,7 @@ class RepairHistoryController extends GetxController {
     super.onInit();
   }
 
-  void showShareJobsheet(Map<String, String> data) {
+  void showShareJobsheet(Map<String, dynamic> data) {
     Get.bottomSheet(
       Material(
         child: Column(
@@ -25,7 +25,7 @@ class RepairHistoryController extends GetxController {
               subtitle: Text('Print maklumat Jobsheet ini!'),
               onTap: () {
                 Get.back();
-                Get.toNamed(MyRoutes.printviewer, parameters: data);
+                Get.toNamed(MyRoutes.printJobsheetViewer, arguments: data);
               },
             ),
             ListTile(
@@ -34,7 +34,7 @@ class RepairHistoryController extends GetxController {
               subtitle: Text('Hasilkan maklumat Jobsheet berformat PDF!'),
               onTap: () {
                 Get.back();
-                Get.toNamed(MyRoutes.pdfviewer, parameters: data);
+                Get.toNamed(MyRoutes.pdfJobsheeetViewer, arguments: data);
               },
             ),
             SizedBox(height: 10),

@@ -16,7 +16,7 @@ class PrintController extends GetxController {
   var devicesMsg = ''.obs;
   var isScan = true.obs;
   BluetoothManager bluetoothManager = BluetoothManager.instance;
-  final _data = Get.parameters;
+  final _data = Get.arguments;
 
   @override
   void onInit() {
@@ -65,8 +65,7 @@ class PrintController extends GetxController {
 
   Future<void> startPrintJobsheet(PrinterBluetooth printer, bool isNew) async {
     _printerManager.selectPrinter(printer);
-    final result = await _printerManager
-        .printTicket(await _jobsheetTicket(PaperSize.mm80, isNew));
+    final result = await _printerManager.printTicket(await _jobsheetTicket(PaperSize.mm80, isNew));
 
     ShowSnackbar.notify('Status Print', result.msg);
     Haptic.feedbackSuccess();
@@ -81,40 +80,28 @@ class PrintController extends GetxController {
     ticket.image(image);
     ticket.text(
       'AF-FIX',
-      styles: PosStyles(
-          align: PosAlign.center,
-          height: PosTextSize.size2,
-          width: PosTextSize.size2),
+      styles:
+          PosStyles(align: PosAlign.center, height: PosTextSize.size2, width: PosTextSize.size2),
       // linesAfter: 1,
     );
     ticket.text('Smarthone Repair', styles: PosStyles(align: PosAlign.center));
     ticket.text('Jalan Sentosa, Sungai Ramal Baru, 43000 Kajang',
         styles: PosStyles(align: PosAlign.center));
     ticket.text('Tel: 011-11426421', styles: PosStyles(align: PosAlign.center));
-    ticket.text('af-fix.com',
-        styles: PosStyles(align: PosAlign.center, underline: true));
+    ticket.text('af-fix.com', styles: PosStyles(align: PosAlign.center, underline: true));
 
     ticket.feed(1);
-    ticket.text('Jobsheet',
-        styles: PosStyles(align: PosAlign.center, bold: true));
-    ticket.text('MySID: ${_data['mysid']}',
-        styles: PosStyles(align: PosAlign.center, bold: true));
+    ticket.text('Jobsheet', styles: PosStyles(align: PosAlign.center, bold: true));
+    ticket.text('MySID: ${_data['mysid']}', styles: PosStyles(align: PosAlign.center, bold: true));
     ticket.feed(1);
-    ticket.text('Nama: ${_data['nama']}',
-        styles: PosStyles(align: PosAlign.left));
-    ticket.text('Nombor tel: ${_data['noTel']}',
-        styles: PosStyles(align: PosAlign.left));
-    ticket.text('Model: ${_data['model']}',
-        styles: PosStyles(align: PosAlign.left));
-    ticket.text('Kerosakkan: ${_data['kerosakkan']}',
-        styles: PosStyles(align: PosAlign.left));
-    ticket.text('Anggaran Harga: RM${_data['price']}',
-        styles: PosStyles(align: PosAlign.left));
-    ticket.text('Remarks: *${_data['remarks']}',
-        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Nama: ${_data['nama']}', styles: PosStyles(align: PosAlign.left));
+    ticket.text('Nombor tel: ${_data['noTel']}', styles: PosStyles(align: PosAlign.left));
+    ticket.text('Model: ${_data['model']}', styles: PosStyles(align: PosAlign.left));
+    ticket.text('Kerosakkan: ${_data['kerosakkan']}', styles: PosStyles(align: PosAlign.left));
+    ticket.text('Anggaran Harga: RM${_data['price']}', styles: PosStyles(align: PosAlign.left));
+    ticket.text('Remarks: *${_data['remarks']}', styles: PosStyles(align: PosAlign.left));
     ticket.feed(1);
-    ticket.qrcode('https://af-fix-database.web.app/mysid?id=${_data['mysid']}',
-        size: QRSize.Size5);
+    ticket.qrcode('https://af-fix-database.web.app/mysid?id=${_data['mysid']}', size: QRSize.Size5);
 
     ticket.feed(1);
     ticket.text(

@@ -14,6 +14,8 @@ export 'package:admin_panel/jobsheet/view/jobsheet_completed.dart';
 export 'package:admin_panel/jobsheet/view/jobsheet_history.dart';
 export 'package:admin_panel/jobsheet/view/jobsheet_view.dart';
 export 'package:admin_panel/pdf/view/pdf_view.dart';
+export 'package:admin_panel/pdf/view/receipt_view.dart';
+export 'package:admin_panel/print/view/print_receipt_viewer.dart';
 export 'package:admin_panel/print/view/print_view.dart';
 export 'package:admin_panel/spareparts/view/add_spareparts.dart';
 export 'package:admin_panel/spareparts/view/all_sparepart.dart';

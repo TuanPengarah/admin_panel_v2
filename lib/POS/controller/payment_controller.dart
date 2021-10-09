@@ -132,8 +132,7 @@ class PaymentController extends GetxController {
   void paymentConfirmation() async {
     Get.dialog(AlertDialog(
       title: Text('Adakah Anda Pasti?'),
-      content:
-          Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
+      content: Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
       actions: [
         TextButton(
           onPressed: () {
@@ -194,8 +193,7 @@ class PaymentController extends GetxController {
   }
 
   void chooseTechnician() async {
-    var data =
-        await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
+    var data = await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
 
     if (data == null) return;
 
@@ -212,8 +210,7 @@ class PaymentController extends GetxController {
             title: Text('Pilih Spareparts / Stock'),
             onTap: () async {
               Haptic.feedbackClick();
-              var data = await Get.toNamed(MyRoutes.spareparts,
-                  arguments: {'isChoose': true});
+              var data = await Get.toNamed(MyRoutes.spareparts, arguments: {'isChoose': true});
               if (data == null) return;
               Get.back();
               currentStock.value = data['model'];
@@ -241,5 +238,28 @@ class PaymentController extends GetxController {
         ],
       ),
     ));
+  }
+
+  void choosePrint() {
+    Haptic.feedbackClick();
+    Get.bottomSheet(
+      Material(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.picture_as_pdf),
+              title: Text('Hasilkan Resit PDF'),
+              onTap: () => Get.toNamed(MyRoutes.pdfReceiptViewer),
+            ),
+            ListTile(
+              leading: Icon(Icons.print),
+              title: Text('Print Resit'),
+              onTap: () {},
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

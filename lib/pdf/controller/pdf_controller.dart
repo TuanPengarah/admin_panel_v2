@@ -1,10 +1,10 @@
 import 'dart:io';
+
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -14,7 +14,6 @@ class PdfController extends GetxController {
   final pdf = pw.Document();
 
   String fullPath = '';
-  String tarikh = DateFormat('dd/mm/yyyy').format(DateTime.now());
 
   void sendEmailPDF(String email, String technician, userName) async {
     String currentEmail = email;
@@ -50,11 +49,10 @@ class PdfController extends GetxController {
     @required String remarks,
     @required String technician,
     @required String cawangan,
+    @required String tarikh,
   }) async {
     var assetImage = pw.MemoryImage(
-      (await rootBundle.load('assets/images/splash_dark.png'))
-          .buffer
-          .asUint8List(),
+      (await rootBundle.load('assets/images/splash_dark.png')).buffer.asUint8List(),
     );
     pdf.addPage(
       pw.MultiPage(
@@ -100,10 +98,8 @@ class PdfController extends GetxController {
               ),
             ),
             pw.SizedBox(height: 10),
-            pw.Text(
-                '1. Kami berhak untuk mengubah mana-mana terma dan syarat.'),
-            pw.Text(
-                '2. Kami tidak bertanggungjawab sekiranya ada kehilangan data.'),
+            pw.Text('1. Kami berhak untuk mengubah mana-mana terma dan syarat.'),
+            pw.Text('2. Kami tidak bertanggungjawab sekiranya ada kehilangan data.'),
             pw.Text(
                 '3. Pastikan kad memori, dan sim kad anda tidak dimasukkan daripada peranti anda semasa menghantar peranti anda kepada kami.'),
             pw.SizedBox(height: 10),
@@ -179,8 +175,7 @@ class PdfController extends GetxController {
       children: [
         pw.Text(
           title,
-          style: pw.TextStyle(
-              color: PdfColors.lightBlue, fontWeight: pw.FontWeight.bold),
+          style: pw.TextStyle(color: PdfColors.lightBlue, fontWeight: pw.FontWeight.bold),
         ),
         pw.SizedBox(height: 5),
         pw.Text(content),
