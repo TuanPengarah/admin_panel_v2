@@ -31,6 +31,9 @@ class PaymentController extends GetxController {
   var totalBillsPrice = 0.obs;
   bool isPending = false;
 
+  String customerName = '';
+  String phoneNumber = '';
+
   @override
   void onInit() {
     currentTechnician.value = _authController.userName.value;
@@ -132,7 +135,8 @@ class PaymentController extends GetxController {
   void paymentConfirmation() async {
     Get.dialog(AlertDialog(
       title: Text('Adakah Anda Pasti?'),
-      content: Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
+      content:
+          Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
       actions: [
         TextButton(
           onPressed: () {
@@ -193,7 +197,8 @@ class PaymentController extends GetxController {
   }
 
   void chooseTechnician() async {
-    var data = await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
+    var data =
+        await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
 
     if (data == null) return;
 
@@ -210,7 +215,8 @@ class PaymentController extends GetxController {
             title: Text('Pilih Spareparts / Stock'),
             onTap: () async {
               Haptic.feedbackClick();
-              var data = await Get.toNamed(MyRoutes.spareparts, arguments: {'isChoose': true});
+              var data = await Get.toNamed(MyRoutes.spareparts,
+                  arguments: {'isChoose': true});
               if (data == null) return;
               Get.back();
               currentStock.value = data['model'];
@@ -250,16 +256,59 @@ class PaymentController extends GetxController {
             ListTile(
               leading: Icon(Icons.picture_as_pdf),
               title: Text('Hasilkan Resit PDF'),
-              onTap: () => Get.toNamed(MyRoutes.pdfReceiptViewer),
+              onTap: () {
+                Haptic.feedbackClick();
+                Get.back();
+                Get.toNamed(MyRoutes.pdfReceiptViewer);
+              },
             ),
             ListTile(
               leading: Icon(Icons.print),
               title: Text('Print Resit'),
-              onTap: () {},
+              onTap: () {
+                Haptic.feedbackClick();
+                Get.back();
+              },
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<bool> exitPaymentSetup() async {
+    Haptic.feedbackError();
+    bool result = false;
+    await Get.dialog(
+      AlertDialog(
+        title: Text('Anda pasti untuk keluar?'),
+        content:
+            Text('Segala maklumat yang telah anda masukkan akan di padam!'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              result = false;
+              Get.back();
+            },
+            child: Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () {
+              result = true;
+              customerName = '';
+              phoneNumber = '';
+              Get.back();
+            },
+            child: Text(
+              'Keluar',
+              style: TextStyle(
+                color: Colors.amber[900],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+    return result;
   }
 }

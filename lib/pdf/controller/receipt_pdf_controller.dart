@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:admin_panel/POS/controller/payment_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -11,8 +14,14 @@ import 'package:share_plus/share_plus.dart';
 
 class ReceiptPDFController extends GetxController {
   final _paymentController = Get.find<PaymentController>();
+  final _authController = Get.find<AuthController>();
   final pdf = pw.Document();
   String fullPath = '';
+
+  String _tarikh() {
+    final tarikhDart = DateTime.now();
+    return DateFormat('hh/MM/yyyy').format(tarikhDart).toString();
+  }
 
   void sendEmailPDF(String email, String technician, userName) async {
     String currentEmail = email;
@@ -39,34 +48,148 @@ class ReceiptPDFController extends GetxController {
   }
 
   Future<void> writeReceiptPDF() async {
-    // var assetImage = pw.MemoryImage(
-    //   (await rootBundle.load('assets/images/splash_dark.png')).buffer.asUint8List(),
-    // );
+    var assetImage = pw.MemoryImage(
+      (await rootBundle.load('assets/images/splash_dark.png'))
+          .buffer
+          .asUint8List(),
+    );
 
     pdf.addPage(
       pw.MultiPage(
-        pageFormat: PdfPageFormat.a5,
-        crossAxisAlignment: pw.CrossAxisAlignment.start,
-        margin: pw.EdgeInsets.all(15),
-        build: (pw.Context context) {
-          return <pw.Widget>[
-            pw.Text('Hello World'),
-            pw.Table.fromTextArray(
-              headers: ['Butir', 'Jumlah (RM)'],
-              data: _paymentController.bills
-                  .map((e) => [
-                        e['title'],
-                        e['harga'].toDouble(),
-                      ])
-                  .toList(),
-            ),
-            pw.Container(
-                margin: const pw.EdgeInsets.only(top: 10, right: 30),
-                alignment: pw.Alignment.centerRight,
-                child: pw.Text('Jumlah: RM${_paymentController.totalBillsPrice}'))
-          ];
-        },
-      ),
+          pageFormat: PdfPageFormat.a5,
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          margin: pw.EdgeInsets.all(15),
+          header: (pw.Context context) {
+            return pw.Column(
+              children: [
+                pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Resit Pembelian',
+                          style: pw.TextStyle(
+                            color: PdfColors.blue,
+                            fontWeight: pw.FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                        pw.Text(
+                          'Sila simpan resit ini untuk tujuan waranti (jika ada)',
+                          style: pw.TextStyle(
+                            color: PdfColors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    pw.Image(assetImage, height: 50),
+                  ],
+                ),
+                pw.Divider(),
+                pw.SizedBox(height: 10),
+              ],
+            );
+          },
+          build: (pw.Context context) {
+            return <pw.Widget>[
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                      children: [
+                        pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Text(
+                              'Af-Fix Smartphone Repair',
+                              style: pw.TextStyle(
+                                fontWeight: pw.FontWeight.bold,
+                              ),
+                            ),
+                            pw.Text('Lot 8418, Jalan Sentosa,'),
+                            pw.Text('Sungai Ramal Baru,'),
+                            pw.Text('43000 Kajang,'),
+                            pw.Text('Selangor Darul Ehsan'),
+                          ],
+                        ),
+                        pw.BarcodeWidget(
+                          data: 'https://af-fix-database.web.app/e-warranty',
+                          width: 60,
+                          height: 60,
+                          barcode: pw.Barcode.qrCode(),
+                          drawText: false,
+                        ),
+                      ]),
+                  pw.SizedBox(height: 40),
+                  pw.Text('Tarikh: ${_tarikh()}'),
+                  _paymentController.customerName != '' &&
+                          _paymentController.phoneNumber != ''
+                      ? pw.Text('Nama: ${_paymentController.customerName}')
+                      : pw.Container(),
+                  _paymentController.customerName != '' &&
+                          _paymentController.phoneNumber != ''
+                      ? pw.Text('No Telefon: ${_paymentController.phoneNumber}')
+                      : pw.Container(),
+                  pw.Text(
+                      'Technician/Staff: ${_authController.userName.value}'),
+                  pw.SizedBox(height: 15),
+                  pw.Table.fromTextArray(
+                    headers: ['Butir', 'Waranti', 'Jumlah (RM)'],
+                    data: _paymentController.bills
+                        .map((e) => [
+                              e['title'],
+                              e['waranti'],
+                              e['harga'].toDouble(),
+                            ])
+                        .toList(),
+                    border: null,
+                    headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                    headerDecoration: pw.BoxDecoration(
+                      color: PdfColors.blue300,
+                    ),
+                    cellHeight: 30,
+                    cellAlignments: {
+                      0: pw.Alignment.centerLeft,
+                      1: pw.Alignment.centerRight,
+                      2: pw.Alignment.centerRight,
+                    },
+                  ),
+                  pw.Divider(color: PdfColors.blue300),
+                  pw.Container(
+                    margin: const pw.EdgeInsets.only(top: 5),
+                    alignment: pw.Alignment.centerRight,
+                    child: pw.Text(
+                      'Jumlah Keseluruhan:    RM${_paymentController.totalBillsPrice}',
+                      style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ];
+          },
+          footer: (pw.Context context) {
+            return pw.Column(
+              children: [
+                pw.Divider(),
+                pw.Text(
+                  'Anda juga boleh melihat status waranti di laman portal kami: www.af-fix.com/e-warranty',
+                  textAlign: pw.TextAlign.center,
+                ),
+                pw.SizedBox(height: 10),
+                pw.Text(
+                  'TERIMA KASIH!',
+                  style: pw.TextStyle(
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                ),
+              ],
+            );
+          }),
     );
     String titleName = 'Receipt';
     final String dir = (await getApplicationDocumentsDirectory()).path;

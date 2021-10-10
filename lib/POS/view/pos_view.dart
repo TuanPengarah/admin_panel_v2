@@ -1,3 +1,4 @@
+import 'package:admin_panel/POS/controller/payment_controller.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/widget/mysid_list_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class POSView extends StatelessWidget {
+  final _controller = Get.find<PaymentController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +48,8 @@ class POSView extends StatelessWidget {
             children: snapshot.data.docs.map((doc) {
               return MysidUI.mySidListCard(doc, context, () {
                 var data = {'model': doc['Model']};
+                _controller.customerName = doc['Nama'];
+                _controller.phoneNumber = doc['No Phone'];
                 Get.toNamed(MyRoutes.paymentSetup, arguments: data);
               });
             }).toList(),
