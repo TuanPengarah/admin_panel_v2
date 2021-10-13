@@ -23,7 +23,7 @@ class PaymentController extends GetxController {
   var currentTechnician = ''.obs;
   String currentTechnicianID = '';
   var price = 0.obs;
-  var selectedWaranti = '1 Bulan'.obs;
+  var selectedWaranti = '1 Bulan Waranti'.obs;
   int warantiCost = 30;
   int hargaSpareparts = 0;
   var recommendedPrice = 0.0.obs;
@@ -53,17 +53,17 @@ class PaymentController extends GetxController {
       case 'Tiada Waranti':
         warantiCost = 0;
         break;
-      case '1 Minggu':
+      case '1 Minggu Waranti':
         warantiCost = 10;
 
         break;
-      case '1 Bulan':
+      case '1 Bulan Waranti':
         warantiCost = 30;
         break;
-      case '2 Bulan':
+      case '2 Bulan Waranti':
         warantiCost = 50;
         break;
-      case '3 Bulan':
+      case '3 Bulan Waranti':
         warantiCost = 70;
         break;
       default:
@@ -135,8 +135,7 @@ class PaymentController extends GetxController {
   void paymentConfirmation() async {
     Get.dialog(AlertDialog(
       title: Text('Adakah Anda Pasti?'),
-      content:
-          Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
+      content: Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
       actions: [
         TextButton(
           onPressed: () {
@@ -185,7 +184,7 @@ class PaymentController extends GetxController {
     currentTechnicianID = _authController.userUID.value;
     price.value = 0;
     priceText.text = '';
-    selectedWaranti.value = '1 Bulan';
+    selectedWaranti.value = '1 Bulan Waranti';
     warantiCost = 30;
     hargaSpareparts = 0;
     recommendedPrice.value = 0.0;
@@ -197,8 +196,7 @@ class PaymentController extends GetxController {
   }
 
   void chooseTechnician() async {
-    var data =
-        await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
+    var data = await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
 
     if (data == null) return;
 
@@ -215,8 +213,7 @@ class PaymentController extends GetxController {
             title: Text('Pilih Spareparts / Stock'),
             onTap: () async {
               Haptic.feedbackClick();
-              var data = await Get.toNamed(MyRoutes.spareparts,
-                  arguments: {'isChoose': true});
+              var data = await Get.toNamed(MyRoutes.spareparts, arguments: {'isChoose': true});
               if (data == null) return;
               Get.back();
               currentStock.value = data['model'];
@@ -268,6 +265,11 @@ class PaymentController extends GetxController {
               onTap: () {
                 Haptic.feedbackClick();
                 Get.back();
+                var payload = {
+                  'isReceipt': true,
+                  'bills': bills,
+                };
+                Get.toNamed(MyRoutes.printJobsheetViewer, arguments: payload);
               },
             ),
           ],
@@ -282,8 +284,7 @@ class PaymentController extends GetxController {
     await Get.dialog(
       AlertDialog(
         title: Text('Anda pasti untuk keluar?'),
-        content:
-            Text('Segala maklumat yang telah anda masukkan akan di padam!'),
+        content: Text('Segala maklumat yang telah anda masukkan akan di padam!'),
         actions: [
           TextButton(
             onPressed: () {

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:admin_panel/POS/controller/payment_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:esc_pos_bluetooth/esc_pos_bluetooth.dart';
@@ -63,11 +64,18 @@ class PrintController extends GetxController {
     });
   }
 
-  Future<void> startPrintJobsheet(PrinterBluetooth printer, bool isNew) async {
+  Future<void> startPrintJobsheet(PrinterBluetooth printer, bool isNew, bool isReceipt) async {
     _printerManager.selectPrinter(printer);
-    final result = await _printerManager.printTicket(await _jobsheetTicket(PaperSize.mm80, isNew));
 
-    ShowSnackbar.notify('Status Print', result.msg);
+    if (isReceipt == true) {
+      final receipt =
+          await _printerManager.printTicket(await _receiptTicket(PaperSize.mm80, isNew));
+      ShowSnackbar.notify('Print Resit', receipt.msg);
+    } else {
+      final jobsheet =
+          await _printerManager.printTicket(await _jobsheetTicket(PaperSize.mm80, isNew));
+      ShowSnackbar.notify('Print Jobsheet', jobsheet.msg);
+    }
     Haptic.feedbackSuccess();
   }
 
@@ -85,7 +93,7 @@ class PrintController extends GetxController {
       // linesAfter: 1,
     );
     ticket.text('Smarthone Repair', styles: PosStyles(align: PosAlign.center));
-    ticket.text('Jalan Sentosa, Sungai Ramal Baru, 43000 Kajang',
+    ticket.text('Lot 8418, Jalan Sentosa, Sungai Ramal Baru, 43000 Kajang',
         styles: PosStyles(align: PosAlign.center));
     ticket.text('Tel: 011-11426421', styles: PosStyles(align: PosAlign.center));
     ticket.text('af-fix.com', styles: PosStyles(align: PosAlign.center, underline: true));
@@ -132,6 +140,68 @@ class PrintController extends GetxController {
       ticket.cut();
     }
 
+    return ticket;
+  }
+
+  Future<Ticket> _receiptTicket(PaperSize paper, bool isNew) async {
+    final payment = Get.find<PaymentController>();
+    final ticket = Ticket(paper);
+    // Image assets
+    final ByteData data = await rootBundle.load('assets/images/thermal.png');
+    final Uint8List bytes = data.buffer.asUint8List();
+    final Image image = decodeImage(bytes);
+    ticket.image(image);
+    ticket.text(
+      'AF-FIX',
+      styles:
+          PosStyles(align: PosAlign.center, height: PosTextSize.size2, width: PosTextSize.size2),
+      // linesAfter: 1,
+    );
+    ticket.text('Smarthone Repair', styles: PosStyles(align: PosAlign.center));
+    ticket.text('Lot 8418, Jalan Sentosa, Sungai Ramal Baru, 43000 Kajang',
+        styles: PosStyles(align: PosAlign.center));
+    ticket.text('Tel: 011-11426421', styles: PosStyles(align: PosAlign.center));
+    ticket.text('af-fix.com', styles: PosStyles(align: PosAlign.center, underline: true));
+
+    ticket.feed(1);
+    for (var i = 0; i < payment.bills.length; i++) {
+      ticket.text('${payment.bills[i]['title']}');
+      ticket.row(
+        [
+          PosColumn(text: '(${payment.bills[i]['waranti']})', width: 6),
+          PosColumn(text: 'RM ${payment.bills[i]['harga'].toString()}', width: 6)
+        ],
+      );
+    }
+    ticket.feed(1);
+    ticket.row([
+      PosColumn(text: 'Jumlah: ', width: 6, styles: PosStyles(bold: true)),
+      PosColumn(
+          text: 'RM ${payment.totalBillsPrice.value}', width: 6, styles: PosStyles(bold: true)),
+    ]);
+    if (isNew == true) {
+      ticket.feed(1);
+      ticket.qrcode('https://af-fix-database.web.app/', size: QRSize.Size5);
+
+      ticket.feed(1);
+      ticket.text(
+        'Scan sini untuk semak status    waranti anda!',
+        styles: PosStyles(align: PosAlign.center),
+      );
+      ticket.feed(1);
+      ticket.text(
+        'Terima Kasih!',
+        styles: PosStyles(align: PosAlign.center),
+      );
+      ticket.cut();
+    } else {
+      ticket.feed(1);
+      ticket.text(
+        'Terima Kasih!',
+        styles: PosStyles(align: PosAlign.center),
+      );
+      ticket.cut();
+    }
     return ticket;
   }
 }

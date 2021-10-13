@@ -4,11 +4,14 @@ import 'package:get/get.dart';
 
 class PrintView extends StatelessWidget {
   final _printController = Get.put(PrintController());
+  final _data = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Print'),
+        title: Text(_data['isReceipt'] == false || _data['isReceipt'] == null
+            ? 'Print Jobsheet'
+            : 'Print Resit'),
       ),
       body: GetBuilder<PrintController>(
         builder: (_) {
@@ -36,32 +39,62 @@ class PrintView extends StatelessWidget {
                           title: Text(printer.name),
                           subtitle: Text(printer.address),
                           onTap: () {
-                            // return _printController.startPrintJobsheet(printer);
-                            Get.dialog(
-                              AlertDialog(
-                                title: Text('Print untuk pengguna baru?'),
-                                content: Text(
-                                    'Adakah anda ingin memberitahu pengguna untuk fungsi e-waranti?'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                       _printController
-                                        .startPrintJobsheet(printer, false);
-                                       Get.back();
-                                    },
-                                    child: Text('Tidak'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                       _printController
-                                        .startPrintJobsheet(printer, true);
-                                       Get.back();
-                                    },
-                                    child: Text('Ya'),
-                                  ),
-                                ],
-                              ),
-                            );
+                            _data['isReceipt'] == false || _data['isReceipt'] == null
+                                ? Get.dialog(
+                                    AlertDialog(
+                                      title: Text('Print untuk pengguna baru?'),
+                                      content: Text(
+                                          'Adakah anda ingin memberitahu pengguna untuk fungsi e-waranti?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            _printController.startPrintJobsheet(
+                                                printer, false, false);
+                                            Get.back();
+                                          },
+                                          child: Text('Tidak'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            _printController.startPrintJobsheet(
+                                                printer, true, false);
+                                            Get.back();
+                                          },
+                                          child: Text('Ya'),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Get.dialog(
+                                    AlertDialog(
+                                      title: Text('Hasilkan QR Kod?'),
+                                      content: Text(
+                                          'Adakah anda ingin memberitahu pengguna untuk fungsi e-waranti?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            _printController.startPrintJobsheet(
+                                                printer, false, true);
+                                            Get.back();
+                                          },
+                                          child: Text(
+                                            'Tidak',
+                                            style: TextStyle(
+                                              color: Colors.amber[900],
+                                            ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            _printController.startPrintJobsheet(
+                                                printer, true, true);
+                                            Get.back();
+                                          },
+                                          child: Text('Hasilkan'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
                           });
                     },
                   ),

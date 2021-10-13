@@ -14,9 +14,9 @@ class Management {
 
   static const List<String> waranti = [
     'Tiada Waranti',
-    '1 Minggu',
-    '1 Bulan',
-    '2 Bulan',
-    '3 Bulan'
+    '1 Minggu Waranti',
+    '1 Bulan Waranti',
+    '2 Bulan Waranti',
+    '3 Bulan Waranti'
   ];
 }
