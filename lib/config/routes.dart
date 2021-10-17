@@ -7,8 +7,7 @@ class MyRoutes {
   static const jobsheetDone = '/jobsheet/completed';
   static const pdfJobsheeetViewer = '/pdfviewJobsheet';
   static const pdfReceiptViewer = '/pdfviewReceipt';
-  static const printJobsheetViewer = '/printJobsheet';
-  static const printReceiptViewer = '/printReceipt';
+  static const printView = '/print';
   static const mysidUpdate = '/home/update';
   static const repairLog = '/repair-log';
   static const mysidHisory = '/mysid-history';

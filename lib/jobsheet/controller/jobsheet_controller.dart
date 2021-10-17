@@ -78,7 +78,7 @@ class JobsheetController extends GetxController {
               subtitle: Text('Print maklumat Jobsheet ini!'),
               onTap: () {
                 Get.back();
-                Get.toNamed(MyRoutes.printJobsheetViewer, parameters: data);
+                Get.toNamed(MyRoutes.printView, parameters: data);
               },
             ),
             ListTile(

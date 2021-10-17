@@ -4,6 +4,8 @@ import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,6 +24,8 @@ class PaymentController extends GetxController {
   var currentStock = '...'.obs;
   var currentTechnician = ''.obs;
   String currentTechnicianID = '';
+  String sparepartsID = '';
+  String mysid = '';
   var price = 0.obs;
   var selectedWaranti = '1 Bulan Waranti'.obs;
   int warantiCost = 30;
@@ -150,7 +154,29 @@ class PaymentController extends GetxController {
           ),
         ),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
+            var title = 'Memulakan perbuahan di database...'.obs;
+            //TODO: Add logic for saving user payment on database
+            Get.dialog(
+              AlertDialog(
+                title: Text('Membuat perubahan di database'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(color: Colors.grey),
+                    SizedBox(height: 10),
+                    Text(
+                      title.value,
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+            await addToDatabase(title.value);
             bills.add(
               PaymentModel(
                 currentStock.value,
@@ -175,6 +201,19 @@ class PaymentController extends GetxController {
         ),
       ],
     ));
+  }
+
+  Future<void> addToDatabase(String title) async {
+    final firestore = FirebaseFirestore.instance;
+
+    //BUANG LIST SPAREPART YANG TELAH PAKAI
+
+    if (sparepartsID != '' || sparepartsID != null) {
+      FirebaseDatabase.instance.reference().child('Spareparts').child(sparepartsID).remove();
+    }
+
+    //UPDATE STATUS isPayment PADA MYREPAIR ID
+    firestore.collection('MyrepairID').doc();
   }
 
   void reset() {
@@ -217,6 +256,7 @@ class PaymentController extends GetxController {
               if (data == null) return;
               Get.back();
               currentStock.value = data['model'];
+              sparepartsID = data['id'];
               calculatePrice(int.parse(data['harga']));
             },
           ),
@@ -269,7 +309,7 @@ class PaymentController extends GetxController {
                   'isReceipt': true,
                   'bills': bills,
                 };
-                Get.toNamed(MyRoutes.printJobsheetViewer, arguments: payload);
+                Get.toNamed(MyRoutes.printView, arguments: payload);
               },
             ),
           ],

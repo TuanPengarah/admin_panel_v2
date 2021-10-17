@@ -25,7 +25,7 @@ class RepairHistoryController extends GetxController {
               subtitle: Text('Print maklumat Jobsheet ini!'),
               onTap: () {
                 Get.back();
-                Get.toNamed(MyRoutes.printJobsheetViewer, arguments: data);
+                Get.toNamed(MyRoutes.printView, arguments: data);
               },
             ),
             ListTile(

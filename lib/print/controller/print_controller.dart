@@ -169,7 +169,10 @@ class PrintController extends GetxController {
       ticket.row(
         [
           PosColumn(text: '(${payment.bills[i]['waranti']})', width: 6),
-          PosColumn(text: 'RM ${payment.bills[i]['harga'].toString()}', width: 6)
+          PosColumn(
+              text: 'RM ${payment.bills[i]['harga'].toString()}',
+              styles: PosStyles(underline: true),
+              width: 6)
         ],
       );
     }

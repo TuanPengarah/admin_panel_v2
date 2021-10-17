@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.overview, page: () => CustomerView()),
         GetPage(name: MyRoutes.jobsheetDone, page: () => JobsheetCompleted()),
         GetPage(name: MyRoutes.pdfJobsheeetViewer, page: () => PdfViewer()),
-        GetPage(name: MyRoutes.printJobsheetViewer, page: () => PrintView()),
+        GetPage(name: MyRoutes.printView, page: () => PrintView()),
         GetPage(name: MyRoutes.mysidUpdate, page: () => MysidUpdate()),
         GetPage(name: MyRoutes.repairLog, page: () => RepairLogView()),
         GetPage(name: MyRoutes.mysidHisory, page: () => MysidHistoryView()),
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: MyRoutes.paymentSetup, page: () => PaymentSetup()),
         GetPage(name: MyRoutes.paymentCompleted, page: () => PaymentCompleted()),
         GetPage(name: MyRoutes.pdfReceiptViewer, page: () => ReceiptPDF()),
-        GetPage(name: MyRoutes.printReceiptViewer, page: () => PrintReceiptView()),
+        // GetPage(name: MyRoutes.printReceiptViewer, page: () => PrintReceiptView()),
       ],
     );
   }

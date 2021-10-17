@@ -47,7 +47,10 @@ class POSView extends StatelessWidget {
           return ListView(
             children: snapshot.data.docs.map((doc) {
               return MysidUI.mySidListCard(doc, context, () {
-                var data = {'model': doc['Model']};
+                var data = {
+                  'model': doc['Model'],
+                };
+                _controller.mysid = doc['MID'];
                 _controller.customerName = doc['Nama'];
                 _controller.phoneNumber = doc['No Phone'];
                 Get.toNamed(MyRoutes.paymentSetup, arguments: data);
