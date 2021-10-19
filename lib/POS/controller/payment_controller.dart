@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 
 class PaymentController extends GetxController {
   List bills = [];
@@ -25,6 +26,8 @@ class PaymentController extends GetxController {
   var currentTechnician = ''.obs;
   String currentTechnicianID = '';
   String sparepartsID = '';
+  String customerUID = '';
+  String tempohWaranti = '';
   String mysid = '';
   var price = 0.obs;
   var selectedWaranti = '1 Bulan Waranti'.obs;
@@ -42,6 +45,8 @@ class PaymentController extends GetxController {
   void onInit() {
     currentTechnician.value = _authController.userName.value;
     currentTechnicianID = _authController.userUID.value;
+    var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
+    tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
     super.onInit();
   }
 
@@ -56,22 +61,33 @@ class PaymentController extends GetxController {
     switch (selectedWaranti.value) {
       case 'Tiada Waranti':
         warantiCost = 0;
+        var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
+        tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
       case '1 Minggu Waranti':
         warantiCost = 10;
-
+        var jiffy9 = Jiffy()..add(duration: Duration(days: 7));
+        tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
       case '1 Bulan Waranti':
         warantiCost = 30;
+        var jiffy9 = Jiffy()..add(duration: Duration(days: 30));
+        tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
       case '2 Bulan Waranti':
         warantiCost = 50;
+        var jiffy9 = Jiffy()..add(duration: Duration(days: 60));
+        tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
       case '3 Bulan Waranti':
         warantiCost = 70;
+        var jiffy9 = Jiffy()..add(duration: Duration(days: 90));
+        tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
       default:
         warantiCost = 10;
+        var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
+        tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
     }
   }
 
@@ -139,7 +155,8 @@ class PaymentController extends GetxController {
   void paymentConfirmation() async {
     Get.dialog(AlertDialog(
       title: Text('Adakah Anda Pasti?'),
-      content: Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
+      content:
+          Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
       actions: [
         TextButton(
           onPressed: () {
@@ -155,28 +172,9 @@ class PaymentController extends GetxController {
         ),
         TextButton(
           onPressed: () async {
-            var title = 'Memulakan perbuahan di database...'.obs;
             //TODO: Add logic for saving user payment on database
-            Get.dialog(
-              AlertDialog(
-                title: Text('Membuat perubahan di database'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(color: Colors.grey),
-                    SizedBox(height: 10),
-                    Text(
-                      title.value,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-            await addToDatabase(title.value);
+
+            await addToDatabase();
             bills.add(
               PaymentModel(
                 currentStock.value,
@@ -203,17 +201,92 @@ class PaymentController extends GetxController {
     ));
   }
 
-  Future<void> addToDatabase(String title) async {
+  Future<void> addToDatabase() async {
+    var title = ''.obs;
+    Get.dialog(
+      AlertDialog(
+        title: Text('Membuat perubahan di database'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(color: Colors.grey),
+            SizedBox(height: 10),
+            Obx(() {
+              return Text(
+                title.value,
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+    title.value = 'Memulakan perbuahan di database...';
     final firestore = FirebaseFirestore.instance;
+    final db = FirebaseDatabase.instance.reference();
 
     //BUANG LIST SPAREPART YANG TELAH PAKAI
 
     if (sparepartsID != '' || sparepartsID != null) {
-      FirebaseDatabase.instance.reference().child('Spareparts').child(sparepartsID).remove();
+      title.value = 'Mengambil sparepart yang digunakan...';
+      await db.child('Spareparts').child(sparepartsID).remove();
     }
 
-    //UPDATE STATUS isPayment PADA MYREPAIR ID
-    firestore.collection('MyrepairID').doc();
+    //UPDATE STATUS 'isPayment' PADA MYREPAIR ID
+
+    if (mysid != '' || mysid != null) {
+      title.value = 'Setkan mysid telah dibayar...';
+      await firestore
+          .collection('MyrepairID')
+          .doc(mysid)
+          .update({'isPayment': true});
+    }
+
+    //UPDATE STATUS PADA REPAIR HISTORY CUSTOMER
+    if (customerUID != '' || customerUID != null) {
+      title.value = 'Update status pada repair history pelanggan...';
+      Map<String, dynamic> data = {
+        'isWarranty': true,
+        'Tarikh Waranti': '$tempohWaranti',
+        'Status': 'Selesai',
+        'Harga': price.value,
+      };
+      await firestore
+          .collection('customer')
+          .doc(customerUID)
+          .collection('repair history')
+          .doc(mysid)
+          .update(data);
+
+      //TAMBAH REPAIR POINTS
+      title.value = 'Menambah Repair Points...';
+      DocumentReference documentReference =
+          firestore.collection('customer').doc(mysid);
+      firestore.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(documentReference);
+
+        if (!snap.exists) {
+          throw Exception("User does not exist!");
+        }
+
+        int newPoints = snap.get('Points');
+        transaction.update(documentReference, {'Points': newPoints + 10});
+      });
+
+      //TAMBAH JUMLAH REPAIR DAN JUMLAH KEUNTUNGAN TECHNICIAN
+      title.value = 'Tambah jumlah repair dan keuntungan technician...';
+      Map<String, dynamic> updateTechnician = {
+        'jumlahRepair': ServerValue.increment(1),
+        'jumlahKeuntungan': ServerValue.increment(price.value),
+      };
+      await db
+          .child('Technician')
+          .child(currentTechnicianID)
+          .update(updateTechnician);
+    }
   }
 
   void reset() {
@@ -235,7 +308,8 @@ class PaymentController extends GetxController {
   }
 
   void chooseTechnician() async {
-    var data = await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
+    var data =
+        await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
 
     if (data == null) return;
 
@@ -252,7 +326,8 @@ class PaymentController extends GetxController {
             title: Text('Pilih Spareparts / Stock'),
             onTap: () async {
               Haptic.feedbackClick();
-              var data = await Get.toNamed(MyRoutes.spareparts, arguments: {'isChoose': true});
+              var data = await Get.toNamed(MyRoutes.spareparts,
+                  arguments: {'isChoose': true});
               if (data == null) return;
               Get.back();
               currentStock.value = data['model'];
@@ -324,7 +399,8 @@ class PaymentController extends GetxController {
     await Get.dialog(
       AlertDialog(
         title: Text('Anda pasti untuk keluar?'),
-        content: Text('Segala maklumat yang telah anda masukkan akan di padam!'),
+        content:
+            Text('Segala maklumat yang telah anda masukkan akan di padam!'),
         actions: [
           TextButton(
             onPressed: () {

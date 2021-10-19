@@ -34,10 +34,12 @@ class LoginView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Lottie.asset(
-                    'assets/lottie/lottie_login.json',
-                    width: 300,
-                    height: 300,
+                  Flexible(
+                    child: Lottie.asset(
+                      'assets/lottie/lottie_login.json',
+                      width: 300,
+                      height: 300,
+                    ),
                   ),
                   Image.asset(
                     Get.isDarkMode

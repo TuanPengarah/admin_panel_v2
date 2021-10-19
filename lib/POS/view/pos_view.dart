@@ -51,6 +51,7 @@ class POSView extends StatelessWidget {
                   'model': doc['Model'],
                 };
                 _controller.mysid = doc['MID'];
+                _controller.customerUID = doc['Database UID'];
                 _controller.customerName = doc['Nama'];
                 _controller.phoneNumber = doc['No Phone'];
                 Get.toNamed(MyRoutes.paymentSetup, arguments: data);

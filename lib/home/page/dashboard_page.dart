@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/graph/graph_monthly_sales.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 
 class DashboardPage extends GetResponsiveView<HomeController> {
   final _homeController = Get.find<HomeController>();
+  final _graphController = Get.put(GraphController());
   @override
   Widget builder() {
     return Scaffold(
@@ -32,7 +34,11 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                       ? Color(0xff131313)
                       : Get.theme.primaryColor,
                   actions: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.lock))
+                    IconButton(
+                        onPressed: () async {
+                          await _graphController.getGraphFromFirestore();
+                        },
+                        icon: Icon(Icons.lock))
                   ],
                 ),
                 SliverList(
@@ -54,70 +60,84 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                         ? Color(0xff131313)
                                         : Get.theme.primaryColor,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Laporan Jualan Bulanan',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        'RM 723',
-                                        style: TextStyle(
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 5.0, horizontal: 10),
-                                        child: Container(
-                                          height: 220,
-                                          child: GraphMonthlySales(),
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                height: 20,
-                                                width: 20,
+                                  child: FutureBuilder(
+                                      future: _graphController.getGraph,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          );
+                                        }
+                                        return Column(
+                                          children: [
+                                            Text(
+                                              'Laporan Jualan Bulanan',
+                                              style: TextStyle(
                                                 color: Colors.white,
                                               ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                'Harga Jual',
-                                                style: TextStyle(
-                                                    color: Colors.white),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Text(
+                                              'RM 723',
+                                              style: TextStyle(
+                                                fontSize: 28,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
                                               ),
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                height: 20,
-                                                width: 20,
-                                                color: Colors.amber,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 5.0,
+                                                      horizontal: 10),
+                                              child: Container(
+                                                height: 220,
+                                                child: GraphMonthlySales(),
                                               ),
-                                              SizedBox(width: 10),
-                                              Text(
-                                                'Harga Supplier',
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 20,
+                                                      width: 20,
+                                                      color: Colors.white,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      'Harga Jual',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 20,
+                                                      width: 20,
+                                                      color: Colors.amber,
+                                                    ),
+                                                    SizedBox(width: 10),
+                                                    Text(
+                                                      'Harga Supplier',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        );
+                                      }),
                                 ),
                                 Positioned(
                                   top: 330,
