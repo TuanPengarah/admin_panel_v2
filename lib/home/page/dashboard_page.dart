@@ -2,12 +2,15 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/graph/graph_monthly_sales.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
+import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DashboardPage extends GetResponsiveView<HomeController> {
   final _homeController = Get.find<HomeController>();
   final _graphController = Get.put(GraphController());
+  final _sparepartController = Get.put(SparepartController());
+
   @override
   Widget builder() {
     return Scaffold(
@@ -16,8 +19,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
           Container(
               width: double.infinity,
               height: 300,
-              color:
-                  Get.isDarkMode ? Color(0xff131313) : Get.theme.primaryColor),
+              color: Get.isDarkMode ? Color(0xff131313) : Get.theme.primaryColor),
           RefreshIndicator(
             onRefresh: () async {
               Haptic.feedbackClick();
@@ -30,9 +32,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                 SliverAppBar(
                   title: Text('Dashboard'),
                   floating: true,
-                  backgroundColor: Get.isDarkMode
-                      ? Color(0xff131313)
-                      : Get.theme.primaryColor,
+                  backgroundColor: Get.isDarkMode ? Color(0xff131313) : Get.theme.primaryColor,
                   actions: [
                     IconButton(
                         onPressed: () async {
@@ -47,24 +47,20 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                       Column(
                         children: [
                           SizedBox(
-                            height: screen.isPhone
-                                ? screen.height + 100
-                                : screen.height,
+                            height: screen.isPhone ? screen.height + 100 : screen.height,
                             child: Stack(
                               children: [
                                 Container(
                                   height: 400,
                                   width: screen.width,
                                   decoration: BoxDecoration(
-                                    color: Get.isDarkMode
-                                        ? Color(0xff131313)
-                                        : Get.theme.primaryColor,
+                                    color:
+                                        Get.isDarkMode ? Color(0xff131313) : Get.theme.primaryColor,
                                   ),
                                   child: FutureBuilder(
                                       future: _graphController.getGraph,
                                       builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
+                                        if (snapshot.connectionState == ConnectionState.waiting) {
                                           return Center(
                                             child: CircularProgressIndicator(
                                               color: Colors.white,
@@ -80,19 +76,19 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               ),
                                             ),
                                             SizedBox(height: 5),
-                                            Text(
-                                              'RM 723',
-                                              style: TextStyle(
-                                                fontSize: 28,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                              ),
-                                            ),
+                                            Obx(() {
+                                              return Text(
+                                                'RM ${_graphController.jumlahBulanan.value}',
+                                                style: TextStyle(
+                                                  fontSize: 28,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              );
+                                            }),
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 5.0,
-                                                      horizontal: 10),
+                                              padding: const EdgeInsets.symmetric(
+                                                  vertical: 5.0, horizontal: 10),
                                               child: Container(
                                                 height: 220,
                                                 child: GraphMonthlySales(),
@@ -100,8 +96,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                             ),
                                             SizedBox(height: 5),
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Row(
                                                   children: [
@@ -113,8 +108,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                                     SizedBox(width: 10),
                                                     Text(
                                                       'Harga Jual',
-                                                      style: TextStyle(
-                                                          color: Colors.white),
+                                                      style: TextStyle(color: Colors.white),
                                                     ),
                                                   ],
                                                 ),
@@ -127,9 +121,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                                     ),
                                                     SizedBox(width: 10),
                                                     Text(
-                                                      'Harga Supplier',
-                                                      style: TextStyle(
-                                                          color: Colors.white),
+                                                      'Modal',
+                                                      style: TextStyle(color: Colors.white),
                                                     )
                                                   ],
                                                 ),
@@ -175,14 +168,22 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               spacing: 15,
                                               runSpacing: 15,
                                               children: [
-                                                infoCard(
-                                                    'Untung Kasar', 'RM 5443'),
-                                                infoCard(
-                                                    'Untung Bersih', 'RM 4354'),
-                                                infoCard('Modal Supplier',
-                                                    'RM 3034'),
-                                                infoCard(
-                                                    'Jumlah Spareparts', '23'),
+                                                Obx(() {
+                                                  return infoCard('Untung Kasar',
+                                                      'RM ${_graphController.untungKasar.value}');
+                                                }),
+                                                Obx(() {
+                                                  return infoCard('Untung Bersih',
+                                                      'RM ${_graphController.untungBersih.value}');
+                                                }),
+                                                Obx(() {
+                                                  return infoCard('Modal',
+                                                      'RM ${_graphController.jumlahModal.value}');
+                                                }),
+                                                Obx(() {
+                                                  return infoCard('Jumlah Spareparts',
+                                                      '${_sparepartController.totalSpareparts.value}');
+                                                }),
                                               ],
                                             ),
                                             SizedBox(height: 30),
@@ -190,8 +191,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               height: 40,
                                               width: 450,
                                               child: ElevatedButton.icon(
-                                                onPressed: () => _homeController
-                                                    .showBottomJosheet(),
+                                                onPressed: () =>
+                                                    _homeController.showBottomJosheet(),
                                                 label: Text('Tambah Jobsheet'),
                                                 icon: Icon(Icons.add),
                                               ),

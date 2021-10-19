@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SparepartPage extends StatelessWidget {
-  final _sparepartController = Get.put(SparepartController());
+  final _sparepartController = Get.find<SparepartController>();
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +90,8 @@ class SparepartPage extends StatelessWidget {
                               child: Text('Tambah Spareparts'),
                             ),
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white24),
-                              shadowColor: MaterialStateProperty.all<Color>(
-                                  Colors.transparent),
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.white24),
+                              shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
                               elevation: MaterialStateProperty.all<double>(0),
                             ),
                           ),
@@ -144,13 +142,11 @@ class SparepartPage extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount:
-                                _sparepartController.spareparts.length >= 5
-                                    ? 5
-                                    : _sparepartController.spareparts.length,
+                            itemCount: _sparepartController.spareparts.length >= 5
+                                ? 5
+                                : _sparepartController.spareparts.length,
                             itemBuilder: (context, i) {
-                              var spareparts =
-                                  _sparepartController.spareparts[i];
+                              var spareparts = _sparepartController.spareparts[i];
                               return ListTile(
                                 leading: Hero(
                                   tag: spareparts['id'],
@@ -161,27 +157,23 @@ class SparepartPage extends StatelessWidget {
                                           ? '...'
                                           : spareparts['Supplier'],
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
+                                          fontWeight: FontWeight.bold, color: Colors.white),
                                     ),
                                   ),
                                 ),
                                 title: Text(
                                     '${spareparts['Jenis Spareparts']} ${spareparts['Model']}'),
-                                subtitle:
-                                    Text(spareparts['Maklumat Spareparts']),
+                                subtitle: Text(spareparts['Maklumat Spareparts']),
                                 onTap: () {
                                   Haptic.feedbackClick();
                                   var arguments = {
                                     'Model': spareparts['Model'],
                                     'Kualiti': spareparts['Kualiti'],
-                                    'Jenis Spareparts':
-                                        spareparts['Jenis Spareparts'],
+                                    'Jenis Spareparts': spareparts['Jenis Spareparts'],
                                     'Tarikh': spareparts['Tarikh'],
                                     'Harga': spareparts['Harga'],
                                     'Supplier': spareparts['Supplier'],
-                                    'Maklumat Spareparts':
-                                        spareparts['Maklumat Spareparts'],
+                                    'Maklumat Spareparts': spareparts['Maklumat Spareparts'],
                                   };
 
                                   Get.toNamed(

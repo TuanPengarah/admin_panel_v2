@@ -5,8 +5,16 @@ import 'package:intl/intl.dart';
 
 class GraphController extends GetxController {
   String year = DateFormat('yyyy').format(DateTime.now()).toString();
-  List graph = [];
-  List<FlSpot> spot = [];
+  List graphJual = [];
+  List graphSupplier = [];
+  List<FlSpot> spotJual = [];
+  List<FlSpot> spotSupplier = [];
+
+  var jumlahBulanan = 0.obs;
+  var untungBersih = 0.obs;
+  var untungKasar = 0.obs;
+  var jumlahModal = 0.obs;
+
   Future getGraph;
   @override
   void onInit() {
@@ -16,40 +24,40 @@ class GraphController extends GetxController {
 
   String checkMonths(int i) {
     switch (i) {
-      case 1:
+      case 0:
         return 'January';
         break;
-      case 2:
+      case 1:
         return 'February';
         break;
-      case 3:
+      case 2:
         return 'March';
         break;
-      case 4:
+      case 3:
         return 'April';
         break;
-      case 5:
+      case 4:
         return 'May';
         break;
-      case 6:
+      case 5:
         return 'June';
         break;
-      case 7:
+      case 6:
         return 'July';
         break;
-      case 8:
+      case 7:
         return 'August';
         break;
-      case 9:
+      case 8:
         return 'September';
         break;
-      case 10:
+      case 9:
         return 'October';
         break;
-      case 11:
+      case 10:
         return 'November';
         break;
-      case 12:
+      case 11:
         return 'December';
         break;
       default:
@@ -58,21 +66,37 @@ class GraphController extends GetxController {
   }
 
   void getGraphLength() {
-    spot = [];
+    spotJual = [];
+    spotSupplier = [];
+    jumlahModal.value = 0;
     for (int i = 0; i < DateTime.now().month; i++) {
-      spot.add(
-        FlSpot(i.toDouble(), graph[0][checkMonths(i = -1)].toDouble()),
+      spotJual.add(
+        FlSpot(i.toDouble(), graphJual[0][checkMonths(i)].toDouble()),
       );
+      untungKasar.value = graphJual[0][checkMonths(i)];
     }
+    for (int i = 0; i < DateTime.now().month; i++) {
+      spotSupplier.add(
+        FlSpot(i.toDouble(), graphSupplier[0][checkMonths(i)].toDouble()),
+      );
+      jumlahModal.value += graphSupplier[0][checkMonths(i)];
+    }
+
+    jumlahBulanan.value = graphJual[0][checkMonths(DateTime.now().month - 1)];
+    untungBersih.value = untungKasar.value - jumlahModal.value;
   }
 
   Future<void> getGraphFromFirestore() async {
     final sales = FirebaseFirestore.instance.collection('Sales');
-    graph = [];
+    graphJual = [];
+    graphSupplier = [];
     await sales.doc(year).get().then((value) async {
       if (value.exists) {
         print('sales report exists');
-        graph.add(value);
+        graphJual.add(value);
+        await sales.doc(year).collection('supplierRecord').doc('record').get().then((value) {
+          graphSupplier.add(value);
+        });
         getGraphLength();
         update();
       } else {
@@ -92,7 +116,10 @@ class GraphController extends GetxController {
           'December': 0,
         };
         await sales.doc(year).set(data);
-        getGraphLength();
+        await sales.doc(year).collection('supplierRecord').doc('record').set(data).then((value) {
+          getGraphLength();
+          update();
+        });
         update();
       }
     });
