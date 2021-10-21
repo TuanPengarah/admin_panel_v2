@@ -19,7 +19,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
           Container(
               width: double.infinity,
               height: 300,
-              color: Get.isDarkMode ? Color(0xff131313) : Get.theme.primaryColor),
+              color: Get.theme.primaryColor),
           RefreshIndicator(
             onRefresh: () async {
               Haptic.feedbackClick();
@@ -31,8 +31,9 @@ class DashboardPage extends GetResponsiveView<HomeController> {
               slivers: [
                 SliverAppBar(
                   title: Text('Dashboard'),
+                  centerTitle: true,
                   floating: true,
-                  backgroundColor: Get.isDarkMode ? Color(0xff131313) : Get.theme.primaryColor,
+                  backgroundColor: Get.theme.primaryColor,
                   actions: [
                     IconButton(
                         onPressed: () async {
@@ -40,170 +41,163 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                         },
                         icon: Icon(Icons.lock))
                   ],
+                  bottom: PreferredSize(
+                    child: Container(),
+                    preferredSize: Size(0, 20),
+                  ),
+                  collapsedHeight: 380,
+                  expandedHeight: 400,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: screen.width,
+                          decoration: BoxDecoration(
+                            color: Get.theme.primaryColor,
+                          ),
+                          child: FutureBuilder(
+                              future: _graphController.getGraph,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                }
+                                return Column(
+                                  children: [
+                                    Text(
+                                      'Laporan Jualan Bulanan',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Obx(() {
+                                      return Text(
+                                        'RM ${_graphController.jumlahBulanan.value}',
+                                        style: TextStyle(
+                                          fontSize: 28,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      );
+                                    }),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5.0, horizontal: 10),
+                                      child: Container(
+                                        height: 220,
+                                        child: GraphMonthlySales(),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 20,
+                                              width: 20,
+                                              color: Colors.white,
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Harga Jual',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              height: 20,
+                                              width: 20,
+                                              color: Colors.amber,
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Modal',
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 20),
+                                  ],
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
                       Column(
                         children: [
-                          SizedBox(
-                            height: screen.isPhone ? screen.height + 100 : screen.height,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  height: 400,
-                                  width: screen.width,
-                                  decoration: BoxDecoration(
-                                    color:
-                                        Get.isDarkMode ? Color(0xff131313) : Get.theme.primaryColor,
-                                  ),
-                                  child: FutureBuilder(
-                                      future: _graphController.getGraph,
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState == ConnectionState.waiting) {
-                                          return Center(
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
-                                            ),
-                                          );
-                                        }
-                                        return Column(
-                                          children: [
-                                            Text(
-                                              'Laporan Jualan Bulanan',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            SizedBox(height: 5),
-                                            Obx(() {
-                                              return Text(
-                                                'RM ${_graphController.jumlahBulanan.value}',
-                                                style: TextStyle(
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              );
-                                            }),
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 5.0, horizontal: 10),
-                                              child: Container(
-                                                height: 220,
-                                                child: GraphMonthlySales(),
-                                              ),
-                                            ),
-                                            SizedBox(height: 5),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                    SizedBox(width: 10),
-                                                    Text(
-                                                      'Harga Jual',
-                                                      style: TextStyle(color: Colors.white),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Container(
-                                                      height: 20,
-                                                      width: 20,
-                                                      color: Colors.amber,
-                                                    ),
-                                                    SizedBox(width: 10),
-                                                    Text(
-                                                      'Modal',
-                                                      style: TextStyle(color: Colors.white),
-                                                    )
-                                                  ],
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        );
-                                      }),
-                                ),
-                                Positioned(
-                                  top: 330,
-                                  left: screen.isPhone
-                                      ? 20
-                                      : screen.isTablet
-                                          ? 60
-                                          : screen.isDesktop
-                                              ? 300
-                                              : 20,
-                                  right: screen.isPhone
-                                      ? 20
-                                      : screen.isTablet
-                                          ? 60
-                                          : screen.isDesktop
-                                              ? 300
-                                              : 20,
-                                  child: Card(
-                                    elevation: Get.isDarkMode ? 0 : 10,
-                                    child: Container(
-                                      // height: 500,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(15.0),
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              'Rekod Data',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            SizedBox(height: 20),
-                                            Wrap(
-                                              spacing: 15,
-                                              runSpacing: 15,
-                                              children: [
-                                                Obx(() {
-                                                  return infoCard('Untung Kasar',
-                                                      'RM ${_graphController.untungKasar.value}');
-                                                }),
-                                                Obx(() {
-                                                  return infoCard('Untung Bersih',
-                                                      'RM ${_graphController.untungBersih.value}');
-                                                }),
-                                                Obx(() {
-                                                  return infoCard('Modal',
-                                                      'RM ${_graphController.jumlahModal.value}');
-                                                }),
-                                                Obx(() {
-                                                  return infoCard('Jumlah Spareparts',
-                                                      '${_sparepartController.totalSpareparts.value}');
-                                                }),
-                                              ],
-                                            ),
-                                            SizedBox(height: 30),
-                                            SizedBox(
-                                              height: 40,
-                                              width: 450,
-                                              child: ElevatedButton.icon(
-                                                onPressed: () =>
-                                                    _homeController.showBottomJosheet(),
-                                                label: Text('Tambah Jobsheet'),
-                                                icon: Icon(Icons.add),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                          Card(
+                            elevation: Get.isDarkMode ? 0 : 10,
+                            child: Container(
+                              // height: 500,
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Rekod Data',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                  ),
+                                    SizedBox(height: 20),
+                                    Wrap(
+                                      spacing: 15,
+                                      runSpacing: 15,
+                                      children: [
+                                        Obx(() {
+                                          return infoCard('Untung Kasar',
+                                              'RM ${_graphController.untungKasar.value}');
+                                        }),
+                                        Obx(() {
+                                          return infoCard('Untung Bersih',
+                                              'RM ${_graphController.untungBersih.value}');
+                                        }),
+                                        Obx(() {
+                                          return infoCard('Modal',
+                                              'RM ${_graphController.jumlahModal.value}');
+                                        }),
+                                        Obx(() {
+                                          return infoCard('Jumlah Spareparts',
+                                              '${_sparepartController.totalSpareparts.value}');
+                                        }),
+                                      ],
+                                    ),
+                                    SizedBox(height: 30),
+                                    SizedBox(
+                                      height: 40,
+                                      width: 450,
+                                      child: ElevatedButton.icon(
+                                        onPressed: () =>
+                                            _homeController.showBottomJosheet(),
+                                        label: Text('Tambah Jobsheet'),
+                                        icon: Icon(Icons.add),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                           SizedBox(height: 10),
