@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CustomerPage extends StatelessWidget {
-  final _customerController = Get.put(CustomerController());
+  final _customerController = Get.find<CustomerController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +32,16 @@ class CustomerPage extends StatelessWidget {
                 )
               : Theme(
                   data: Theme.of(context).copyWith(
-                      textSelectionTheme: TextSelectionThemeData(selectionColor: Colors.white54)),
+                      textSelectionTheme: TextSelectionThemeData(
+                          selectionColor: Colors.white54)),
                   child: TextField(
                     controller: _customerController.searchController,
                     autofocus: true,
                     style: TextStyle(color: Colors.white),
                     textInputAction: TextInputAction.search,
                     cursorColor: Colors.white,
-                    onChanged: (text) => _customerController.getCustomerDetails(),
+                    onChanged: (text) =>
+                        _customerController.getCustomerDetails(),
                     decoration: InputDecoration(
                       hoverColor: Colors.white,
                       focusColor: Colors.white,
@@ -59,7 +61,9 @@ class CustomerPage extends StatelessWidget {
             () => IconButton(
               onPressed: () => _customerController.clickSearch(),
               icon: Icon(
-                _customerController.isSearch.value == false ? Icons.search : Icons.close,
+                _customerController.isSearch.value == false
+                    ? Icons.search
+                    : Icons.close,
               ),
             ),
           ),
@@ -84,7 +88,8 @@ class CustomerPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               Haptic.feedbackClick();
-              Get.toNamed(MyRoutes.jobsheet, arguments: [false, '', '', '', '']);
+              Get.toNamed(MyRoutes.jobsheet,
+                  arguments: [false, '', '', '', '']);
             },
             icon: Icon(
               Icons.add,
@@ -100,7 +105,8 @@ class CustomerPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Uh Oh! Kesalahan telah berlaku:\n${_customerController.status.value}',
+                      Text(
+                          'Uh Oh! Kesalahan telah berlaku:\n${_customerController.status.value}',
                           textAlign: TextAlign.center),
                       TextButton(
                         onPressed: () async {
@@ -121,7 +127,8 @@ class CustomerPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.person_search, size: 150, color: Colors.grey),
+                        Icon(Icons.person_search,
+                            size: 150, color: Colors.grey),
                         SizedBox(height: 10),
                         Text(
                           'Pelanggan tidak dapat ditemui!',
@@ -137,9 +144,12 @@ class CustomerPage extends StatelessWidget {
                               itemCount: 20,
                               itemBuilder: (context, i) {
                                 return Shimmer.fromColors(
-                                  baseColor: Get.isDarkMode ? Colors.grey[900] : Colors.black26,
-                                  highlightColor:
-                                      Get.isDarkMode ? Colors.grey[700] : Colors.grey.shade400,
+                                  baseColor: Get.isDarkMode
+                                      ? Colors.grey[900]
+                                      : Colors.black26,
+                                  highlightColor: Get.isDarkMode
+                                      ? Colors.grey[700]
+                                      : Colors.grey.shade400,
                                   child: ListTile(
                                     leading: CircleAvatar(),
                                     title: Container(
@@ -164,9 +174,11 @@ class CustomerPage extends StatelessWidget {
                           child: Scrollbar(
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
-                              itemCount: _customerController.customerList.length,
+                              itemCount:
+                                  _customerController.customerList.length,
                               itemBuilder: (BuildContext context, int i) {
-                                var customer = _customerController.customerList[i];
+                                var customer =
+                                    _customerController.customerList[i];
                                 var image = customer['photoURL'];
                                 return Slidable(
                                   actionPane: SlidableDrawerActionPane(),
@@ -194,12 +206,15 @@ class CustomerPage extends StatelessWidget {
                                         child: AdvancedAvatar(
                                           size: 35,
                                           name: customer['Nama'],
-                                          image: image == '' ? null : NetworkImage(image),
+                                          image: image == ''
+                                              ? null
+                                              : NetworkImage(image),
                                           decoration: BoxDecoration(
                                             color: Get.isDarkMode
                                                 ? Colors.blueGrey.shade800
                                                 : Colors.blue.shade50,
-                                            borderRadius: BorderRadius.circular(200),
+                                            borderRadius:
+                                                BorderRadius.circular(200),
                                           ),
                                           style: TextStyle(
                                             color: !Get.isDarkMode
@@ -210,23 +225,24 @@ class CustomerPage extends StatelessWidget {
                                       ),
                                     ),
                                     title: Text(customer['Nama']),
-                                    subtitle: Text(
-                                        customer['No Phone'] == '' ? '--' : customer['No Phone']),
+                                    subtitle: Text(customer['No Phone'] == ''
+                                        ? '--'
+                                        : customer['No Phone']),
                                   ),
                                   actions: [
                                     IconSlideAction(
                                       color: Colors.green,
                                       caption: 'Hubungi',
                                       icon: Icons.phone,
-                                      onTap: () =>
-                                          _customerController.launchCaller(customer['No Phone']),
+                                      onTap: () => _customerController
+                                          .launchCaller(customer['No Phone']),
                                     ),
                                     IconSlideAction(
                                       color: Colors.amber[900],
                                       caption: 'Mesej',
                                       icon: Icons.sms,
-                                      onTap: () =>
-                                          _customerController.launchSms(customer['No Phone']),
+                                      onTap: () => _customerController
+                                          .launchSms(customer['No Phone']),
                                     ),
                                   ],
                                   secondaryActions: [
@@ -234,18 +250,21 @@ class CustomerPage extends StatelessWidget {
                                       color: Colors.blue,
                                       caption: 'Jobsheet',
                                       icon: Icons.receipt_long,
-                                      onTap: () => _customerController.addToJobsheet(
-                                          customer['Nama'],
-                                          customer['No Phone'],
-                                          customer['Email'],
-                                          customer['UID']),
+                                      onTap: () =>
+                                          _customerController.addToJobsheet(
+                                              customer['Nama'],
+                                              customer['No Phone'],
+                                              customer['Email'],
+                                              customer['UID']),
                                     ),
                                     IconSlideAction(
                                       color: Colors.red,
                                       caption: 'Buang',
                                       icon: Icons.delete,
-                                      onTap: () => _customerController.deleteUser(
-                                          customer['UID'], customer['Nama']),
+                                      onTap: () =>
+                                          _customerController.deleteUser(
+                                              customer['UID'],
+                                              customer['Nama']),
                                     ),
                                   ],
                                 );

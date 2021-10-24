@@ -1,6 +1,7 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/graph/graph_monthly_sales.dart';
+import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
   final _homeController = Get.find<HomeController>();
   final _graphController = Get.put(GraphController());
   final _sparepartController = Get.put(SparepartController());
+  final _customerController = Get.put(CustomerController());
 
   @override
   Widget builder() {
@@ -18,7 +20,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
         children: [
           Container(
               width: double.infinity,
-              height: 300,
+              height: 330,
               color: Get.theme.primaryColor),
           RefreshIndicator(
             onRefresh: () async {
@@ -32,7 +34,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                 SliverAppBar(
                   title: Text('Dashboard'),
                   centerTitle: true,
-                  floating: true,
+                  floating: false,
+                  snap: false,
                   backgroundColor: Get.theme.primaryColor,
                   actions: [
                     IconButton(
@@ -45,8 +48,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                     child: Container(),
                     preferredSize: Size(0, 20),
                   ),
-                  collapsedHeight: 380,
-                  expandedHeight: 400,
+                  expandedHeight: 380,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -148,6 +150,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                         children: [
                           Card(
                             elevation: Get.isDarkMode ? 0 : 10,
+                            margin: EdgeInsets.symmetric(horizontal: 18),
                             child: Container(
                               // height: 500,
                               child: Padding(
@@ -175,12 +178,20 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               'RM ${_graphController.untungBersih.value}');
                                         }),
                                         Obx(() {
-                                          return infoCard('Modal',
+                                          return infoCard('Jumlah Modal',
                                               'RM ${_graphController.jumlahModal.value}');
                                         }),
                                         Obx(() {
                                           return infoCard('Jumlah Spareparts',
                                               '${_sparepartController.totalSpareparts.value}');
+                                        }),
+                                        Obx(() {
+                                          return infoCard('Jumlah Pelanggan',
+                                              '${_customerController.customerListRead.value}');
+                                        }),
+                                        Obx(() {
+                                          return infoCard('Pending Job',
+                                              '${_homeController.totalMysid.value}');
                                         }),
                                       ],
                                     ),
@@ -200,7 +211,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          SizedBox(height: 30),
                         ],
                       ),
                     ],
