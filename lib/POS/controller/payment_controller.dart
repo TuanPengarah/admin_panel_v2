@@ -4,6 +4,7 @@ import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -155,8 +156,7 @@ class PaymentController extends GetxController {
   void paymentConfirmation() async {
     Get.dialog(AlertDialog(
       title: Text('Adakah Anda Pasti?'),
-      content:
-          Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
+      content: Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
       actions: [
         TextButton(
           onPressed: () {
@@ -202,6 +202,7 @@ class PaymentController extends GetxController {
   }
 
   Future<void> addToDatabase() async {
+    final _graphController = Get.find<GraphController>();
     var title = ''.obs;
     Get.dialog(
       AlertDialog(
@@ -224,57 +225,55 @@ class PaymentController extends GetxController {
         ),
       ),
     );
-    title.value = 'Memulakan perbuahan di database...';
-    final firestore = FirebaseFirestore.instance;
-    final db = FirebaseDatabase.instance.reference();
+    try {
+      title.value = 'Memulakan perbuahan di database...';
+      final firestore = FirebaseFirestore.instance;
+      final db = FirebaseDatabase.instance.reference();
 
-    //BUANG LIST SPAREPART YANG TELAH PAKAI
+      //UPDATE STATUS 'isPayment' PADA MYREPAIR ID
 
-    if (sparepartsID != '' || sparepartsID != null) {
-      title.value = 'Mengambil sparepart yang digunakan...';
-      await db.child('Spareparts').child(sparepartsID).remove();
-    }
+      if (mysid != '' || mysid != null) {
+        title.value = 'Setkan mysid telah dibayar...';
+        await firestore.collection('MyrepairID').doc(mysid).update({'isPayment': true});
+      }
 
-    //UPDATE STATUS 'isPayment' PADA MYREPAIR ID
+      //UPDATE STATUS PADA REPAIR HISTORY CUSTOMER
+      if (customerUID != '' || customerUID != null) {
+        title.value = 'Update status pada repair history pelanggan...';
+        Map<String, dynamic> data = {
+          'isWarranty': true,
+          'Tarikh Waranti': '$tempohWaranti',
+          'Status': 'Selesai',
+          'Harga': price.value,
+        };
+        await firestore
+            .collection('customer')
+            .doc(customerUID)
+            .collection('repair history')
+            .doc(mysid)
+            .update(data);
 
-    if (mysid != '' || mysid != null) {
-      title.value = 'Setkan mysid telah dibayar...';
-      await firestore
-          .collection('MyrepairID')
-          .doc(mysid)
-          .update({'isPayment': true});
-    }
+        //TAMBAH REPAIR POINTS
+        title.value = 'Menambah Repair Points...';
+        DocumentReference documentReference = firestore.collection('customer').doc(customerUID);
+        firestore.runTransaction((transaction) async {
+          DocumentSnapshot snap = await transaction.get(documentReference);
 
-    //UPDATE STATUS PADA REPAIR HISTORY CUSTOMER
-    if (customerUID != '' || customerUID != null) {
-      title.value = 'Update status pada repair history pelanggan...';
-      Map<String, dynamic> data = {
-        'isWarranty': true,
-        'Tarikh Waranti': '$tempohWaranti',
-        'Status': 'Selesai',
-        'Harga': price.value,
-      };
-      await firestore
-          .collection('customer')
-          .doc(customerUID)
-          .collection('repair history')
-          .doc(mysid)
-          .update(data);
+          if (!snap.exists) {
+            throw Exception("User does not exist!");
+          }
 
-      //TAMBAH REPAIR POINTS
-      title.value = 'Menambah Repair Points...';
-      DocumentReference documentReference =
-          firestore.collection('customer').doc(mysid);
-      firestore.runTransaction((transaction) async {
-        DocumentSnapshot snap = await transaction.get(documentReference);
+          int newPoints = snap.get('Points');
+          transaction.update(documentReference, {'Points': newPoints + 10});
+        });
+      }
 
-        if (!snap.exists) {
-          throw Exception("User does not exist!");
-        }
+      //BUANG LIST SPAREPART YANG TELAH PAKAI
 
-        int newPoints = snap.get('Points');
-        transaction.update(documentReference, {'Points': newPoints + 10});
-      });
+      if (sparepartsID != '' || sparepartsID != null) {
+        title.value = 'Mengambil sparepart yang digunakan...';
+        await db.child('Spareparts').child(sparepartsID).remove();
+      }
 
       //TAMBAH JUMLAH REPAIR DAN JUMLAH KEUNTUNGAN TECHNICIAN
       title.value = 'Tambah jumlah repair dan keuntungan technician...';
@@ -282,10 +281,62 @@ class PaymentController extends GetxController {
         'jumlahRepair': ServerValue.increment(1),
         'jumlahKeuntungan': ServerValue.increment(price.value),
       };
-      await db
-          .child('Technician')
-          .child(currentTechnicianID)
-          .update(updateTechnician);
+      await db.child('Technician').child(currentTechnicianID).update(updateTechnician);
+
+      //TAMBAH HARGA JUAL PADA GRAPH SALES
+      String months = _graphController.checkMonths(DateTime.now().month - 1);
+      title.value = 'Menambah harga jual pada graph sales...';
+      DocumentReference hargaJual = firestore.collection('Sales').doc(_graphController.year);
+      firestore.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(hargaJual);
+
+        if (!snap.exists) {
+          throw Exception("Harga jual tidak dijumpai");
+        }
+
+        int newPoints = snap.get(months);
+        transaction.update(hargaJual, {months: newPoints + price.value});
+      });
+
+      //TAMBAH MODAL PADA GRAPH SALES
+      title.value = 'Menambah harga modal pada graph sales...';
+      DocumentReference hargaModal = firestore
+          .collection('Sales')
+          .doc(_graphController.year)
+          .collection('supplierRecord')
+          .doc('record');
+      firestore.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(hargaModal);
+
+        if (!snap.exists) {
+          throw Exception("Harga modal tidak dijumpai");
+        }
+
+        int newPoints = snap.get(months);
+        transaction.update(hargaModal, {months: newPoints + price.value});
+      });
+
+      //TAMBAH PADA CASH FLOW
+      title.value = 'Mengemaskini cash flow...';
+      final Map<String, dynamic> cashflow = {
+        'jumlah': price.value,
+        'timeStamp': FieldValue.serverTimestamp(),
+      };
+
+      await firestore
+          .collection('Sales')
+          .doc(_graphController.year)
+          .collection('cashFlow')
+          .add(cashflow);
+
+      title.value = 'Selesai!';
+      await Future.delayed(Duration(seconds: 1));
+      Get.back();
+    } on Exception catch (e) {
+      print(e);
+      await Future.delayed(Duration(seconds: 1));
+      Get.back();
+      ShowSnackbar.error('Kesalahan telah berlaku!', e.toString(), false);
     }
   }
 
@@ -308,8 +359,7 @@ class PaymentController extends GetxController {
   }
 
   void chooseTechnician() async {
-    var data =
-        await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
+    var data = await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
 
     if (data == null) return;
 
@@ -326,8 +376,7 @@ class PaymentController extends GetxController {
             title: Text('Pilih Spareparts / Stock'),
             onTap: () async {
               Haptic.feedbackClick();
-              var data = await Get.toNamed(MyRoutes.spareparts,
-                  arguments: {'isChoose': true});
+              var data = await Get.toNamed(MyRoutes.spareparts, arguments: {'isChoose': true});
               if (data == null) return;
               Get.back();
               currentStock.value = data['model'];
@@ -399,8 +448,7 @@ class PaymentController extends GetxController {
     await Get.dialog(
       AlertDialog(
         title: Text('Anda pasti untuk keluar?'),
-        content:
-            Text('Segala maklumat yang telah anda masukkan akan di padam!'),
+        content: Text('Segala maklumat yang telah anda masukkan akan di padam!'),
         actions: [
           TextButton(
             onPressed: () {
