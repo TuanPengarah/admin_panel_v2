@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
