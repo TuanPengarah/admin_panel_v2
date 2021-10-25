@@ -1,10 +1,11 @@
 import 'dart:math';
-
 import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -156,6 +157,7 @@ class AddSparepartsController extends GetxController {
   }
 
   Future<void> addToRTDB() async {
+    final _graphController = Get.find<GraphController>();
     status.value = 'Menyediakan maklumat spareparts anda...';
 
     Get.dialog(AlertDialog(
@@ -210,9 +212,45 @@ class AddSparepartsController extends GetxController {
             .set(spareparts.toJson());
       }
 
+      //TAMBAH MODAL PADA GRAPH SALES
+      var firestore = FirebaseFirestore.instance;
+      String months = _graphController.checkMonths(DateTime.now().month - 1);
+      status.value = 'Menambah harga modal pada graph sales...';
+      DocumentReference hargaModal = firestore
+          .collection('Sales')
+          .doc(_graphController.year)
+          .collection('supplierRecord')
+          .doc('record');
+      firestore.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(hargaModal);
+
+        if (!snap.exists) {
+          throw Exception("Harga modal tidak dijumpai");
+        }
+
+        int newPoints = snap.get(months);
+        transaction.update(hargaModal, {months: newPoints + int.parse(hargaParts.text)});
+      });
+
+      //TAMBAH PADA CASH FLOW
+      status.value = 'Mengemaskini cash flow...';
+      final Map<String, dynamic> cashflow = {
+        'jumlah': int.parse(hargaParts.text),
+        'isModal': true,
+        'timeStamp': FieldValue.serverTimestamp(),
+      };
+
+      await firestore
+          .collection('Sales')
+          .doc(_graphController.year)
+          .collection('cashFlow')
+          .add(cashflow);
+
+      status.value = 'Menyegarkan semula semua data...';
+      await _sparepartsController.refreshDialog(false);
+      await _graphController.getGraphFromFirestore();
       status.value = 'Selesai!';
       Haptic.feedbackSuccess();
-      await _sparepartsController.refreshDialog(false);
       await Future.delayed(Duration(seconds: 1));
       Get.back();
       Get.back();

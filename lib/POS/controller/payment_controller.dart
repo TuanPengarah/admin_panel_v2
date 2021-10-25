@@ -5,6 +5,7 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
+import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -238,7 +239,7 @@ class PaymentController extends GetxController {
       }
 
       //UPDATE STATUS PADA REPAIR HISTORY CUSTOMER
-      if (customerUID != '' || customerUID != null) {
+      if (customerUID != '') {
         title.value = 'Update status pada repair history pelanggan...';
         Map<String, dynamic> data = {
           'isWarranty': true,
@@ -270,7 +271,7 @@ class PaymentController extends GetxController {
 
       //BUANG LIST SPAREPART YANG TELAH PAKAI
 
-      if (sparepartsID != '' || sparepartsID != null) {
+      if (sparepartsID != '') {
         title.value = 'Mengambil sparepart yang digunakan...';
         await db.child('Spareparts').child(sparepartsID).remove();
       }
@@ -279,7 +280,7 @@ class PaymentController extends GetxController {
       title.value = 'Tambah jumlah repair dan keuntungan technician...';
       Map<String, dynamic> updateTechnician = {
         'jumlahRepair': ServerValue.increment(1),
-        'jumlahKeuntungan': ServerValue.increment(price.value),
+        'jumlahKeuntungan': ServerValue.increment(int.parse(priceText.text)),
       };
       await db.child('Technician').child(currentTechnicianID).update(updateTechnician);
 
@@ -295,31 +296,14 @@ class PaymentController extends GetxController {
         }
 
         int newPoints = snap.get(months);
-        transaction.update(hargaJual, {months: newPoints + price.value});
-      });
-
-      //TAMBAH MODAL PADA GRAPH SALES
-      title.value = 'Menambah harga modal pada graph sales...';
-      DocumentReference hargaModal = firestore
-          .collection('Sales')
-          .doc(_graphController.year)
-          .collection('supplierRecord')
-          .doc('record');
-      firestore.runTransaction((transaction) async {
-        DocumentSnapshot snap = await transaction.get(hargaModal);
-
-        if (!snap.exists) {
-          throw Exception("Harga modal tidak dijumpai");
-        }
-
-        int newPoints = snap.get(months);
-        transaction.update(hargaModal, {months: newPoints + price.value});
+        transaction.update(hargaJual, {months: newPoints + int.parse(priceText.text)});
       });
 
       //TAMBAH PADA CASH FLOW
       title.value = 'Mengemaskini cash flow...';
       final Map<String, dynamic> cashflow = {
-        'jumlah': price.value,
+        'jumlah': int.parse(priceText.text),
+        'isModal': false,
         'timeStamp': FieldValue.serverTimestamp(),
       };
 
@@ -328,7 +312,13 @@ class PaymentController extends GetxController {
           .doc(_graphController.year)
           .collection('cashFlow')
           .add(cashflow);
-
+      title.value = 'Menyegarkan semula semua data...';
+      final _sparepartsController = Get.find<SparepartController>();
+      final _authController = Get.find<AuthController>();
+      await _authController.checkUserData(
+          _authController.userUID.value, _authController.userEmail.value);
+      await _sparepartsController.getSparepartsList();
+      await _graphController.getGraphFromFirestore();
       title.value = 'Selesai!';
       await Future.delayed(Duration(seconds: 1));
       Get.back();
