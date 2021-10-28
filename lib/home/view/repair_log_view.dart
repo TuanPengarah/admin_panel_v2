@@ -1,3 +1,4 @@
+import 'package:admin_panel/home/controller/mysid_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,11 +6,17 @@ import 'package:intl/intl.dart';
 
 class RepairLogView extends StatelessWidget {
   final _params = Get.parameters;
+  final _controller = Get.find<MysidController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Repair Log'),
+        actions: [
+          IconButton(
+              onPressed: () => _controller.urlMysid(_params['id']),
+              icon: Icon(Icons.open_in_browser))
+        ],
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance

@@ -157,7 +157,8 @@ class PaymentController extends GetxController {
   void paymentConfirmation() async {
     Get.dialog(AlertDialog(
       title: Text('Adakah Anda Pasti?'),
-      content: Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
+      content:
+          Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
       actions: [
         TextButton(
           onPressed: () {
@@ -235,7 +236,10 @@ class PaymentController extends GetxController {
 
       if (mysid != '' || mysid != null) {
         title.value = 'Setkan mysid telah dibayar...';
-        await firestore.collection('MyrepairID').doc(mysid).update({'isPayment': true});
+        await firestore
+            .collection('MyrepairID')
+            .doc(mysid)
+            .update({'isPayment': true});
       }
 
       //UPDATE STATUS PADA REPAIR HISTORY CUSTOMER
@@ -245,7 +249,7 @@ class PaymentController extends GetxController {
           'isWarranty': true,
           'Tarikh Waranti': '$tempohWaranti',
           'Status': 'Selesai',
-          'Harga': price.value,
+          'Harga': int.parse(priceText.text),
         };
         await firestore
             .collection('customer')
@@ -256,7 +260,8 @@ class PaymentController extends GetxController {
 
         //TAMBAH REPAIR POINTS
         title.value = 'Menambah Repair Points...';
-        DocumentReference documentReference = firestore.collection('customer').doc(customerUID);
+        DocumentReference documentReference =
+            firestore.collection('customer').doc(customerUID);
         firestore.runTransaction((transaction) async {
           DocumentSnapshot snap = await transaction.get(documentReference);
 
@@ -282,12 +287,16 @@ class PaymentController extends GetxController {
         'jumlahRepair': ServerValue.increment(1),
         'jumlahKeuntungan': ServerValue.increment(int.parse(priceText.text)),
       };
-      await db.child('Technician').child(currentTechnicianID).update(updateTechnician);
+      await db
+          .child('Technician')
+          .child(currentTechnicianID)
+          .update(updateTechnician);
 
       //TAMBAH HARGA JUAL PADA GRAPH SALES
       String months = _graphController.checkMonths(DateTime.now().month - 1);
       title.value = 'Menambah harga jual pada graph sales...';
-      DocumentReference hargaJual = firestore.collection('Sales').doc(_graphController.year);
+      DocumentReference hargaJual =
+          firestore.collection('Sales').doc(_graphController.year);
       firestore.runTransaction((transaction) async {
         DocumentSnapshot snap = await transaction.get(hargaJual);
 
@@ -296,7 +305,8 @@ class PaymentController extends GetxController {
         }
 
         int newPoints = snap.get(months);
-        transaction.update(hargaJual, {months: newPoints + int.parse(priceText.text)});
+        transaction
+            .update(hargaJual, {months: newPoints + int.parse(priceText.text)});
       });
 
       //TAMBAH PADA CASH FLOW
@@ -349,7 +359,8 @@ class PaymentController extends GetxController {
   }
 
   void chooseTechnician() async {
-    var data = await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
+    var data =
+        await Get.toNamed(MyRoutes.technician, arguments: {'isChoose': true});
 
     if (data == null) return;
 
@@ -366,7 +377,8 @@ class PaymentController extends GetxController {
             title: Text('Pilih Spareparts / Stock'),
             onTap: () async {
               Haptic.feedbackClick();
-              var data = await Get.toNamed(MyRoutes.spareparts, arguments: {'isChoose': true});
+              var data = await Get.toNamed(MyRoutes.spareparts,
+                  arguments: {'isChoose': true});
               if (data == null) return;
               Get.back();
               currentStock.value = data['model'];
@@ -438,7 +450,8 @@ class PaymentController extends GetxController {
     await Get.dialog(
       AlertDialog(
         title: Text('Anda pasti untuk keluar?'),
-        content: Text('Segala maklumat yang telah anda masukkan akan di padam!'),
+        content:
+            Text('Segala maklumat yang telah anda masukkan akan di padam!'),
         actions: [
           TextButton(
             onPressed: () {

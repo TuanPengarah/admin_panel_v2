@@ -116,7 +116,7 @@ class ReceiptPDFController extends GetxController {
                           ],
                         ),
                         pw.BarcodeWidget(
-                          data: 'https://af-fix-database.web.app/e-warranty',
+                          data: 'https://af-fix.com/e-warranty',
                           width: 60,
                           height: 60,
                           barcode: pw.Barcode.qrCode(),

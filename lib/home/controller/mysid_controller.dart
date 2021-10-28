@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 class MysidController extends GetxController {
@@ -29,6 +30,10 @@ class MysidController extends GetxController {
     });
   }
 
+  void urlMysid(String mysid) {
+    Share.share('https://af-fix.com/mysid?id=$mysid');
+  }
+
   void setMysid(BuildContext context) async {
     editPercent.value = percentage.value;
     final btnController = RoundedLoadingButtonController();
@@ -44,7 +49,8 @@ class MysidController extends GetxController {
           builder: (context, state) {
             return Material(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
                 child: Column(
                   children: [
                     SizedBox(height: 10),
@@ -87,7 +93,9 @@ class MysidController extends GetxController {
                           inactiveTrackBarHeight: 130,
                           inactiveTrackBar: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Get.isDarkMode ? Colors.grey.shade900 : Colors.black12,
+                            color: Get.isDarkMode
+                                ? Colors.grey.shade900
+                                : Colors.black12,
                           ),
                           activeTrackBar: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
@@ -214,9 +222,14 @@ class MysidController extends GetxController {
         await Future.delayed(Duration(seconds: 2));
         Get.back();
         ShowSnackbar.error(
-            'Repair Log', 'Kesalahan telah berlaku, sila check rangkaian internet anda!', true);
+            'Repair Log',
+            'Kesalahan telah berlaku, sila check rangkaian internet anda!',
+            true);
       });
-      await firestore.collection('MyrepairID').doc(Get.parameters['id']).update(updateStatus);
+      await firestore
+          .collection('MyrepairID')
+          .doc(Get.parameters['id'])
+          .update(updateStatus);
       await firestore
           .collection('MyrepairID')
           .doc(Get.parameters['id'])
@@ -232,7 +245,8 @@ class MysidController extends GetxController {
       await Future.delayed(Duration(seconds: 1));
 
       Get.back();
-      ShowSnackbar.success('Repair Log', 'Maklumat repair log telah berjaya di kemaskini!', true);
+      ShowSnackbar.success('Repair Log',
+          'Maklumat repair log telah berjaya di kemaskini!', true);
     } on Exception catch (e) {
       btnController.error();
       Haptic.feedbackError();

@@ -8,7 +8,7 @@ class PriceCalculatorController extends GetxController {
   int tambahWaranti = 10;
   int markup = 30;
 
-  var jumlah = 0.0.obs;
+  var jumlah = 20.0.obs;
 
   var supplierPrice = '0'.obs;
   var tempohWarranti = '1 Minggu'.obs;
@@ -31,8 +31,14 @@ class PriceCalculatorController extends GetxController {
       jumlah.value = 20.0;
       return 20.0;
     }
-    jumlah.value = total.round() + markup.toDouble();
-    return total.round() + markup.toDouble();
+
+    total = total.round() + markup.toDouble();
+    print(total);
+    total = (total / 10).roundToDouble();
+    print(total);
+    total = total * 10;
+    jumlah.value = total;
+    return total;
   }
 
   void calculatePrice(int hargaSupplier) {
@@ -41,7 +47,10 @@ class PriceCalculatorController extends GetxController {
     if (hargaSupplier < 10) {
       jumlah.value = 20.0;
     } else {
-      jumlah.value = total.round() + markup.toDouble();
+      total = total.round() + markup.toDouble();
+      total = (total / 10).roundToDouble();
+      total = total * 10;
+      jumlah.value = total;
     }
   }
 
@@ -50,7 +59,10 @@ class PriceCalculatorController extends GetxController {
     if (hargaSupplier < 10) {
       jumlah.value = 20.0;
     } else {
-      jumlah.value = total.round() + markup.toDouble();
+      total = total.round() + markup.toDouble();
+      total = (total / 10).roundToDouble();
+      total = total * 10;
+      jumlah.value = total;
     }
   }
 

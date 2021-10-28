@@ -49,7 +49,7 @@ class PriceCalculatorView extends StatelessWidget {
                         ),
                         onDragging: (handlerIndex, lowerValue, upperValue) {
                           _priceController.supplierPriceTitle.text =
-                              '$lowerValue';
+                              '${lowerValue.toStringAsFixed(0)}';
                           _priceController.supplierPrice.value = double.parse(
                                   _priceController.supplierPriceTitle.text)
                               .toStringAsFixed(0);

@@ -52,7 +52,9 @@ class PdfController extends GetxController {
     @required String tarikh,
   }) async {
     var assetImage = pw.MemoryImage(
-      (await rootBundle.load('assets/images/splash_dark.png')).buffer.asUint8List(),
+      (await rootBundle.load('assets/images/splash_dark.png'))
+          .buffer
+          .asUint8List(),
     );
     pdf.addPage(
       pw.MultiPage(
@@ -74,7 +76,7 @@ class PdfController extends GetxController {
                   ],
                 ),
                 pw.BarcodeWidget(
-                  data: 'https://af-fix-database.web.app/mysid?id=$mysid',
+                  data: 'https://af-fix.com/mysid?id=$mysid',
                   width: 60,
                   height: 60,
                   barcode: pw.Barcode.qrCode(),
@@ -98,13 +100,15 @@ class PdfController extends GetxController {
               ),
             ),
             pw.SizedBox(height: 10),
-            pw.Text('1. Kami berhak untuk mengubah mana-mana terma dan syarat.'),
-            pw.Text('2. Kami tidak bertanggungjawab sekiranya ada kehilangan data.'),
+            pw.Text(
+                '1. Kami berhak untuk mengubah mana-mana terma dan syarat.'),
+            pw.Text(
+                '2. Kami tidak bertanggungjawab sekiranya ada kehilangan data.'),
             pw.Text(
                 '3. Pastikan kad memori, dan sim kad anda tidak dimasukkan daripada peranti anda semasa menghantar peranti anda kepada kami.'),
             pw.SizedBox(height: 10),
             pw.Text(
-              'Untuk maklumat lebih lanjut tentang terma ,syarat dan juga privasi. Sila layari website kami - https://af-fix-database.web.app/terms',
+              'Untuk maklumat lebih lanjut tentang terma ,syarat dan juga privasi. Sila layari website kami - https://af-fix.com/terms',
               textAlign: pw.TextAlign.center,
               style: pw.TextStyle(
                 color: PdfColors.grey,
@@ -175,7 +179,8 @@ class PdfController extends GetxController {
       children: [
         pw.Text(
           title,
-          style: pw.TextStyle(color: PdfColors.lightBlue, fontWeight: pw.FontWeight.bold),
+          style: pw.TextStyle(
+              color: PdfColors.lightBlue, fontWeight: pw.FontWeight.bold),
         ),
         pw.SizedBox(height: 5),
         pw.Text(content),

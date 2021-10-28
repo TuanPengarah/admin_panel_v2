@@ -64,16 +64,17 @@ class PrintController extends GetxController {
     });
   }
 
-  Future<void> startPrintJobsheet(PrinterBluetooth printer, bool isNew, bool isReceipt) async {
+  Future<void> startPrintJobsheet(
+      PrinterBluetooth printer, bool isNew, bool isReceipt) async {
     _printerManager.selectPrinter(printer);
 
     if (isReceipt == true) {
-      final receipt =
-          await _printerManager.printTicket(await _receiptTicket(PaperSize.mm80, isNew));
+      final receipt = await _printerManager
+          .printTicket(await _receiptTicket(PaperSize.mm80, isNew));
       ShowSnackbar.notify('Print Resit', receipt.msg);
     } else {
-      final jobsheet =
-          await _printerManager.printTicket(await _jobsheetTicket(PaperSize.mm80, isNew));
+      final jobsheet = await _printerManager
+          .printTicket(await _jobsheetTicket(PaperSize.mm80, isNew));
       ShowSnackbar.notify('Print Jobsheet', jobsheet.msg);
     }
     Haptic.feedbackSuccess();
@@ -88,28 +89,40 @@ class PrintController extends GetxController {
     ticket.image(image);
     ticket.text(
       'AF-FIX',
-      styles:
-          PosStyles(align: PosAlign.center, height: PosTextSize.size2, width: PosTextSize.size2),
+      styles: PosStyles(
+          align: PosAlign.center,
+          height: PosTextSize.size2,
+          width: PosTextSize.size2),
       // linesAfter: 1,
     );
     ticket.text('Smarthone Repair', styles: PosStyles(align: PosAlign.center));
     ticket.text('Lot 8418, Jalan Sentosa, Sungai Ramal Baru, 43000 Kajang',
         styles: PosStyles(align: PosAlign.center));
     ticket.text('Tel: 011-11426421', styles: PosStyles(align: PosAlign.center));
-    ticket.text('af-fix.com', styles: PosStyles(align: PosAlign.center, underline: true));
+    ticket.text('af-fix.com',
+        styles: PosStyles(align: PosAlign.center, underline: true));
 
     ticket.feed(1);
-    ticket.text('Jobsheet', styles: PosStyles(align: PosAlign.center, bold: true));
-    ticket.text('MySID: ${_data['mysid']}', styles: PosStyles(align: PosAlign.center, bold: true));
+    ticket.text('Jobsheet',
+        styles: PosStyles(align: PosAlign.center, bold: true));
+    ticket.text('MySID: ${_data['mysid']}',
+        styles: PosStyles(align: PosAlign.center, bold: true));
     ticket.feed(1);
-    ticket.text('Nama: ${_data['nama']}', styles: PosStyles(align: PosAlign.left));
-    ticket.text('Nombor tel: ${_data['noTel']}', styles: PosStyles(align: PosAlign.left));
-    ticket.text('Model: ${_data['model']}', styles: PosStyles(align: PosAlign.left));
-    ticket.text('Kerosakkan: ${_data['kerosakkan']}', styles: PosStyles(align: PosAlign.left));
-    ticket.text('Anggaran Harga: RM${_data['price']}', styles: PosStyles(align: PosAlign.left));
-    ticket.text('Remarks: *${_data['remarks']}', styles: PosStyles(align: PosAlign.left));
+    ticket.text('Nama: ${_data['nama']}',
+        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Nombor tel: ${_data['noTel']}',
+        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Model: ${_data['model']}',
+        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Kerosakkan: ${_data['kerosakkan']}',
+        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Anggaran Harga: RM${_data['price']}',
+        styles: PosStyles(align: PosAlign.left));
+    ticket.text('Remarks: *${_data['remarks']}',
+        styles: PosStyles(align: PosAlign.left));
     ticket.feed(1);
-    ticket.qrcode('https://af-fix-database.web.app/mysid?id=${_data['mysid']}', size: QRSize.Size5);
+    ticket.qrcode('https://af-fix.com/mysid?id=${_data['mysid']}',
+        size: QRSize.Size5);
 
     ticket.feed(1);
     ticket.text(
@@ -153,15 +166,18 @@ class PrintController extends GetxController {
     ticket.image(image);
     ticket.text(
       'AF-FIX',
-      styles:
-          PosStyles(align: PosAlign.center, height: PosTextSize.size2, width: PosTextSize.size2),
+      styles: PosStyles(
+          align: PosAlign.center,
+          height: PosTextSize.size2,
+          width: PosTextSize.size2),
       // linesAfter: 1,
     );
     ticket.text('Smarthone Repair', styles: PosStyles(align: PosAlign.center));
     ticket.text('Lot 8418, Jalan Sentosa, Sungai Ramal Baru, 43000 Kajang',
         styles: PosStyles(align: PosAlign.center));
     ticket.text('Tel: 011-11426421', styles: PosStyles(align: PosAlign.center));
-    ticket.text('af-fix.com', styles: PosStyles(align: PosAlign.center, underline: true));
+    ticket.text('af-fix.com',
+        styles: PosStyles(align: PosAlign.center, underline: true));
 
     ticket.feed(1);
     for (var i = 0; i < payment.bills.length; i++) {
@@ -180,11 +196,13 @@ class PrintController extends GetxController {
     ticket.row([
       PosColumn(text: 'Jumlah: ', width: 6, styles: PosStyles(bold: true)),
       PosColumn(
-          text: 'RM ${payment.totalBillsPrice.value}', width: 6, styles: PosStyles(bold: true)),
+          text: 'RM ${payment.totalBillsPrice.value}',
+          width: 6,
+          styles: PosStyles(bold: true)),
     ]);
     if (isNew == true) {
       ticket.feed(1);
-      ticket.qrcode('https://af-fix-database.web.app/', size: QRSize.Size5);
+      ticket.qrcode('https://af-fix.com/e-warranty', size: QRSize.Size5);
 
       ticket.feed(1);
       ticket.text(
