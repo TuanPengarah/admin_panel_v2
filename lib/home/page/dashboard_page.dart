@@ -18,7 +18,10 @@ class DashboardPage extends GetResponsiveView<HomeController> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(width: double.infinity, height: 330, color: Get.theme.primaryColor),
+          Container(
+              width: double.infinity,
+              height: 450,
+              color: Get.theme.primaryColor),
           RefreshIndicator(
             onRefresh: () async {
               Haptic.feedbackClick();
@@ -57,7 +60,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                           child: FutureBuilder(
                               future: _graphController.getGraph,
                               builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
                                   return Center(
                                     child: CircularProgressIndicator(
                                       color: Colors.white,
@@ -84,8 +88,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                       );
                                     }),
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5.0, horizontal: 10),
                                       child: Container(
                                         height: 220,
                                         child: GraphMonthlySales(),
@@ -93,7 +97,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                     ),
                                     SizedBox(height: 5),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Row(
                                           children: [
@@ -105,7 +110,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                             SizedBox(width: 10),
                                             Text(
                                               'Harga Jual',
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ],
                                         ),
@@ -119,7 +125,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                             SizedBox(width: 10),
                                             Text(
                                               'Modal',
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             )
                                           ],
                                         ),
@@ -181,8 +188,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                               '${_customerController.customerListRead.value}');
                                         }),
                                         Obx(() {
-                                          return infoCard(
-                                              'Pending Job', '${_homeController.totalMysid.value}');
+                                          return infoCard('Pending Job',
+                                              '${_homeController.totalMysid.value}');
                                         }),
                                       ],
                                     ),
@@ -191,7 +198,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                       height: 40,
                                       width: 450,
                                       child: ElevatedButton.icon(
-                                        onPressed: () => _homeController.showBottomJosheet(),
+                                        onPressed: () =>
+                                            _homeController.showBottomJosheet(),
                                         label: Text('Tambah Jobsheet'),
                                         icon: Icon(Icons.add),
                                       ),

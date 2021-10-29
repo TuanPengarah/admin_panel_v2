@@ -54,6 +54,7 @@ class JobsheetController extends GetxController {
       generateMySID();
     }
     checkExistingCust();
+
     super.onInit();
   }
 
@@ -104,7 +105,8 @@ class JobsheetController extends GetxController {
       await Get.dialog(
         AlertDialog(
           title: Text('Anda pasti untuk keluar?'),
-          content: Text('Segala maklumat yang telah anda masukkan di Jobsheet ini akan di padam!'),
+          content: Text(
+              'Segala maklumat yang telah anda masukkan di Jobsheet ini akan di padam!'),
           actions: [
             TextButton(
               onPressed: () {
@@ -234,7 +236,8 @@ class JobsheetController extends GetxController {
         ));
       }
       if (currentEmail.isEmpty) {
-        currentEmail = userName.split(" ").join("").toLowerCase() + '@email.com';
+        currentEmail =
+            userName.split(" ").join("").toLowerCase() + '@email.com';
         print(currentEmail);
       }
       await _firestoreController
@@ -267,8 +270,8 @@ class JobsheetController extends GetxController {
             'email': currentEmail,
           };
           Get.toNamed(MyRoutes.jobsheetDone, parameters: payload);
-          ShowSnackbar.success(
-              'Operasi Selesai!', 'Jobsheet telah ditambah ke pangkalan data', true);
+          ShowSnackbar.success('Operasi Selesai!',
+              'Jobsheet telah ditambah ke pangkalan data', true);
         }
       }).catchError((err) async {
         Haptic.feedbackError();

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:path/path.dart';
@@ -52,7 +53,36 @@ class DatabaseHelper {
     partsID TEXT
     )
     ''');
+
+    await db.execute('''
+    CREATE TABLE modelSuggestion(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model TEXT
+    )
+    ''');
+
+    await db.execute('''
+    CREATE TABLE partsSuggestion(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    parts TEXT
+    )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE nameSuggestion(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT
+      )
+      ''');
+    await db.execute('''
+      CREATE TABLE rosakSuggestion(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      rosak TEXT
+      )
+      ''');
   }
+
+  ///CUSTOMER HISTORY
 
   Future<List<JobsheetHistoryModel>> getCustomerHistory() async {
     Database db = await instance.database;
@@ -82,20 +112,14 @@ class DatabaseHelper {
         where: 'id = ?', whereArgs: [history.id]);
   }
 
+  ///SPAREPARTS HISTORY
+
   Future<List<Spareparts>> getSparepartsHistory() async {
     Database db = await instance.database;
-    print('init query');
     var history = await db.query(
       'sparepartsHistory',
       orderBy: 'id DESC',
     );
-    // List<Spareparts> historyList = history.isNotEmpty
-    //     ? history.map((c) {
-    //         print('data ada');
-    //         Spareparts.fromMap(c);
-    //       }).toList()
-    //     : [];
-
     return List.generate(history.length, (i) {
       var maps = history[i];
       return Spareparts(
@@ -125,5 +149,135 @@ class DatabaseHelper {
     Database db = await instance.database;
     return await db.update('sparepartsHistory', history.toMap(),
         where: 'id = ?', whereArgs: [history.partsID]);
+  }
+
+  ///SUGGESTION
+
+  //MODEL
+  Future<List<ModelSuggestion>> getModelSuggestion(String pattern) async {
+    Database db = await instance.database;
+
+    var suggest = await db.query('modelSuggestion', orderBy: 'id DESC');
+
+    return List.generate(suggest.length, (i) {
+      var maps = suggest[i];
+      return ModelSuggestion(model: maps['model']);
+    })
+        .where((item) =>
+            item.model.toString().toLowerCase().contains(pattern.toLowerCase()))
+        .toList();
+  }
+
+  Future<int> addModelSuggestion(ModelSuggestion modelSuggestion) async {
+    Database db = await instance.database;
+    var suggest = await db.query('modelSuggestion', orderBy: 'id DESC');
+    List<ModelSuggestion> list = List.generate(suggest.length, (i) {
+      var maps = suggest[i];
+      return ModelSuggestion(model: maps['model']);
+    });
+    bool data = list.any((element) => element.model == modelSuggestion.model);
+    if (data == true) {
+      print('dah ada');
+      return 0;
+    } else {
+      print('xde lgi');
+      return await db.insert('modelSuggestion', modelSuggestion.toMap());
+    }
+  }
+
+  //KEROSAKKAN
+  Future<List<RosakSuggestion>> getRosakSuggestion(String pattern) async {
+    Database db = await instance.database;
+
+    var suggest = await db.query('rosakSuggestion', orderBy: 'id DESC');
+
+    return List.generate(suggest.length, (i) {
+      var maps = suggest[i];
+      return RosakSuggestion(rosak: maps['rosak']);
+    })
+        .where((item) =>
+            item.rosak.toString().toLowerCase().contains(pattern.toLowerCase()))
+        .toList();
+  }
+
+  Future<int> addRosakSuggestion(RosakSuggestion rosakSuggestion) async {
+    Database db = await instance.database;
+    var suggest = await db.query('modelSuggestion', orderBy: 'id DESC');
+    List<RosakSuggestion> list = List.generate(suggest.length, (i) {
+      var maps = suggest[i];
+      return RosakSuggestion(rosak: maps['rosak']);
+    });
+    bool data = list.any((element) => element.rosak == rosakSuggestion.rosak);
+    if (data == true) {
+      print('dah ada');
+      return 0;
+    } else {
+      print('xde lgi');
+      return await db.insert('modelSuggestion', rosakSuggestion.toMap());
+    }
+  }
+
+  //PARTS
+  Future<List<PartsSuggestion>> getPartsSuggestion(String pattern) async {
+    Database db = await instance.database;
+
+    var suggest = await db.query('rosakSuggestion', orderBy: 'id DESC');
+
+    return List.generate(suggest.length, (i) {
+      var maps = suggest[i];
+      return PartsSuggestion(parts: maps['parts']);
+    })
+        .where((item) =>
+            item.parts.toString().toLowerCase().contains(pattern.toLowerCase()))
+        .toList();
+  }
+
+  Future<int> addPartsSuggestion(PartsSuggestion partsSuggestion) async {
+    Database db = await instance.database;
+    var suggest = await db.query('modelSuggestion', orderBy: 'id DESC');
+    List<PartsSuggestion> list = List.generate(suggest.length, (i) {
+      var maps = suggest[i];
+      return PartsSuggestion(parts: maps['parts']);
+    });
+    bool data = list.any((element) => element.parts == partsSuggestion.parts);
+    if (data == true) {
+      print('dah ada');
+      return 0;
+    } else {
+      print('xde lgi');
+      return await db.insert('modelSuggestion', partsSuggestion.toMap());
+    }
+  }
+
+  //NAMA
+  Future<List<NamaSuggestion>> getNamaSuggestion(String pattern) async {
+    Database db = await instance.database;
+
+    var suggest = await db.query('rosakSuggestion', orderBy: 'id DESC');
+
+    return List.generate(suggest.length, (i) {
+      var maps = suggest[i];
+      return NamaSuggestion(nama: maps['nama']);
+    })
+        .where((item) =>
+            item.nama.toString().toLowerCase().contains(pattern.toLowerCase()))
+        .toList();
+  }
+
+  Future<int> addNamaSuggestion(NamaSuggestion namaSuggestion) async {
+    Database db = await instance.database;
+    var suggest = await db.query('modelSuggestion', orderBy: 'id DESC');
+    List<NamaSuggestion> list = List.generate(suggest.length, (i) {
+      var maps = suggest[i];
+      return NamaSuggestion(nama: maps['nama']);
+    });
+    bool data = list.any((element) => element.nama == namaSuggestion.nama);
+    if (data == true) {
+      print('dah ada');
+      return 0;
+    } else {
+      print('xde lgi');
+      return await db.insert('modelSuggestion', namaSuggestion.toMap());
+    }
   }
 }
