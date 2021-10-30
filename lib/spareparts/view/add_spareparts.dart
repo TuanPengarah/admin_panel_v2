@@ -68,42 +68,45 @@ class AddSparepart extends StatelessWidget {
                     topRight: Radius.circular(25),
                   ),
                 ),
-                child: Obx(() => Stepper(
-                      currentStep: _controller.currentSteps.value,
-                      onStepContinue: () => _controller.nextStepper(),
-                      onStepCancel: _controller.currentSteps.value == 0
-                          ? null
-                          : () => _controller.backStepper(),
-                      steps: AddSparepartStepper().getStepper(),
-                      controlsBuilder: (context, details) {
-                        return Container(
-                          margin: const EdgeInsets.only(top: 50),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: details.onStepContinue,
-                                  child: Text(
-                                    _controller.currentSteps.value == 7
-                                        ? 'Selesai'
-                                        : 'Seterusnya',
-                                  ),
-                                ),
-                              ),
-                              if (_controller.currentSteps.value != 0)
+                child: GestureDetector(
+                  onTap: () => FocusScope.of(context).unfocus(),
+                  child: Obx(() => Stepper(
+                        currentStep: _controller.currentSteps.value,
+                        onStepContinue: () => _controller.nextStepper(),
+                        onStepCancel: _controller.currentSteps.value == 0
+                            ? null
+                            : () => _controller.backStepper(),
+                        steps: AddSparepartStepper().getStepper(),
+                        controlsBuilder: (context, details) {
+                          return Container(
+                            margin: const EdgeInsets.only(top: 50),
+                            child: Row(
+                              children: [
                                 Expanded(
-                                  child: TextButton(
-                                    onPressed: details.onStepCancel,
+                                  child: ElevatedButton(
+                                    onPressed: details.onStepContinue,
                                     child: Text(
-                                      'Batal',
+                                      _controller.currentSteps.value == 7
+                                          ? 'Selesai'
+                                          : 'Seterusnya',
                                     ),
                                   ),
                                 ),
-                            ],
-                          ),
-                        );
-                      },
-                    )),
+                                if (_controller.currentSteps.value != 0)
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: details.onStepCancel,
+                                      child: Text(
+                                        'Batal',
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          );
+                        },
+                      )),
+                ),
               ),
             ),
           ],

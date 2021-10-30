@@ -74,12 +74,6 @@ class DatabaseHelper {
       name TEXT
       )
       ''');
-    await db.execute('''
-      CREATE TABLE rosakSuggestion(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      rosak TEXT
-      )
-      ''');
   }
 
   ///CUSTOMER HISTORY
@@ -185,43 +179,11 @@ class DatabaseHelper {
     }
   }
 
-  //KEROSAKKAN
-  Future<List<RosakSuggestion>> getRosakSuggestion(String pattern) async {
-    Database db = await instance.database;
-
-    var suggest = await db.query('rosakSuggestion', orderBy: 'id DESC');
-
-    return List.generate(suggest.length, (i) {
-      var maps = suggest[i];
-      return RosakSuggestion(rosak: maps['rosak']);
-    })
-        .where((item) =>
-            item.rosak.toString().toLowerCase().contains(pattern.toLowerCase()))
-        .toList();
-  }
-
-  Future<int> addRosakSuggestion(RosakSuggestion rosakSuggestion) async {
-    Database db = await instance.database;
-    var suggest = await db.query('modelSuggestion', orderBy: 'id DESC');
-    List<RosakSuggestion> list = List.generate(suggest.length, (i) {
-      var maps = suggest[i];
-      return RosakSuggestion(rosak: maps['rosak']);
-    });
-    bool data = list.any((element) => element.rosak == rosakSuggestion.rosak);
-    if (data == true) {
-      print('dah ada');
-      return 0;
-    } else {
-      print('xde lgi');
-      return await db.insert('modelSuggestion', rosakSuggestion.toMap());
-    }
-  }
-
   //PARTS
   Future<List<PartsSuggestion>> getPartsSuggestion(String pattern) async {
     Database db = await instance.database;
 
-    var suggest = await db.query('rosakSuggestion', orderBy: 'id DESC');
+    var suggest = await db.query('partsSuggestion', orderBy: 'id DESC');
 
     return List.generate(suggest.length, (i) {
       var maps = suggest[i];
@@ -234,9 +196,10 @@ class DatabaseHelper {
 
   Future<int> addPartsSuggestion(PartsSuggestion partsSuggestion) async {
     Database db = await instance.database;
-    var suggest = await db.query('modelSuggestion', orderBy: 'id DESC');
+    var suggest = await db.query('partsSuggestion', orderBy: 'id DESC');
     List<PartsSuggestion> list = List.generate(suggest.length, (i) {
       var maps = suggest[i];
+      print(maps);
       return PartsSuggestion(parts: maps['parts']);
     });
     bool data = list.any((element) => element.parts == partsSuggestion.parts);
@@ -245,7 +208,7 @@ class DatabaseHelper {
       return 0;
     } else {
       print('xde lgi');
-      return await db.insert('modelSuggestion', partsSuggestion.toMap());
+      return await db.insert('partsSuggestion', partsSuggestion.toMap());
     }
   }
 
@@ -253,11 +216,11 @@ class DatabaseHelper {
   Future<List<NamaSuggestion>> getNamaSuggestion(String pattern) async {
     Database db = await instance.database;
 
-    var suggest = await db.query('rosakSuggestion', orderBy: 'id DESC');
+    var suggest = await db.query('nameSuggestion', orderBy: 'id DESC');
 
     return List.generate(suggest.length, (i) {
       var maps = suggest[i];
-      return NamaSuggestion(nama: maps['nama']);
+      return NamaSuggestion(nama: maps['name']);
     })
         .where((item) =>
             item.nama.toString().toLowerCase().contains(pattern.toLowerCase()))
@@ -266,10 +229,11 @@ class DatabaseHelper {
 
   Future<int> addNamaSuggestion(NamaSuggestion namaSuggestion) async {
     Database db = await instance.database;
-    var suggest = await db.query('modelSuggestion', orderBy: 'id DESC');
+    var suggest = await db.query('nameSuggestion', orderBy: 'id DESC');
     List<NamaSuggestion> list = List.generate(suggest.length, (i) {
       var maps = suggest[i];
-      return NamaSuggestion(nama: maps['nama']);
+      print(maps);
+      return NamaSuggestion(nama: maps['name']);
     });
     bool data = list.any((element) => element.nama == namaSuggestion.nama);
     if (data == true) {
@@ -277,7 +241,7 @@ class DatabaseHelper {
       return 0;
     } else {
       print('xde lgi');
-      return await db.insert('modelSuggestion', namaSuggestion.toMap());
+      return await db.insert('nameSuggestion', namaSuggestion.toMap());
     }
   }
 }

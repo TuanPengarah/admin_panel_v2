@@ -19,13 +19,14 @@ class DashboardPage extends GetResponsiveView<HomeController> {
       body: Stack(
         children: [
           Container(
-              width: double.infinity,
-              height: 450,
-              color: Get.theme.primaryColor),
+            width: double.infinity,
+            height: 450,
+            color: Get.theme.primaryColor,
+          ),
           RefreshIndicator(
             onRefresh: () async {
               Haptic.feedbackClick();
-              await Future.delayed(Duration(seconds: 2));
+              await _graphController.getGraphFromFirestore();
               Haptic.feedbackSuccess();
             },
             child: CustomScrollView(
@@ -35,13 +36,6 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                   floating: false,
                   snap: false,
                   backgroundColor: Get.theme.primaryColor,
-                  actions: [
-                    IconButton(
-                        onPressed: () async {
-                          await _graphController.getGraphFromFirestore();
-                        },
-                        icon: Icon(Icons.lock))
-                  ],
                   bottom: PreferredSize(
                     child: Container(),
                     preferredSize: Size(0, 20),

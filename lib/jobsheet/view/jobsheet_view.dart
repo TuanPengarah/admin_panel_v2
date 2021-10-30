@@ -44,14 +44,6 @@ class JobsheetView extends StatelessWidget {
                     onPressed: () => _jobsheetController.selectContact(),
                     icon: Icon(Icons.contact_page),
                   ),
-            IconButton(
-              onPressed: () async {
-                await DatabaseHelper.instance.addModelSuggestion(
-                    ModelSuggestion(
-                        model: _jobsheetController.modelPhone.text));
-              },
-              icon: Icon(Icons.add),
-            )
           ],
         ),
         body: GestureDetector(
@@ -140,20 +132,38 @@ class JobsheetView extends StatelessWidget {
                                 : StepState.indexed,
                             isActive:
                                 _jobsheetController.currentSteps.value >= 0,
-                            content: TextField(
-                              autofocus: true,
-                              focusNode: _jobsheetController.focusNamaCust,
-                              controller: _jobsheetController.namaCust,
-                              textInputAction: TextInputAction.next,
-                              textCapitalization: TextCapitalization.words,
-                              onSubmitted: (text) =>
-                                  _jobsheetController.nextStep(),
-                              decoration: InputDecoration(
-                                errorText:
-                                    _jobsheetController.errNama.value == true
-                                        ? 'Sila masukkan nama pelanggan'
-                                        : null,
+                            content: TypeAheadField(
+                              textFieldConfiguration: TextFieldConfiguration(
+                                autofocus: true,
+                                focusNode: _jobsheetController.focusNamaCust,
+                                controller: _jobsheetController.namaCust,
+                                textInputAction: TextInputAction.next,
+                                textCapitalization: TextCapitalization.words,
+                                onSubmitted: (text) =>
+                                    _jobsheetController.nextStep(),
+                                decoration: InputDecoration(
+                                  errorText:
+                                      _jobsheetController.errNama.value == true
+                                          ? 'Sila masukkan nama pelanggan'
+                                          : null,
+                                ),
                               ),
+                              suggestionsCallback: (String pattern) async =>
+                                  await DatabaseHelper.instance
+                                      .getNamaSuggestion(pattern),
+                              onSuggestionSelected:
+                                  (NamaSuggestion suggestion) =>
+                                      _jobsheetController.namaCust.text =
+                                          suggestion.nama,
+                              itemBuilder:
+                                  (BuildContext context, NamaSuggestion data) {
+                                return ListTile(
+                                  title: Text(data.nama),
+                                );
+                              },
+                              getImmediateSuggestions: false,
+                              hideOnEmpty: true,
+                              hideSuggestionsOnKeyboardHide: true,
                             ),
                             title: Text(
                               'Nama Customer',
@@ -240,21 +250,6 @@ class JobsheetView extends StatelessWidget {
                               hideOnEmpty: true,
                               hideSuggestionsOnKeyboardHide: true,
                             ),
-                            // TextField(
-                            //                               focusNode: _jobsheetController.focusModelPhone,
-                            //                               controller: _jobsheetController.modelPhone,
-                            //                               textInputAction: TextInputAction.next,
-                            //                               textCapitalization: TextCapitalization.words,
-                            //                               onSubmitted: (text) =>
-                            //                                   _jobsheetController.nextStep(),
-                            //                               decoration: InputDecoration(
-                            //                                 errorText:
-                            //                                     _jobsheetController.errModel.value == true
-                            //                                         ? 'Sila masukkan model peranti'
-                            //                                         : null,
-                            //                               ),
-                            //                             ),
-
                             title: Text(
                               'Model Smartphone',
                             ),

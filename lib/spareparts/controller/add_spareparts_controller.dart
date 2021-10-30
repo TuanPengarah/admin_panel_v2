@@ -5,11 +5,13 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
+import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AddSparepartsController extends GetxController {
   final _sparepartsController = Get.find<SparepartController>();
@@ -54,8 +56,8 @@ class AddSparepartsController extends GetxController {
       await Get.dialog(
         AlertDialog(
           title: Text('Anda pasti untuk keluar?'),
-          content:
-              Text('Segala maklumat yang telah anda masukkan di Spareparts ini akan di padam!'),
+          content: Text(
+              'Segala maklumat yang telah anda masukkan di Spareparts ini akan di padam!'),
           actions: [
             TextButton(
               onPressed: () {
@@ -180,18 +182,24 @@ class AddSparepartsController extends GetxController {
     ));
 
     try {
-      await DatabaseHelper.instance.addSparepartsHistory(
-        Spareparts(
-          model: modelParts.text,
-          jenisSpareparts: jenisParts.text,
-          supplier: selectedSupplier.value,
-          kualiti: selectedQuality.value,
-          maklumatSpareparts: maklumatParts.text,
-          tarikh: timeStamp.value,
-          harga: hargaParts.text,
-          partsID: partsID.value,
-        ),
-      );
+      if (!kIsWeb) {
+        await DatabaseHelper.instance.addSparepartsHistory(
+          Spareparts(
+            model: modelParts.text,
+            jenisSpareparts: jenisParts.text,
+            supplier: selectedSupplier.value,
+            kualiti: selectedQuality.value,
+            maklumatSpareparts: maklumatParts.text,
+            tarikh: timeStamp.value,
+            harga: hargaParts.text,
+            partsID: partsID.value,
+          ),
+        );
+        await DatabaseHelper.instance
+            .addPartsSuggestion(PartsSuggestion(parts: jenisParts.text));
+        await DatabaseHelper.instance
+            .addModelSuggestion(ModelSuggestion(model: modelParts.text));
+      }
       for (int i = 0; i < int.parse(kuantitiParts.text); i++) {
         generatePartsID();
         Spareparts spareparts = new Spareparts(
@@ -205,7 +213,8 @@ class AddSparepartsController extends GetxController {
           partsID: partsID.value,
         );
         await Future.delayed(Duration(milliseconds: 100));
-        status.value = 'Memasukkan maklumat spareparts anda ke pangkalan data...';
+        status.value =
+            'Memasukkan maklumat spareparts anda ke pangkalan data...';
         await FirebaseDatabase.instance
             .reference()
             .child('Spareparts')
@@ -230,7 +239,8 @@ class AddSparepartsController extends GetxController {
         }
 
         int newPoints = snap.get(months);
-        transaction.update(hargaModal, {months: newPoints + int.parse(hargaParts.text)});
+        transaction.update(
+            hargaModal, {months: newPoints + int.parse(hargaParts.text)});
       });
 
       //TAMBAH PADA CASH FLOW
@@ -263,7 +273,8 @@ class AddSparepartsController extends GetxController {
       Haptic.feedbackError();
       await Future.delayed(Duration(seconds: 2));
       Get.back();
-      ShowSnackbar.error('Gagal untuk menambah spareparts', 'Kesalahan telah berlaku: $e', false);
+      ShowSnackbar.error('Gagal untuk menambah spareparts',
+          'Kesalahan telah berlaku: $e', false);
     }
   }
 }

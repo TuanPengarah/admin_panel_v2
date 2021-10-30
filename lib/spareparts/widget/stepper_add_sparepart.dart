@@ -1,6 +1,9 @@
+import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/inventory.dart';
+import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 
 class AddSparepartStepper {
@@ -8,13 +11,17 @@ class AddSparepartStepper {
 
   List<Step> getStepper() => [
         Step(
-          state: _controller.currentSteps.value != 0 ? StepState.complete : StepState.indexed,
+          state: _controller.currentSteps.value != 0
+              ? StepState.complete
+              : StepState.indexed,
           title: Text('Supplier'),
           isActive: _controller.currentSteps.value >= 0,
           content: Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-                color: Get.isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200,
+                color: Get.isDarkMode
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10)),
             child: DropdownButton(
               underline: SizedBox(),
@@ -36,52 +43,88 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 1 ? StepState.complete : StepState.indexed,
+          state: _controller.currentSteps.value > 1
+              ? StepState.complete
+              : StepState.indexed,
           isActive: _controller.currentSteps.value >= 1,
           title: Text('Model Smartphone'),
-          content: TextField(
-            controller: _controller.modelParts,
-            focusNode: _controller.focusModelSmartphone,
-            textCapitalization: TextCapitalization.characters,
-            textInputAction: TextInputAction.next,
-            onSubmitted: (newText) {
-              _controller.nextStepper();
-            },
-            decoration: InputDecoration(
-              hintText: 'cth: Huawei Nova 2i, iPhone 7...',
-              errorText: _controller.errModelParts.value == true
-                  ? 'Sila masukkan model smartphone!'
-                  : null,
+          content: TypeAheadField(
+            textFieldConfiguration: TextFieldConfiguration(
+              controller: _controller.modelParts,
+              focusNode: _controller.focusModelSmartphone,
+              textCapitalization: TextCapitalization.characters,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (newText) {
+                _controller.nextStepper();
+              },
+              decoration: InputDecoration(
+                hintText: 'cth: Huawei Nova 2i, iPhone 7...',
+                errorText: _controller.errModelParts.value == true
+                    ? 'Sila masukkan model smartphone!'
+                    : null,
+              ),
             ),
+            suggestionsCallback: (String pattern) async =>
+                await DatabaseHelper.instance.getModelSuggestion(pattern),
+            onSuggestionSelected: (ModelSuggestion suggestion) =>
+                _controller.modelParts.text = suggestion.model,
+            itemBuilder: (BuildContext context, ModelSuggestion data) {
+              return ListTile(
+                title: Text(data.model),
+              );
+            },
+            getImmediateSuggestions: false,
+            hideOnEmpty: true,
+            hideSuggestionsOnKeyboardHide: true,
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 2 ? StepState.complete : StepState.indexed,
+          state: _controller.currentSteps.value > 2
+              ? StepState.complete
+              : StepState.indexed,
           isActive: _controller.currentSteps.value >= 2,
           title: Text('Jenis Spareparts'),
-          content: TextField(
-            controller: _controller.jenisParts,
-            focusNode: _controller.focusJenisSparepart,
-            textCapitalization: TextCapitalization.characters,
-            textInputAction: TextInputAction.next,
-            onSubmitted: (newText) {
-              _controller.nextStepper();
+          content: TypeAheadField(
+            textFieldConfiguration: TextFieldConfiguration(
+              controller: _controller.jenisParts,
+              focusNode: _controller.focusJenisSparepart,
+              textCapitalization: TextCapitalization.characters,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (newText) {
+                _controller.nextStepper();
+              },
+              decoration: InputDecoration(
+                  hintText: 'cth: Lcd, Battery, Back Camera...',
+                  errorText: _controller.errJenisParts.value == true
+                      ? 'Sila masukkan jenis spareparts!'
+                      : null),
+            ),
+            suggestionsCallback: (String pattern) async =>
+                await DatabaseHelper.instance.getPartsSuggestion(pattern),
+            onSuggestionSelected: (PartsSuggestion suggestion) =>
+                _controller.jenisParts.text = suggestion.parts,
+            itemBuilder: (BuildContext context, PartsSuggestion data) {
+              return ListTile(
+                title: Text(data.parts),
+              );
             },
-            decoration: InputDecoration(
-                hintText: 'cth: Lcd, Battery, Back Camera...',
-                errorText: _controller.errJenisParts.value == true
-                    ? 'Sila masukkan jenis spareparts!'
-                    : null),
+            getImmediateSuggestions: false,
+            hideOnEmpty: true,
+            hideSuggestionsOnKeyboardHide: true,
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 3 ? StepState.complete : StepState.indexed,
+          state: _controller.currentSteps.value > 3
+              ? StepState.complete
+              : StepState.indexed,
           isActive: _controller.currentSteps.value >= 3,
           title: Text('Kualiti Spareparts'),
           content: Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
-                color: Get.isDarkMode ? Colors.grey.shade900 : Colors.grey.shade200,
+                color: Get.isDarkMode
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10)),
             child: DropdownButton(
               underline: SizedBox(),
@@ -101,7 +144,9 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 4 ? StepState.complete : StepState.indexed,
+          state: _controller.currentSteps.value > 4
+              ? StepState.complete
+              : StepState.indexed,
           isActive: _controller.currentSteps.value >= 4,
           title: Text('Harga'),
           content: TextField(
@@ -120,7 +165,9 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 5 ? StepState.complete : StepState.indexed,
+          state: _controller.currentSteps.value > 5
+              ? StepState.complete
+              : StepState.indexed,
           isActive: _controller.currentSteps.value >= 5,
           title: Text('Maklumat Spareparts'),
           content: TextField(
@@ -139,7 +186,9 @@ class AddSparepartStepper {
           ),
         ),
         Step(
-          state: _controller.currentSteps.value > 6 ? StepState.complete : StepState.indexed,
+          state: _controller.currentSteps.value > 6
+              ? StepState.complete
+              : StepState.indexed,
           isActive: _controller.currentSteps.value >= 6,
           title: Text('Kuantiti'),
           content: TextField(
@@ -163,12 +212,18 @@ class AddSparepartStepper {
           content: Column(
             children: [
               kepastianContent(
-                  'Supplier: ', Inventory.getSupplierCode(_controller.selectedSupplier.value)),
-              kepastianContent('Model Smartphone: ', _controller.modelParts.text),
-              kepastianContent('Jenis Spareparts: ', _controller.jenisParts.text),
-              kepastianContent('Kualiti Spareparts: ', _controller.selectedQuality.value),
+                  'Supplier: ',
+                  Inventory.getSupplierCode(
+                      _controller.selectedSupplier.value)),
+              kepastianContent(
+                  'Model Smartphone: ', _controller.modelParts.text),
+              kepastianContent(
+                  'Jenis Spareparts: ', _controller.jenisParts.text),
+              kepastianContent(
+                  'Kualiti Spareparts: ', _controller.selectedQuality.value),
               kepastianContent('Harga: ', 'RM ${_controller.hargaParts.text}'),
-              kepastianContent('Maklumat Spareparts: ', _controller.maklumatParts.text),
+              kepastianContent(
+                  'Maklumat Spareparts: ', _controller.maklumatParts.text),
               kepastianContent('Kuantiti: ', _controller.kuantitiParts.text),
             ],
           ),

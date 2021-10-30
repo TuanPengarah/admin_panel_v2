@@ -6,6 +6,7 @@ import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -234,6 +235,11 @@ class JobsheetController extends GetxController {
           remarks: remarks.text,
           userUID: mySID.value,
         ));
+
+        await DatabaseHelper.instance
+            .addNamaSuggestion(NamaSuggestion(nama: namaCust.text));
+        await DatabaseHelper.instance
+            .addModelSuggestion(ModelSuggestion(model: modelPhone.text));
       }
       if (currentEmail.isEmpty) {
         currentEmail =
