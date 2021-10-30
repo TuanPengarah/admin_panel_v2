@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'config/get_route_export.dart';
 import 'config/routes.dart';
 
@@ -13,7 +12,8 @@ import 'config/routes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bool _isLogin = false;
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   await Firebase.initializeApp();
   final _user = FirebaseAuth.instance.currentUser;
   if (_user != null) {
@@ -43,33 +43,7 @@ class MyApp extends StatelessWidget {
       darkTheme: MyThemes.darkTheme,
       themeMode: MyThemes().themeMode,
       initialRoute: isLogin == false ? MyRoutes.login : MyRoutes.home,
-      getPages: [
-        GetPage(name: MyRoutes.login, page: () => LoginView()),
-        GetPage(name: MyRoutes.home, page: () => HomeView()),
-        GetPage(name: MyRoutes.jobsheet, page: () => JobsheetView()),
-        GetPage(name: MyRoutes.jobsheetHistory, page: () => JobsheetHistory()),
-        GetPage(name: MyRoutes.overview, page: () => CustomerView()),
-        GetPage(name: MyRoutes.jobsheetDone, page: () => JobsheetCompleted()),
-        GetPage(name: MyRoutes.pdfJobsheeetViewer, page: () => PdfViewer()),
-        GetPage(name: MyRoutes.printView, page: () => PrintView()),
-        GetPage(name: MyRoutes.mysidUpdate, page: () => MysidUpdate()),
-        GetPage(name: MyRoutes.repairLog, page: () => RepairLogView()),
-        GetPage(name: MyRoutes.mysidHisory, page: () => MysidHistoryView()),
-        GetPage(name: MyRoutes.spareparts, page: () => AllSparepartsView()),
-        GetPage(name: MyRoutes.sparepartsDetails, page: () => DetailsSpareparts()),
-        GetPage(name: MyRoutes.sparepartsAdd, page: () => AddSparepart()),
-        GetPage(name: MyRoutes.sparepartsHistory, page: () => HistorySparepartsView()),
-        GetPage(name: MyRoutes.priceCalc, page: () => PriceCalculatorView()),
-        GetPage(name: MyRoutes.technician, page: () => TechnicianView()),
-        GetPage(name: MyRoutes.technicianAdd, page: () => TechnicianAdd()),
-        GetPage(name: MyRoutes.technicianDetails, page: () => TechnicianInfo()),
-        GetPage(name: MyRoutes.posview, page: () => POSView()),
-        GetPage(name: MyRoutes.bills, page: () => BillsView()),
-        GetPage(name: MyRoutes.paymentSetup, page: () => PaymentSetup()),
-        GetPage(name: MyRoutes.paymentCompleted, page: () => PaymentCompleted()),
-        GetPage(name: MyRoutes.pdfReceiptViewer, page: () => ReceiptPDF()),
-        // GetPage(name: MyRoutes.printReceiptViewer, page: () => PrintReceiptView()),
-      ],
+      getPages: MyRoutes().page,
     );
   }
 }

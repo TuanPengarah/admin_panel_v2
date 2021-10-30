@@ -55,7 +55,7 @@ class OtherSettings {
           Card(
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () {},
+              onTap: () => Get.toNamed(MyRoutes.pricelist),
               child: ListTile(
                 leading: Icon(
                   Icons.ballot,

@@ -10,7 +10,7 @@ class AllSparepartsView extends GetView<SparepartController> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 16,
+      length: ModelBrands.brandsTab.length,
       child: Scaffold(
         appBar: AppBar(
           title: Text('Spareparts'),
@@ -31,56 +31,7 @@ class AllSparepartsView extends GetView<SparepartController> {
           ],
           bottom: TabBar(
             isScrollable: true,
-            tabs: [
-              Tab(
-                text: ModelBrands.all,
-              ),
-              Tab(
-                text: ModelBrands.iphone,
-              ),
-              Tab(
-                text: ModelBrands.xiaomi,
-              ),
-              Tab(
-                text: ModelBrands.redmi,
-              ),
-              Tab(
-                text: ModelBrands.poco,
-              ),
-              Tab(
-                text: ModelBrands.samsung,
-              ),
-              Tab(
-                text: ModelBrands.huawei,
-              ),
-              Tab(
-                text: ModelBrands.oppo,
-              ),
-              Tab(
-                text: ModelBrands.vivo,
-              ),
-              Tab(
-                text: ModelBrands.realme,
-              ),
-              Tab(
-                text: ModelBrands.oneplus,
-              ),
-              Tab(
-                text: ModelBrands.lenovo,
-              ),
-              Tab(
-                text: ModelBrands.htc,
-              ),
-              Tab(
-                text: ModelBrands.asus,
-              ),
-              Tab(
-                text: ModelBrands.nokia,
-              ),
-              Tab(
-                text: ModelBrands.sony,
-              ),
-            ],
+            tabs: ModelBrands.brandsTab,
           ),
         ),
         body: GetBuilder<SparepartController>(

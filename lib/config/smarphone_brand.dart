@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class ModelBrands {
   static const all = 'Semua';
   static const iphone = 'iPhone';
@@ -15,4 +17,55 @@ class ModelBrands {
   static const asus = 'Asus';
   static const nokia = 'Nokia';
   static const sony = 'Xperia';
+
+  static const List<Tab> brandsTab = [
+    Tab(
+      text: ModelBrands.all,
+    ),
+    Tab(
+      text: ModelBrands.iphone,
+    ),
+    Tab(
+      text: ModelBrands.xiaomi,
+    ),
+    Tab(
+      text: ModelBrands.redmi,
+    ),
+    Tab(
+      text: ModelBrands.poco,
+    ),
+    Tab(
+      text: ModelBrands.samsung,
+    ),
+    Tab(
+      text: ModelBrands.huawei,
+    ),
+    Tab(
+      text: ModelBrands.oppo,
+    ),
+    Tab(
+      text: ModelBrands.vivo,
+    ),
+    Tab(
+      text: ModelBrands.realme,
+    ),
+    Tab(
+      text: ModelBrands.oneplus,
+    ),
+    Tab(
+      text: ModelBrands.lenovo,
+    ),
+    Tab(
+      text: ModelBrands.htc,
+    ),
+    Tab(
+      text: ModelBrands.asus,
+    ),
+    Tab(
+      text: ModelBrands.nokia,
+    ),
+    Tab(
+      text: ModelBrands.sony,
+    ),
+  ];
 }

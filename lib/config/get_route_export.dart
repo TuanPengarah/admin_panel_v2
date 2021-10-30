@@ -23,3 +23,4 @@ export 'package:admin_panel/spareparts/view/history_spareparts.dart';
 export 'package:admin_panel/technicians/view/technician_add.dart';
 export 'package:admin_panel/technicians/view/technician_info.dart';
 export 'package:admin_panel/technicians/view/technician_view.dart';
+export 'package:admin_panel/price_list/view/pricelist_view.dart';

@@ -1,3 +1,6 @@
+import 'package:get/get.dart';
+import 'get_route_export.dart';
+
 class MyRoutes {
   static const home = '/home';
   static const jobsheet = '/jobsheet';
@@ -23,4 +26,33 @@ class MyRoutes {
   static const paymentSetup = '/payment/setup';
   static const bills = '/payment/bills';
   static const paymentCompleted = '/payment-completed';
+  static const pricelist = '/price-list';
+
+  List<GetPage> page = [
+    GetPage(name: login, page: () => LoginView()),
+    GetPage(name: home, page: () => HomeView()),
+    GetPage(name: jobsheet, page: () => JobsheetView()),
+    GetPage(name: jobsheetHistory, page: () => JobsheetHistory()),
+    GetPage(name: overview, page: () => CustomerView()),
+    GetPage(name: jobsheetDone, page: () => JobsheetCompleted()),
+    GetPage(name: pdfJobsheeetViewer, page: () => PdfViewer()),
+    GetPage(name: printView, page: () => PrintView()),
+    GetPage(name: mysidUpdate, page: () => MysidUpdate()),
+    GetPage(name: repairLog, page: () => RepairLogView()),
+    GetPage(name: mysidHisory, page: () => MysidHistoryView()),
+    GetPage(name: spareparts, page: () => AllSparepartsView()),
+    GetPage(name: sparepartsDetails, page: () => DetailsSpareparts()),
+    GetPage(name: sparepartsAdd, page: () => AddSparepart()),
+    GetPage(name: sparepartsHistory, page: () => HistorySparepartsView()),
+    GetPage(name: priceCalc, page: () => PriceCalculatorView()),
+    GetPage(name: technician, page: () => TechnicianView()),
+    GetPage(name: technicianAdd, page: () => TechnicianAdd()),
+    GetPage(name: technicianDetails, page: () => TechnicianInfo()),
+    GetPage(name: posview, page: () => POSView()),
+    GetPage(name: bills, page: () => BillsView()),
+    GetPage(name: paymentSetup, page: () => PaymentSetup()),
+    GetPage(name: paymentCompleted, page: () => PaymentCompleted()),
+    GetPage(name: pdfReceiptViewer, page: () => ReceiptPDF()),
+    GetPage(name: pricelist, page: () => PriceListView()),
+  ];
 }
