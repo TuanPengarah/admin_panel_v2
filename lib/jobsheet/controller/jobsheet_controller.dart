@@ -14,7 +14,7 @@ import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart
 import 'package:get/get.dart';
 
 class JobsheetController extends GetxController {
-  final _firestoreController = Get.put(FirestoreContoller());
+  final _firestoreController = Get.find<FirestoreContoller>();
   final _authController = Get.find<AuthController>();
   final namaCust = TextEditingController();
   final noPhone = TextEditingController();

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class JobsheetHistory extends StatelessWidget {
-  final _historyController = Get.put(HistoryController());
+  final _historyController = Get.find<JobsheetHistoryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +13,8 @@ class JobsheetHistory extends StatelessWidget {
       appBar: AppBar(
         title: Text('Sejarah Jobsheet'),
       ),
-      body: GetBuilder<HistoryController>(
-        init: HistoryController(),
+      body: GetBuilder<JobsheetHistoryController>(
+        init: JobsheetHistoryController(),
         builder: (_) {
           return Center(
             child: FutureBuilder<List<JobsheetHistoryModel>>(

@@ -1,8 +1,11 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:admin_panel/price_list/model/pricelist_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 
 class TabPriceList extends StatelessWidget {
   final List<PriceListModel> list;
@@ -28,7 +31,19 @@ class TabPriceList extends StatelessWidget {
                     var pricelist = list[index];
                     return ListTile(
                       title: Text('${pricelist.parts} ${pricelist.model}'),
-                      subtitle: Text('${pricelist.price}'),
+                      subtitle: Text('RM ${pricelist.price}'),
+                      onTap: () {
+                        Share.share(
+                            '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.price}');
+                      },
+                      onLongPress: () {
+                        Clipboard.setData(
+                            ClipboardData(text: pricelist.id.toString()));
+                        ShowSnackbar.success(
+                            'ID Disalin',
+                            'ID Senarai Harga ini telah disalin pada clipboard anda',
+                            false);
+                      },
                     );
                   },
                 ),
@@ -58,13 +73,14 @@ class TabPriceList extends StatelessWidget {
                       child: TextButton.icon(
                         onPressed: () {
                           Haptic.feedbackClick();
+                          _controller.addListDialog();
                         },
                         icon: Icon(Icons.add),
                         label: Text('Tambah Senarai Harga'),
                       ),
                     ),
                     TextButton.icon(
-                      onPressed: () async {},
+                      onPressed: () async => await _controller.getPriceList(),
                       icon: Icon(Icons.refresh),
                       label: Text('Segar Semula'),
                     ),

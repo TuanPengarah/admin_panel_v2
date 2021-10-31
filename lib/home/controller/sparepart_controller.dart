@@ -11,6 +11,8 @@ class SparepartController extends GetxController {
   var totalPartsPrice = 00.00.obs;
   var totalSpareparts = 0.obs;
 
+  var isSearch = false.obs;
+
   Future getPartList;
 
   @override

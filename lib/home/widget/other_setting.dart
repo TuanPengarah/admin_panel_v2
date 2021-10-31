@@ -1,11 +1,12 @@
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/routes.dart';
+import 'package:admin_panel/home/controller/other_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class OtherSettings {
   final _authController = Get.find<AuthController>();
-
+  final _otherController = Get.find<OtherController>();
   Padding otherAndSetting(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
@@ -99,28 +100,68 @@ class OtherSettings {
           Card(
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () {},
+              onTap: () {
+                Get.dialog(AlertDialog(
+                  title: Text('Pilih kaedah penyimpanan'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.file_copy),
+                        title: Text('Simpan ke peranti anda'),
+                        onTap: _otherController.saveDBToDevice,
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.upload),
+                        title: Text('Simpan ke Firebase Storage'),
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ));
+              },
               child: ListTile(
                 leading: Icon(
                   Icons.upload_file,
                   color: Theme.of(context).primaryColor,
                 ),
-                title: Text('Simpan Database'),
-                subtitle: Text('Simpan segala maklumat SQLite'),
+                title: Text('Eksport Database'),
+                subtitle: Text('Eksport segala maklumat SQLite'),
               ),
             ),
           ),
           Card(
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () {},
+              onTap: () {
+                Get.dialog(
+                  AlertDialog(
+                    title: Text('Pilih kaedah import'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.file_copy),
+                          title: Text('Ambil dari peranti anda'),
+                          onTap: _otherController.getFromDevices,
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.download),
+                          title: Text('Ambil dari Firebase Storage'),
+                          onTap: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
               child: ListTile(
                 leading: Icon(
                   Icons.sim_card_download_outlined,
                   color: Theme.of(context).primaryColor,
                 ),
-                title: Text('Muat Turun Database'),
-                subtitle: Text('Muat turun maklumat SQLite'),
+                title: Text('Import Database'),
+                subtitle: Text('Import maklumat SQLite'),
               ),
             ),
           ),

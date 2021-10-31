@@ -4,7 +4,7 @@ import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HistoryController extends GetxController {
+class JobsheetHistoryController extends GetxController {
   final _jobsheetController = Get.find<JobsheetController>();
 
   void delete(int id) {

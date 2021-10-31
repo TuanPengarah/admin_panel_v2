@@ -24,7 +24,6 @@ class ListSpareparts extends StatelessWidget {
             },
             child: Scrollbar(
               child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
                   itemCount: list.length,
                   itemBuilder: (context, i) {
                     var spareparts = list[i];
@@ -49,6 +48,7 @@ class ListSpareparts extends StatelessWidget {
                         subtitle: Text(spareparts['Maklumat Spareparts']),
                         trailing: Text('RM${spareparts['Harga']}'),
                         onTap: () {
+                          _sparepartsController.isSearch.value = false;
                           if (_data == null) {
                             var arguments = {
                               'Model': spareparts['Model'],

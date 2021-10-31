@@ -9,9 +9,9 @@ import 'package:get/get.dart';
 
 class DashboardPage extends GetResponsiveView<HomeController> {
   final _homeController = Get.find<HomeController>();
-  final _graphController = Get.put(GraphController());
-  final _sparepartController = Get.put(SparepartController());
-  final _customerController = Get.put(CustomerController());
+  final _graphController = Get.find<GraphController>();
+  final _sparepartController = Get.find<SparepartController>();
+  final _customerController = Get.find<CustomerController>();
 
   @override
   Widget builder() {

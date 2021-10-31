@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
 class SettingPage extends StatelessWidget {
-  final _otherController = Get.put(OtherController());
+  final _otherController = Get.find<OtherController>();
   final _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {

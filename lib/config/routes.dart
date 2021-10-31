@@ -31,9 +31,21 @@ class MyRoutes {
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
-    GetPage(name: home, page: () => HomeView()),
-    GetPage(name: jobsheet, page: () => JobsheetView()),
-    GetPage(name: jobsheetHistory, page: () => JobsheetHistory()),
+    GetPage(
+      name: home,
+      page: () => HomeView(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
+      name: jobsheet,
+      page: () => JobsheetView(),
+      binding: JobSheetBinding(),
+    ),
+    GetPage(
+      name: jobsheetHistory,
+      page: () => JobsheetHistory(),
+      binding: JobSheetHistoryBinding(),
+    ),
     GetPage(name: overview, page: () => CustomerView()),
     GetPage(name: jobsheetDone, page: () => JobsheetCompleted()),
     GetPage(name: pdfJobsheeetViewer, page: () => PdfViewer()),

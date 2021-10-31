@@ -16,7 +16,7 @@ extension Utility on BuildContext {
 }
 
 class JobsheetView extends StatelessWidget {
-  final _jobsheetController = Get.put(JobsheetController());
+  final _jobsheetController = Get.find<JobsheetController>();
 
   @override
   Widget build(BuildContext context) {

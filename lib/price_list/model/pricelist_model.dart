@@ -1,25 +1,28 @@
 class PriceListModel {
   String model;
   String parts;
-  String price;
+  int id;
+  int price;
 
-  PriceListModel({this.model, this.parts, this.price});
+  PriceListModel({this.model, this.parts, this.price, this.id});
 
   factory PriceListModel.fromJson(dynamic json) {
     return PriceListModel(
       model: json['model'],
       parts: json['parts'],
       price: json['price'],
+      id: json['id'],
     );
   }
 
-  Map<String, dynamic> toJson() => {
-        'model': model,
-        'parts': parts,
-        'price': price,
-      };
+  Map<String, dynamic> toJson() =>
+      {'model': model, 'parts': parts, 'price': price, 'id': id};
 
-  String toParams() {
-    return '?model=$model&parts=$parts&price=$price';
+  String addParams() {
+    return '?model=$model&parts=$parts&price=$price&id=$id';
+  }
+
+  String deleteParams() {
+    return '?id=${id.toString()}';
   }
 }

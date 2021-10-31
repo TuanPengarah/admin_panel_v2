@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatelessWidget {
-  final _homeController = Get.put(HomeController());
+  final _homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {

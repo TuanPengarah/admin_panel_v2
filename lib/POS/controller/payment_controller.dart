@@ -204,6 +204,7 @@ class PaymentController extends GetxController {
   }
 
   Future<void> addToDatabase() async {
+    Haptic.feedbackClick();
     final _graphController = Get.find<GraphController>();
     var title = ''.obs;
     Get.dialog(
@@ -331,9 +332,11 @@ class PaymentController extends GetxController {
       await _graphController.getGraphFromFirestore();
       title.value = 'Selesai!';
       await Future.delayed(Duration(seconds: 1));
+      Haptic.feedbackSuccess();
       Get.back();
     } on Exception catch (e) {
       print(e);
+      Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 1));
       Get.back();
       ShowSnackbar.error('Kesalahan telah berlaku!', e.toString(), false);
