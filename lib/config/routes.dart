@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/binding.dart';
 import 'package:get/get.dart';
 import 'get_route_export.dart';
 
@@ -53,6 +54,9 @@ class MyRoutes {
     GetPage(name: paymentSetup, page: () => PaymentSetup()),
     GetPage(name: paymentCompleted, page: () => PaymentCompleted()),
     GetPage(name: pdfReceiptViewer, page: () => ReceiptPDF()),
-    GetPage(name: pricelist, page: () => PriceListView()),
+    GetPage(
+        name: pricelist,
+        page: () => PriceListView(),
+        binding: PriceListBinding()),
   ];
 }

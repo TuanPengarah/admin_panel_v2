@@ -18,4 +18,8 @@ class PriceListModel {
         'parts': parts,
         'price': price,
       };
+
+  String toParams() {
+    return '?model=$model&parts=$parts&price=$price';
+  }
 }

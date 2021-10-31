@@ -17,6 +17,7 @@ class ModelBrands {
   static const asus = 'Asus';
   static const nokia = 'Nokia';
   static const sony = 'Xperia';
+  static const google = 'Google';
 
   static const List<Tab> brandsTab = [
     Tab(
@@ -66,6 +67,9 @@ class ModelBrands {
     ),
     Tab(
       text: ModelBrands.sony,
+    ),
+    Tab(
+      text: ModelBrands.google,
     ),
   ];
 }
