@@ -12,7 +12,7 @@ class GraphMonthlySales extends StatelessWidget {
       assignId: true,
       builder: (logic) {
         return Padding(
-          padding: const EdgeInsets.only(right: 30.0),
+          padding: const EdgeInsets.only(right: 50.0),
           child: LineChart(
             LineChartData(
                 minX: 0,
@@ -26,15 +26,21 @@ class GraphMonthlySales extends StatelessWidget {
                       return touchedBarSpots.map((barSpot) {
                         final flSpot = barSpot;
                         return LineTooltipItem(
-                          flSpot.barIndex == 0 ? 'Harga jual: RM ' : 'Modal: RM ',
+                          flSpot.barIndex == 0
+                              ? 'Harga jual: RM '
+                              : 'Modal: RM ',
                           TextStyle(
-                            color: flSpot.barIndex == 0 ? Colors.white : Colors.amber,
+                            color: flSpot.barIndex == 0
+                                ? Colors.white
+                                : Colors.amber,
                           ),
                           children: [
                             TextSpan(
                               text: flSpot.y.toStringAsFixed(0),
                               style: TextStyle(
-                                color: flSpot.barIndex == 0 ? Colors.white : Colors.amber,
+                                color: flSpot.barIndex == 0
+                                    ? Colors.white
+                                    : Colors.amber,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -101,7 +107,7 @@ class GraphMonthlySales extends StatelessWidget {
                 lineBarsData: [
                   LineChartBarData(
                     spots: _graphController.spotSupplier,
-                    isCurved: true,
+                    isCurved: false,
                     colors: [
                       Colors.amber,
                     ],

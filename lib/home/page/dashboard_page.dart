@@ -16,20 +16,20 @@ class DashboardPage extends GetResponsiveView<HomeController> {
   @override
   Widget builder() {
     return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 450,
-            color: Get.theme.primaryColor,
-          ),
-          RefreshIndicator(
-            onRefresh: () async {
-              Haptic.feedbackClick();
-              await _graphController.getGraphFromFirestore();
-              Haptic.feedbackSuccess();
-            },
-            child: CustomScrollView(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          Haptic.feedbackClick();
+          await _graphController.getGraphFromFirestore();
+          Haptic.feedbackSuccess();
+        },
+        child: Stack(
+          children: [
+            Container(
+              width: Get.width,
+              height: 500,
+              color: Get.theme.primaryColor,
+            ),
+            CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [
                 SliverAppBar(
@@ -65,7 +65,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                 return Column(
                                   children: [
                                     Text(
-                                      'Laporan Jualan Bulanan',
+                                      'Laporan Jualan Bulan ${_graphController.checkMonths(DateTime.now().month - 1)}',
                                       style: TextStyle(
                                         color: Colors.white,
                                       ),
@@ -211,8 +211,8 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                 )
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

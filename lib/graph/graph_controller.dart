@@ -69,11 +69,12 @@ class GraphController extends GetxController {
     spotJual = [];
     spotSupplier = [];
     jumlahModal.value = 0;
+    untungKasar.value = 0;
     for (int i = 0; i < DateTime.now().month; i++) {
       spotJual.add(
         FlSpot(i.toDouble(), graphJual[0][checkMonths(i)].toDouble()),
       );
-      untungKasar.value = graphJual[0][checkMonths(i)];
+      untungKasar.value += graphJual[0][checkMonths(i)];
     }
     for (int i = 0; i < DateTime.now().month; i++) {
       spotSupplier.add(
@@ -94,7 +95,12 @@ class GraphController extends GetxController {
       if (value.exists) {
         print('sales report exists');
         graphJual.add(value);
-        await sales.doc(year).collection('supplierRecord').doc('record').get().then((value) {
+        await sales
+            .doc(year)
+            .collection('supplierRecord')
+            .doc('record')
+            .get()
+            .then((value) {
           graphSupplier.add(value);
         });
         getGraphLength();
@@ -116,7 +122,12 @@ class GraphController extends GetxController {
           'December': 0,
         };
         await sales.doc(year).set(data);
-        await sales.doc(year).collection('supplierRecord').doc('record').set(data).then((value) {
+        await sales
+            .doc(year)
+            .collection('supplierRecord')
+            .doc('record')
+            .set(data)
+            .then((value) {
           getGraphLength();
           update();
         });

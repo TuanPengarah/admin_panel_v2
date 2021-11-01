@@ -24,13 +24,21 @@ class OtherController extends GetxController {
       type: FileType.any,
     );
     if (result != null) {
-      File file = File(result.paths.first);
-      Directory documentDirectory = await getApplicationDocumentsDirectory();
-      String path = join(documentDirectory.path, 'af-fix.db');
-      await file.copy(path);
-      Haptic.feedbackSuccess();
-      ShowSnackbar.success(
-          'Berjaya', 'Database telah berjaya di import', false);
+      if (result.names.contains('af-fix.db')) {
+        File file = File(result.paths.first);
+        Directory documentDirectory = await getApplicationDocumentsDirectory();
+        String path = join(documentDirectory.path, 'af-fix.db');
+        await file.copy(path);
+        Haptic.feedbackSuccess();
+        ShowSnackbar.success(
+            'Berjaya', 'Database telah berjaya di import', false);
+      } else {
+        Haptic.feedbackError();
+        ShowSnackbar.error(
+            'Salah fail!',
+            'Fail yang anda pilih adalah salah! Pastikan format dan nama fail databasa adalah af-fix.db',
+            false);
+      }
     } else {
       Haptic.feedbackError();
     }
@@ -38,9 +46,17 @@ class OtherController extends GetxController {
 
   void saveDBToDevice() async {
     Get.back();
+
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentDirectory.path, 'af-fix.db');
-    Share.shareFiles([path]);
+    bool file = await File(path).exists();
+    if (file == true) {
+      Share.shareFiles([path]);
+    } else {
+      Haptic.feedbackError();
+      ShowSnackbar.error(
+          'Kesalahan telah berlaku!', 'Fail SQLite tidak dapat ditemui', false);
+    }
   }
 
   void getDeviceModel() async {
