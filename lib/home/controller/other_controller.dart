@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -11,7 +12,7 @@ import 'package:path/path.dart';
 
 class OtherController extends GetxController {
   var deviceModel = '--'.obs;
-
+  final _authController = Get.find<AuthController>();
   @override
   void onInit() {
     getDeviceModel();
@@ -24,10 +25,11 @@ class OtherController extends GetxController {
       type: FileType.any,
     );
     if (result != null) {
-      if (result.names.contains('af-fix.db')) {
+      if (result.names.first.toString().contains('.db')) {
         File file = File(result.paths.first);
         Directory documentDirectory = await getApplicationDocumentsDirectory();
-        String path = join(documentDirectory.path, 'af-fix.db');
+        String path =
+            join(documentDirectory.path, '${_authController.userUID.value}.db');
         await file.copy(path);
         Haptic.feedbackSuccess();
         ShowSnackbar.success(
@@ -36,7 +38,7 @@ class OtherController extends GetxController {
         Haptic.feedbackError();
         ShowSnackbar.error(
             'Salah fail!',
-            'Fail yang anda pilih adalah salah! Pastikan format dan nama fail databasa adalah af-fix.db',
+            'Fail yang anda pilih adalah salah! Pastikan format fail databasa adalah <user-id>.db',
             false);
       }
     } else {
@@ -48,7 +50,8 @@ class OtherController extends GetxController {
     Get.back();
 
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path, 'af-fix.db');
+    String path =
+        join(documentDirectory.path, '${_authController.userUID.value}.db');
     bool file = await File(path).exists();
     if (file == true) {
       Share.shareFiles([path]);

@@ -1,13 +1,16 @@
 import 'dart:io';
 
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
+import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
+  final _authController = Get.find<AuthController>();
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
@@ -20,7 +23,8 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentDirectory.path, 'af-fix.db');
+    String path =
+        join(documentDirectory.path, '${_authController.userUID.value}.db');
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
