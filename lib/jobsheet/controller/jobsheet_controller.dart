@@ -8,6 +8,7 @@ import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
@@ -80,7 +81,19 @@ class JobsheetController extends GetxController {
               subtitle: Text('Print maklumat Jobsheet ini!'),
               onTap: () {
                 Get.back();
-                Get.toNamed(MyRoutes.printView, parameters: data);
+                Get.toNamed(MyRoutes.printView, parameters: data, arguments: {
+                  'isReceipt': false,
+                  'timeStamp': Timestamp.fromDate(DateTime.now()),
+                  'technician': _authController.userName.value,
+                  'nama': namaCust.text,
+                  'noTel': noPhone.text,
+                  'model': modelPhone.text,
+                  'kerosakkan': kerosakkan.text,
+                  'price': harga.text,
+                  'remarks': remarks.text,
+                  'mysid': mySID.value,
+                  'email': data['email'],
+                });
               },
             ),
             ListTile(
@@ -89,7 +102,21 @@ class JobsheetController extends GetxController {
               subtitle: Text('Hasilkan maklumat Jobsheet berformat PDF!'),
               onTap: () {
                 Get.back();
-                Get.toNamed(MyRoutes.pdfJobsheeetViewer, parameters: data);
+                Get.toNamed(MyRoutes.pdfJobsheeetViewer,
+                    parameters: data,
+                    arguments: {
+                      'isReceipt': false,
+                      'timeStamp': Timestamp.fromDate(DateTime.now()),
+                      'technician': _authController.userName.value,
+                      'nama': namaCust.text,
+                      'noTel': noPhone.text,
+                      'model': modelPhone.text,
+                      'kerosakkan': kerosakkan.text,
+                      'price': harga.text,
+                      'remarks': remarks.text,
+                      'mysid': mySID.value,
+                      'email': data['email'],
+                    });
               },
             ),
             SizedBox(height: 10),
@@ -274,7 +301,9 @@ class JobsheetController extends GetxController {
             'remarks': remarks.text,
             'mysid': mySID.value,
             'email': currentEmail,
+            'technician': _authController.userName.value
           };
+
           Get.toNamed(MyRoutes.jobsheetDone, parameters: payload);
           ShowSnackbar.success('Operasi Selesai!',
               'Jobsheet telah ditambah ke pangkalan data', true);

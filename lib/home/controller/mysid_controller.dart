@@ -21,6 +21,25 @@ class MysidController extends GetxController {
     super.onInit();
   }
 
+  Future<void> setAsCannotRepair(String id) async {
+    Map<String, dynamic> payload = {'isPayment': true};
+    Haptic.feedbackClick();
+    try {
+      await FirebaseFirestore.instance
+          .collection('MyrepairID')
+          .doc(id)
+          .update(payload);
+      Get.back();
+      ShowSnackbar.success('Selesai!',
+          'Kemaskini sebagai tidak boleh dibaiki telah berjaya', false);
+      Haptic.feedbackSuccess();
+    } on Exception catch (e) {
+      Get.back();
+      ShowSnackbar.error('Kesalahan Telah Berlaku!', '${e.toString()}', false);
+      Haptic.feedbackError();
+    }
+  }
+
   void checkPercent() {
     progressPercent.value = _data['Percent'];
     var multiply = _data['Percent'] * 100;

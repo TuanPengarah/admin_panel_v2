@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/home/controller/mysid_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,45 @@ class RepairLogView extends StatelessWidget {
         title: Text('Repair Log'),
         actions: [
           IconButton(
-              onPressed: () => _controller.urlMysid(_params['id']),
-              icon: Icon(Icons.open_in_browser))
+            onPressed: () => _controller.urlMysid(_params['id']),
+            icon: Icon(Icons.open_in_browser),
+          ),
+          IconButton(
+            onPressed: () {
+              Get.dialog(
+                AlertDialog(
+                  title: Text(
+                    'Tanda Sebagai Tidak Boleh Dibaiki?',
+                    textAlign: TextAlign.center,
+                  ),
+                  content: Text(
+                    'Jika anda tanda sebagai tidak boleh dibaiki, Anda tidak boleh untuk membuka resit dan akan di padam pada halaman MyStatus ID',
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Haptic.feedbackError();
+                        Get.back();
+                      },
+                      child: Text(
+                        'Batal',
+                        style: TextStyle(
+                          color: Colors.amber[900],
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () async =>
+                          await _controller.setAsCannotRepair(_params['id']),
+                      child: Text('Tanda'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            icon: Icon(Icons.error_outline),
+          ),
         ],
       ),
       body: StreamBuilder(
