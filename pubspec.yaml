@@ -3,7 +3,7 @@ description: Admin apps to control Af-Fix Smartphone Repair
 
 publish_to: 'none'
 
-version: 2.0.2+5
+version: 2.0.2+6
 
 environment:
   sdk: ">=2.11.0 <3.0.0"
@@ -73,7 +73,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/icon.png"
-  adaptive_icon_background: "#ffffff"
+  adaptive_icon_background: "assets/images/icon_background.png"
   adaptive_icon_foreground: "assets/images/icon_foreground.png"
 
 

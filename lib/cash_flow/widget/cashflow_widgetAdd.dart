@@ -1,4 +1,6 @@
 import 'package:admin_panel/cash_flow/controller/cashflow_controller.dart';
+import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -68,7 +70,10 @@ class CashFlowAdd extends GetView<CashFlowController> {
               ),
               actions: [
                 TextButton(
-                    onPressed: controller.resetAdd,
+                    onPressed: () {
+                      Haptic.feedbackError();
+                      controller.resetAdd();
+                    },
                     child: Text(
                       'Batal',
                       style: TextStyle(
@@ -77,8 +82,15 @@ class CashFlowAdd extends GetView<CashFlowController> {
                     )),
                 TextButton(
                     onPressed: () {
-                      Get.back();
-                      controller.addCashFlow();
+                      if (controller.hargaText.text.isNotEmpty &&
+                          controller.remarksText.text.isNotEmpty) {
+                        Get.back();
+                        controller.addCashFlow();
+                      } else {
+                        Haptic.feedbackError();
+                        ShowSnackbar.error('Kesalahan telah berlaku',
+                            'Sila isi semua maklumat untuk teruskan', false);
+                      }
                     },
                     child: Text('Tambah')),
               ],
