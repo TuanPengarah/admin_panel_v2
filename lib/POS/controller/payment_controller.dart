@@ -314,6 +314,7 @@ class PaymentController extends GetxController {
       title.value = 'Mengemaskini cash flow...';
       final Map<String, dynamic> cashflow = {
         'jumlah': int.parse(priceText.text),
+        'remark': currentStock.value.toString(),
         'isModal': false,
         'timeStamp': FieldValue.serverTimestamp(),
       };

@@ -24,3 +24,4 @@ export 'package:admin_panel/technicians/view/technician_add.dart';
 export 'package:admin_panel/technicians/view/technician_info.dart';
 export 'package:admin_panel/technicians/view/technician_view.dart';
 export 'package:admin_panel/price_list/view/pricelist_view.dart';
+export 'package:admin_panel/cash_flow/view/cashflow_view.dart';

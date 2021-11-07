@@ -28,6 +28,7 @@ class MyRoutes {
   static const bills = '/payment/bills';
   static const paymentCompleted = '/payment-completed';
   static const pricelist = '/price-list';
+  static const cashFlow = '/cash-flow';
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
@@ -70,5 +71,7 @@ class MyRoutes {
         name: pricelist,
         page: () => PriceListView(),
         binding: PriceListBinding()),
+    GetPage(
+        name: cashFlow, page: () => CashFlowView(), binding: CashFlowBinding()),
   ];
 }

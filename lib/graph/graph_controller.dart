@@ -22,6 +22,13 @@ class GraphController extends GetxController {
     super.onInit();
   }
 
+  double findY(double untungKasar, double modal) {
+    if (untungKasar < modal) {
+      return modal;
+    } else
+      return untungKasar;
+  }
+
   String checkMonths(int i) {
     switch (i) {
       case 0:

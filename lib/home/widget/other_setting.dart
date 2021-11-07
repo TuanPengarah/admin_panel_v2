@@ -1,4 +1,5 @@
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/config/get_route_export.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/other_controller.dart';
 import 'package:flutter/material.dart';
@@ -101,6 +102,93 @@ class OtherSettings {
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () {
+                Get.dialog(
+                  AlertDialog(
+                    title: Text('Pilih Tema'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          leading: Icon(
+                            Icons.settings_suggest,
+                            color: MyThemes().themeMode == ThemeMode.system
+                                ? Colors.amber
+                                : Get.theme.iconTheme.color,
+                          ),
+                          title: Text(
+                            'Sistem',
+                            style: TextStyle(
+                              fontWeight:
+                                  MyThemes().themeMode == ThemeMode.system
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                            ),
+                          ),
+                          onTap: () {
+                            Get.back();
+                            MyThemes().setSystemMode();
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            Icons.emoji_objects,
+                            color: MyThemes().themeMode == ThemeMode.light
+                                ? Colors.amber
+                                : Get.theme.iconTheme.color,
+                          ),
+                          title: Text(
+                            'Cerah',
+                            style: TextStyle(
+                              fontWeight:
+                                  MyThemes().themeMode == ThemeMode.light
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                            ),
+                          ),
+                          onTap: () {
+                            Get.back();
+                            MyThemes().setLightMode();
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            Icons.dark_mode,
+                            color: MyThemes().themeMode == ThemeMode.dark
+                                ? Colors.amber
+                                : Get.theme.iconTheme.color,
+                          ),
+                          title: Text(
+                            'Gelap',
+                            style: TextStyle(
+                              fontWeight: MyThemes().themeMode == ThemeMode.dark
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                          onTap: () {
+                            Get.back();
+                            MyThemes().setDarkMode();
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.palette,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text('Tema'),
+                subtitle: Text('Pilih tema untuk aplikasi ini'),
+              ),
+            ),
+          ),
+          Card(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
                 Get.dialog(AlertDialog(
                   title: Text('Pilih kaedah penyimpanan'),
                   content: Column(
@@ -114,7 +202,10 @@ class OtherSettings {
                       ListTile(
                         leading: Icon(Icons.upload),
                         title: Text('Simpan ke Firebase Storage'),
-                        onTap: () {},
+                        onTap: () {
+                          Get.back();
+                          _otherController.uploadToFirebase();
+                        },
                       ),
                     ],
                   ),
@@ -148,7 +239,10 @@ class OtherSettings {
                         ListTile(
                           leading: Icon(Icons.download),
                           title: Text('Ambil dari Firebase Storage'),
-                          onTap: () {},
+                          onTap: () {
+                            Get.back();
+                            _otherController.downloadFromFirebase();
+                          },
                         ),
                       ],
                     ),

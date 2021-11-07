@@ -1,4 +1,5 @@
 import 'package:admin_panel/API/firestoreAPI.dart';
+import 'package:admin_panel/cash_flow/controller/cashflow_controller.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
@@ -39,5 +40,12 @@ class JobSheetHistoryBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => JobsheetHistoryController());
+  }
+}
+
+class CashFlowBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => CashFlowController());
   }
 }

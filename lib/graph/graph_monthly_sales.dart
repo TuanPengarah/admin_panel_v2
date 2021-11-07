@@ -18,7 +18,9 @@ class GraphMonthlySales extends StatelessWidget {
                 minX: 0,
                 maxX: 11,
                 minY: 0,
-                maxY: _graphController.untungKasar.value.toDouble(),
+                maxY: _graphController.findY(
+                    _graphController.untungKasar.value.toDouble(),
+                    _graphController.jumlahModal.value.toDouble()),
                 lineTouchData: LineTouchData(
                   enabled: true,
                   touchTooltipData: LineTouchTooltipData(
@@ -27,20 +29,20 @@ class GraphMonthlySales extends StatelessWidget {
                         final flSpot = barSpot;
                         return LineTooltipItem(
                           flSpot.barIndex == 0
-                              ? 'Harga jual: RM '
-                              : 'Modal: RM ',
+                              ? 'Modal: RM '
+                              : 'Harga jual: RM ',
                           TextStyle(
                             color: flSpot.barIndex == 0
-                                ? Colors.white
-                                : Colors.amber,
+                                ? Colors.amber
+                                : Colors.white,
                           ),
                           children: [
                             TextSpan(
                               text: flSpot.y.toStringAsFixed(0),
                               style: TextStyle(
                                 color: flSpot.barIndex == 0
-                                    ? Colors.white
-                                    : Colors.amber,
+                                    ? Colors.amber
+                                    : Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

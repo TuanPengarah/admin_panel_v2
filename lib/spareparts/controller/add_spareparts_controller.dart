@@ -1,11 +1,13 @@
 import 'dart:math';
 
 import 'package:admin_panel/API/sqlite.dart';
+import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
+import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -248,6 +250,7 @@ class AddSparepartsController extends GetxController {
       final Map<String, dynamic> cashflow = {
         'jumlah': int.parse(hargaParts.text),
         'isModal': true,
+        'remark': '${jenisParts.text} ${modelParts.text}',
         'timeStamp': FieldValue.serverTimestamp(),
       };
 
@@ -268,6 +271,7 @@ class AddSparepartsController extends GetxController {
       Get.back();
       ShowSnackbar.success('Tambah spareparts berjaya!',
           'Maklumat spareparts anda telah ditambah ke server!', false);
+      showRecommended();
     } on Exception catch (e) {
       status.value = 'Opps! Kesalahan talah berlaku: $e';
       Haptic.feedbackError();
@@ -276,5 +280,42 @@ class AddSparepartsController extends GetxController {
       ShowSnackbar.error('Gagal untuk menambah spareparts',
           'Kesalahan telah berlaku: $e', false);
     }
+  }
+
+  void showRecommended() {
+    final _addPriceList = Get.put(PriceListController());
+    final _calc = Get.put(PriceCalculatorController());
+    Get.dialog(
+      AlertDialog(
+        title: Text('Tambah ke senarai harga'),
+        content: Text(
+            'Adakah anda ingin memasukkan harga sparepart tersebut ke senarai harga? (Sila tekan batal jika sparepart tersebut telah wujud di senarai harga)'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Haptic.feedbackError();
+              Get.back();
+            },
+            child: Text(
+              'Batal',
+              style: TextStyle(color: Colors.amber[900]),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Haptic.feedbackClick();
+              Get.back();
+              double harga =
+                  _calc.calculateFromWidget(int.parse(hargaParts.text));
+              _addPriceList.modelText.text = modelParts.text;
+              _addPriceList.partsText.text = jenisParts.text;
+              _addPriceList.priceText.text = harga.toStringAsFixed(0);
+              _addPriceList.addListDialog();
+            },
+            child: Text('Tambah'),
+          ),
+        ],
+      ),
+    );
   }
 }

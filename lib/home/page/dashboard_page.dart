@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/graph/graph_monthly_sales.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
@@ -36,6 +37,15 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                   floating: false,
                   snap: false,
                   backgroundColor: Get.theme.primaryColor,
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        Haptic.feedbackClick();
+                        Get.toNamed(MyRoutes.cashFlow);
+                      },
+                      icon: Icon(Icons.account_balance_wallet),
+                    ),
+                  ],
                   bottom: PreferredSize(
                     child: Container(),
                     preferredSize: Size(0, 20),
