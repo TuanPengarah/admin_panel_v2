@@ -63,7 +63,11 @@ class MyRoutes {
     GetPage(name: technicianAdd, page: () => TechnicianAdd()),
     GetPage(name: technicianDetails, page: () => TechnicianInfo()),
     GetPage(name: posview, page: () => POSView()),
-    GetPage(name: bills, page: () => BillsView()),
+    GetPage(
+      name: bills,
+      page: () => BillsView(),
+      binding: PosBinding(),
+    ),
     GetPage(name: paymentSetup, page: () => PaymentSetup()),
     GetPage(name: paymentCompleted, page: () => PaymentCompleted()),
     GetPage(name: pdfReceiptViewer, page: () => ReceiptPDF()),
@@ -72,6 +76,9 @@ class MyRoutes {
         page: () => PriceListView(),
         binding: PriceListBinding()),
     GetPage(
-        name: cashFlow, page: () => CashFlowView(), binding: CashFlowBinding()),
+      name: cashFlow,
+      page: () => CashFlowView(),
+      binding: CashFlowBinding(),
+    ),
   ];
 }

@@ -62,16 +62,20 @@ dependencies:
   image_cropper: ^1.4.1
   jiffy: ^4.1.0
   flutter_typeahead: ^3.2.1
+  quick_actions: ^0.6.0+7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-#   flutter_launcher_icons: 
-# flutter_icons:
-#   android: false
-#   ios: true
-#   image_path: "assets/images/icon.png"
+  flutter_launcher_icons:
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/images/icon_foreground.png"
+
 
 #   flutter_native_splash: 0.3.0
 

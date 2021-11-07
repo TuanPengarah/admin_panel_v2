@@ -1,4 +1,6 @@
 import 'package:admin_panel/API/firestoreAPI.dart';
+import 'package:admin_panel/POS/controller/payment_controller.dart';
+import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/cash_flow/controller/cashflow_controller.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
@@ -33,6 +35,7 @@ class JobSheetBinding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => JobsheetController());
     Get.lazyPut(() => FirestoreContoller());
+    Get.lazyPut(() => FirestoreContoller());
   }
 }
 
@@ -47,5 +50,13 @@ class CashFlowBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => CashFlowController());
+  }
+}
+
+class PosBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => PaymentController());
+    Get.lazyPut(() => PriceCalculatorController());
   }
 }

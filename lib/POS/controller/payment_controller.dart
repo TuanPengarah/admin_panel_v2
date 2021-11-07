@@ -16,7 +16,7 @@ class PaymentController extends GetxController {
   List bills = [];
 
   final _authController = Get.find<AuthController>();
-  final _priceController = Get.put(PriceCalculatorController());
+  final _priceController = Get.find<PriceCalculatorController>();
 
   final priceText = TextEditingController();
 
