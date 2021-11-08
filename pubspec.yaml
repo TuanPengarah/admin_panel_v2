@@ -34,6 +34,7 @@ dependencies:
   flutter_mailer: ^2.0.0
   firebase_database: ^8.0.0
   firebase_storage: ^10.0.3
+  awesome_notifications: ^0.6.16
 
   # Native Hardware
   esc_pos_bluetooth: ^0.2.8
