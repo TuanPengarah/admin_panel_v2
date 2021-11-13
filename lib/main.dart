@@ -1,10 +1,12 @@
 import 'package:admin_panel/config/initial_binding.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
 import 'config/get_route_export.dart';
 import 'config/routes.dart';
 
@@ -15,6 +17,19 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   await Firebase.initializeApp();
+  AwesomeNotifications().initialize(
+    'resource://drawable/res_notification_app_icon',
+    [
+      NotificationChannel(
+        channelKey: 'socmed',
+        channelName: 'Social Media Reminder',
+        channelDescription: 'Remind to update post update on social media',
+        defaultColor: Colors.blue,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+      ),
+    ],
+  );
   final _user = FirebaseAuth.instance.currentUser;
   if (_user != null) {
     print('user already signed in');
