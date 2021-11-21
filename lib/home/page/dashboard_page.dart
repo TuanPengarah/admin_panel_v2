@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/notification.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/graph/graph_monthly_sales.dart';
@@ -13,6 +14,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
   final _graphController = Get.find<GraphController>();
   final _sparepartController = Get.find<SparepartController>();
   final _customerController = Get.find<CustomerController>();
+  final _notif = Get.find<NotificationController>();
 
   @override
   Widget builder() {
@@ -44,6 +46,13 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                         Get.toNamed(MyRoutes.cashFlow);
                       },
                       icon: Icon(Icons.account_balance_wallet),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        Haptic.feedbackClick();
+                        _notif.testNotification();
+                      },
                     ),
                   ],
                   bottom: PreferredSize(

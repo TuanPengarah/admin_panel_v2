@@ -1,6 +1,7 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -12,6 +13,55 @@ class HomeController extends GetxController {
 
   @override
   void onReady() {
+    createQuickstep();
+    notificationPermision();
+    super.onReady();
+  }
+
+  void notificationPermision() {
+    AwesomeNotifications().isNotificationAllowed().then(
+      (isAllowed) {
+        if (!isAllowed) {
+          Get.dialog(
+            AlertDialog(
+              title: Text('Benarkan Notifikasi'),
+              content: Text(
+                  'Aplikasi ini akan memaparkan notifikasi. Adakah anda setuju?'),
+              actions: [
+                TextButton(
+                  child: Text(
+                    'Tidak',
+                    style: TextStyle(
+                      color: Colors.amber[900],
+                    ),
+                  ),
+                  onPressed: () {
+                    Haptic.feedbackError();
+                    Get.back();
+                  },
+                ),
+                TextButton(
+                  child: Text(
+                    'Benarkan',
+                  ),
+                  onPressed: () => AwesomeNotifications()
+                      .requestPermissionToSendNotifications()
+                      .then(
+                    (_) {
+                      Haptic.feedbackSuccess();
+                      Get.back();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  void createQuickstep() {
     quickActions.setShortcutItems(<ShortcutItem>[
       const ShortcutItem(
         type: 'actions_jobsheet',
@@ -46,7 +96,6 @@ class HomeController extends GetxController {
         Get.toNamed(MyRoutes.bills);
       }
     });
-    super.onReady();
   }
 
   void navTap(int index) {

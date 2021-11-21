@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/initial_binding.dart';
+import 'package:admin_panel/config/mouse_drag.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Af-Fix Admin Panel',
+      scrollBehavior: MyCustomScrollBehavior(),
       debugShowCheckedModeBanner: false,
       initialBinding: InitialBinding(),
       theme: MyThemes.lightTheme,
