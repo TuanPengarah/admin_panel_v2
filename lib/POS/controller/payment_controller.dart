@@ -174,8 +174,6 @@ class PaymentController extends GetxController {
         ),
         TextButton(
           onPressed: () async {
-            //TODO: Add logic for saving user payment on database
-
             await addToDatabase();
             bills.add(
               PaymentModel(

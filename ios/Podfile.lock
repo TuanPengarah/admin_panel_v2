@@ -338,6 +338,8 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - awesome_notifications (0.0.3):
+    - Flutter
   - BoringSSL-GRPC (0.0.7):
     - BoringSSL-GRPC/Implementation (= 0.0.7)
     - BoringSSL-GRPC/Interface (= 0.0.7)
@@ -349,6 +351,40 @@ PODS:
     - firebase_core
     - Flutter
   - device_info_plus (0.0.1):
+    - Flutter
+  - DKImagePickerController/Core (4.3.2):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.3.2)
+  - DKImagePickerController/PhotoGallery (4.3.2):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.3.2)
+  - DKPhotoGallery (0.0.17):
+    - DKPhotoGallery/Core (= 0.0.17)
+    - DKPhotoGallery/Model (= 0.0.17)
+    - DKPhotoGallery/Preview (= 0.0.17)
+    - DKPhotoGallery/Resource (= 0.0.17)
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Core (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Model (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Preview (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Resource (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - file_picker (0.0.1):
+    - DKImagePickerController/PhotoGallery
     - Flutter
   - Firebase/Auth (8.6.0):
     - Firebase/CoreOnly
@@ -419,6 +455,8 @@ PODS:
     - Flutter
   - flutter_full_pdf_viewer (1.0.1):
     - Flutter
+  - flutter_keyboard_visibility (0.0.1):
+    - Flutter
   - flutter_mailer (0.0.1):
     - Flutter
   - flutter_native_contact_picker (0.0.1):
@@ -484,18 +522,26 @@ PODS:
   - path_provider (0.0.1):
     - Flutter
   - PromisesObjC (2.0.0)
+  - quick_actions (0.0.1):
+    - Flutter
+  - SDWebImage (5.12.1):
+    - SDWebImage/Core (= 5.12.1)
+  - SDWebImage/Core (5.12.1)
   - share_plus (0.0.1):
     - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
+  - SwiftyGif (5.4.0)
   - TOCropViewController (2.6.0)
   - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
+  - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
@@ -504,11 +550,13 @@ DEPENDENCIES:
   - flutter_app_badger (from `.symlinks/plugins/flutter_app_badger/ios`)
   - flutter_bluetooth_basic (from `.symlinks/plugins/flutter_bluetooth_basic/ios`)
   - flutter_full_pdf_viewer (from `.symlinks/plugins/flutter_full_pdf_viewer/ios`)
+  - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_mailer (from `.symlinks/plugins/flutter_mailer/ios`)
   - flutter_native_contact_picker (from `.symlinks/plugins/flutter_native_contact_picker/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - quick_actions (from `.symlinks/plugins/quick_actions/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
@@ -517,6 +565,8 @@ SPEC REPOS:
   trunk:
     - abseil
     - BoringSSL-GRPC
+    - DKImagePickerController
+    - DKPhotoGallery
     - Firebase
     - FirebaseAuth
     - FirebaseCore
@@ -533,13 +583,19 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
+    - SDWebImage
+    - SwiftyGif
     - TOCropViewController
 
 EXTERNAL SOURCES:
+  awesome_notifications:
+    :path: ".symlinks/plugins/awesome_notifications/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
+  file_picker:
+    :path: ".symlinks/plugins/file_picker/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
@@ -556,6 +612,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_bluetooth_basic/ios"
   flutter_full_pdf_viewer:
     :path: ".symlinks/plugins/flutter_full_pdf_viewer/ios"
+  flutter_keyboard_visibility:
+    :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_mailer:
     :path: ".symlinks/plugins/flutter_mailer/ios"
   flutter_native_contact_picker:
@@ -566,6 +624,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  quick_actions:
+    :path: ".symlinks/plugins/quick_actions/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   sqflite:
@@ -575,9 +635,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
+  awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: bb4fcf1d62a2bf48586fad7a7e9612f20a719cda
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
+  DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
+  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
+  file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Firebase: 21ac9f28b09a8bdfc005f34c984fca84e7e8786d
   firebase_auth: a5da789c2876fda3ad7407bd2828e502dfeebc42
   firebase_core: c21ac09a8d23afd3594b56ed786bad12e5266bba
@@ -593,6 +657,7 @@ SPEC CHECKSUMS:
   flutter_app_badger: 65de4d6f0c34a891df49e6cfb8a1c0496426fa68
   flutter_bluetooth_basic: 0e4e27e22b50b3a25cc1d1e131953feb4af414f4
   flutter_full_pdf_viewer: 1b65139fc3236cde300ba6bea2a72669cb07f2e6
+  flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_mailer: 2ef5a67087bc8c6c4cefd04a178bf1ae2c94cd83
   flutter_native_contact_picker: bd430ba0fbf82768bb50c2c52a69a65759a8f907
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
@@ -607,11 +672,14 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   path_provider: d1e9807085df1f9cc9318206cd649dc0b76be3de
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  quick_actions: cd83314083fa994182e6cd9e7516167a215a4f83
+  SDWebImage: 4dc3e42d9ec0c1028b960a33ac6b637bb432207b
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
+  SwiftyGif: 5d4af95df24caf1c570dbbcb32a3b8a0763bc6d7
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   url_launcher: b6e016d912f04be9f5bf6e8e82dc599b7ba59649
 
-PODFILE CHECKSUM: a5ead389ae8478b2f010fbadad4f103eae9ff09f
+PODFILE CHECKSUM: 5ecb25232b364c274111d5a50c1a29429aa38896
 
-COCOAPODS: 1.11.1
+COCOAPODS: 1.11.2
