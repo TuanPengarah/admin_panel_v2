@@ -32,7 +32,6 @@ class PriceListController extends GetxController {
   Future<void> getPriceList() async {
     priceList = [];
     var data = await GoogleSheet().getList();
-    print(data.bodyString);
     var jsonPricelist = convert.jsonDecode(data.bodyString);
     jsonPricelist.forEach((value) {
       PriceListModel priceListModel = PriceListModel(

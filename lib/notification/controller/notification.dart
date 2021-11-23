@@ -11,6 +11,7 @@ class NotificationController extends GetxController {
   @override
   onInit() {
     getValue();
+    print('init notification');
     super.onInit();
   }
 
@@ -40,7 +41,6 @@ class NotificationController extends GetxController {
       schedule: NotificationCalendar(
         repeats: true,
         timeZone: localTimeZone,
-        day: DateTime.now().day,
         hour: 12,
         minute: 30,
         second: 0,
