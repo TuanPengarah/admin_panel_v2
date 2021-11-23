@@ -77,42 +77,40 @@ class MySidPage extends StatelessWidget {
               ),
             );
           }
-          return Scrollbar(
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              children: snapshot.data.docs.map(
-                (document) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 3),
-                    child: Hero(
-                      tag: document.id,
-                      child: MysidUI.mySidListCard(document, context, () {
-                        Haptic.feedbackClick();
-                        var params = <String, String>{
-                          'id': document.id,
-                        };
+          return ListView(
+            physics: BouncingScrollPhysics(),
+            children: snapshot.data.docs.map(
+              (document) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3),
+                  child: Hero(
+                    tag: document.id,
+                    child: MysidUI.mySidListCard(document, context, () {
+                      Haptic.feedbackClick();
+                      var params = <String, String>{
+                        'id': document.id,
+                      };
 
-                        var args = {
-                          'Nama': document['Nama'],
-                          'Model': document['Model'],
-                          'Kerosakkan': document['Kerosakkan'],
-                          'Password': document['Password'],
-                          'Remarks': document['Remarks'],
-                          'Percent': document['Percent'],
-                          'No Phone': document['No Phone'],
-                        };
-                        Get.toNamed(
-                          MyRoutes.mysidUpdate,
-                          parameters: params,
-                          arguments: args,
-                        );
-                      }),
-                    ),
-                  );
-                },
-              ).toList(),
-            ),
+                      var args = {
+                        'Nama': document['Nama'],
+                        'Model': document['Model'],
+                        'Kerosakkan': document['Kerosakkan'],
+                        'Password': document['Password'],
+                        'Remarks': document['Remarks'],
+                        'Percent': document['Percent'],
+                        'No Phone': document['No Phone'],
+                      };
+                      Get.toNamed(
+                        MyRoutes.mysidUpdate,
+                        parameters: params,
+                        arguments: args,
+                      );
+                    }),
+                  ),
+                );
+              },
+            ).toList(),
           );
         },
       ),

@@ -26,6 +26,7 @@ dependencies:
   percent_indicator: ^3.0.1
   another_xlider: ^1.0.0
   line_icons: ^2.0.1
+  flutter_swiper: ^1.1.6
 
   # API Services
   firebase_core: ^1.5.0

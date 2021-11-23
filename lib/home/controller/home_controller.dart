@@ -22,40 +22,44 @@ class HomeController extends GetxController {
     AwesomeNotifications().isNotificationAllowed().then(
       (isAllowed) {
         if (!isAllowed) {
-          Get.dialog(
-            AlertDialog(
-              title: Text('Benarkan Notifikasi'),
-              content: Text(
-                  'Aplikasi ini akan memaparkan notifikasi. Adakah anda setuju?'),
-              actions: [
-                TextButton(
-                  child: Text(
-                    'Tidak',
-                    style: TextStyle(
-                      color: Colors.amber[900],
+          if (GetPlatform.isIOS) {
+            print('notif ios');
+          } else {
+            Get.dialog(
+              AlertDialog(
+                title: Text('Benarkan Notifikasi'),
+                content: Text(
+                    'Aplikasi ini akan memaparkan notifikasi. Adakah anda setuju?'),
+                actions: [
+                  TextButton(
+                    child: Text(
+                      'Tidak',
+                      style: TextStyle(
+                        color: Colors.amber[900],
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    Haptic.feedbackError();
-                    Get.back();
-                  },
-                ),
-                TextButton(
-                  child: Text(
-                    'Benarkan',
-                  ),
-                  onPressed: () => AwesomeNotifications()
-                      .requestPermissionToSendNotifications()
-                      .then(
-                    (_) {
-                      Haptic.feedbackSuccess();
+                    onPressed: () {
+                      Haptic.feedbackError();
                       Get.back();
                     },
                   ),
-                ),
-              ],
-            ),
-          );
+                  TextButton(
+                    child: Text(
+                      'Benarkan',
+                    ),
+                    onPressed: () => AwesomeNotifications()
+                        .requestPermissionToSendNotifications()
+                        .then(
+                      (_) {
+                        Haptic.feedbackSuccess();
+                        Get.back();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
         }
       },
     );

@@ -188,6 +188,20 @@ class OtherSettings {
           Card(
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
+              onTap: () => Get.toNamed(MyRoutes.notifSettings),
+              child: ListTile(
+                leading: Icon(
+                  Icons.notification_important,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text('Peringatan Media Sosial'),
+                subtitle: Text('Notifikasi untuk membuat siaran'),
+              ),
+            ),
+          ),
+          Card(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
               onTap: () {
                 Get.dialog(AlertDialog(
                   title: Text('Pilih kaedah penyimpanan'),
