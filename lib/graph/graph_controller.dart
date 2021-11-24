@@ -72,6 +72,14 @@ class GraphController extends GetxController {
     }
   }
 
+  int getMonthsHargajual() {
+    return graphSupplier[0][checkMonths(DateTime.now().month - 1)];
+  }
+
+  int getMonthsUntungBersih() {
+    return jumlahBulanan.value - getMonthsHargajual();
+  }
+
   void getGraphLength() {
     spotJual = [];
     spotSupplier = [];

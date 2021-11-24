@@ -26,6 +26,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
               color: Get.theme.primaryColor,
             ),
             CustomScrollView(
+              shrinkWrap: true,
               physics: BouncingScrollPhysics(),
               slivers: [
                 SliverAppBar(
@@ -145,7 +146,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                     [
                       Column(
                         children: [
-                          DashboardCardAll(),
+                          Hero(tag: 'rekod', child: DashboardCardAll(true)),
                           SizedBox(height: 30),
                         ],
                       ),

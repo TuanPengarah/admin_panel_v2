@@ -1,5 +1,4 @@
 import 'package:admin_panel/config/binding.dart';
-import 'package:admin_panel/notification/view/notification_setting_view.dart';
 import 'package:get/get.dart';
 import 'get_route_export.dart';
 
@@ -31,6 +30,7 @@ class MyRoutes {
   static const pricelist = '/price-list';
   static const cashFlow = '/cash-flow';
   static const notifSettings = '/notif-setting';
+  static const allrecord = '/all-record';
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
@@ -85,6 +85,10 @@ class MyRoutes {
     GetPage(
       name: notifSettings,
       page: () => NotificationSettingView(),
+    ),
+    GetPage(
+      name: allrecord,
+      page: () => RecordView(),
     ),
   ];
 }

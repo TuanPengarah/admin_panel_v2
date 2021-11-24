@@ -1,12 +1,16 @@
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import '../../config/haptic_feedback.dart';
 import '../../graph/graph_controller.dart';
 
 class DashboardCardAll extends StatelessWidget {
+  final bool isDashboard;
+
+  DashboardCardAll(this.isDashboard);
   @override
   Widget build(BuildContext context) {
     final _homeController = Get.find<HomeController>();
@@ -23,7 +27,7 @@ class DashboardCardAll extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Rekod Data Keseluruhan',
+                isDashboard == true ? 'Rekod Data' : 'Rekod Data Keseluruhan',
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
@@ -61,15 +65,20 @@ class DashboardCardAll extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 30),
-              SizedBox(
-                height: 40,
-                width: 450,
-                child: ElevatedButton.icon(
-                  onPressed: () => _homeController.showBottomJosheet(),
-                  label: Text('Tambah Jobsheet'),
-                  icon: Icon(Icons.add),
-                ),
-              ),
+              isDashboard == true
+                  ? SizedBox(
+                      height: 40,
+                      width: 450,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Haptic.feedbackClick();
+                          Get.toNamed(MyRoutes.allrecord);
+                        },
+                        label: Text('Lihat Kesemua Rekod'),
+                        icon: Icon(Icons.list_alt_rounded),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ),

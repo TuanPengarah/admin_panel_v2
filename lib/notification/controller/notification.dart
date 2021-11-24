@@ -49,6 +49,34 @@ class NotificationController extends GetxController {
     );
   }
 
+  Future<void> socialMediaNotifTest() async {
+    String localTimeZone =
+        await AwesomeNotifications().getLocalTimeZoneIdentifier();
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: _createID(),
+        channelKey: 'socmed',
+        title: 'Tambah siaran pada media sosial!',
+        body:
+            'Sudahkah anda buat post pada media sosial? Jika belum, sila buat sekarang!',
+        notificationLayout: NotificationLayout.BigText,
+      ),
+      actionButtons: [
+        NotificationActionButton(
+          key: 'MARK_DONE',
+          label: 'Dah Buat',
+          buttonType: ActionButtonType.KeepOnTop,
+        ),
+      ],
+      schedule: NotificationCalendar(
+        repeats: false,
+        timeZone: localTimeZone,
+        second: 10,
+        millisecond: 0,
+      ),
+    );
+  }
+
   Future<void> cancelAllSchedule() async {
     await AwesomeNotifications()
         .cancelAllSchedules()
