@@ -1,18 +1,20 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
-import 'package:admin_panel/config/snackbar.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:quick_actions/quick_actions.dart';
 
 class HomeController extends GetxController {
   var currentIndex = 0.obs;
   var totalMysid = 0.obs;
   final QuickActions quickActions = const QuickActions();
+  final box = GetStorage();
 
   @override
   void onReady() {
+    currentIndex.value = box.read<int>('nav') ?? 0;
     createQuickstep();
     notificationPermision();
     super.onReady();
@@ -103,39 +105,8 @@ class HomeController extends GetxController {
   }
 
   void navTap(int index) {
-    currentIndex.value = index;
-  }
-
-  void showBottomJosheet() async {
     Haptic.feedbackClick();
-    await Get.bottomSheet(
-      Material(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(Icons.add),
-              title: Text('Buat Jobsheet baru'),
-              onTap: () {
-                Get.back();
-                Get.toNamed(MyRoutes.jobsheet,
-                    arguments: [false, '', '', '', '']);
-              },
-            ),
-            ListTile(
-                leading: Icon(Icons.assignment_ind),
-                title: Text('Buat Jobsheet dengan pelanggan sedia ada'),
-                onTap: () {
-                  Get.back();
-                  currentIndex.value = 1;
-                  ShowSnackbar.notify('Pilih Pelanggan',
-                      'Sila pilih pelanggan dan tekan tambah Jobsheet');
-                }),
-          ],
-        ),
-      ),
-      enterBottomSheetDuration: Duration(milliseconds: 150),
-      exitBottomSheetDuration: Duration(milliseconds: 150),
-    );
+    currentIndex.value = index;
+    box.write('nav', index);
   }
 }

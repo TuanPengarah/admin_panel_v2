@@ -60,3 +60,10 @@ class PosBinding extends Bindings {
     Get.lazyPut(() => PriceCalculatorController());
   }
 }
+
+class AllRecordBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => CashFlowController());
+  }
+}

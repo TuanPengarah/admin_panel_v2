@@ -47,7 +47,7 @@ class CashFlowView extends GetView<CashFlowController> {
         builder: (logic) {
           return Column(
             children: [
-              CashFlowCard(),
+              CashFlowCard(false),
               ListCashFlow(),
               CashFlowAdd(),
             ],

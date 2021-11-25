@@ -89,6 +89,7 @@ class MyRoutes {
     GetPage(
       name: allrecord,
       page: () => RecordView(),
+      binding: AllRecordBinding(),
     ),
   ];
 }

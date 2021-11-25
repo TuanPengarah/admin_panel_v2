@@ -22,7 +22,10 @@ class MysidController extends GetxController {
   }
 
   Future<void> setAsCannotRepair(String id) async {
-    Map<String, dynamic> payload = {'isPayment': true};
+    Map<String, dynamic> payload = {
+      'isPayment': true,
+      'Status': 'Tak Boleh',
+    };
     Haptic.feedbackClick();
     try {
       await FirebaseFirestore.instance

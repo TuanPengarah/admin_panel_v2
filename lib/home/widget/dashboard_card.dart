@@ -106,7 +106,7 @@ class DashboardCardAll extends StatelessWidget {
               '$title',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.grey.shade600,
+                color: Get.isDarkMode ? Colors.white : Colors.grey.shade600,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
@@ -115,7 +115,7 @@ class DashboardCardAll extends StatelessWidget {
               total == '0' ? '--' : '$total',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.grey,
+                color: Get.isDarkMode ? Colors.white : Colors.grey,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

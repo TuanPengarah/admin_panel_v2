@@ -72,14 +72,34 @@ class CustomerPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             icon: Icon(Icons.sort),
-            onSelected: (value) => _customerController.sorting(value),
+            onSelected: (value) {
+              _customerController.sorting(value);
+              _customerController.currentlySelected = value.text;
+              _customerController.box.write('sortCustomer', value.text);
+            },
             itemBuilder: (context) => PopupSortMenu.items
                 .map(
                   (i) => PopupMenuItem<IconMenu>(
                     value: i,
                     child: ListTile(
-                      leading: Icon(i.icon),
-                      title: Text(i.text),
+                      leading: Icon(
+                        i.icon,
+                        color: _customerController.currentlySelected == i.text
+                            ? Get.theme.iconTheme.color
+                            : Colors.grey,
+                      ),
+                      title: Text(
+                        i.text,
+                        style: TextStyle(
+                            color:
+                                _customerController.currentlySelected == i.text
+                                    ? Get.theme.textTheme.bodyText1.color
+                                    : Colors.grey,
+                            fontWeight:
+                                _customerController.currentlySelected == i.text
+                                    ? FontWeight.bold
+                                    : FontWeight.normal),
+                      ),
                     ),
                   ),
                 )

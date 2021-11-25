@@ -22,9 +22,11 @@ class OtherController extends GetxController {
 
   Future<void> downloadFromFirebase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
+
     String path =
         join(documentDirectory.path, '${_authController.userUID.value}.db');
     File file = File(path);
+    print(file);
     final destination = 'database/SQLite/${_authController.userUID.value}.db';
     try {
       final ref = FirebaseStorage.instance.ref(destination);

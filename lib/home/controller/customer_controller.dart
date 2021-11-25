@@ -6,6 +6,7 @@ import 'package:admin_panel/home/model/popupmenu_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CustomerController extends GetxController {
@@ -18,11 +19,43 @@ class CustomerController extends GetxController {
   List customerList = [];
   List getFromFirestore = [];
   var customerListRead = ''.obs;
+  String currentlySelected = '';
+  final box = GetStorage();
 
   @override
   void onInit() {
+    initSorting(box.read('sortCustomer') ?? 'Mengikut abjad A-Z');
     getCustomerDetails();
     super.onInit();
+  }
+
+  void initSorting(String value) {
+    switch (value) {
+      case 'Mengikut abjad A-Z':
+        descending.value = false;
+        currentlySelected = value;
+        Haptic.feedbackClick();
+        orderBy = 'Nama';
+        getCustomerDetails();
+        update();
+        break;
+      case 'Mengikut abjad Z-A':
+        Haptic.feedbackClick();
+        descending.value = true;
+        currentlySelected = value;
+        orderBy = 'Nama';
+        getCustomerDetails();
+        update();
+        break;
+      case 'Susun mengikut masa':
+        Haptic.feedbackClick();
+        orderBy = 'timeStamp';
+        descending.value = true;
+        currentlySelected = value;
+        getCustomerDetails();
+        update();
+        break;
+    }
   }
 
   void deleteUser(String uid, String nama) {
