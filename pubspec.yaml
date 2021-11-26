@@ -3,7 +3,7 @@ description: Admin apps to control Af-Fix Smartphone Repair
 
 publish_to: 'none'
 
-version: 2.0.2+10
+version: 2.0.2+12
 
 environment:
   sdk: ">=2.11.0 <3.0.0"
@@ -35,6 +35,7 @@ dependencies:
   firebase_database: ^8.0.0
   firebase_storage: ^10.0.3
   awesome_notifications: ^0.6.16
+  firebase_messaging: "^11.1.0"
 
   # Native Hardware
   esc_pos_bluetooth: ^0.2.8

@@ -1,11 +1,13 @@
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/notification/controller/notification.dart';
 import 'package:admin_panel/notification/widget/radio_notif.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import '../../config/haptic_feedback.dart';
 
 class NotificationSettingView extends GetView<NotificationController> {
+  final _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +43,10 @@ class NotificationSettingView extends GetView<NotificationController> {
                     controller.box.write('initNotif', true);
                     Haptic.feedbackSuccess();
                     controller.socialMediaNotif();
+                    if (_authController.jawatan.value == 'Founder') {
+                      print('Notifikasi settlement telah diset kan sekali');
+                      controller.settlementReport();
+                    }
                   },
                 )),
             Obx(() => RadioTile(

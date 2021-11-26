@@ -23,8 +23,18 @@ Future<void> main() async {
     [
       NotificationChannel(
         channelKey: 'socmed',
-        channelName: 'Social Media Reminder',
-        channelDescription: 'Remind to update post update on social media',
+        channelName: 'Peringatah Media Sosial',
+        channelDescription:
+            'Pemberitahuan untuk menghasilkan siaran di media sosial',
+        defaultColor: Colors.blue,
+        importance: NotificationImportance.High,
+        channelShowBadge: true,
+      ),
+      NotificationChannel(
+        channelKey: 'settlement',
+        channelName: 'Closing Sale',
+        channelDescription:
+            'Dapatkan pemberitahuan terhadap jualan anda pada setiap hari',
         defaultColor: Colors.blue,
         importance: NotificationImportance.High,
         channelShowBadge: true,

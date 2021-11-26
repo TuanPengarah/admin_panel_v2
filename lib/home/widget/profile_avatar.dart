@@ -99,6 +99,7 @@ class ProfileAvatar {
                         SizedBox(height: 10),
                         Text(
                           'Jumlah Repair',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Get.isDarkMode
                                 ? Colors.grey.shade300
@@ -109,6 +110,7 @@ class ProfileAvatar {
                         SizedBox(height: 10),
                         Text(
                           '$jumlahRepair',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Get.isDarkMode
                                 ? Colors.grey.shade300
@@ -144,7 +146,8 @@ class ProfileAvatar {
                         ),
                         SizedBox(height: 10),
                         Text(
-                          'Jumlah Keuntungan',
+                          'Jumlah Komisen',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Get.isDarkMode
                                 ? Colors.grey.shade300

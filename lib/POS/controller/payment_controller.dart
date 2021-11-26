@@ -284,7 +284,7 @@ class PaymentController extends GetxController {
       title.value = 'Tambah jumlah repair dan keuntungan technician...';
       Map<String, dynamic> updateTechnician = {
         'jumlahRepair': ServerValue.increment(1),
-        'jumlahKeuntungan': ServerValue.increment(int.parse(priceText.text)),
+        'jumlahKeuntungan': ServerValue.increment(_priceController.markup),
       };
       await db
           .child('Technician')
