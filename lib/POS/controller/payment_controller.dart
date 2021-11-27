@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 
+import '../../API/notif_fcm.dart';
+
 class PaymentController extends GetxController {
   List bills = [];
 
@@ -331,6 +333,12 @@ class PaymentController extends GetxController {
       await _graphController.getGraphFromFirestore();
       title.value = 'Selesai!';
       await Future.delayed(Duration(seconds: 1));
+      NotifFCM()
+          .postData(
+            'Pembayaran telah selesai!',
+            'Juruteknik ${_authController.userName.value} telah membuka resit bayaran dengan berjumlah RM${priceText.text}',
+          )
+          .then((value) => print(value.body));
       Haptic.feedbackSuccess();
       Get.back();
     } on Exception catch (e) {

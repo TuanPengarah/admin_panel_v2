@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:admin_panel/config/initial_binding.dart';
 import 'package:admin_panel/config/mouse_drag.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -12,6 +15,12 @@ import 'config/get_route_export.dart';
 import 'config/routes.dart';
 
 // flutter run -d web-server --web-port 8080 --web-hostname 192.168.1.17
+
+Future<void> _firebaseMessagingBackground(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("Handling a background message: ${message.messageId}");
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bool _isLogin = false;
@@ -28,19 +37,26 @@ Future<void> main() async {
             'Pemberitahuan untuk menghasilkan siaran di media sosial',
         defaultColor: Colors.blue,
         importance: NotificationImportance.High,
-        channelShowBadge: true,
       ),
       NotificationChannel(
         channelKey: 'settlement',
-        channelName: 'Closing Sale',
+        channelName: 'Penutupan Jualan',
         channelDescription:
-            'Dapatkan pemberitahuan terhadap jualan anda pada setiap hari',
+            'Dapatkan pemberitahuan terhadap jualan anda pada setiap hari!',
         defaultColor: Colors.blue,
         importance: NotificationImportance.High,
-        channelShowBadge: true,
+      ),
+      NotificationChannel(
+        channelKey: 'fcm',
+        channelName: 'Firebase Cloud Messaging',
+        channelDescription: 'Pemberitahuan daripada Firebase Cloud Messaging',
+        defaultColor: Colors.blue,
+        importance: NotificationImportance.High,
       ),
     ],
   );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackground);
+
   final _user = FirebaseAuth.instance.currentUser;
   if (_user != null) {
     print('user already signed in');

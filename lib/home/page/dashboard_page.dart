@@ -1,3 +1,5 @@
+import 'package:admin_panel/API/notif_fcm.dart';
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
@@ -9,6 +11,7 @@ import 'package:get/get.dart';
 
 class DashboardPage extends GetResponsiveView<HomeController> {
   final _graphController = Get.find<GraphController>();
+  final _authController = Get.find<AuthController>();
   @override
   Widget builder() {
     return Scaffold(
@@ -40,6 +43,19 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                         Get.toNamed(MyRoutes.cashFlow);
                       },
                       icon: Icon(Icons.account_balance_wallet),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await Future.delayed(Duration(seconds: 2));
+                        print('sending notification...');
+                        NotifFCM()
+                            .postData('Jobsheet telah dibuka!',
+                                '${_authController.userName.value} telah membuka Jobsheet')
+                            .then((value) => print(value.body));
+                      },
+                      icon: Icon(
+                        Icons.add,
+                      ),
                     ),
                   ],
                   bottom: PreferredSize(

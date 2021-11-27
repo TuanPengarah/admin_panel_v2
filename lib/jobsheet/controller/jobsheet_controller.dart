@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:get/get.dart';
 
+import '../../API/notif_fcm.dart';
+
 class JobsheetController extends GetxController {
   final _firestoreController = Get.find<FirestoreContoller>();
   final _authController = Get.find<AuthController>();
@@ -305,6 +307,10 @@ class JobsheetController extends GetxController {
           };
 
           Get.toNamed(MyRoutes.jobsheetDone, parameters: payload);
+          NotifFCM()
+              .postData('Resit Jobsheet telah dibuka!',
+                  'Juruteknik ${_authController.userName.value} telah membuka Resit Jobsheet')
+              .then((value) => print(value.body));
           ShowSnackbar.success('Operasi Selesai!',
               'Jobsheet telah ditambah ke pangkalan data', true);
         }
