@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:admin_panel/API/notif_fcm.dart';
 import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
@@ -263,6 +264,8 @@ class AddSparepartsController extends GetxController {
       status.value = 'Menyegarkan semula semua data...';
       await _sparepartsController.refreshDialog(false);
       await _graphController.getGraphFromFirestore();
+      NotifFCM().postData('Sparepart telah ditambah!',
+          'Sparepart ${jenisParts.text} ${modelParts.text} telah dimasukkan ke inventori anda dengan bernilai RM$hargaParts');
       status.value = 'Selesai!';
       Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 1));

@@ -2,11 +2,13 @@ import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:admin_panel/notification/controller/notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class AuthController extends GetxController {
@@ -33,6 +35,7 @@ class AuthController extends GetxController {
         Get.offAndToNamed(MyRoutes.login);
       }
     }
+
     super.onReady();
   }
 
@@ -131,6 +134,8 @@ class AuthController extends GetxController {
   }
 
   Future<void> checkUserData(String uid, String email) async {
+    final box = GetStorage();
+    final _notifController = Get.put(NotificationController());
     await FirebaseDatabase.instance
         .reference()
         .child('Technician')
@@ -147,6 +152,19 @@ class AuthController extends GetxController {
       jumlahKeuntungan.value = technician.jumlahKeuntungan;
       jawatan.value = technician.jawatan;
       photoURL.value = technician.photoURL;
+      if (box.read<bool>('initNotif') == true) {
+        _notifController.subscribedToFCM('socmed');
+        if (jawatan.value == 'Founder') {
+          print('Notifikasi settlement telah diset kan sekali');
+          _notifController.subscribedToFCM('settlement');
+        }
+      } else {
+        _notifController.unsubscribedFromFCM('socmed');
+        if (jawatan.value == 'Founder') {
+          print('Notifikasi settlement akan dibatalkan sekali');
+          _notifController.unsubscribedFromFCM('settlement');
+        }
+      }
     });
   }
 }

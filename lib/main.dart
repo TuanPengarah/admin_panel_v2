@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:admin_panel/config/initial_binding.dart';
 import 'package:admin_panel/config/mouse_drag.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'config/get_route_export.dart';
 import 'config/routes.dart';
 
@@ -30,22 +27,6 @@ Future<void> main() async {
   AwesomeNotifications().initialize(
     'resource://drawable/res_notification_app_icon',
     [
-      NotificationChannel(
-        channelKey: 'socmed',
-        channelName: 'Peringatah Media Sosial',
-        channelDescription:
-            'Pemberitahuan untuk menghasilkan siaran di media sosial',
-        defaultColor: Colors.blue,
-        importance: NotificationImportance.High,
-      ),
-      NotificationChannel(
-        channelKey: 'settlement',
-        channelName: 'Penutupan Jualan',
-        channelDescription:
-            'Dapatkan pemberitahuan terhadap jualan anda pada setiap hari!',
-        defaultColor: Colors.blue,
-        importance: NotificationImportance.High,
-      ),
       NotificationChannel(
         channelKey: 'fcm',
         channelName: 'Firebase Cloud Messaging',

@@ -42,10 +42,10 @@ class NotificationSettingView extends GetView<NotificationController> {
                     controller.groupValue.value = newValue;
                     controller.box.write('initNotif', true);
                     Haptic.feedbackSuccess();
-                    controller.socialMediaNotif();
+                    controller.subscribedToFCM('socmed');
                     if (_authController.jawatan.value == 'Founder') {
                       print('Notifikasi settlement telah diset kan sekali');
-                      controller.settlementReport();
+                      controller.subscribedToFCM('settlement');
                     }
                   },
                 )),
@@ -57,7 +57,11 @@ class NotificationSettingView extends GetView<NotificationController> {
                     controller.groupValue.value = newValue;
                     controller.box.write('initNotif', false);
                     Haptic.feedbackError();
-                    controller.cancelAllSchedule();
+                    controller.unsubscribedFromFCM('socmed');
+                    if (_authController.jawatan.value == 'Founder') {
+                      print('Notifikasi settlement akan dibatalkan sekali');
+                      controller.unsubscribedFromFCM('settlement');
+                    }
                   },
                 )),
             SizedBox(height: 30),

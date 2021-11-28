@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/cash_flow/controller/cashflow_controller.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -16,6 +17,14 @@ class NotificationController extends GetxController {
   onInit() {
     getValue();
     super.onInit();
+  }
+
+  Future<void> subscribedToFCM(String topic) async {
+    await FirebaseMessaging.instance.subscribeToTopic(topic);
+  }
+
+  Future<void> unsubscribedFromFCM(String topic) async {
+    await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
   }
 
   Future<void> getValue() async =>
@@ -89,7 +98,7 @@ class NotificationController extends GetxController {
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: _createID(),
-        channelKey: 'socmed',
+        channelKey: 'fcm',
         title: 'Assalamualaikum ${_authController.userName.value}!',
         body:
             'Sudahkah anda buat post pada media sosial? Jika belum, sila buat sekarang!',
@@ -102,12 +111,8 @@ class NotificationController extends GetxController {
           buttonType: ActionButtonType.KeepOnTop,
         ),
       ],
-      schedule: NotificationCalendar(
-        allowWhileIdle: true,
-        repeats: false,
-        timeZone: localTimeZone,
-        second: 10,
-        millisecond: 0,
+      schedule: NotificationInterval(
+        interval: 10,
       ),
     );
   }
