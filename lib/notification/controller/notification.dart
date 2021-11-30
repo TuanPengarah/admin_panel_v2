@@ -93,8 +93,8 @@ class NotificationController extends GetxController {
   }
 
   Future<void> socialMediaNotifTest() async {
-    String localTimeZone =
-        await AwesomeNotifications().getLocalTimeZoneIdentifier();
+    // String localTimeZone =
+    //     await AwesomeNotifications().getLocalTimeZoneIdentifier();
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: _createID(),

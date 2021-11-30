@@ -111,7 +111,9 @@ class RepairHistoryPage extends StatelessWidget {
                 'mysid': doc['MID'],
                 'email': _data[4],
                 'timeStamp': doc['timeStamp'],
-                'technician': doc['Technician']
+                'technician': doc['Technician'],
+                'status': doc['Status'],
+                'waranti': doc['Tarikh Waranti'],
               };
               controller.showShareJobsheet(payload);
             }

@@ -17,6 +17,7 @@ class ReceiptPDFController extends GetxController {
   final _authController = Get.find<AuthController>();
   final pdf = pw.Document();
   String fullPath = '';
+  final _data = Get.arguments;
 
   String _tarikh() {
     final tarikhDart = DateTime.now();
@@ -136,27 +137,64 @@ class ReceiptPDFController extends GetxController {
                   pw.Text(
                       'Technician/Staff: ${_authController.userName.value}'),
                   pw.SizedBox(height: 15),
-                  pw.Table.fromTextArray(
-                    headers: ['Butir', 'Waranti', 'Jumlah (RM)'],
-                    data: _paymentController.bills
-                        .map((e) => [
-                              e['title'],
-                              e['waranti'],
-                              e['harga'].toDouble(),
-                            ])
-                        .toList(),
-                    border: null,
-                    headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                    headerDecoration: pw.BoxDecoration(
-                      color: PdfColors.blue300,
-                    ),
-                    cellHeight: 30,
-                    cellAlignments: {
-                      0: pw.Alignment.centerLeft,
-                      1: pw.Alignment.centerRight,
-                      2: pw.Alignment.centerRight,
-                    },
-                  ),
+                  _data['isBills'] == true
+                      ? pw.Table.fromTextArray(
+                          headers: ['Butir', 'Waranti', 'Jumlah (RM)'],
+                          data: _paymentController.bills
+                              .map((e) => [
+                                    e['title'],
+                                    e['waranti'],
+                                    e['harga'].toDouble(),
+                                  ])
+                              .toList(),
+                          border: null,
+                          headerStyle:
+                              pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                          headerDecoration: pw.BoxDecoration(
+                            color: PdfColors.blue300,
+                          ),
+                          cellHeight: 30,
+                          cellAlignments: {
+                            0: pw.Alignment.centerLeft,
+                            1: pw.Alignment.centerRight,
+                            2: pw.Alignment.centerRight,
+                          },
+                        )
+                      : pw.Column(
+                          children: [
+                            pw.Row(
+                              mainAxisAlignment:
+                                  pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text(
+                                  'Butir',
+                                  style: pw.TextStyle(
+                                    fontWeight: pw.FontWeight.bold,
+                                  ),
+                                ),
+                                pw.Text(
+                                  'Harga',
+                                  style: pw.TextStyle(
+                                    fontWeight: pw.FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            pw.SizedBox(height: 10),
+                            pw.Row(
+                              mainAxisAlignment:
+                                  pw.MainAxisAlignment.spaceBetween,
+                              children: [
+                                pw.Text(
+                                  _paymentController.bills[0]['title'],
+                                ),
+                                pw.Text(
+                                  'RM${_paymentController.bills[0]['harga']}',
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                   pw.Divider(color: PdfColors.blue300),
                   pw.Container(
                     margin: const pw.EdgeInsets.only(top: 5),

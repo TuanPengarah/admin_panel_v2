@@ -432,7 +432,13 @@ class PaymentController extends GetxController {
               onTap: () {
                 Haptic.feedbackClick();
                 Get.back();
-                Get.toNamed(MyRoutes.pdfReceiptViewer);
+                final data = {
+                  'isBills': true,
+                };
+                Get.toNamed(
+                  MyRoutes.pdfReceiptViewer,
+                  arguments: data,
+                );
               },
             ),
             ListTile(
