@@ -27,17 +27,20 @@ class TechnicianController extends GetxController {
       'photoURL': technician['photoURL'],
       'jumlahKeuntungan': technician['jumlahKeuntungan'],
       'jumlahRepair': technician['jumlahRepair'],
-      'id': technician['id']
+      'id': technician['id'],
+      'token': technician['token'],
     };
 
     var params = <String, String>{
       'id': technician['id'],
     };
 
-    Get.toNamed(MyRoutes.technicianDetails, parameters: params, arguments: payload);
+    Get.toNamed(MyRoutes.technicianDetails,
+        parameters: params, arguments: payload);
   }
 
-  Future<void> deleteTechnician(String url, String uid, String namaStaff) async {
+  Future<void> deleteTechnician(
+      String url, String uid, String namaStaff) async {
     String photoLocation = '${namaStaff.toLowerCase().replaceAll(' ', '')}.jpg';
     Get.dialog(
       AlertDialog(
@@ -54,7 +57,6 @@ class TechnicianController extends GetxController {
                     .delete();
               }
               try {
-
                 await FirebaseDatabase.instance
                     .reference()
                     .child('Technician')
@@ -65,14 +67,14 @@ class TechnicianController extends GetxController {
                   Get.back();
                   Get.back();
                   Haptic.feedbackSuccess();
-                  ShowSnackbar.success(
-                      'Buang Staff Berjaya!', 'Staff ini telah dibuang dari pelayan', false);
+                  ShowSnackbar.success('Buang Staff Berjaya!',
+                      'Staff ini telah dibuang dari pelayan', false);
                 });
               } on Exception catch (e) {
                 Haptic.feedbackError();
                 Get.back();
-                ShowSnackbar.error(
-                    'Buang Staff Gagal', 'Gagal untuk membuang staff dari pelayan: $e', false);
+                ShowSnackbar.error('Buang Staff Gagal',
+                    'Gagal untuk membuang staff dari pelayan: $e', false);
               }
             },
             child: Text(
@@ -94,7 +96,11 @@ class TechnicianController extends GetxController {
   }
 
   Future<void> getTechnician() async {
-    await FirebaseDatabase.instance.reference().child('Technician').once().then((snapshot) {
+    await FirebaseDatabase.instance
+        .reference()
+        .child('Technician')
+        .once()
+        .then((snapshot) {
       Map<dynamic, dynamic> values = snapshot.value;
       technicians = [];
       values.forEach((key, value) {

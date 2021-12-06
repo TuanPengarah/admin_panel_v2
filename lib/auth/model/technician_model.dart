@@ -7,6 +7,7 @@ class Technician {
   final String jawatan;
   final String photoURL;
   final String id;
+  final String token;
 
   Technician(
     this.nama,
@@ -15,7 +16,9 @@ class Technician {
     this.jumlahRepair,
     this.jumlahKeuntungan,
     this.jawatan,
-    this.photoURL, this.id,
+    this.photoURL,
+    this.id,
+    this.token,
   );
 
   Technician.fromJson(Map<dynamic, dynamic> json)
@@ -26,7 +29,8 @@ class Technician {
         jumlahKeuntungan = json['jumlahKeuntungan'] as int,
         jawatan = json['jawatan'],
         photoURL = json['photoURL'],
-        id = json['id'];
+        id = json['id'],
+        token = json['token'];
 
   Map<dynamic, dynamic> toJson() => {
         'nama': nama.toString(),
@@ -34,8 +38,9 @@ class Technician {
         'jumlahRepair': jumlahRepair,
         'jumlahKeuntungan': jumlahKeuntungan,
         'email': email.toString(),
-        'photoURL' : photoURL.toString(),
+        'photoURL': photoURL.toString(),
         'jawatan': jawatan.toString(),
-        'id' : id.toString(),
+        'id': id.toString(),
+        'token': token.toString(),
       };
 }

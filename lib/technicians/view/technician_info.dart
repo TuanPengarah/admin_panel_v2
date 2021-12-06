@@ -15,7 +15,8 @@ class TechnicianInfo extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: () => _controller.deleteTechnician(_data['photoURL'], _data['id'], _data['name']),
+            onPressed: () => _controller.deleteTechnician(
+                _data['photoURL'], _data['id'], _data['name']),
             icon: Icon(Icons.delete),
           ),
         ],
@@ -38,6 +39,24 @@ class TechnicianInfo extends StatelessWidget {
               _data['jumlahRepair'],
               _data['jumlahKeuntungan'],
               false,
+            ),
+            SizedBox(height: 30),
+            Text(
+              'Token Peranti (FCM)',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: SelectableText(
+                '${_data['token']}',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
             ),
           ],
         ),

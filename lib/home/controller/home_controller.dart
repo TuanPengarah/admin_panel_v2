@@ -24,7 +24,13 @@ class HomeController extends GetxController {
     super.onReady();
   }
 
-  void firebaseMessaging() {
+  void _handleMessage(RemoteMessage message) {
+    if (message.data['screen'] != null) {
+      Get.toNamed(message.data['screen']);
+    }
+  }
+
+  void firebaseMessaging() async {
     int id = Random().nextInt(999);
     FirebaseMessaging.instance.subscribeToTopic('adminPanel');
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -52,14 +58,26 @@ class HomeController extends GetxController {
         );
       }
     });
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    RemoteMessage initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
   }
 
   void notificationPermision() {
     AwesomeNotifications().isNotificationAllowed().then(
-      (isAllowed) {
+      (isAllowed) async {
         if (!isAllowed) {
           if (GetPlatform.isIOS) {
-            print('notif ios');
+            await FirebaseMessaging.instance
+                .setForegroundNotificationPresentationOptions(
+              alert: true, // Required to display a heads up notification
+              badge: true,
+              sound: true,
+            );
           } else {
             Get.dialog(
               AlertDialog(

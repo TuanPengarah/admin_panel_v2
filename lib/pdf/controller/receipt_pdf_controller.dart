@@ -70,7 +70,7 @@ class ReceiptPDFController extends GetxController {
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
                         pw.Text(
-                          'Resit Pembelian',
+                          'Invois',
                           style: pw.TextStyle(
                             color: PdfColors.blue,
                             fontWeight: pw.FontWeight.bold,

@@ -5,6 +5,7 @@ import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/notification/controller/notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ class AuthController extends GetxController {
   var cawangan = ''.obs;
   var jumlahRepair = 0.obs;
   var jumlahKeuntungan = 0.obs;
+  String token = '';
 
   @override
   void onReady() {
@@ -141,7 +143,7 @@ class AuthController extends GetxController {
         .child('Technician')
         .child(uid)
         .once()
-        .then((snapshot) {
+        .then((snapshot) async {
       final json = snapshot.value as Map<dynamic, dynamic>;
       final technician = Technician.fromJson(json);
       userUID.value = uid;
@@ -152,6 +154,9 @@ class AuthController extends GetxController {
       jumlahKeuntungan.value = technician.jumlahKeuntungan;
       jawatan.value = technician.jawatan;
       photoURL.value = technician.photoURL;
+      token = technician.token;
+
+      //notification config
       if (box.read<bool>('initNotif') == true) {
         _notifController.subscribedToFCM('socmed');
         if (jawatan.value == 'Founder') {
@@ -164,6 +169,16 @@ class AuthController extends GetxController {
           print('Notifikasi settlement akan dibatalkan sekali');
           _notifController.unsubscribedFromFCM('settlement');
         }
+      }
+      final String deviceToken = await FirebaseMessaging.instance.getToken();
+
+      if (token != deviceToken) {
+        print('your new device token: $deviceToken');
+        FirebaseDatabase.instance
+            .reference()
+            .child('Technician')
+            .child(uid)
+            .update({'token': deviceToken});
       }
     });
   }

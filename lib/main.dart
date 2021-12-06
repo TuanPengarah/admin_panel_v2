@@ -47,7 +47,6 @@ Future<void> main() async {
     _isLogin = false;
   }
   await GetStorage.init();
-
   runApp(MyApp(
     isLogin: _isLogin,
   ));

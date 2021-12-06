@@ -61,6 +61,15 @@ class PaymentController extends GetxController {
     recommendedPrice.value = _priceController.jumlah.value;
   }
 
+  int _commision(int value) {
+    if (value <= 20) {
+      double total = value / 2;
+      return total.round().toInt();
+    } else {
+      return _priceController.markup;
+    }
+  }
+
   void changeWaranti() {
     switch (selectedWaranti.value) {
       case 'Tiada Waranti':
@@ -218,6 +227,7 @@ class PaymentController extends GetxController {
             Obx(() {
               return Text(
                 title.value,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
@@ -286,7 +296,9 @@ class PaymentController extends GetxController {
       title.value = 'Tambah jumlah repair dan keuntungan technician...';
       Map<String, dynamic> updateTechnician = {
         'jumlahRepair': ServerValue.increment(1),
-        'jumlahKeuntungan': ServerValue.increment(_priceController.markup),
+        'jumlahKeuntungan': ServerValue.increment(
+          _commision(int.parse(priceText.text)),
+        ),
       };
       await db
           .child('Technician')
