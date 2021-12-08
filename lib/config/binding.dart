@@ -22,11 +22,11 @@ class PriceListBinding extends Bindings {
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => HomeController());
-    Get.lazyPut(() => GraphController());
-    Get.lazyPut(() => SparepartController());
-    Get.lazyPut(() => CustomerController());
-    Get.lazyPut(() => OtherController());
+    Get.lazyPut(() => HomeController(), fenix: true);
+    Get.lazyPut(() => GraphController(), fenix: true);
+    Get.lazyPut(() => SparepartController(), fenix: true);
+    Get.lazyPut(() => CustomerController(), fenix: true);
+    Get.lazyPut(() => OtherController(), fenix: true);
   }
 }
 

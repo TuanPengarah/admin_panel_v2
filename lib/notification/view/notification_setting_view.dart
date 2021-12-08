@@ -1,6 +1,7 @@
+import 'package:admin_panel/API/notif_fcm.dart';
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/snackbar.dart';
-import 'package:admin_panel/notification/controller/notification.dart';
+import 'package:admin_panel/notification/controller/notification_controller.dart';
 import 'package:admin_panel/notification/widget/radio_notif.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,12 +68,21 @@ class NotificationSettingView extends GetView<NotificationController> {
             SizedBox(height: 30),
             TextButton(
               onPressed: () {
+                print(_authController.token);
                 Haptic.feedbackClick();
                 ShowSnackbar.notify(
                   'Notifikasi telah diset!',
                   'Notifikasi akan berbunyi dalam 10 saat dari sekarang',
                 );
-                controller.socialMediaNotifTest();
+                // controller.socialMediaNotifTest();
+                NotifFCM()
+                    .postData(
+                      'Mesej dari Akid Fikri Azhar',
+                      'Assalamualaikum',
+                      token: _authController.token,
+                      isChat: true,
+                    )
+                    .then((value) => print(value.statusText));
               },
               child: Text('Cuba Notifikasi Peranti'),
             ),

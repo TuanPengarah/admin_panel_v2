@@ -202,6 +202,20 @@ class OtherSettings {
           Card(
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
+              onTap: () => Get.toNamed(MyRoutes.notifHistory),
+              child: ListTile(
+                leading: Icon(
+                  Icons.notifications,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text('Sejarah Notifikasi'),
+                subtitle: Text('Lihat semua sejarah notifikasi anda'),
+              ),
+            ),
+          ),
+          Card(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
               onTap: () {
                 Get.dialog(AlertDialog(
                   title: Text('Pilih kaedah penyimpanan'),

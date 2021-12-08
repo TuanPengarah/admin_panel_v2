@@ -35,7 +35,7 @@ packages:
       name: awesome_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.16"
+    version: "0.6.18+2"
   badges:
     dependency: "direct main"
     description:

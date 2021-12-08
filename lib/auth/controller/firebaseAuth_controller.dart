@@ -2,10 +2,11 @@ import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
-import 'package:admin_panel/notification/controller/notification.dart';
+import 'package:admin_panel/notification/controller/notification_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -171,9 +172,10 @@ class AuthController extends GetxController {
         }
       }
       final String deviceToken = await FirebaseMessaging.instance.getToken();
+      print('your new device token: $deviceToken');
 
       if (token != deviceToken) {
-        print('your new device token: $deviceToken');
+        print('tukar token baru: $deviceToken');
         FirebaseDatabase.instance
             .reference()
             .child('Technician')

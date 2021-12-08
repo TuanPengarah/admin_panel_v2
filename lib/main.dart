@@ -24,18 +24,21 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   await Firebase.initializeApp();
-  AwesomeNotifications().initialize(
-    'resource://drawable/res_notification_app_icon',
-    [
-      NotificationChannel(
-        channelKey: 'fcm',
-        channelName: 'Firebase Cloud Messaging',
-        channelDescription: 'Pemberitahuan daripada Firebase Cloud Messaging',
-        defaultColor: Colors.blue,
-        importance: NotificationImportance.High,
-      ),
-    ],
-  );
+  if (!GetPlatform.isWeb) {
+    AwesomeNotifications().initialize(
+      'resource://drawable/res_notification_app_icon',
+      [
+        NotificationChannel(
+          channelKey: 'fcm',
+          channelName: 'Firebase Cloud Messaging',
+          channelDescription: 'Pemberitahuan daripada Firebase Cloud Messaging',
+          defaultColor: Colors.blue,
+          importance: NotificationImportance.High,
+        ),
+      ],
+    );
+  }
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackground);
 
   final _user = FirebaseAuth.instance.currentUser;

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
+import 'package:admin_panel/notification/model/notification_model.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
@@ -25,7 +26,22 @@ class DatabaseHelper {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path =
         join(documentDirectory.path, '${_authController.userUID.value}.db');
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(path,
+        version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
+  }
+
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion == 1) {
+      await db.execute('''
+      CREATE TABLE notification(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT,
+      body TEXT,
+      tarikh TEXT
+      )
+      
+      ''');
+    }
   }
 
   Future _onCreate(Database db, int version) async {
@@ -78,6 +94,31 @@ class DatabaseHelper {
       name TEXT
       )
       ''');
+  }
+
+  ///NOTIFICATION HISTORY
+  Future<List<NotificationModel>> getNotificationHistory() async {
+    Database db = await instance.database;
+
+    var history = await db.query('notification', orderBy: 'id DESC');
+
+    List<NotificationModel> notificationHistory = history.isNotEmpty
+        ? history.map((e) => NotificationModel.fromMap(e)).toList()
+        : [];
+
+    return notificationHistory;
+  }
+
+  Future<int> addNotificationHistory(NotificationModel notif) async {
+    Database db = await instance.database;
+
+    return await db.insert('notification', notif.toMap());
+  }
+
+  Future<int> deleteNotification(int id) async {
+    Database db = await instance.database;
+
+    return await db.delete('notification', where: 'id = ?', whereArgs: [id]);
   }
 
   ///CUSTOMER HISTORY

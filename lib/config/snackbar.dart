@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,18 +33,19 @@ class ShowSnackbar {
     );
   }
 
-  static void notify(String title, String message) {
-    Get.snackbar(
-      title,
-      message,
-      colorText: Colors.white,
-      backgroundColor: Colors.grey[900],
-      duration: Duration(seconds: 5),
-      animationDuration: Duration(milliseconds: 350),
-      snackPosition: SnackPosition.TOP,
-      snackStyle: SnackStyle.FLOATING,
-      icon: Icon(Icons.notifications, color: Colors.white),
-      margin: EdgeInsets.all(10),
-    );
+  static void notify(String title, String message, {Function onTap}) {
+    if (onTap != null) {
+      Haptic.feedbackSuccess();
+    }
+    Get.snackbar(title, message,
+        colorText: Colors.white,
+        backgroundColor: Colors.grey[900],
+        duration: Duration(seconds: 5),
+        animationDuration: Duration(milliseconds: 350),
+        snackPosition: SnackPosition.TOP,
+        snackStyle: SnackStyle.FLOATING,
+        icon: Icon(Icons.notifications, color: Colors.white),
+        margin: EdgeInsets.all(10),
+        onTap: onTap);
   }
 }
