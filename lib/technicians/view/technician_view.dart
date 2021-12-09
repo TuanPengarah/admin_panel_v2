@@ -1,3 +1,4 @@
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/technicians/controller/technician_controller.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 
 class TechnicianView extends StatelessWidget {
   final _data = Get.arguments;
+  final _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     final _technicianController = Get.put(TechnicianController());
@@ -13,10 +15,12 @@ class TechnicianView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Semua Juruteknik'),
         actions: [
-          IconButton(
-            onPressed: () => Get.toNamed(MyRoutes.technicianAdd),
-            icon: Icon(Icons.add),
-          ),
+          _authController.jawatan.value.contains('Founder')
+              ? IconButton(
+                  onPressed: () => Get.toNamed(MyRoutes.technicianAdd),
+                  icon: Icon(Icons.add),
+                )
+              : const SizedBox(),
         ],
       ),
       body: FutureBuilder(

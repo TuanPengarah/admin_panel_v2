@@ -67,18 +67,18 @@ class NotificationSettingView extends GetView<NotificationController> {
                 )),
             SizedBox(height: 30),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 print(_authController.token);
                 Haptic.feedbackClick();
                 ShowSnackbar.notify(
                   'Notifikasi telah diset!',
                   'Notifikasi akan berbunyi dalam 10 saat dari sekarang',
                 );
-                // controller.socialMediaNotifTest();
+                await Future.delayed(Duration(seconds: 10));
                 NotifFCM()
                     .postData(
-                      'Mesej dari Akid Fikri Azhar',
-                      'Assalamualaikum',
+                      'Percubaan Notifikasi',
+                      'Ini adalah mesej percubaan!',
                       token: _authController.token,
                       isChat: true,
                     )

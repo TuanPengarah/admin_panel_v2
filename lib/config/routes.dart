@@ -1,5 +1,4 @@
 import 'package:admin_panel/config/binding.dart';
-import 'package:admin_panel/notification/view/notification_history_view.dart';
 import 'package:get/get.dart';
 import 'get_route_export.dart';
 
@@ -33,6 +32,7 @@ class MyRoutes {
   static const notifSettings = '/notif-setting';
   static const allrecord = '/all-record';
   static const notifHistory = '/notif-history';
+  static const chat = '/chat';
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
@@ -94,5 +94,6 @@ class MyRoutes {
       binding: AllRecordBinding(),
     ),
     GetPage(name: notifHistory, page: () => NotificationHistoryView()),
+    GetPage(name: chat, page: () => ChatView()),
   ];
 }

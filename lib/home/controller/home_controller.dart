@@ -26,6 +26,12 @@ class HomeController extends GetxController {
   }
 
   void _handleMessage(RemoteMessage message) {
+    NotificationModel notif = new NotificationModel(
+      title: message.notification.title,
+      body: message.notification.body,
+      tarikh: DateTime.now().toString(),
+    );
+    DatabaseHelper.instance.addNotificationHistory(notif);
     if (message.data['screen'] != null) {
       Get.toNamed(message.data['screen']);
     }

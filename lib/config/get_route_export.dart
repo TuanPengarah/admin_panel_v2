@@ -27,3 +27,5 @@ export 'package:admin_panel/price_list/view/pricelist_view.dart';
 export 'package:admin_panel/cash_flow/view/cashflow_view.dart';
 export 'package:admin_panel/notification/view/notification_setting_view.dart';
 export 'package:admin_panel/record/view/record_view.dart';
+export 'package:admin_panel/chat/view/chat_view.dart';
+export 'package:admin_panel/notification/view/notification_history_view.dart';

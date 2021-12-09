@@ -1,11 +1,15 @@
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/home/widget/profile_avatar.dart';
 import 'package:admin_panel/technicians/controller/technician_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../config/routes.dart';
+
 class TechnicianInfo extends StatelessWidget {
   final _data = Get.arguments;
   final _controller = Get.find<TechnicianController>();
+  final _authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,11 +18,22 @@ class TechnicianInfo extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         actions: [
-          IconButton(
-            onPressed: () => _controller.deleteTechnician(
-                _data['photoURL'], _data['id'], _data['name']),
-            icon: Icon(Icons.delete),
-          ),
+          _authController.jawatan.value.contains('Founder')
+              ? IconButton(
+                  onPressed: () => _controller.deleteTechnician(
+                      _data['photoURL'], _data['id'], _data['name']),
+                  icon: Icon(Icons.delete),
+                )
+              : const SizedBox(),
+          _authController.userName.value != _data['name']
+              ? IconButton(
+                  onPressed: () => Get.toNamed(MyRoutes.chat, arguments: {
+                    'photoURL': _data['photoURL'],
+                    'name': _data['name'],
+                  }),
+                  icon: const Icon(Icons.send),
+                )
+              : const SizedBox(),
         ],
       ),
       body: Center(
@@ -40,24 +55,20 @@ class TechnicianInfo extends StatelessWidget {
               _data['jumlahKeuntungan'],
               false,
             ),
-            SizedBox(height: 30),
-            Text(
-              'Token Peranti (FCM)',
-              style: TextStyle(
-                color: Colors.grey,
-              ),
+            Spacer(),
+            TextButton(
+              child: Text('Token Peranti (FCM)'),
+              onPressed: () => Get.dialog(AlertDialog(
+                content: SelectableText('${_data['token']}'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Get.back(),
+                    child: Text('Tutup'),
+                  ),
+                ],
+              )),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: SelectableText(
-                '${_data['token']}',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
+            SizedBox(height: 10),
           ],
         ),
       ),

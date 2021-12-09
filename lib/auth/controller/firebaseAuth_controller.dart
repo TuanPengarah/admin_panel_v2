@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
@@ -6,11 +8,14 @@ import 'package:admin_panel/notification/controller/notification_controller.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class AuthController extends GetxController {
@@ -109,7 +114,18 @@ class AuthController extends GetxController {
               ),
             ),
             onPressed: () {
-              _auth.signOut().then((value) {
+              _auth.signOut().then((value) async {
+                Directory documentDirectory =
+                    await getApplicationDocumentsDirectory();
+                String path =
+                    join(documentDirectory.path, '${userUID.value}.db');
+                File file = File(path);
+                bool checkFile = await File(path).exists();
+                if (checkFile == true) {
+                  final destination = 'database/SQLite/${userUID.value}.db';
+                  final ref = FirebaseStorage.instance.ref(destination);
+                  await ref.putFile(file);
+                }
                 userUID.value = '';
                 userEmail.value = '';
                 userName.value = '---';
@@ -176,6 +192,7 @@ class AuthController extends GetxController {
 
       if (token != deviceToken) {
         print('tukar token baru: $deviceToken');
+        token = deviceToken;
         FirebaseDatabase.instance
             .reference()
             .child('Technician')
@@ -183,5 +200,17 @@ class AuthController extends GetxController {
             .update({'token': deviceToken});
       }
     });
+
+    //check user database
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+    final path = join(documentDirectory.path, '${userUID.value}.db');
+    bool checkFile = await File(path).exists();
+    File file = File(path);
+
+    if (checkFile == false) {
+      final destination = 'database/SQLite/${userUID.value}.db';
+      final ref = FirebaseStorage.instance.ref(destination);
+      await ref.writeToFile(file);
+    }
   }
 }

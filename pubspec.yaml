@@ -43,7 +43,7 @@ dependencies:
   flutter_bluetooth_basic: ^0.1.5
 
   # State Management
-  get: ^4.3.8
+  get: ^4.5.1
 
   # I/O
   get_storage: ^2.0.3
