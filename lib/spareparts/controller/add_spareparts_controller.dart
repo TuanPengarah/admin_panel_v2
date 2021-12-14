@@ -265,11 +265,11 @@ class AddSparepartsController extends GetxController {
       await _sparepartsController.refreshDialog(false);
       await _graphController.getGraphFromFirestore();
       NotifFCM().postData('Sparepart telah ditambah!',
-          'Sparepart ${jenisParts.text} ${modelParts.text} telah dimasukkan ke inventori anda dengan bernilai RM$hargaParts');
+          'Sparepart ${jenisParts.text} ${modelParts.text} telah dimasukkan ke inventori anda dengan bernilai RM${hargaParts.text}');
       status.value = 'Selesai!';
       Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 1));
-      Get.back();
+      Get.closeAllSnackbars();
       Get.back();
       Get.back();
       ShowSnackbar.success('Tambah spareparts berjaya!',

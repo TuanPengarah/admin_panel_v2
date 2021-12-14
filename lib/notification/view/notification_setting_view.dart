@@ -79,8 +79,13 @@ class NotificationSettingView extends GetView<NotificationController> {
                     .postData(
                       'Percubaan Notifikasi',
                       'Ini adalah mesej percubaan!',
-                      token: _authController.token,
-                      isChat: true,
+                      // token:
+                      //     'eXYkBPTmQhSoEUU4Svgp31:APA91bHdGWie68TyUM2odNjCPOSNZXzwQqWXu2-n_j8ZJIOG16r96CfLqcqIV0Qg6Gf0ntK4ZoJ1xGW6eNWPnfKQ4evPdhbE5ryNfGXd_2qG_FFFkG14y9nEzQEtIDyXJr0BH3f1ucUN',
+                      // isChat: true,
+                      // uid: 'OzyFRxdKzcVGOiuKM93FGUqicHu1',
+                      // photoURL:
+                      //     'https://firebasestorage.googleapis.com/v0/b/af-fix-database.appspot.com/o/technicians%2FphotoURL%2Fakid.jpg?alt=media&token=0c585605-d795-4c06-9b45-d709abd2d4f4',
+                      // name: 'Akid Fikri Azhar',
                     )
                     .then((value) => print(value.statusText));
               },

@@ -20,6 +20,7 @@ class TechnicianInfo extends StatelessWidget {
         actions: [
           _authController.jawatan.value.contains('Founder')
               ? IconButton(
+                  tooltip: 'Buang Juruteknik',
                   onPressed: () => _controller.deleteTechnician(
                       _data['photoURL'], _data['id'], _data['name']),
                   icon: Icon(Icons.delete),
@@ -27,49 +28,57 @@ class TechnicianInfo extends StatelessWidget {
               : const SizedBox(),
           _authController.userName.value != _data['name']
               ? IconButton(
-                  onPressed: () => Get.toNamed(MyRoutes.chat, arguments: {
-                    'photoURL': _data['photoURL'],
-                    'name': _data['name'],
-                  }),
-                  icon: const Icon(Icons.send),
+                  tooltip: 'Hantar Mesej',
+                  onPressed: () => Get.toNamed(
+                    MyRoutes.chat,
+                    arguments: {
+                      'photoURL': _data['photoURL'],
+                      'name': _data['name'],
+                    },
+                    parameters: {
+                      'id': _data['id'],
+                    },
+                  ),
+                  icon: const Icon(Icons.chat_bubble),
                 )
               : const SizedBox(),
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ProfileAvatar().profile(
-              context: context,
-              name: _data['name'],
-              photoURL: _data['photoURL'],
-              email: _data['email'],
-              jawatan: _data['jawatan'],
-            ),
-            SizedBox(height: 30),
-            ProfileAvatar().yourRecord(
-              context,
-              _data['jumlahRepair'],
-              _data['jumlahKeuntungan'],
-              false,
-            ),
-            Spacer(),
-            TextButton(
-              child: Text('Token Peranti (FCM)'),
-              onPressed: () => Get.dialog(AlertDialog(
-                content: SelectableText('${_data['token']}'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Get.back(),
-                    child: Text('Tutup'),
-                  ),
-                ],
-              )),
-            ),
-            SizedBox(height: 10),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ProfileAvatar().profile(
+                context: context,
+                name: _data['name'],
+                photoURL: _data['photoURL'],
+                email: _data['email'],
+                jawatan: _data['jawatan'],
+              ),
+              SizedBox(height: 30),
+              ProfileAvatar().yourRecord(
+                context,
+                _data['jumlahRepair'],
+                _data['jumlahKeuntungan'],
+                false,
+              ),
+              SizedBox(height: 30),
+              TextButton(
+                child: Text('Token Peranti (FCM)'),
+                onPressed: () => Get.dialog(AlertDialog(
+                  content: SelectableText('${_data['token']}'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Get.back(),
+                      child: Text('Tutup'),
+                    ),
+                  ],
+                )),
+              ),
+            ],
+          ),
         ),
       ),
     );

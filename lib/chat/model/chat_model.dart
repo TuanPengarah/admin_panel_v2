@@ -1,23 +1,31 @@
 import 'package:flutter/foundation.dart';
 
 class ChatModel {
-  final String images;
-  final String name;
+  final int id;
+  final String idUser;
   final String content;
   final String date;
   final int whoChat;
 
   ChatModel({
-    @required this.images,
-    @required this.name,
-    this.content,
-    this.date,
-    this.whoChat,
+    this.id,
+    this.idUser,
+    @required this.content,
+    @required this.date,
+    @required this.whoChat,
   });
 
+  factory ChatModel.fromMap(Map<String, dynamic> json) => new ChatModel(
+        id: json['id'],
+        idUser: json['idUser'],
+        content: json['content'].toString(),
+        date: json['date'].toString(),
+        whoChat: json['whoChat'],
+      );
+
   Map<String, dynamic> toMap() => {
-        'images': images,
-        'name': name,
+        'id': id,
+        'idUser': idUser,
         'content': content,
         'date': date,
         'whoChat': whoChat,

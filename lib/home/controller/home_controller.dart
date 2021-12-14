@@ -25,15 +25,30 @@ class HomeController extends GetxController {
     super.onReady();
   }
 
-  void _handleMessage(RemoteMessage message) {
-    NotificationModel notif = new NotificationModel(
-      title: message.notification.title,
-      body: message.notification.body,
-      tarikh: DateTime.now().toString(),
-    );
-    DatabaseHelper.instance.addNotificationHistory(notif);
-    if (message.data['screen'] != null) {
-      Get.toNamed(message.data['screen']);
+  void _handleMessage(RemoteMessage message) async {
+    var screen = message.data['screen'];
+    if (screen == null) {
+      return null;
+    } else if (screen == '/chat') {
+      Get.toNamed(message.data['screen'], arguments: {
+        'name': message.data['name'],
+        'photoURL': message.data['photoURL'],
+      }, parameters: {
+        'id': message.data['uid']
+      });
+    } else {
+      Get.toNamed(screen);
+    }
+    if (message.notification != null) {
+      NotificationModel notif = new NotificationModel(
+        title: message.notification.title,
+        body: message.notification.body,
+        tarikh: DateTime.now().toString(),
+      );
+      print('waiting for 5 seconds to init sqlite');
+      await Future.delayed(Duration(seconds: 5));
+      print('inserting on notification history...');
+      await DatabaseHelper.instance.addNotificationHistory(notif);
     }
   }
 
@@ -53,7 +68,22 @@ class HomeController extends GetxController {
       ShowSnackbar.notify(
         message.notification.title,
         message.notification.body,
-        onTap: (test) => screen == null ? null : Get.toNamed(screen),
+        onTap: (test) {
+          if (screen == null) {
+            return null;
+          } else if (screen == '/chat') {
+            Get.closeCurrentSnackbar();
+            Get.toNamed(screen, arguments: {
+              'name': message.data['name'],
+              'photoURL': message.data['photoURL'],
+            }, parameters: {
+              'id': message.data['uid']
+            });
+          } else {
+            Get.closeCurrentSnackbar();
+            Get.toNamed(screen);
+          }
+        },
       );
     });
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
@@ -81,55 +111,6 @@ class HomeController extends GetxController {
 
       print('User granted permission: ${settings.authorizationStatus}');
     }
-    // AwesomeNotifications().isNotificationAllowed().then(
-    //   (isAllowed) async {
-    //     if (!isAllowed) {
-    //       if (GetPlatform.isIOS) {
-    //         await FirebaseMessaging.instance
-    //             .setForegroundNotificationPresentationOptions(
-    //           alert: true, // Required to display a heads up notification
-    //           badge: true,
-    //           sound: true,
-    //         );
-    //       } else {
-    //         Get.dialog(
-    //           AlertDialog(
-    //             title: Text('Benarkan Notifikasi'),
-    //             content: Text(
-    //                 'Aplikasi ini akan memaparkan notifikasi. Adakah anda setuju?'),
-    //             actions: [
-    //               TextButton(
-    //                 child: Text(
-    //                   'Tidak',
-    //                   style: TextStyle(
-    //                     color: Colors.amber[900],
-    //                   ),
-    //                 ),
-    //                 onPressed: () {
-    //                   Haptic.feedbackError();
-    //                   Get.back();
-    //                 },
-    //               ),
-    //               TextButton(
-    //                 child: Text(
-    //                   'Benarkan',
-    //                 ),
-    //                 onPressed: () => AwesomeNotifications()
-    //                     .requestPermissionToSendNotifications()
-    //                     .then(
-    //                   (_) {
-    //                     Haptic.feedbackSuccess();
-    //                     Get.back();
-    //                   },
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         );
-    //       }
-    //     }
-    //   },
-    // );
   }
 
   void createQuickstep() {

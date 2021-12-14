@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:admin_panel/notification/model/notification_model.dart';
@@ -27,7 +28,7 @@ class DatabaseHelper {
     String path =
         join(documentDirectory.path, '${_authController.userUID.value}.db');
     return await openDatabase(path,
-        version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
+        version: 3, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -40,6 +41,18 @@ class DatabaseHelper {
       tarikh TEXT
       )
       
+      ''');
+    }
+
+    if (oldVersion == 2) {
+      await db.execute('''
+      CREATE TABLE chat(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        idUser TEXT,
+        content TEXT,
+        date TEXT,
+        whoChat INTEGER
+      )
       ''');
     }
   }
@@ -94,6 +107,31 @@ class DatabaseHelper {
       name TEXT
       )
       ''');
+  }
+
+  ///CHAT
+  Future<List<ChatModel>> getChat(String idUser) async {
+    Database db = await instance.database;
+
+    var chatting =
+        await db.query('chat', where: 'idUser = ?', whereArgs: [idUser]);
+
+    List<ChatModel> chatHistory = chatting.isNotEmpty
+        ? chatting.map((e) => ChatModel.fromMap(e)).toList()
+        : [];
+    return chatHistory;
+  }
+
+  Future<int> deletedChat(int id) async {
+    Database db = await instance.database;
+
+    return await db.delete('chat', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> addChat(ChatModel chitChat) async {
+    Database db = await instance.database;
+
+    return await db.insert('chat', chitChat.toMap());
   }
 
   ///NOTIFICATION HISTORY

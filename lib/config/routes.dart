@@ -94,6 +94,6 @@ class MyRoutes {
       binding: AllRecordBinding(),
     ),
     GetPage(name: notifHistory, page: () => NotificationHistoryView()),
-    GetPage(name: chat, page: () => ChatView()),
+    GetPage(name: chat, page: () => ChatView(), binding: ChatBinding()),
   ];
 }

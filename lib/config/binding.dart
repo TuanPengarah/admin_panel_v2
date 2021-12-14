@@ -2,6 +2,7 @@ import 'package:admin_panel/API/firestoreAPI.dart';
 import 'package:admin_panel/POS/controller/payment_controller.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/cash_flow/controller/cashflow_controller.dart';
+import 'package:admin_panel/chat/controller/chat_controller.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
@@ -65,5 +66,12 @@ class AllRecordBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => CashFlowController());
+  }
+}
+
+class ChatBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => ChatController());
   }
 }
