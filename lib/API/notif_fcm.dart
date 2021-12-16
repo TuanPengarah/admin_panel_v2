@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:get/get_connect.dart';
 
 class NotifFCM extends GetConnect {
@@ -12,8 +10,10 @@ class NotifFCM extends GetConnect {
     String body, {
     bool isChat,
     String token,
+    String userToken,
     String uid,
     String photoURL,
+    String photoURL1,
     String name,
   }) {
     return post(
@@ -52,8 +52,11 @@ class NotifFCM extends GetConnect {
           'isChat': isChat == null ? false : isChat,
           'screen': isChat == null ? null : '/chat',
           'photoURL': isChat == null ? null : photoURL,
+          'photoURL1': isChat == null ? null : photoURL1,
           'name': isChat == null ? null : name,
           'uid': isChat == null ? null : uid,
+          'userToken': isChat == null ? null : userToken,
+          'token': isChat == null ? null : token,
         },
       },
       headers: {

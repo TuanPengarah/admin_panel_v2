@@ -1,3 +1,4 @@
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 class TechnicianController extends GetxController {
   List technicians = [];
   Future getTechList;
+  final _authController = Get.find<AuthController>();
 
   @override
   void onInit() {
@@ -25,9 +27,10 @@ class TechnicianController extends GetxController {
       'cawangan': technician['cawangan'],
       'jawatan': technician['jawatan'],
       'photoURL': technician['photoURL'],
+      'photoURL1': _authController.photoURL.value,
       'jumlahKeuntungan': technician['jumlahKeuntungan'],
       'jumlahRepair': technician['jumlahRepair'],
-      'id': technician['id'],
+      'uid': _authController.userUID.value,
       'token': technician['token'],
     };
 

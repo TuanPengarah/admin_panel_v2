@@ -1,9 +1,11 @@
 import 'package:admin_panel/API/sqlite.dart';
+import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/notification/model/notification_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -13,6 +15,7 @@ class HomeController extends GetxController {
   var totalMysid = 0.obs;
   final QuickActions quickActions = const QuickActions();
   final box = GetStorage();
+  bool isChat = false;
 
   @override
   void onReady() {
@@ -30,9 +33,33 @@ class HomeController extends GetxController {
     if (screen == null) {
       return null;
     } else if (screen == '/chat') {
-      Get.toNamed(message.data['screen'], arguments: {
+      await Future.delayed(Duration(seconds: 2));
+
+      ChatModel chitChat = new ChatModel(
+        content: message.notification.body,
+        date: message.sentTime.toString(),
+        whoChat: 1,
+        idUser: message.data['uid'],
+      );
+      Get.dialog(AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(),
+          ],
+        ),
+      ));
+      await Future.delayed(Duration(seconds: 4));
+      await DatabaseHelper.instance.addChat(chitChat);
+      await Future.delayed(Duration(seconds: 2));
+      Get.back();
+      Get.toNamed(screen, arguments: {
         'name': message.data['name'],
-        'photoURL': message.data['photoURL'],
+        'photoURL': message.data['photoURL1'],
+        'photoURL1': message.data['photoURL'],
+        'token': message.data['userToken'],
+        'userToken': message.data['token'],
+        'uid': message.data['uid'],
       }, parameters: {
         'id': message.data['uid']
       });
@@ -43,7 +70,7 @@ class HomeController extends GetxController {
       NotificationModel notif = new NotificationModel(
         title: message.notification.title,
         body: message.notification.body,
-        tarikh: DateTime.now().toString(),
+        tarikh: message.sentTime.toString(),
       );
       print('waiting for 5 seconds to init sqlite');
       await Future.delayed(Duration(seconds: 5));
@@ -57,34 +84,56 @@ class HomeController extends GetxController {
       FirebaseMessaging.instance.subscribeToTopic('adminPanel');
     }
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       NotificationModel notif = new NotificationModel(
         title: message.notification.title,
         body: message.notification.body,
         tarikh: DateTime.now().toString(),
       );
+      ChatModel chitChat = new ChatModel(
+        content: notif.body,
+        date: DateTime.now().toString(),
+        whoChat: 1,
+        idUser: message.data['uid'],
+      );
+
       String screen = message.data['screen'];
       DatabaseHelper.instance.addNotificationHistory(notif);
-      ShowSnackbar.notify(
-        message.notification.title,
-        message.notification.body,
-        onTap: (test) {
-          if (screen == null) {
-            return null;
-          } else if (screen == '/chat') {
-            Get.closeCurrentSnackbar();
-            Get.toNamed(screen, arguments: {
-              'name': message.data['name'],
-              'photoURL': message.data['photoURL'],
-            }, parameters: {
-              'id': message.data['uid']
-            });
-          } else {
-            Get.closeCurrentSnackbar();
-            Get.toNamed(screen);
-          }
-        },
-      );
+
+      if (screen == '/chat' && isChat == false) {
+        print(isChat);
+        print(message.data['userToken']);
+        await DatabaseHelper.instance.addChat(chitChat);
+        ShowSnackbar.notify(
+          message.notification.title,
+          message.notification.body,
+          onTap: (test) {
+            if (screen == null) {
+              return null;
+            } else if (screen == '/chat') {
+              Get.closeCurrentSnackbar();
+              Get.toNamed(screen, arguments: {
+                'name': message.data['name'],
+                'photoURL': message.data['photoURL1'],
+                'photoURL1': message.data['photoURL'],
+                'token': message.data['userToken'],
+                'userToken': message.data['token'],
+                'uid': message.data['uid'],
+              }, parameters: {
+                'id': message.data['uid']
+              });
+            } else {
+              Get.closeCurrentSnackbar();
+              Get.toNamed(screen);
+            }
+          },
+        );
+      } else if (screen == '/chat' && isChat == true) {
+        await DatabaseHelper.instance.addChat(chitChat);
+      } else {
+        ShowSnackbar.notify(
+            message.notification.title, message.notification.body);
+      }
     });
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     RemoteMessage initialMessage =

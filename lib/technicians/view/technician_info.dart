@@ -8,6 +8,7 @@ import '../../config/routes.dart';
 
 class TechnicianInfo extends StatelessWidget {
   final _data = Get.arguments;
+  final _params = Get.parameters;
   final _controller = Get.find<TechnicianController>();
   final _authController = Get.find<AuthController>();
   @override
@@ -33,13 +34,17 @@ class TechnicianInfo extends StatelessWidget {
                     MyRoutes.chat,
                     arguments: {
                       'photoURL': _data['photoURL'],
+                      'photoURL1': _data['photoURL1'],
                       'name': _data['name'],
+                      'token': _data['token'],
+                      'userToken': _authController.token,
+                      'uid': _data['uid']
                     },
                     parameters: {
-                      'id': _data['id'],
+                      'id': _params['id'],
                     },
                   ),
-                  icon: const Icon(Icons.chat_bubble),
+                  icon: const Icon(Icons.send),
                 )
               : const SizedBox(),
         ],

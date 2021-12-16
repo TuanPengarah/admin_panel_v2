@@ -3,6 +3,7 @@ import 'package:admin_panel/chat/controller/chat_controller.dart';
 import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -134,7 +135,13 @@ class ChatView extends GetView<ChatController> {
                                       DateFormat('dd-MM-yyyy • hh:mm a')
                                           .format(DateTime.parse(chat.date))
                                           .toString();
-                                  return _chat(chat, date);
+                                  return AnimationConfiguration.staggeredList(
+                                      position: i,
+                                      duration:
+                                          const Duration(milliseconds: 375),
+                                      child: SlideAnimation(
+                                          child: FadeInAnimation(
+                                              child: _chat(chat, date))));
                                 },
                               );
                       });
@@ -236,6 +243,15 @@ class ChatView extends GetView<ChatController> {
                 ? CrossAxisAlignment.end
                 : CrossAxisAlignment.start,
             children: [
+              Text(
+                chat.whoChat == 0
+                    ? _authController.userName.value
+                    : _data['name'].toString(),
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white70 : Colors.grey.shade700,
+                  fontSize: 10,
+                ),
+              ),
               SelectableText(
                 chat.content.toString(),
               ),
@@ -255,7 +271,7 @@ class ChatView extends GetView<ChatController> {
             : Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage(_authController.photoURL.value),
+                  backgroundImage: NetworkImage(_data['photoURL1']),
                 ),
               ),
       ],

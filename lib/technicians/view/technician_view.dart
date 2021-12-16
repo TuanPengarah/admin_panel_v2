@@ -3,6 +3,7 @@ import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/technicians/controller/technician_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 class TechnicianView extends StatelessWidget {
@@ -63,33 +64,41 @@ class TechnicianView extends StatelessWidget {
                 itemCount: _technicianController.technicians.length,
                 itemBuilder: (BuildContext context, int i) {
                   var technician = _technicianController.technicians[i];
-                  return ListTile(
-                    leading: AdvancedAvatar(
-                      name: '${technician['nama']}',
-                      size: 40,
-                      image: technician['photoURL'] == null ||
-                              technician['photoURL'] == ''
-                          ? null
-                          : NetworkImage(technician['photoURL']),
-                      decoration: BoxDecoration(
-                        color: Get.theme.primaryColor,
-                        borderRadius: BorderRadius.circular(200),
+                  return AnimationConfiguration.staggeredList(
+                    position: i,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      child: FadeInAnimation(
+                        child: ListTile(
+                          leading: AdvancedAvatar(
+                            name: '${technician['nama']}',
+                            size: 40,
+                            image: technician['photoURL'] == null ||
+                                    technician['photoURL'] == ''
+                                ? null
+                                : NetworkImage(technician['photoURL']),
+                            decoration: BoxDecoration(
+                              color: Get.theme.primaryColor,
+                              borderRadius: BorderRadius.circular(200),
+                            ),
+                          ),
+                          title: Text('${technician['nama']}'),
+                          subtitle: Text('${technician['jawatan']}'),
+                          onTap: () {
+                            if (_data == null) {
+                              _technicianController.techInfo(i);
+                            } else {
+                              var result = {
+                                'nama': technician['nama'],
+                                'id': technician['id'],
+                              };
+
+                              Get.back(result: result);
+                            }
+                          },
+                        ),
                       ),
                     ),
-                    title: Text('${technician['nama']}'),
-                    subtitle: Text('${technician['jawatan']}'),
-                    onTap: () {
-                      if (_data == null) {
-                        _technicianController.techInfo(i);
-                      } else {
-                        var result = {
-                          'nama': technician['nama'],
-                          'id': technician['id'],
-                        };
-
-                        Get.back(result: result);
-                      }
-                    },
                   );
                 },
               );

@@ -2,6 +2,7 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 class ListSpareparts extends StatelessWidget {
@@ -23,57 +24,68 @@ class ListSpareparts extends StatelessWidget {
               await _sparepartsController.refreshDialog(false);
             },
             child: Scrollbar(
-              child: ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (context, i) {
-                    var spareparts = list[i];
-                    return ListTile(
-                        leading: Hero(
-                          tag: spareparts['id'],
-                          child: CircleAvatar(
-                            backgroundColor: Get.theme.primaryColor,
-                            child: Text(
-                              spareparts['Supplier'] == 'Lain...'
-                                  ? '...'
-                                  : spareparts['Supplier'],
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
+              child: AnimationLimiter(
+                child: ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (context, i) {
+                      var spareparts = list[i];
+                      return AnimationConfiguration.staggeredList(
+                        position: i,
+                        duration: const Duration(milliseconds: 400),
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: ListTile(
+                                leading: Hero(
+                                  tag: spareparts['id'],
+                                  child: CircleAvatar(
+                                    backgroundColor: Get.theme.primaryColor,
+                                    child: Text(
+                                      spareparts['Supplier'] == 'Lain...'
+                                          ? '...'
+                                          : spareparts['Supplier'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                title: Text(
+                                    '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})'),
+                                subtitle:
+                                    Text(spareparts['Maklumat Spareparts']),
+                                trailing: Text('RM${spareparts['Harga']}'),
+                                onTap: () {
+                                  _sparepartsController.isSearch.value = false;
+                                  if (_data == null) {
+                                    var arguments = {
+                                      'Model': spareparts['Model'],
+                                      'Kualiti': spareparts['Kualiti'],
+                                      'Jenis Spareparts':
+                                          spareparts['Jenis Spareparts'],
+                                      'Tarikh': spareparts['Tarikh'],
+                                      'Harga': spareparts['Harga'],
+                                      'Supplier': spareparts['Supplier'],
+                                      'Maklumat Spareparts':
+                                          spareparts['Maklumat Spareparts'],
+                                    };
+                                    _sparepartsController.goToDetails(
+                                        arguments, spareparts['id']);
+                                  } else {
+                                    final data = {
+                                      'model':
+                                          '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
+                                      'id': spareparts['id'],
+                                      'harga': spareparts['Harga'],
+                                    };
+                                    Get.back(result: data);
+                                  }
+                                }),
                           ),
                         ),
-                        title: Text(
-                            '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})'),
-                        subtitle: Text(spareparts['Maklumat Spareparts']),
-                        trailing: Text('RM${spareparts['Harga']}'),
-                        onTap: () {
-                          _sparepartsController.isSearch.value = false;
-                          if (_data == null) {
-                            var arguments = {
-                              'Model': spareparts['Model'],
-                              'Kualiti': spareparts['Kualiti'],
-                              'Jenis Spareparts':
-                                  spareparts['Jenis Spareparts'],
-                              'Tarikh': spareparts['Tarikh'],
-                              'Harga': spareparts['Harga'],
-                              'Supplier': spareparts['Supplier'],
-                              'Maklumat Spareparts':
-                                  spareparts['Maklumat Spareparts'],
-                            };
-                            _sparepartsController.goToDetails(
-                                arguments, spareparts['id']);
-                          } else {
-                            final data = {
-                              'model':
-                                  '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
-                              'id': spareparts['id'],
-                              'harga': spareparts['Harga'],
-                            };
-                            Get.back(result: data);
-                          }
-                        });
-                  }),
+                      );
+                    }),
+              ),
             ),
           )
         : Padding(

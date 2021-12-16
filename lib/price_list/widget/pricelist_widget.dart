@@ -4,6 +4,7 @@ import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:admin_panel/price_list/model/pricelist_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -25,27 +26,38 @@ class TabPriceList extends StatelessWidget {
         return list.length > 0
             ? RefreshIndicator(
                 onRefresh: () async => await _controller.getPriceList(),
-                child: ListView.builder(
-                  itemCount: list.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var pricelist = list[index];
-                    return ListTile(
-                      title: Text('${pricelist.parts} ${pricelist.model}'),
-                      subtitle: Text('RM ${pricelist.price}'),
-                      onTap: () {
-                        Share.share(
-                            '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.price}');
-                      },
-                      onLongPress: () {
-                        Clipboard.setData(
-                            ClipboardData(text: pricelist.id.toString()));
-                        ShowSnackbar.success(
-                            'ID Disalin',
-                            'ID Senarai Harga ini telah disalin pada clipboard anda',
-                            false);
-                      },
-                    );
-                  },
+                child: AnimationLimiter(
+                  child: ListView.builder(
+                    itemCount: list.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var pricelist = list[index];
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 400),
+                        child: SlideAnimation(
+                          child: FadeInAnimation(
+                            child: ListTile(
+                              title:
+                                  Text('${pricelist.parts} ${pricelist.model}'),
+                              subtitle: Text('RM ${pricelist.price}'),
+                              onTap: () {
+                                Share.share(
+                                    '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.price}');
+                              },
+                              onLongPress: () {
+                                Clipboard.setData(ClipboardData(
+                                    text: pricelist.id.toString()));
+                                ShowSnackbar.success(
+                                    'ID Disalin',
+                                    'ID Senarai Harga ini telah disalin pada clipboard anda',
+                                    false);
+                              },
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               )
             : Padding(

@@ -1,5 +1,6 @@
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/get_route_export.dart';
+import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/other_controller.dart';
 import 'package:flutter/material.dart';
@@ -284,6 +285,46 @@ class OtherSettings {
                 ),
                 title: Text('Import Database'),
                 subtitle: Text('Import maklumat SQLite'),
+              ),
+            ),
+          ),
+
+          Card(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                Get.dialog(AlertDialog(
+                  title: Text('Buang Database?'),
+                  content: Text(
+                      'Segala maklumat SQLite anda akan dibuang. Adakah anda pasti?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        Haptic.feedbackError();
+                        await _otherController.deletedSQLite();
+                      },
+                      child: Text('Buang',
+                          style: TextStyle(
+                            color: Colors.amber[900],
+                          )),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Haptic.feedbackClick();
+                        Get.back();
+                      },
+                      child: Text('Batal'),
+                    ),
+                  ],
+                ));
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.delete,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text('Buang Database'),
+                subtitle: Text('Buang segala maklumat SQLite'),
               ),
             ),
           ),

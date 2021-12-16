@@ -79,8 +79,7 @@ class NotificationSettingView extends GetView<NotificationController> {
                     .postData(
                       'Percubaan Notifikasi',
                       'Ini adalah mesej percubaan!',
-                      // token:
-                      //     'eXYkBPTmQhSoEUU4Svgp31:APA91bHdGWie68TyUM2odNjCPOSNZXzwQqWXu2-n_j8ZJIOG16r96CfLqcqIV0Qg6Gf0ntK4ZoJ1xGW6eNWPnfKQ4evPdhbE5ryNfGXd_2qG_FFFkG14y9nEzQEtIDyXJr0BH3f1ucUN',
+                      token: _authController.token,
                       // isChat: true,
                       // uid: 'OzyFRxdKzcVGOiuKM93FGUqicHu1',
                       // photoURL:

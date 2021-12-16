@@ -19,11 +19,11 @@ class DatabaseHelper {
   static Database _database;
   Future<Database> get database async {
     if (_database != null) return _database;
-    _database = await _initDatabase();
+    _database = await initDatabase();
     return _database;
   }
 
-  Future<Database> _initDatabase() async {
+  Future<Database> initDatabase() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path =
         join(documentDirectory.path, '${_authController.userUID.value}.db');
@@ -34,7 +34,7 @@ class DatabaseHelper {
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion == 1) {
       await db.execute('''
-      CREATE TABLE notification(
+      CREATE TABLE IF NOT EXISTS notification(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
       body TEXT,
@@ -46,7 +46,7 @@ class DatabaseHelper {
 
     if (oldVersion == 2) {
       await db.execute('''
-      CREATE TABLE chat(
+      CREATE TABLE IF NOT EXISTS chat(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         idUser TEXT,
         content TEXT,
@@ -105,6 +105,25 @@ class DatabaseHelper {
       CREATE TABLE nameSuggestion(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT
+      )
+      ''');
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS notification(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT,
+      body TEXT,
+      tarikh TEXT
+      )
+      
+      ''');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS chat(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        idUser TEXT,
+        content TEXT,
+        date TEXT,
+        whoChat INTEGER
       )
       ''');
   }

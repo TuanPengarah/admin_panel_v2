@@ -208,9 +208,13 @@ class AuthController extends GetxController {
     File file = File(path);
 
     if (checkFile == false) {
-      final destination = 'database/SQLite/${userUID.value}.db';
-      final ref = FirebaseStorage.instance.ref(destination);
-      await ref.writeToFile(file);
+      try {
+        final destination = 'database/SQLite/${userUID.value}.db';
+        final ref = FirebaseStorage.instance.ref(destination);
+        await ref.writeToFile(file);
+      } on Exception catch (e) {
+        print(e);
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:admin_panel/config/status_icon.dart';
 import 'package:admin_panel/cust_overview/controller/history_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 class RepairHistoryPage extends StatelessWidget {
@@ -78,13 +79,24 @@ class RepairHistoryPage extends StatelessWidget {
                       ),
               ),
               Expanded(
-                child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: _historyController.items.length,
-                  itemBuilder: (context, int i) {
-                    var doc = _historyController.items[i];
-                    return historyCard(doc, _historyController);
-                  },
+                child: AnimationLimiter(
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: _historyController.items.length,
+                    itemBuilder: (context, int i) {
+                      var doc = _historyController.items[i];
+                      return AnimationConfiguration.staggeredList(
+                        position: i,
+                        duration: const Duration(milliseconds: 400),
+                        child: SlideAnimation(
+                          verticalOffset: 80.0,
+                          child: FadeInAnimation(
+                            child: historyCard(doc, _historyController),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],

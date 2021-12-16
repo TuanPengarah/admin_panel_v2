@@ -2,6 +2,7 @@ import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/notification/controller/notification_controller.dart';
 import 'package:admin_panel/notification/model/notification_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -135,28 +136,40 @@ class NotificationHistoryView extends GetView<NotificationController> {
                     return RefreshIndicator(
                       onRefresh: () =>
                           DatabaseHelper.instance.getNotificationHistory(),
-                      child: ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, i) {
-                            var history = snapshot.data[i];
-                            DateTime tarikhParse =
-                                DateTime.parse(history.tarikh);
-                            String tarikh = DateFormat('dd-MM-yyyy | hh:mm a')
-                                .format(tarikhParse)
-                                .toString();
-                            return ListTile(
-                              leading: Icon(history.title.contains('Mesej dari')
-                                  ? Icons.message
-                                  : Icons.notifications),
-                              title: Text('${history.title}'),
-                              subtitle: Text('${history.body}\n $tarikh'),
-                              isThreeLine: true,
-                              onTap: () {
-                                print(history.id);
-                              },
-                            );
-                          }),
+                      child: AnimationLimiter(
+                        child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, i) {
+                              var history = snapshot.data[i];
+                              DateTime tarikhParse =
+                                  DateTime.parse(history.tarikh);
+                              String tarikh = DateFormat('dd-MM-yyyy | hh:mm a')
+                                  .format(tarikhParse)
+                                  .toString();
+                              return AnimationConfiguration.staggeredList(
+                                position: i,
+                                duration: const Duration(milliseconds: 400),
+                                child: SlideAnimation(
+                                  child: FadeInAnimation(
+                                    child: ListTile(
+                                      leading: Icon(
+                                          history.title.contains('Mesej dari')
+                                              ? Icons.message
+                                              : Icons.notifications),
+                                      title: Text('${history.title}'),
+                                      subtitle:
+                                          Text('${history.body}\n $tarikh'),
+                                      isThreeLine: true,
+                                      onTap: () {
+                                        print(history.id);
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
                     );
                   }),
             );
