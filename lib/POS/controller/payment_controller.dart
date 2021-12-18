@@ -281,7 +281,7 @@ class PaymentController extends GetxController {
           }
 
           int newPoints = snap.get('Points');
-          transaction.update(documentReference, {'Points': newPoints + 10});
+          transaction.update(documentReference, {'Points': newPoints + 1});
         });
       }
 

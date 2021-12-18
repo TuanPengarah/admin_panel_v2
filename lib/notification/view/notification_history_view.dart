@@ -25,9 +25,9 @@ class NotificationHistoryView extends GetView<NotificationController> {
                     actions: [
                       TextButton(
                         onPressed: () async {
-                          List<NotificationModel> history = await DatabaseHelper
-                              .instance
-                              .getNotificationHistory();
+                          List<NotificationsModel> history =
+                              await DatabaseHelper.instance
+                                  .getNotificationHistory();
                           await controller.deleteAllNotification(history);
                           Get.back();
                         },
@@ -62,7 +62,7 @@ class NotificationHistoryView extends GetView<NotificationController> {
               child: FutureBuilder(
                   future: DatabaseHelper.instance.getNotificationHistory(),
                   builder: (context,
-                      AsyncSnapshot<List<NotificationModel>> snapshot) {
+                      AsyncSnapshot<List<NotificationsModel>> snapshot) {
                     if (snapshot.hasError) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),

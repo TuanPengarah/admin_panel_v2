@@ -154,19 +154,19 @@ class DatabaseHelper {
   }
 
   ///NOTIFICATION HISTORY
-  Future<List<NotificationModel>> getNotificationHistory() async {
+  Future<List<NotificationsModel>> getNotificationHistory() async {
     Database db = await instance.database;
 
     var history = await db.query('notification', orderBy: 'id DESC');
 
-    List<NotificationModel> notificationHistory = history.isNotEmpty
-        ? history.map((e) => NotificationModel.fromMap(e)).toList()
+    List<NotificationsModel> notificationHistory = history.isNotEmpty
+        ? history.map((e) => NotificationsModel.fromMap(e)).toList()
         : [];
 
     return notificationHistory;
   }
 
-  Future<int> addNotificationHistory(NotificationModel notif) async {
+  Future<int> addNotificationHistory(NotificationsModel notif) async {
     Database db = await instance.database;
 
     return await db.insert('notification', notif.toMap());

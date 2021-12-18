@@ -1,20 +1,20 @@
 import 'package:flutter/foundation.dart';
 
-class NotificationModel {
+class NotificationsModel {
   final int id;
   final String title;
   final String body;
   final String tarikh;
 
-  NotificationModel({
+  NotificationsModel({
     this.id,
     @required this.title,
     @required this.body,
     @required this.tarikh,
   });
 
-  factory NotificationModel.fromMap(Map<String, dynamic> json) =>
-      new NotificationModel(
+  factory NotificationsModel.fromMap(Map<String, dynamic> json) =>
+      new NotificationsModel(
         id: json['id'],
         title: json['title'],
         body: json['body'],

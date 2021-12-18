@@ -19,7 +19,6 @@ dependencies:
   rounded_loading_button: ^1.0.18
   lottie:
   fl_chart: ^0.36.4
-  liquid_pull_to_refresh: ^3.0.0
   flutter_advanced_avatar: ^1.0.0+1
   shimmer: ^2.0.0
   flutter_slidable: ^0.6.0
@@ -37,7 +36,7 @@ dependencies:
   firebase_database: ^8.0.0
   firebase_storage: ^10.0.3
   firebase_messaging: "^11.1.0"
-  awesome_notifications: ^0.6.16
+  awesome_notifications: ^0.6.19
   restart_app: ^1.1.0
 
   # Native Hardware
@@ -46,7 +45,7 @@ dependencies:
   flutter_bluetooth_basic: ^0.1.5
 
   # State Management
-  get: ^4.5.1
+  get: ^4.6.1
 
   # I/O
   get_storage: ^2.0.3

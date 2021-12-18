@@ -14,7 +14,7 @@ class NotificationController extends GetxController {
     super.onInit();
   }
 
-  Future<void> deleteAllNotification(List<NotificationModel> history) async {
+  Future<void> deleteAllNotification(List<NotificationsModel> history) async {
     history.forEach((element) async {
       await DatabaseHelper.instance.deleteNotification(element.id);
       print(element.id);

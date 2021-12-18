@@ -1,6 +1,5 @@
 import 'package:admin_panel/config/initial_binding.dart';
 import 'package:admin_panel/config/mouse_drag.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -24,20 +23,6 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   await Firebase.initializeApp();
-  if (!GetPlatform.isWeb) {
-    AwesomeNotifications().initialize(
-      'resource://drawable/res_notification_app_icon',
-      [
-        NotificationChannel(
-          channelKey: 'fcm',
-          channelName: 'Firebase Cloud Messaging',
-          channelDescription: 'Pemberitahuan daripada Firebase Cloud Messaging',
-          defaultColor: Colors.blue,
-          importance: NotificationImportance.High,
-        ),
-      ],
-    );
-  }
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackground);
 
