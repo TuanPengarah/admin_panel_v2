@@ -10,10 +10,10 @@ class GraphController extends GetxController {
   List<FlSpot> spotJual = [];
   List<FlSpot> spotSupplier = [];
 
-  var jumlahBulanan = 0.obs;
-  var untungBersih = 0.obs;
-  var untungKasar = 0.obs;
-  var jumlahModal = 0.obs;
+  var jumlahBulanan = 0.0.obs;
+  var untungBersih = 0.0.obs;
+  var untungKasar = 0.0.obs;
+  var jumlahModal = 0.0.obs;
 
   Future getGraph;
   @override
@@ -72,11 +72,11 @@ class GraphController extends GetxController {
     }
   }
 
-  int getMonthsHargajual() {
+  double getMonthsHargajual() {
     return graphSupplier[0][checkMonths(DateTime.now().month - 1)];
   }
 
-  int getMonthsUntungBersih() {
+  double getMonthsUntungBersih() {
     return jumlahBulanan.value - getMonthsHargajual();
   }
 
@@ -98,7 +98,8 @@ class GraphController extends GetxController {
       jumlahModal.value += graphSupplier[0][checkMonths(i)];
     }
 
-    jumlahBulanan.value = graphJual[0][checkMonths(DateTime.now().month - 1)];
+    jumlahBulanan.value = double.parse(
+        graphJual[0][checkMonths(DateTime.now().month - 1)].toString());
     untungBersih.value = untungKasar.value - jumlahModal.value;
   }
 

@@ -59,9 +59,10 @@ class CashFlowCard extends GetView<CashFlowController> {
           SizedBox(height: 15),
           Obx(() {
             return Text(
-              controller.total.value < 0
-                  ? 'RM--'
-                  : 'RM ${controller.total.value}',
+              // controller.total.value < 0
+              //     ? 'RM--'
+              //     :
+              'RM ${controller.total.value.toStringAsFixed(2)}',
               style: TextStyle(
                 fontSize: 30,
                 color: Get.isDarkMode ? Colors.white : Colors.grey.shade800,
@@ -75,17 +76,13 @@ class CashFlowCard extends GetView<CashFlowController> {
               children: [
                 _budget(
                   title: 'Masuk',
-                  price: controller.total.value < 0
-                      ? '--'
-                      : '${controller.masuk.value}',
+                  price: controller.masuk.value.toStringAsFixed(2),
                   icon: Icons.arrow_upward_outlined,
                   color: Colors.green,
                 ),
                 _budget(
                   title: 'Keluar',
-                  price: controller.total.value < 0
-                      ? '--'
-                      : '${controller.keluar.value}',
+                  price: controller.keluar.value.toStringAsFixed(2),
                   icon: Icons.arrow_downward_outlined,
                   color: Colors.red,
                 ),

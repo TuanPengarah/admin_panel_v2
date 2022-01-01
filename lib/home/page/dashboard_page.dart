@@ -79,7 +79,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                     SizedBox(height: 5),
                                     Obx(() {
                                       return Text(
-                                        'RM ${_graphController.jumlahBulanan.value}',
+                                        'RM ${_graphController.jumlahBulanan.value.toStringAsFixed(2)}',
                                         style: TextStyle(
                                           fontSize: 28,
                                           fontWeight: FontWeight.bold,

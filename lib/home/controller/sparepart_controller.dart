@@ -79,7 +79,7 @@ class SparepartController extends GetxController {
         spareparts.add(values);
 
         totalSpareparts.value = spareparts.length;
-        totalPartsPrice.value += int.parse(values['Harga']);
+        totalPartsPrice.value += double.parse(values['Harga']);
       });
       spareparts..sort((a, b) => b['Tarikh'].compareTo(a['Tarikh']));
     });

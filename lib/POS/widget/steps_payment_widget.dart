@@ -149,11 +149,14 @@ class StepsPayment {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('$title'),
-        Text(
-          '$info',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+        Expanded(child: Text('$title')),
+        Expanded(
+          child: Text(
+            '$info',
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],

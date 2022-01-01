@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CashFlowModel {
   final String id;
   final String remark;
-  final int jumlah;
+  final double jumlah;
   final bool isModal;
   final Timestamp timeStamp;
 

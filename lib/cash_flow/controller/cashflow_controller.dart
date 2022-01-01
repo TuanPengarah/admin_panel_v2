@@ -42,7 +42,7 @@ class CashFlowController extends GetxController {
         CashFlowModel model = CashFlowModel(
             id: doc.id,
             remark: doc['remark'],
-            jumlah: doc['jumlah'],
+            jumlah: double.parse(doc['jumlah'].toString()),
             isModal: doc['isModal'],
             timeStamp: doc['timeStamp']);
         cashFlow.add(model);

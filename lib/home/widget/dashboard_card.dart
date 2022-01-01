@@ -40,15 +40,15 @@ class DashboardCardAll extends StatelessWidget {
                 children: [
                   Obx(() {
                     return infoCard('Untung Kasar',
-                        'RM ${_graphController.untungKasar.value}');
+                        'RM ${_graphController.untungKasar.value.toStringAsFixed(2)}');
                   }),
                   Obx(() {
                     return infoCard('Untung Bersih',
-                        'RM ${_graphController.untungBersih.value}');
+                        'RM ${_graphController.untungBersih.value.toStringAsFixed(2)}');
                   }),
                   Obx(() {
                     return infoCard('Jumlah Modal',
-                        'RM ${_graphController.jumlahModal.value}');
+                        'RM ${_graphController.jumlahModal.value.toStringAsFixed(2)}');
                   }),
                   Obx(() {
                     return infoCard('Jumlah Spareparts',
@@ -112,7 +112,7 @@ class DashboardCardAll extends StatelessWidget {
               ),
             ),
             Text(
-              total == '0' ? '--' : '$total',
+              total == 'RM 0.0' ? '--' : '$total',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Get.isDarkMode ? Colors.white : Colors.grey,

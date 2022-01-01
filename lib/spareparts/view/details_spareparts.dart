@@ -219,7 +219,7 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                 leading: Icon(Icons.payment),
                                 title: Text('Harga Jual'),
                                 subtitle: Text(
-                                    'RM ${_priceController.calculateFromWidget(int.parse(_detailsController.hargaParts.value)).toStringAsFixed(0)}'),
+                                    'RM ${_priceController.calculateFromWidget(double.parse(_detailsController.hargaParts.value)).toStringAsFixed(0)}'),
                               ),
                             ),
                           ),

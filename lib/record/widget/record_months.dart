@@ -29,13 +29,13 @@ class DashboardCardMonths extends StatelessWidget {
                 alignment: WrapAlignment.center,
                 children: [
                   Obx(() {
-                    return infoCard('Untung Kasar',
-                        'RM ${_graphController.jumlahBulanan.value}');
+                    return infoCard(
+                        'Untung Kasar', _graphController.jumlahBulanan.value);
                   }),
                   infoCard('Untung Bersih',
-                      'RM ${_graphController.getMonthsUntungBersih()}'),
-                  infoCard('Jumlah Modal',
-                      'RM ${_graphController.getMonthsHargajual()}'),
+                      _graphController.getMonthsUntungBersih()),
+                  infoCard(
+                      'Jumlah Modal', _graphController.getMonthsHargajual()),
                 ],
               ),
               SizedBox(height: 30),
@@ -48,7 +48,7 @@ class DashboardCardMonths extends StatelessWidget {
 
   Container infoCard(
     String title,
-    String total,
+    double total,
   ) {
     return Container(
       width: 120,
@@ -72,7 +72,7 @@ class DashboardCardMonths extends StatelessWidget {
               ),
             ),
             Text(
-              total == '0' ? '--' : '$total',
+              total <= 0.0 ? '--' : 'RM $total',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Get.isDarkMode ? Colors.white : Colors.grey,

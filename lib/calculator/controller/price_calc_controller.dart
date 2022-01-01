@@ -20,7 +20,7 @@ class PriceCalculatorController extends GetxController {
   //   super.onInit();
   // }
 
-  double calculateFromWidget(int hargaSupplier) {
+  double calculateFromWidget(double hargaSupplier) {
     tambahWaranti = 30;
     tempohWarranti.value = '1 Bulan';
     supplierPrice.value = hargaSupplier.toString();

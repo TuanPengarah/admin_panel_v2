@@ -16,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../config/routes.dart';
+
 class AddSparepartsController extends GetxController {
   final _sparepartsController = Get.find<SparepartController>();
 
@@ -241,15 +243,15 @@ class AddSparepartsController extends GetxController {
           throw Exception("Harga modal tidak dijumpai");
         }
 
-        int newPoints = snap.get(months);
+        double newPoints = double.parse(snap.get(months).toString());
         transaction.update(
-            hargaModal, {months: newPoints + int.parse(hargaParts.text)});
+            hargaModal, {months: newPoints + double.parse(hargaParts.text)});
       });
 
       //TAMBAH PADA CASH FLOW
       status.value = 'Mengemaskini cash flow...';
       final Map<String, dynamic> cashflow = {
-        'jumlah': int.parse(hargaParts.text),
+        'jumlah': double.parse(hargaParts.text),
         'isModal': true,
         'remark': '${jenisParts.text} ${modelParts.text}',
         'timeStamp': FieldValue.serverTimestamp(),
@@ -269,11 +271,7 @@ class AddSparepartsController extends GetxController {
       status.value = 'Selesai!';
       Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 1));
-      Get.closeAllSnackbars();
-      Get.back();
-      Get.back();
-      ShowSnackbar.success('Tambah spareparts berjaya!',
-          'Maklumat spareparts anda telah ditambah ke server!', false);
+      Get.offAllNamed(MyRoutes.home);
       showRecommended();
     } on Exception catch (e) {
       status.value = 'Opps! Kesalahan talah berlaku: $e';
@@ -297,6 +295,7 @@ class AddSparepartsController extends GetxController {
           TextButton(
             onPressed: () {
               Haptic.feedbackError();
+              Get.closeAllSnackbars();
               Get.back();
             },
             child: Text(
@@ -309,7 +308,7 @@ class AddSparepartsController extends GetxController {
               Haptic.feedbackClick();
               Get.back();
               double harga =
-                  _calc.calculateFromWidget(int.parse(hargaParts.text));
+                  _calc.calculateFromWidget(double.parse(hargaParts.text));
               _addPriceList.modelText.text = modelParts.text;
               _addPriceList.partsText.text = jenisParts.text;
               _addPriceList.priceText.text = harga.toStringAsFixed(0);

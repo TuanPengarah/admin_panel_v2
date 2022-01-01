@@ -237,10 +237,13 @@ class AddSparepartStepper {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text('$title'),
-          Text(
-            '$subtitle',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Expanded(child: Text('$title')),
+          Expanded(
+            child: Text(
+              '$subtitle',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
