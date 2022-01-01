@@ -71,7 +71,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                 return Column(
                                   children: [
                                     Text(
-                                      'Laporan Jualan Bulan ${_graphController.checkMonths(DateTime.now().month - 1)}',
+                                      'Laporan Jualan Bulan ${_graphController.checkMonthsMalay(DateTime.now().month - 1)}',
                                       style: TextStyle(
                                         color: Colors.white,
                                       ),

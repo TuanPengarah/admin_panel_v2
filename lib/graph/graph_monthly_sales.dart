@@ -12,7 +12,7 @@ class GraphMonthlySales extends StatelessWidget {
       assignId: true,
       builder: (logic) {
         return Padding(
-          padding: const EdgeInsets.only(right: 50.0),
+          padding: const EdgeInsets.only(right: 65.0, left: 30),
           child: LineChart(
             LineChartData(
                 minX: 0,

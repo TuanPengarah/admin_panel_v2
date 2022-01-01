@@ -16,7 +16,7 @@ class DashboardCardMonths extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Rekod Data Bulan ${_graphController.checkMonths(DateTime.now().month - 1)}',
+                'Rekod Data Bulan ${_graphController.checkMonthsMalay(DateTime.now().month - 1)}',
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
@@ -72,7 +72,7 @@ class DashboardCardMonths extends StatelessWidget {
               ),
             ),
             Text(
-              total <= 0.0 ? '--' : 'RM $total',
+              total <= 0.0 ? '--' : 'RM ${total.toStringAsFixed(2)}',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Get.isDarkMode ? Colors.white : Colors.grey,

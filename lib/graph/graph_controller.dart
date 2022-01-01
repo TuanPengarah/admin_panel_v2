@@ -72,6 +72,49 @@ class GraphController extends GetxController {
     }
   }
 
+  String checkMonthsMalay(int i) {
+    switch (i) {
+      case 0:
+        return 'Januari';
+        break;
+      case 1:
+        return 'Februari';
+        break;
+      case 2:
+        return 'Mac';
+        break;
+      case 3:
+        return 'April';
+        break;
+      case 4:
+        return 'Mei';
+        break;
+      case 5:
+        return 'Jun';
+        break;
+      case 6:
+        return 'Julai';
+        break;
+      case 7:
+        return 'Ogos';
+        break;
+      case 8:
+        return 'September';
+        break;
+      case 9:
+        return 'Oktober';
+        break;
+      case 10:
+        return 'November';
+        break;
+      case 11:
+        return 'Disember';
+        break;
+      default:
+        return 'Disember';
+    }
+  }
+
   double getMonthsHargajual() {
     return graphSupplier[0][checkMonths(DateTime.now().month - 1)];
   }

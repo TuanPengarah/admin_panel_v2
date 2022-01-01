@@ -34,7 +34,7 @@ class PaymentController extends GetxController {
   String tempohWaranti = '';
   String mysid = '';
   var price = 0.obs;
-  var selectedWaranti = '1 Bulan Waranti'.obs;
+  var selectedWaranti = 'Tiada Waranti'.obs;
   int warantiCost = 30;
   int hargaSpareparts = 0;
   var recommendedPrice = 0.0.obs;
@@ -86,11 +86,13 @@ class PaymentController extends GetxController {
         warantiCost = 30;
         var jiffy9 = Jiffy()..add(duration: Duration(days: 30));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
+        print(tempohWaranti);
         break;
       case '2 Bulan Waranti':
         warantiCost = 50;
         var jiffy9 = Jiffy()..add(duration: Duration(days: 60));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
+        print(tempohWaranti);
         break;
       case '3 Bulan Waranti':
         warantiCost = 70;
@@ -161,6 +163,7 @@ class PaymentController extends GetxController {
         currentSteps.value++;
       }
     } else if (currentSteps.value == 4) {
+      print(mysid);
       paymentConfirmation();
     }
   }
@@ -245,7 +248,7 @@ class PaymentController extends GetxController {
 
       //UPDATE STATUS 'isPayment' PADA MYREPAIR ID
 
-      if (mysid != '' || mysid != null) {
+      if (mysid != '') {
         title.value = 'Setkan mysid telah dibayar...';
         await firestore
             .collection('MyrepairID')
@@ -260,7 +263,7 @@ class PaymentController extends GetxController {
           'isWarranty': true,
           'Tarikh Waranti': '$tempohWaranti',
           'Status': 'Selesai',
-          'Harga': int.parse(priceText.text),
+          'Harga': double.parse(priceText.text),
         };
         await firestore
             .collection('customer')
@@ -317,9 +320,9 @@ class PaymentController extends GetxController {
           throw Exception("Harga jual tidak dijumpai");
         }
 
-        int newPoints = snap.get(months);
-        transaction
-            .update(hargaJual, {months: newPoints + int.parse(priceText.text)});
+        double newPoints = double.parse(snap.get(months).toString());
+        transaction.update(
+            hargaJual, {months: newPoints + double.parse(priceText.text)});
       });
 
       //TAMBAH PADA CASH FLOW
@@ -367,9 +370,11 @@ class PaymentController extends GetxController {
     currentSteps.value = 0;
     currentTechnician.value = _authController.userName.value;
     currentTechnicianID = _authController.userUID.value;
+    sparepartsID = '';
+    mysid = '';
     price.value = 0;
     priceText.text = '';
-    selectedWaranti.value = '1 Bulan Waranti';
+    selectedWaranti.value = 'Tiada Waranti';
     warantiCost = 30;
     hargaSpareparts = 0;
     recommendedPrice.value = 0.0;
