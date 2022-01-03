@@ -179,11 +179,15 @@ class AuthController extends GetxController {
         if (jawatan.value == 'Founder') {
           print('Notifikasi settlement telah diset kan sekali');
           _notifController.subscribedToFCM('settlement');
+        } else {
+          _notifController.unsubscribedFromFCM('settlement');
         }
       } else {
         _notifController.unsubscribedFromFCM('socmed');
         if (jawatan.value == 'Founder') {
           print('Notifikasi settlement akan dibatalkan sekali');
+          _notifController.unsubscribedFromFCM('settlement');
+        } else {
           _notifController.unsubscribedFromFCM('settlement');
         }
       }

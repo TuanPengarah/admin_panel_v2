@@ -3,6 +3,7 @@ import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:admin_panel/notification/controller/notification_controller.dart';
 import 'package:admin_panel/notification/model/notification_model.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -11,7 +12,11 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quick_actions/quick_actions.dart';
 
+import '../../auth/controller/firebaseAuth_controller.dart';
+
 class HomeController extends GetxController {
+  final _notifController = Get.find<NotificationController>();
+  final _authController = Get.find<AuthController>();
   var currentIndex = 0.obs;
   var totalMysid = 0.obs;
   final QuickActions quickActions = const QuickActions();
@@ -142,6 +147,25 @@ class HomeController extends GetxController {
 
     if (initialMessage != null) {
       _handleMessage(initialMessage);
+    }
+
+    //notification config
+    if (box.read<bool>('initNotif') == true) {
+      _notifController.subscribedToFCM('socmed');
+      if (_authController.jawatan.value == 'Founder') {
+        print('Notifikasi settlement telah diset kan sekali');
+        _notifController.subscribedToFCM('settlement');
+      } else {
+        _notifController.unsubscribedFromFCM('settlement');
+      }
+    } else {
+      _notifController.unsubscribedFromFCM('socmed');
+      if (_authController.jawatan.value == 'Founder') {
+        print('Notifikasi settlement akan dibatalkan sekali');
+        _notifController.unsubscribedFromFCM('settlement');
+      } else {
+        _notifController.unsubscribedFromFCM('settlement');
+      }
     }
   }
 
