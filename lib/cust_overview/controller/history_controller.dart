@@ -70,6 +70,7 @@ class RepairHistoryController extends GetxController {
               onTap: () {
                 Get.toNamed(MyRoutes.printView, arguments: {
                   'isReceipt': true,
+                  'technician': data['technician'],
                   'nama': data['nama'],
                   'noTel': data['noTel'],
                 });
@@ -89,6 +90,7 @@ class RepairHistoryController extends GetxController {
                   'title': data['kerosakkan'] + ' ' + data['model'],
                   'waranti': '',
                   'harga': data['price'],
+                  'technician': data['technician'],
                 };
                 payment.bills.add(value);
                 payment.totalBillsPrice.value = int.parse(data['price']);

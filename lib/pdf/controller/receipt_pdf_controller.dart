@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:admin_panel/POS/controller/payment_controller.dart';
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
@@ -14,7 +12,6 @@ import 'package:share_plus/share_plus.dart';
 
 class ReceiptPDFController extends GetxController {
   final _paymentController = Get.find<PaymentController>();
-  final _authController = Get.find<AuthController>();
   final pdf = pw.Document();
   String fullPath = '';
   final _data = Get.arguments;
@@ -135,7 +132,7 @@ class ReceiptPDFController extends GetxController {
                       ? pw.Text('No Telefon: ${_paymentController.phoneNumber}')
                       : pw.Container(),
                   pw.Text(
-                      'Technician/Staff: ${_authController.userName.value}'),
+                      'Technician/Staff: ${_paymentController.bills[0]['technician']}'),
                   pw.SizedBox(height: 15),
                   _data['isBills'] == true
                       ? pw.Table.fromTextArray(
@@ -160,41 +157,49 @@ class ReceiptPDFController extends GetxController {
                             2: pw.Alignment.centerRight,
                           },
                         )
-                      : pw.Column(
-                          children: [
-                            pw.Row(
-                              mainAxisAlignment:
-                                  pw.MainAxisAlignment.spaceBetween,
-                              children: [
-                                pw.Text(
-                                  'Butir',
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
+                      : pw.Stack(children: [
+                          pw.Container(
+                            width: PdfPageFormat.a5.width,
+                            height: 38,
+                            color: PdfColors.blue300,
+                          ),
+                          pw.Column(
+                            children: [
+                              pw.SizedBox(height: 10),
+                              pw.Row(
+                                mainAxisAlignment:
+                                    pw.MainAxisAlignment.spaceBetween,
+                                children: [
+                                  pw.Text(
+                                    '  Butir',
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                pw.Text(
-                                  'Harga',
-                                  style: pw.TextStyle(
-                                    fontWeight: pw.FontWeight.bold,
+                                  pw.Text(
+                                    'Harga  ',
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            pw.SizedBox(height: 10),
-                            pw.Row(
-                              mainAxisAlignment:
-                                  pw.MainAxisAlignment.spaceBetween,
-                              children: [
-                                pw.Text(
-                                  _paymentController.bills[0]['title'],
-                                ),
-                                pw.Text(
-                                  'RM${_paymentController.bills[0]['harga']}',
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                ],
+                              ),
+                              pw.SizedBox(height: 25),
+                              pw.Row(
+                                mainAxisAlignment:
+                                    pw.MainAxisAlignment.spaceBetween,
+                                children: [
+                                  pw.Text(
+                                    '   ${_paymentController.bills[0]['title']}',
+                                  ),
+                                  pw.Text(
+                                    'RM${_paymentController.bills[0]['harga']}   ',
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ]),
                   pw.Divider(color: PdfColors.blue300),
                   pw.Container(
                     margin: const pw.EdgeInsets.only(top: 5),

@@ -264,6 +264,7 @@ class PaymentController extends GetxController {
           'Tarikh Waranti': '$tempohWaranti',
           'Status': 'Selesai',
           'Harga': double.parse(priceText.text),
+          'Technician': currentTechnician.value,
         };
         await firestore
             .collection('customer')
