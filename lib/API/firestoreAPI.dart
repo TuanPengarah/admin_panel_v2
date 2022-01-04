@@ -83,7 +83,7 @@ class FirestoreContoller extends GetxController {
       'Harga': harga,
       'Tarikh': _tarikh,
       'Tarikh Waranti': _tarikh,
-      'isWarranti': false,
+      'isWarranty': false,
       'Technician': technician,
       'Remarks': remarks,
       'Status': 'Belum Selesai',

@@ -11,7 +11,7 @@ import 'dart:convert' as convert;
 
 class PriceListController extends GetxController {
   List<PriceListModel> priceList = [];
-  Future getList;
+  Future<Response> getList;
 
   TextEditingController modelText = TextEditingController();
   TextEditingController partsText = TextEditingController();
@@ -22,6 +22,7 @@ class PriceListController extends GetxController {
   FocusNode priceFocus = FocusNode();
 
   var isSearch = false.obs;
+  var offlineMode = false.obs;
 
   @override
   void onInit() {
@@ -29,22 +30,40 @@ class PriceListController extends GetxController {
     super.onInit();
   }
 
-  Future<void> getPriceList() async {
-    priceList = [];
-    var data = await GoogleSheet().getList();
-    var jsonPricelist = convert.jsonDecode(data.bodyString);
-    jsonPricelist.forEach((value) {
-      PriceListModel priceListModel = PriceListModel(
-        parts: value['parts'],
-        model: value['model'],
-        price: value['harga'],
-        id: value['id'],
-      );
+  void activateOffline() {
+    if (priceList.isNotEmpty) {
+      offlineMode.value = true;
+    }
+    update();
+  }
 
-      priceList.add(priceListModel);
+  Future<Response> getPriceList() async {
+    var data = await GoogleSheet().getList().timeout(Duration(seconds: 10));
+    if (data.isOk) {
+      priceList = [];
+
+      var jsonPricelist = convert.jsonDecode(data.bodyString);
+      await DatabaseHelper.instance.deleteCachePriceList();
+      jsonPricelist.forEach((value) {
+        PriceListModel priceListModel = PriceListModel(
+          parts: value['parts'],
+          model: value['model'],
+          price: value['harga'],
+          id: value['id'],
+        );
+        priceList.add(priceListModel);
+        priceList.sort((a, b) => a.parts.compareTo(b.parts));
+
+        DatabaseHelper.instance.addCachePriceList(priceListModel);
+        update();
+      });
+    } else if (data.status.connectionError == true) {
+      priceList = await DatabaseHelper.instance.getCachePriceList();
       priceList.sort((a, b) => a.parts.compareTo(b.parts));
-      update();
-    });
+      Haptic.feedbackError();
+    }
+    update();
+    return data;
   }
 
   Future<void> addPriceList() async {

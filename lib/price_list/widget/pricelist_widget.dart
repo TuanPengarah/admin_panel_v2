@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
@@ -6,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TabPriceList extends StatelessWidget {
   final List<PriceListModel> list;
@@ -16,89 +20,161 @@ class TabPriceList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _controller.getList,
-      builder: (context, snapshot) {
+      future: _controller.getList.timeout(Duration(seconds: 10)),
+      builder: (context, AsyncSnapshot<Response> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        return list.length > 0
-            ? RefreshIndicator(
-                onRefresh: () async => await _controller.getPriceList(),
-                child: AnimationLimiter(
-                  child: ListView.builder(
-                    itemCount: list.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var pricelist = list[index];
-                      return AnimationConfiguration.staggeredList(
-                        position: index,
-                        duration: const Duration(milliseconds: 400),
-                        child: SlideAnimation(
-                          child: FadeInAnimation(
-                            child: ListTile(
-                              title:
-                                  Text('${pricelist.parts} ${pricelist.model}'),
-                              subtitle: Text('RM ${pricelist.price}'),
-                              onTap: () {
-                                Share.share(
-                                    '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.price}');
-                              },
-                              onLongPress: () {
-                                Clipboard.setData(ClipboardData(
-                                    text: pricelist.id.toString()));
-                                ShowSnackbar.success(
-                                    'ID Disalin',
-                                    'ID Senarai Harga ini telah disalin pada clipboard anda',
-                                    false);
-                              },
-                            ),
+          return ListView.builder(
+              itemCount: 20,
+              itemBuilder: (context, i) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[200],
+                        child: Container(
+                          height: 13,
+                          width: Random().nextInt(250).toDouble() + 100,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                      );
-                    },
+                      ),
+                      const SizedBox(height: 4),
+                    ],
                   ),
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(8.0),
+                );
+              });
+        } else if (snapshot.data.isOk ||
+            _controller.offlineMode.value == true) {
+          return list.length > 0
+              ? RefreshIndicator(
+                  onRefresh: () async => await _controller.getPriceList(),
+                  child: AnimationLimiter(
+                    child: ListView.builder(
+                      itemCount: list.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var pricelist = list[index];
+                        return AnimationConfiguration.staggeredList(
+                          position: index,
+                          duration: const Duration(milliseconds: 400),
+                          child: SlideAnimation(
+                            child: FadeInAnimation(
+                              child: ListTile(
+                                title: Text(
+                                    '${pricelist.parts} ${pricelist.model}'),
+                                subtitle: Text('RM ${pricelist.price}'),
+                                onTap: () {
+                                  Share.share(
+                                      '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.price}');
+                                },
+                                onLongPress: () {
+                                  Clipboard.setData(ClipboardData(
+                                      text: pricelist.id.toString()));
+                                  ShowSnackbar.success(
+                                      'ID Disalin',
+                                      'ID Senarai Harga ini telah disalin pada clipboard anda',
+                                      false);
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.browser_not_supported,
+                        size: 120,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Maaf, tiada senarai harga ditemui untuk model ini!',
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      SizedBox(
+                        width: 260,
+                        height: 40,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            Haptic.feedbackClick();
+                            _controller.addListDialog();
+                          },
+                          icon: Icon(Icons.add),
+                          label: Text('Tambah Senarai Harga'),
+                        ),
+                      ),
+                      TextButton.icon(
+                        onPressed: () async {
+                          Get.dialog(
+                            AlertDialog(
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  CircularProgressIndicator(),
+                                ],
+                              ),
+                            ),
+                          );
+                          await _controller.getPriceList();
+                          Get.back();
+                        },
+                        icon: Icon(Icons.refresh),
+                        label: Text('Segar Semula'),
+                      ),
+                    ],
+                  ),
+                );
+        } else
+          return GetBuilder<PriceListController>(
+            builder: (_) {
+              return Padding(
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.browser_not_supported,
+                    const Spacer(),
+                    const Icon(
+                      LineIcons.exclamationTriangle,
                       size: 120,
-                      color: Colors.grey,
+                      // color: Colors.grey,
                     ),
-                    SizedBox(height: 10),
+                    const Text(
+                      'Gagal untuk memuat turun senarai harga!',
+                      textAlign: TextAlign.center,
+                      // style: TextStyle(color: Colors.grey),
+                    ),
+                    TextButton(
+                      onPressed: _controller.activateOffline,
+                      child: Text('Aktifkan Mod Luar Talian'),
+                    ),
+                    const Spacer(),
                     Text(
-                      'Maaf, tiada senarai harga ditemui untuk model ini!',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    SizedBox(
-                      width: 260,
-                      height: 40,
-                      child: TextButton.icon(
-                        onPressed: () {
-                          Haptic.feedbackClick();
-                          _controller.addListDialog();
-                        },
-                        icon: Icon(Icons.add),
-                        label: Text('Tambah Senarai Harga'),
-                      ),
-                    ),
-                    TextButton.icon(
-                      onPressed: () async => await _controller.getPriceList(),
-                      icon: Icon(Icons.refresh),
-                      label: Text('Segar Semula'),
+                      '${snapshot.data.statusText}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
                     ),
                   ],
                 ),
               );
+            },
+          );
       },
     );
   }

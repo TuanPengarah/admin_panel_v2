@@ -11,6 +11,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../price_list/model/pricelist_model.dart';
+
 class DatabaseHelper {
   final _authController = Get.find<AuthController>();
   DatabaseHelper._privateConstructor();
@@ -28,7 +30,7 @@ class DatabaseHelper {
     String path =
         join(documentDirectory.path, '${_authController.userUID.value}.db');
     return await openDatabase(path,
-        version: 3, onCreate: _onCreate, onUpgrade: _onUpgrade);
+        version: 4, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -54,6 +56,16 @@ class DatabaseHelper {
         whoChat INTEGER
       )
       ''');
+      if (oldVersion == 3) {
+        await db.execute('''
+      CREATE TABLE priceListCache(
+        id PRIMARY KEY,
+        model TEXT,
+        parts TEXT,
+        harga INTEGER
+      )
+      ''');
+      }
     }
   }
 
@@ -126,6 +138,40 @@ class DatabaseHelper {
         whoChat INTEGER
       )
       ''');
+
+    await db.execute('''
+        CREATE TABLE priceListCache(
+        id PRIMARY KEY,
+        model TEXT,
+        parts TEXT,
+        price INTEGER
+      )
+      ''');
+  }
+
+  ///CACHE PRICE LIST
+  Future<List<PriceListModel>> getCachePriceList() async {
+    Database db = await instance.database;
+
+    var caching = await db.query('priceListCache');
+
+    List<PriceListModel> getCache = caching.isNotEmpty
+        ? caching.map((e) => PriceListModel.fromJson(e)).toList()
+        : [];
+
+    return getCache;
+  }
+
+  Future<int> addCachePriceList(PriceListModel priceList) async {
+    Database db = await instance.database;
+
+    return await db.insert('priceListCache', priceList.toJson());
+  }
+
+  Future<int> deleteCachePriceList() async {
+    Database db = await instance.database;
+
+    return await db.delete('priceListCache');
   }
 
   ///CHAT

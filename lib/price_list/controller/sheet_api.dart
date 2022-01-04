@@ -12,7 +12,9 @@ class GoogleSheet extends GetConnect {
   static const STATUS_SUCCESS = 'SUCCESS';
   static const STATUS_FAILURE = 'FAILURE';
 
-  Future<Response> getList() => get(urlGetList);
+  Future<Response> getList() => get(urlGetList).timeout(
+        Duration(seconds: 10),
+      );
 
   Future<Response> addList(String params) => get(urlAddList + params);
 
