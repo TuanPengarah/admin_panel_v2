@@ -49,8 +49,7 @@ class TabPriceList extends StatelessWidget {
                   ),
                 );
               });
-        } else if (snapshot.data.isOk ||
-            _controller.offlineMode.value == true) {
+        } else if (snapshot.hasData || _controller.offlineMode.value == true) {
           return list.length > 0
               ? RefreshIndicator(
                   onRefresh: () async => await _controller.getPriceList(),
@@ -165,11 +164,17 @@ class TabPriceList extends StatelessWidget {
                       child: Text('Aktifkan Mod Luar Talian'),
                     ),
                     const Spacer(),
-                    Text(
-                      '${snapshot.data.statusText}',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
-                    ),
+                    snapshot.hasError == false
+                        ? Text(
+                            '${snapshot.data.statusText}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12),
+                          )
+                        : Text(
+                            '${snapshot.error.toString()}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12),
+                          ),
                   ],
                 ),
               );

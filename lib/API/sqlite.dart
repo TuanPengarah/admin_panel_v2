@@ -6,6 +6,7 @@ import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:admin_panel/notification/model/notification_model.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -29,6 +30,7 @@ class DatabaseHelper {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String path =
         join(documentDirectory.path, '${_authController.userUID.value}.db');
+
     return await openDatabase(path,
         version: 4, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
@@ -58,11 +60,11 @@ class DatabaseHelper {
       ''');
       if (oldVersion == 3) {
         await db.execute('''
-      CREATE TABLE priceListCache(
+      CREATE TABLE IF NOT EXISTS priceListCache(
         id PRIMARY KEY,
         model TEXT,
         parts TEXT,
-        harga INTEGER
+        price INTEGER
       )
       ''');
       }
@@ -138,9 +140,8 @@ class DatabaseHelper {
         whoChat INTEGER
       )
       ''');
-
     await db.execute('''
-        CREATE TABLE priceListCache(
+      CREATE TABLE priceListCache(
         id PRIMARY KEY,
         model TEXT,
         parts TEXT,
@@ -170,6 +171,7 @@ class DatabaseHelper {
 
   Future<int> deleteCachePriceList() async {
     Database db = await instance.database;
+    debugPrint('versi sqlite ${await db.getVersion()}');
 
     return await db.delete('priceListCache');
   }

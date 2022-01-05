@@ -43,7 +43,11 @@ class PriceListController extends GetxController {
       priceList = [];
 
       var jsonPricelist = convert.jsonDecode(data.bodyString);
-      await DatabaseHelper.instance.deleteCachePriceList();
+      try {
+        await DatabaseHelper.instance.deleteCachePriceList();
+      } on Exception catch (e) {
+        debugPrint(e.toString());
+      }
       jsonPricelist.forEach((value) {
         PriceListModel priceListModel = PriceListModel(
           parts: value['parts'],
