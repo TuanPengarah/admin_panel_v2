@@ -3,6 +3,7 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/home/controller/other_controller.dart';
 import 'package:admin_panel/home/widget/other_setting.dart';
 import 'package:admin_panel/home/widget/profile_avatar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,9 @@ class SettingPage extends StatelessWidget {
         body: RefreshIndicator(
       onRefresh: () async {
         await _authController.checkUserData(
-            _authController.userUID.value, _authController.userEmail.value);
+          FirebaseAuth.instance.currentUser.uid,
+          _authController.userEmail.value,
+        );
       },
       child: CustomScrollView(
         physics: BouncingScrollPhysics(),

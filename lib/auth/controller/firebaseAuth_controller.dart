@@ -14,6 +14,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -155,70 +156,96 @@ class AuthController extends GetxController {
   Future<void> checkUserData(String uid, String email) async {
     final box = GetStorage();
     final _notifController = Get.put(NotificationController());
-    await FirebaseDatabase.instance
-        .reference()
-        .child('Technician')
-        .child(uid)
-        .once()
-        .then((snapshot) async {
-      final json = snapshot.value as Map<dynamic, dynamic>;
-      final technician = Technician.fromJson(json);
-      userUID.value = uid;
-      userEmail.value = email;
-      userName.value = technician.nama;
-      cawangan.value = technician.cawangan;
-      jumlahRepair.value = technician.jumlahRepair;
-      jumlahKeuntungan.value = technician.jumlahKeuntungan;
-      jawatan.value = technician.jawatan;
-      photoURL.value = technician.photoURL;
-      token = technician.token;
+    bool internet = await InternetConnectionChecker().hasConnection;
 
-      //notification config
-      if (box.read<bool>('initNotif') == true) {
-        _notifController.subscribedToFCM('socmed');
-        if (jawatan.value == 'Founder') {
-          print('Notifikasi settlement telah diset kan sekali');
-          _notifController.subscribedToFCM('settlement');
+    if (internet == true) {
+      await FirebaseDatabase.instance
+          .reference()
+          .child('Technician')
+          .child(uid)
+          .once()
+          .then((snapshot) async {
+        final json = snapshot.value as Map<dynamic, dynamic>;
+        final technician = Technician.fromJson(json);
+        userUID.value = uid;
+        userEmail.value = email;
+        userName.value = technician.nama;
+        cawangan.value = technician.cawangan;
+        jumlahRepair.value = technician.jumlahRepair;
+        jumlahKeuntungan.value = technician.jumlahKeuntungan;
+        jawatan.value = technician.jawatan;
+        photoURL.value = technician.photoURL;
+        token = technician.token;
+        box.write('userUID', uid);
+        box.write('userEmail', email);
+        box.write('userName', technician.nama);
+        box.write('cawangan', technician.cawangan);
+        box.write('jumlahRepair', technician.jumlahRepair);
+        box.write('jumlahKeuntungan', technician.jumlahKeuntungan);
+        box.write('jawatan', technician.jawatan);
+        box.write('photoURL', technician.photoURL);
+        box.write('token', technician.token);
+
+        //notification config
+        if (box.read<bool>('initNotif') == true) {
+          _notifController.subscribedToFCM('socmed');
+          if (jawatan.value == 'Founder') {
+            print('Notifikasi settlement telah diset kan sekali');
+            _notifController.subscribedToFCM('settlement');
+          } else {
+            _notifController.unsubscribedFromFCM('settlement');
+          }
         } else {
-          _notifController.unsubscribedFromFCM('settlement');
+          _notifController.unsubscribedFromFCM('socmed');
+          if (jawatan.value == 'Founder') {
+            print('Notifikasi settlement akan dibatalkan sekali');
+            _notifController.unsubscribedFromFCM('settlement');
+          } else {
+            _notifController.unsubscribedFromFCM('settlement');
+          }
         }
-      } else {
-        _notifController.unsubscribedFromFCM('socmed');
-        if (jawatan.value == 'Founder') {
-          print('Notifikasi settlement akan dibatalkan sekali');
-          _notifController.unsubscribedFromFCM('settlement');
-        } else {
-          _notifController.unsubscribedFromFCM('settlement');
+        final String deviceToken = await FirebaseMessaging.instance.getToken();
+        print('your new device token: $deviceToken');
+
+        if (token != deviceToken) {
+          print('tukar token baru: $deviceToken');
+          token = deviceToken;
+          FirebaseDatabase.instance
+              .reference()
+              .child('Technician')
+              .child(uid)
+              .update({'token': deviceToken});
+        }
+      });
+
+      //check user database
+      Directory documentDirectory = await getApplicationDocumentsDirectory();
+      final path = join(documentDirectory.path, '${userUID.value}.db');
+      bool checkFile = await File(path).exists();
+      File file = File(path);
+
+      if (checkFile == false) {
+        try {
+          final destination = 'database/SQLite/${userUID.value}.db';
+          final ref = FirebaseStorage.instance.ref(destination);
+          await ref.writeToFile(file);
+        } on Exception catch (e) {
+          print(e);
         }
       }
-      final String deviceToken = await FirebaseMessaging.instance.getToken();
-      print('your new device token: $deviceToken');
+    } else {
+      ShowSnackbar.error('Gagal untuk menyambung ke rangkaian',
+          'Pastikan peranti anda telah disambungkan ke rangkaian', true);
 
-      if (token != deviceToken) {
-        print('tukar token baru: $deviceToken');
-        token = deviceToken;
-        FirebaseDatabase.instance
-            .reference()
-            .child('Technician')
-            .child(uid)
-            .update({'token': deviceToken});
-      }
-    });
-
-    //check user database
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentDirectory.path, '${userUID.value}.db');
-    bool checkFile = await File(path).exists();
-    File file = File(path);
-
-    if (checkFile == false) {
-      try {
-        final destination = 'database/SQLite/${userUID.value}.db';
-        final ref = FirebaseStorage.instance.ref(destination);
-        await ref.writeToFile(file);
-      } on Exception catch (e) {
-        print(e);
-      }
+      userUID.value = box.read('uid');
+      userEmail.value = box.read('email');
+      userName.value = box.read('userName');
+      cawangan.value = box.read('cawangan');
+      jumlahRepair.value = box.read<int>('jumlahRepair');
+      jumlahKeuntungan.value = box.read<int>('jumlahKeuntungan');
+      jawatan.value = box.read('jawatan');
+      photoURL.value = box.read('photoURL');
+      token = box.read('token');
     }
   }
 }
