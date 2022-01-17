@@ -35,7 +35,7 @@ class AuthController extends GetxController {
   void onReady() {
     final user = _auth.currentUser;
     if (user != null) {
-      checkUserData(user.uid, user.email);
+      checkUserData(user.email);
     }
     if (kIsWeb) {
       if (user != null) {
@@ -78,7 +78,7 @@ class AuthController extends GetxController {
           await Future.delayed(Duration(seconds: 2));
           btnController.reset();
         } else {
-          await checkUserData(value.user.uid, value.user.email);
+          await checkUserData(value.user.email);
 
           btnController.success();
           Haptic.feedbackSuccess();
@@ -153,21 +153,22 @@ class AuthController extends GetxController {
     );
   }
 
-  Future<void> checkUserData(String uid, String email) async {
+  Future<void> checkUserData(String email) async {
     final box = GetStorage();
     final _notifController = Get.put(NotificationController());
+    final user = FirebaseAuth.instance.currentUser;
     bool internet = await InternetConnectionChecker().hasConnection;
 
     if (internet == true) {
       await FirebaseDatabase.instance
           .reference()
           .child('Technician')
-          .child(uid)
+          .child(user.uid)
           .once()
           .then((snapshot) async {
         final json = snapshot.value as Map<dynamic, dynamic>;
         final technician = Technician.fromJson(json);
-        userUID.value = uid;
+        userUID.value = user.uid;
         userEmail.value = email;
         userName.value = technician.nama;
         cawangan.value = technician.cawangan;
@@ -176,7 +177,7 @@ class AuthController extends GetxController {
         jawatan.value = technician.jawatan;
         photoURL.value = technician.photoURL;
         token = technician.token;
-        box.write('userUID', uid);
+        box.write('userUID', user.uid);
         box.write('userEmail', email);
         box.write('userName', technician.nama);
         box.write('cawangan', technician.cawangan);
@@ -213,31 +214,15 @@ class AuthController extends GetxController {
           FirebaseDatabase.instance
               .reference()
               .child('Technician')
-              .child(uid)
+              .child(user.uid)
               .update({'token': deviceToken});
         }
       });
-
-      //check user database
-      Directory documentDirectory = await getApplicationDocumentsDirectory();
-      final path = join(documentDirectory.path, '${userUID.value}.db');
-      bool checkFile = await File(path).exists();
-      File file = File(path);
-
-      if (checkFile == false) {
-        try {
-          final destination = 'database/SQLite/${userUID.value}.db';
-          final ref = FirebaseStorage.instance.ref(destination);
-          await ref.writeToFile(file);
-        } on Exception catch (e) {
-          print(e);
-        }
-      }
     } else {
       ShowSnackbar.error('Gagal untuk menyambung ke rangkaian',
           'Pastikan peranti anda telah disambungkan ke rangkaian', true);
 
-      userUID.value = box.read('uid');
+      userUID.value = box.read('userUID');
       userEmail.value = box.read('userEmail');
       userName.value = box.read('userName');
       cawangan.value = box.read('cawangan');

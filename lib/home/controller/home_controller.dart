@@ -86,6 +86,7 @@ class HomeController extends GetxController {
   }
 
   void firebaseMessaging() async {
+    debugPrint('initiate firebase Messaging');
     if (!GetPlatform.isWeb) {
       FirebaseMessaging.instance.subscribeToTopic('adminPanel');
     }
@@ -107,8 +108,6 @@ class HomeController extends GetxController {
       DatabaseHelper.instance.addNotificationHistory(notif);
 
       if (screen == '/chat' && isChat == false) {
-        print(isChat);
-        print(message.data['userToken']);
         await DatabaseHelper.instance.addChat(chitChat);
         ShowSnackbar.notify(
           message.notification.title,

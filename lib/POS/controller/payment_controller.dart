@@ -343,8 +343,7 @@ class PaymentController extends GetxController {
       title.value = 'Menyegarkan semula semua data...';
       final _sparepartsController = Get.find<SparepartController>();
       final _authController = Get.find<AuthController>();
-      await _authController.checkUserData(
-          _authController.userUID.value, _authController.userEmail.value);
+      await _authController.checkUserData(_authController.userEmail.value);
       await _sparepartsController.getSparepartsList();
       await _graphController.getGraphFromFirestore();
       title.value = 'Selesai!';

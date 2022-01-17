@@ -18,7 +18,6 @@ class SettingPage extends StatelessWidget {
         body: RefreshIndicator(
       onRefresh: () async {
         await _authController.checkUserData(
-          FirebaseAuth.instance.currentUser.uid,
           FirebaseAuth.instance.currentUser.email,
         );
       },

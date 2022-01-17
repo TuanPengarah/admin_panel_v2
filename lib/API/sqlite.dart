@@ -95,7 +95,7 @@ class DatabaseHelper {
           jenisParts TEXT,
           harga TEXT,
           maklumatParts TEXT,
-          tarikh TEXT,
+          tarikh INTEGER,
           partsID TEXT
         )
         ''');
@@ -205,7 +205,7 @@ class DatabaseHelper {
           jenisParts TEXT,
           harga TEXT,
           maklumatParts TEXT,
-          tarikh TEXT,
+          tarikh INTEGER,
           partsID TEXT
         )
         ''');
