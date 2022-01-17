@@ -13,6 +13,14 @@ class SparepartPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Spareparts'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await _sparepartController.refreshDialog(false);
+            },
+            icon: Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -73,13 +81,13 @@ class SparepartPage extends StatelessWidget {
                             var spareparts = _sparepartController.spareparts[i];
                             return ListTile(
                               leading: Hero(
-                                tag: spareparts['id'],
+                                tag: spareparts.id,
                                 child: CircleAvatar(
                                   backgroundColor: Get.theme.primaryColor,
                                   child: Text(
-                                    spareparts['Supplier'] == 'Lain...'
+                                    spareparts.supplier == 'Lain...'
                                         ? '...'
-                                        : spareparts['Supplier'],
+                                        : '${spareparts.supplier}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
@@ -87,27 +95,28 @@ class SparepartPage extends StatelessWidget {
                                 ),
                               ),
                               title: Text(
-                                  '${spareparts['Jenis Spareparts']} ${spareparts['Model']}'),
-                              subtitle: Text(spareparts['Maklumat Spareparts']),
+                                  '${spareparts.jenisSpareparts} ${spareparts.model}'),
+                              subtitle:
+                                  Text('${spareparts.maklumatSpareparts}'),
                               onTap: () {
                                 Haptic.feedbackClick();
                                 var arguments = {
-                                  'Model': spareparts['Model'],
-                                  'Kualiti': spareparts['Kualiti'],
+                                  'Model': spareparts.model,
+                                  'Kualiti': spareparts.kualiti,
                                   'Jenis Spareparts':
-                                      spareparts['Jenis Spareparts'],
-                                  'Tarikh': spareparts['Tarikh'],
-                                  'Harga': spareparts['Harga'],
-                                  'Supplier': spareparts['Supplier'],
+                                      spareparts.jenisSpareparts,
+                                  'Tarikh': spareparts.tarikh,
+                                  'Harga': spareparts.harga,
+                                  'Supplier': spareparts.supplier,
                                   'Maklumat Spareparts':
-                                      spareparts['Maklumat Spareparts'],
+                                      spareparts.maklumatSpareparts,
                                 };
 
                                 Get.toNamed(
                                   MyRoutes.sparepartsDetails,
                                   arguments: arguments,
                                   parameters: {
-                                    'id': spareparts['id'],
+                                    'id': spareparts.id.toString(),
                                   },
                                 );
                               },

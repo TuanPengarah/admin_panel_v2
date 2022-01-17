@@ -96,19 +96,17 @@ class TechnicianAddController extends GetxController {
             .reference()
             .child('Technician')
             .child(uid)
-            .set(
-              Technician(
-                namaStaff.text,
-                selectedCawangan.value,
-                emailStaff.text,
-                0,
-                0,
-                selectedJawatan.value,
-                photoURL,
-                uid,
-                token,
-              ).toJson(),
-            )
+            .set(Technician(
+              id: uid,
+              nama: namaStaff.text,
+              cawangan: selectedCawangan.value,
+              email: emailStaff.text,
+              jumlahRepair: 0,
+              jumlahKeuntungan: 0,
+              jawatan: selectedJawatan.value,
+              photoURL: photoURL,
+              token: token,
+            ).toJson())
             .then((value) => status.value = 'Selesai!');
         await Future.delayed(Duration(seconds: 1));
         app.delete();

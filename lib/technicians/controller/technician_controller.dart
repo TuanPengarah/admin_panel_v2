@@ -1,4 +1,6 @@
+import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
@@ -6,9 +8,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class TechnicianController extends GetxController {
-  List technicians = [];
+  List<Technician> technicians = [];
   Future getTechList;
   final _authController = Get.find<AuthController>();
 
@@ -22,20 +25,20 @@ class TechnicianController extends GetxController {
     var technician = technicians[i];
 
     var payload = {
-      'name': technician['nama'],
-      'email': technician['email'],
-      'cawangan': technician['cawangan'],
-      'jawatan': technician['jawatan'],
-      'photoURL': technician['photoURL'],
+      'name': technician.nama,
+      'email': technician.email,
+      'cawangan': technician.cawangan,
+      'jawatan': technician.jawatan,
+      'photoURL': technician.photoURL,
       'photoURL1': _authController.photoURL.value,
-      'jumlahKeuntungan': technician['jumlahKeuntungan'],
-      'jumlahRepair': technician['jumlahRepair'],
+      'jumlahKeuntungan': technician.jumlahKeuntungan,
+      'jumlahRepair': technician.jumlahRepair,
       'uid': _authController.userUID.value,
-      'token': technician['token'],
+      'token': technician.token,
     };
 
     var params = <String, String>{
-      'id': technician['id'],
+      'id': technician.id,
     };
 
     Get.toNamed(MyRoutes.technicianDetails,
@@ -99,18 +102,35 @@ class TechnicianController extends GetxController {
   }
 
   Future<void> getTechnician() async {
-    await FirebaseDatabase.instance
-        .reference()
-        .child('Technician')
-        .once()
-        .then((snapshot) {
-      Map<dynamic, dynamic> values = snapshot.value;
-      technicians = [];
-      values.forEach((key, value) {
-        technicians.add(value);
+    bool internet = await InternetConnectionChecker().hasConnection;
+    if (internet == true) {
+      await FirebaseDatabase.instance
+          .reference()
+          .child('Technician')
+          .once()
+          .then((snapshot) async {
+        Map<dynamic, dynamic> values = snapshot.value;
+        technicians = [];
+        try {
+          await DatabaseHelper.instance.deleteTechnicianCache();
+        } catch (e) {
+          debugPrint(e.toString());
+        }
+        values.forEach((key, value) {
+          technicians.add(Technician.fromJson(value));
+          DatabaseHelper.instance
+              .addTechnicianCache(Technician.fromJson(value));
+        });
+        technicians..sort((a, b) => a.nama.compareTo(b.nama));
       });
-      technicians..sort((a, b) => a['nama'].compareTo(b['nama']));
-    });
-    update();
+      update();
+    } else {
+      technicians = [];
+      var cache = await DatabaseHelper.instance.getTechnicianCache();
+      technicians = cache;
+      print('jumlah technician = ${technicians.length}');
+      technicians..sort((a, b) => a.nama.compareTo(b.nama));
+      update();
+    }
   }
 }

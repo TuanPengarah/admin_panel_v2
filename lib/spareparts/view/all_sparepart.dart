@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 
+import '../model/sparepart_model.dart';
+
 class AllSparepartsView extends GetView<SparepartController> {
   final _data = Get.arguments;
 
@@ -42,37 +44,36 @@ class AllSparepartsView extends GetView<SparepartController> {
                     },
                     suggestionsCallback: (String pattern) {
                       return controller.spareparts.where((e) =>
-                          '${e['Jenis Spareparts']} ${e['Model']}'
+                          '${e.jenisSpareparts} ${e.model}'
                               .contains(pattern.toUpperCase()));
                     },
-                    itemBuilder: (BuildContext context, spareparts) {
+                    itemBuilder: (BuildContext context, Spareparts spareparts) {
                       return ListTile(
                           title: Text(
-                              '${spareparts['Jenis Spareparts']} ${spareparts['Model']}'),
-                          subtitle: Text(spareparts['Maklumat Spareparts']),
-                          trailing: Text('RM${spareparts['Harga']}'),
+                              '${spareparts.jenisSpareparts} ${spareparts.model}'),
+                          subtitle: Text(spareparts.maklumatSpareparts),
+                          trailing: Text('RM${spareparts.harga}'),
                           onTap: () {
                             controller.isSearch.value = false;
                             if (_data == null) {
                               var arguments = {
-                                'Model': spareparts['Model'],
-                                'Kualiti': spareparts['Kualiti'],
-                                'Jenis Spareparts':
-                                    spareparts['Jenis Spareparts'],
-                                'Tarikh': spareparts['Tarikh'],
-                                'Harga': spareparts['Harga'],
-                                'Supplier': spareparts['Supplier'],
+                                'Model': spareparts.model,
+                                'Kualiti': spareparts.kualiti,
+                                'Jenis Spareparts': spareparts.jenisSpareparts,
+                                'Tarikh': spareparts.tarikh,
+                                'Harga': spareparts.harga,
+                                'Supplier': spareparts.supplier,
                                 'Maklumat Spareparts':
-                                    spareparts['Maklumat Spareparts'],
+                                    spareparts.maklumatSpareparts,
                               };
                               controller.goToDetails(
-                                  arguments, spareparts['id']);
+                                  arguments, spareparts.id.toString());
                             } else {
                               final data = {
                                 'model':
-                                    '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
-                                'id': spareparts['id'],
-                                'harga': spareparts['Harga'],
+                                    '${spareparts.jenisSpareparts} ${spareparts.model} (${spareparts.kualiti})',
+                                'id': spareparts.id,
+                                'harga': spareparts.harga,
                               };
                               Get.back(result: data);
                             }
@@ -128,11 +129,8 @@ class AllSparepartsView extends GetView<SparepartController> {
                       list: i == 0
                           ? controller.spareparts
                           : controller.spareparts.where((e) {
-                              return e['Model']
-                                  .toString()
-                                  .toLowerCase()
-                                  .contains(ModelBrands.brandsTab[i].text
-                                      .toLowerCase());
+                              return e.model.toString().toLowerCase().contains(
+                                  ModelBrands.brandsTab[i].text.toLowerCase());
                             }).toList(),
                     ),
                 ],

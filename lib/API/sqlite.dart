@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
@@ -32,7 +33,7 @@ class DatabaseHelper {
         join(documentDirectory.path, '${_authController.userUID.value}.db');
 
     return await openDatabase(path,
-        version: 4, onCreate: _onCreate, onUpgrade: _onUpgrade);
+        version: 5, onCreate: _onCreate, onUpgrade: _onUpgrade);
   }
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -67,6 +68,37 @@ class DatabaseHelper {
         price INTEGER
       )
       ''');
+      }
+
+      if (oldVersion == 4) {
+        await db.execute('''
+        CREATE TABLE technicianCache(
+          uid INTEGER PRIMARY KEY AUTOINCREMENT,
+          id TEXT,
+          nama TEXT,
+          cawangan TEXT,
+          email TEXT,
+          jumlahRepair INTEGER,
+          jumlahKeuntungan INTEGER,
+          jawatan TEXT,
+          photoURL TEXT,
+          token TEXT
+        )
+          ''');
+
+        await db.execute('''
+        CREATE TABLE sparepartsCache(
+          id INTEGER,
+          supplier TEXT,
+          model TEXT,
+          kualitiParts TEXT,
+          jenisParts TEXT,
+          harga TEXT,
+          maklumatParts TEXT,
+          tarikh TEXT,
+          partsID TEXT
+        )
+        ''');
       }
     }
   }
@@ -148,6 +180,85 @@ class DatabaseHelper {
         price INTEGER
       )
       ''');
+
+    await db.execute('''
+        CREATE TABLE technicianCache(
+          uid INTEGER PRIMARY KEY AUTOINCREMENT,
+          id TEXT,
+          nama TEXT,
+          cawangan TEXT,
+          email TEXT,
+          jumlahRepair INTEGER,
+          jumlahKeuntungan INTEGER,
+          jawatan TEXT,
+          photoURL TEXT,
+          token TEXT
+        )
+          ''');
+
+    await db.execute('''
+        CREATE TABLE sparepartsCache(
+          id INTEGER,
+          supplier TEXT,
+          model TEXT,
+          kualitiParts TEXT,
+          jenisParts TEXT,
+          harga TEXT,
+          maklumatParts TEXT,
+          tarikh TEXT,
+          partsID TEXT
+        )
+        ''');
+  }
+
+  ///CACHE SPAREPARTS
+  Future<List<Spareparts>> getSparepartsCache() async {
+    Database db = await instance.database;
+
+    var cache = await db.query('sparepartsCache');
+
+    List<Spareparts> getCache = cache.isNotEmpty
+        ? cache.map((e) => Spareparts.fromMap(e)).toList()
+        : [];
+    debugPrint('get id : ${getCache.first.id}');
+    return getCache;
+  }
+
+  Future<int> deleteSparepartsCache() async {
+    Database db = await instance.database;
+
+    return await db.delete('sparepartsCache');
+  }
+
+  Future<int> addSparepartsCache(Spareparts spareparts) async {
+    Database db = await instance.database;
+
+    return await db.insert('sparepartsCache', spareparts.toMap());
+  }
+
+  ///CACHE TECHNICIAN
+  Future<List<Technician>> getTechnicianCache() async {
+    Database db = await instance.database;
+
+    var caching = await db.query('technicianCache');
+
+    List<Technician> getCache = caching.isNotEmpty
+        ? caching.map((e) => Technician.fromJson(e)).toList()
+        : [];
+
+    return getCache;
+  }
+
+  Future<int> deleteTechnicianCache() async {
+    Database db = await instance.database;
+
+    return await db.delete('technicianCache');
+  }
+
+  Future<int> addTechnicianCache(Technician techncian) async {
+    Database db = await instance.database;
+
+    return await db.insert('technicianCache', techncian.toJson());
   }
 
   ///CACHE PRICE LIST
@@ -171,8 +282,6 @@ class DatabaseHelper {
 
   Future<int> deleteCachePriceList() async {
     Database db = await instance.database;
-    debugPrint('versi sqlite ${await db.getVersion()}');
-
     return await db.delete('priceListCache');
   }
 

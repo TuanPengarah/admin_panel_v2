@@ -1,12 +1,13 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
+import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 class ListSpareparts extends StatelessWidget {
-  final List list;
+  final List<Spareparts> list;
 
   ListSpareparts({
     Key key,
@@ -36,13 +37,13 @@ class ListSpareparts extends StatelessWidget {
                           child: FadeInAnimation(
                             child: ListTile(
                                 leading: Hero(
-                                  tag: spareparts['id'],
+                                  tag: spareparts.id,
                                   child: CircleAvatar(
                                     backgroundColor: Get.theme.primaryColor,
                                     child: Text(
-                                      spareparts['Supplier'] == 'Lain...'
+                                      spareparts.supplier == 'Lain...'
                                           ? '...'
-                                          : spareparts['Supplier'],
+                                          : '${spareparts.supplier}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
@@ -51,32 +52,32 @@ class ListSpareparts extends StatelessWidget {
                                   ),
                                 ),
                                 title: Text(
-                                    '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})'),
-                                subtitle:
-                                    Text(spareparts['Maklumat Spareparts']),
-                                trailing: Text('RM${spareparts['Harga']}'),
+                                    '${spareparts.jenisSpareparts} ${spareparts.model} (${spareparts.kualiti})'),
+                                subtitle: Text(spareparts.maklumatSpareparts),
+                                trailing: Text('RM${spareparts.harga}'),
                                 onTap: () {
+                                  print(spareparts.partsID);
                                   _sparepartsController.isSearch.value = false;
                                   if (_data == null) {
                                     var arguments = {
-                                      'Model': spareparts['Model'],
-                                      'Kualiti': spareparts['Kualiti'],
+                                      'Model': spareparts.model,
+                                      'Kualiti': spareparts.kualiti,
                                       'Jenis Spareparts':
-                                          spareparts['Jenis Spareparts'],
-                                      'Tarikh': spareparts['Tarikh'],
-                                      'Harga': spareparts['Harga'],
-                                      'Supplier': spareparts['Supplier'],
+                                          spareparts.jenisSpareparts,
+                                      'Tarikh': spareparts.tarikh,
+                                      'Harga': spareparts.harga,
+                                      'Supplier': spareparts.supplier,
                                       'Maklumat Spareparts':
-                                          spareparts['Maklumat Spareparts'],
+                                          spareparts.maklumatSpareparts,
                                     };
                                     _sparepartsController.goToDetails(
-                                        arguments, spareparts['id']);
+                                        arguments, spareparts.id);
                                   } else {
                                     final data = {
                                       'model':
-                                          '${spareparts['Jenis Spareparts']} ${spareparts['Model']} (${spareparts['Kualiti']})',
-                                      'id': spareparts['id'],
-                                      'harga': spareparts['Harga'],
+                                          '${spareparts.jenisSpareparts} ${spareparts.model} (${spareparts.kualiti})',
+                                      'id': spareparts.id,
+                                      'harga': spareparts.harga,
                                     };
                                     Get.back(result: data);
                                   }

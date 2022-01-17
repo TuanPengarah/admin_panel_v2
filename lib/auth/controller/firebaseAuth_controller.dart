@@ -238,7 +238,7 @@ class AuthController extends GetxController {
           'Pastikan peranti anda telah disambungkan ke rangkaian', true);
 
       userUID.value = box.read('uid');
-      userEmail.value = box.read('email');
+      userEmail.value = box.read('userEmail');
       userName.value = box.read('userName');
       cawangan.value = box.read('cawangan');
       jumlahRepair.value = box.read<int>('jumlahRepair');

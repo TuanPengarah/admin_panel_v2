@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Spareparts {
-  final int id;
+  final String id;
   final String model;
   final String jenisSpareparts;
   final String supplier;
@@ -23,17 +23,29 @@ class Spareparts {
     @required this.partsID,
   });
 
-  factory Spareparts.fromMap(Map<String, dynamic> json) => new Spareparts(
-        id: json['id'],
+  factory Spareparts.fromMap(json) => new Spareparts(
+        id: '${json['id']}',
         model: json['model'],
         jenisSpareparts: json['jenisParts'],
         supplier: json['supplier'],
         kualiti: json['kualitiParts'],
         maklumatSpareparts: json['maklumatParts'],
-        tarikh: json[''],
+        tarikh: json['tarikh'],
         harga: json['harga'],
-        partsID: json['id'],
+        partsID: '${json['id']}',
       );
+
+  factory Spareparts.fromRealtimeDatabase(Map<dynamic, dynamic> value) =>
+      new Spareparts(
+          id: value['id'],
+          model: value['Model'],
+          jenisSpareparts: value['Jenis Spareparts'],
+          supplier: value['Supplier'],
+          kualiti: value['Kualiti'],
+          maklumatSpareparts: value['Maklumat Spareparts'],
+          tarikh: value['Tarikh'],
+          harga: value['Harga'],
+          partsID: value['id']);
 
   toJson() {
     return {
@@ -48,16 +60,17 @@ class Spareparts {
     };
   }
 
-  Map<String, dynamic> toMap() {
+  toMap() {
     return {
+      'id': id,
       'model': model,
       'jenisParts': jenisSpareparts,
       'supplier': supplier,
       'kualitiParts': kualiti,
       'maklumatParts': maklumatSpareparts,
       'harga': harga,
-      'tarikh': '',
-      'partsID': partsID,
+      'tarikh': tarikh,
+      'partsID': '$id',
     };
   }
 }

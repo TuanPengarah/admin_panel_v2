@@ -31,7 +31,7 @@ class ProfileAvatar {
             ),
             SizedBox(height: 20),
             Text(
-              name,
+              '$name',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 25,
@@ -39,12 +39,12 @@ class ProfileAvatar {
             ),
             SizedBox(height: 8),
             Text(
-              jawatan,
+              '$jawatan',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
             Text(
-              email,
+              '$email',
               style: TextStyle(
                 color: Colors.grey,
                 fontWeight: FontWeight.bold,

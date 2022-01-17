@@ -21,7 +21,7 @@ class TabPriceList extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _controller.getList.timeout(Duration(seconds: 10)),
-      builder: (context, AsyncSnapshot<Response> snapshot) {
+      builder: (context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ListView.builder(
               itemCount: 20,
@@ -33,8 +33,12 @@ class TabPriceList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Shimmer.fromColors(
-                        baseColor: Colors.grey[300],
-                        highlightColor: Colors.grey[200],
+                        baseColor: Get.isDarkMode
+                            ? Colors.grey.shade900
+                            : Colors.grey[300],
+                        highlightColor: Get.isDarkMode
+                            ? Colors.grey.shade800
+                            : Colors.grey[200],
                         child: Container(
                           height: 13,
                           width: Random().nextInt(250).toDouble() + 100,
@@ -49,7 +53,8 @@ class TabPriceList extends StatelessWidget {
                   ),
                 );
               });
-        } else if (snapshot.hasData || _controller.offlineMode.value == true) {
+        } else if (snapshot.data == 'success' ||
+            _controller.offlineMode.value == true) {
           return list.length > 0
               ? RefreshIndicator(
                   onRefresh: () async => await _controller.getPriceList(),
@@ -139,7 +144,7 @@ class TabPriceList extends StatelessWidget {
                     ],
                   ),
                 );
-        } else
+        } else if (snapshot.data != 'success') {
           return GetBuilder<PriceListController>(
             builder: (_) {
               return Padding(
@@ -164,22 +169,18 @@ class TabPriceList extends StatelessWidget {
                       child: Text('Aktifkan Mod Luar Talian'),
                     ),
                     const Spacer(),
-                    snapshot.hasError == false
-                        ? Text(
-                            '${snapshot.data.statusText}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12),
-                          )
-                        : Text(
-                            '${snapshot.error.toString()}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12),
-                          ),
+                    Text(
+                      '${_controller.errorText.value}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 12),
+                    )
                   ],
                 ),
               );
             },
           );
+        }
+        return const SizedBox();
       },
     );
   }

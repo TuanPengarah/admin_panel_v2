@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Technician {
   final String nama;
   final String cawangan;
@@ -7,32 +9,35 @@ class Technician {
   final String jawatan;
   final String photoURL;
   final String id;
+  final int uid;
   final String token;
 
-  Technician(
-    this.nama,
-    this.cawangan,
-    this.email,
-    this.jumlahRepair,
-    this.jumlahKeuntungan,
-    this.jawatan,
-    this.photoURL,
+  Technician({
     this.id,
-    this.token,
-  );
+    this.uid,
+    @required this.nama,
+    @required this.cawangan,
+    @required this.email,
+    @required this.jumlahRepair,
+    @required this.jumlahKeuntungan,
+    @required this.jawatan,
+    @required this.photoURL,
+    @required this.token,
+  });
 
   Technician.fromJson(Map<dynamic, dynamic> json)
       : nama = json['nama'] as String,
         cawangan = json['cawangan'] as String,
         email = json['email'] as String,
-        jumlahRepair = json['jumlahRepair'] as int,
-        jumlahKeuntungan = json['jumlahKeuntungan'] as int,
+        jumlahRepair = int.parse(json['jumlahRepair'].toString()),
+        jumlahKeuntungan = int.parse(json['jumlahKeuntungan'].toString()),
         jawatan = json['jawatan'],
         photoURL = json['photoURL'],
         id = json['id'],
+        uid = 0,
         token = json['token'];
 
-  Map<dynamic, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'nama': nama.toString(),
         'cawangan': cawangan.toString(),
         'jumlahRepair': jumlahRepair,

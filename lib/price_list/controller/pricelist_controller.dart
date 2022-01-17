@@ -9,9 +9,11 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'dart:convert' as convert;
 
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+
 class PriceListController extends GetxController {
   List<PriceListModel> priceList = [];
-  Future<Response> getList;
+  Future<String> getList;
 
   TextEditingController modelText = TextEditingController();
   TextEditingController partsText = TextEditingController();
@@ -23,51 +25,69 @@ class PriceListController extends GetxController {
 
   var isSearch = false.obs;
   var offlineMode = false.obs;
+  var internet = true.obs;
+  var errorText = 'Sambungan internet tidak dapat ditemui'.obs;
 
   @override
   void onInit() {
+    checkInternet();
     getList = getPriceList();
+
     super.onInit();
   }
 
-  void activateOffline() {
-    if (priceList.isNotEmpty) {
-      offlineMode.value = true;
-    }
+  void checkInternet() async {
+    bool getInternet = await InternetConnectionChecker().hasConnection;
+    internet.value = getInternet;
+  }
+
+  void activateOffline() async {
+    offlineMode.value = true;
+    priceList = [];
+    List<PriceListModel> cache =
+        await DatabaseHelper.instance.getCachePriceList();
+    priceList.addAll(cache);
+    priceList.sort((a, b) => a.parts.compareTo(b.parts));
+    Haptic.feedbackError();
     update();
   }
 
-  Future<Response> getPriceList() async {
-    var data = await GoogleSheet().getList().timeout(Duration(seconds: 10));
-    if (data.isOk) {
-      priceList = [];
-
-      var jsonPricelist = convert.jsonDecode(data.bodyString);
-      try {
-        await DatabaseHelper.instance.deleteCachePriceList();
-      } on Exception catch (e) {
-        debugPrint(e.toString());
-      }
-      jsonPricelist.forEach((value) {
-        PriceListModel priceListModel = PriceListModel(
-          parts: value['parts'],
-          model: value['model'],
-          price: value['harga'],
-          id: value['id'],
-        );
-        priceList.add(priceListModel);
-        priceList.sort((a, b) => a.parts.compareTo(b.parts));
-
-        DatabaseHelper.instance.addCachePriceList(priceListModel);
-        update();
+  Future<String> getPriceList() async {
+    bool adaInternet = await InternetConnectionChecker().hasConnection;
+    try {
+      var data = await GoogleSheet().getList().timeout(Duration(seconds: 10),
+          onTimeout: () {
+        errorText.value = 'Sambungan Tamat';
+        throw Exception('Connection Failed!');
       });
-    } else if (data.status.connectionError == true) {
-      priceList = await DatabaseHelper.instance.getCachePriceList();
-      priceList.sort((a, b) => a.parts.compareTo(b.parts));
-      Haptic.feedbackError();
+      if (adaInternet == true) {
+        priceList = [];
+        var jsonPricelist = convert.jsonDecode(data.bodyString);
+        await DatabaseHelper.instance.deleteCachePriceList();
+
+        jsonPricelist.forEach((value) {
+          PriceListModel priceListModel = PriceListModel(
+            parts: value['parts'],
+            model: value['model'],
+            price: value['harga'],
+            id: value['id'],
+          );
+          priceList.add(priceListModel);
+          priceList.sort((a, b) => a.parts.compareTo(b.parts));
+
+          DatabaseHelper.instance.addCachePriceList(priceListModel);
+          update();
+        });
+        return 'success';
+      } else {
+        errorText.value = data.statusText;
+      }
+    } on Exception catch (e) {
+      errorText.value = e.toString();
+      return e.toString();
     }
     update();
-    return data;
+    return 'failed';
   }
 
   Future<void> addPriceList() async {

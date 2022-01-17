@@ -22,6 +22,10 @@ class TechnicianView extends StatelessWidget {
                   icon: Icon(Icons.add),
                 )
               : const SizedBox(),
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: _technicianController.getTechnician,
+          )
         ],
       ),
       body: FutureBuilder(
@@ -71,26 +75,26 @@ class TechnicianView extends StatelessWidget {
                       child: FadeInAnimation(
                         child: ListTile(
                           leading: AdvancedAvatar(
-                            name: '${technician['nama']}',
+                            name: '${technician.nama}',
                             size: 40,
-                            image: technician['photoURL'] == null ||
-                                    technician['photoURL'] == ''
+                            image: technician.photoURL == null ||
+                                    technician.photoURL == ''
                                 ? null
-                                : NetworkImage(technician['photoURL']),
+                                : NetworkImage(technician.photoURL),
                             decoration: BoxDecoration(
                               color: Get.theme.primaryColor,
                               borderRadius: BorderRadius.circular(200),
                             ),
                           ),
-                          title: Text('${technician['nama']}'),
-                          subtitle: Text('${technician['jawatan']}'),
+                          title: Text('${technician.nama}'),
+                          subtitle: Text('${technician.jawatan}'),
                           onTap: () {
                             if (_data == null) {
                               _technicianController.techInfo(i);
                             } else {
                               var result = {
-                                'nama': technician['nama'],
-                                'id': technician['id'],
+                                'nama': technician.nama,
+                                'id': technician.id,
                               };
 
                               Get.back(result: result);

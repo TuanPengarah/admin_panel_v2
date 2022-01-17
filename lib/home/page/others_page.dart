@@ -19,7 +19,7 @@ class SettingPage extends StatelessWidget {
       onRefresh: () async {
         await _authController.checkUserData(
           FirebaseAuth.instance.currentUser.uid,
-          _authController.userEmail.value,
+          FirebaseAuth.instance.currentUser.email,
         );
       },
       child: CustomScrollView(
