@@ -39,7 +39,7 @@ class PaymentController extends GetxController {
   int hargaSpareparts = 0;
   var recommendedPrice = 0.0.obs;
 
-  var totalBillsPrice = 0.obs;
+  var totalBillsPrice = 0.0.obs;
   bool isPending = false;
 
   String customerName = '';

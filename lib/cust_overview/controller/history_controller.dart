@@ -93,7 +93,7 @@ class RepairHistoryController extends GetxController {
                   'technician': data['technician'],
                 };
                 payment.bills.add(value);
-                payment.totalBillsPrice.value = int.parse(data['price']);
+                payment.totalBillsPrice.value = double.parse(data['price']);
                 payment.customerName = data['nama'];
                 payment.phoneNumber = '';
                 print(payment.bills[0]);
