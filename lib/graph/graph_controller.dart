@@ -116,7 +116,8 @@ class GraphController extends GetxController {
   }
 
   double getMonthsHargajual() {
-    return graphSupplier[0][checkMonths(DateTime.now().month - 1)];
+    return double.parse(
+        graphSupplier[0][checkMonths(DateTime.now().month - 1)].toString());
   }
 
   double getMonthsUntungBersih() {

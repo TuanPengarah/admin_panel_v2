@@ -30,7 +30,7 @@ class Spareparts {
         supplier: json['supplier'],
         kualiti: json['kualitiParts'],
         maklumatSpareparts: json['maklumatParts'],
-        tarikh: json['tarikh'],
+        tarikh: '${json['tarikh']}',
         harga: json['harga'],
         partsID: '${json['id']}',
       );
