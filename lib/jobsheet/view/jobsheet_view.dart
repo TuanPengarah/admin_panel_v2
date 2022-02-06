@@ -106,7 +106,7 @@ class JobsheetView extends StatelessWidget {
                                       child: Text(_jobsheetController
                                                   .currentSteps.value ==
                                               7
-                                          ? 'Tambah Jobsheet'
+                                          ? 'Tambah'
                                           : 'Seterusnya'),
                                     ),
                                   ),
@@ -224,7 +224,8 @@ class JobsheetView extends StatelessWidget {
                                   focusNode:
                                       _jobsheetController.focusModelPhone,
                                   textInputAction: TextInputAction.next,
-                                  textCapitalization: TextCapitalization.words,
+                                  textCapitalization:
+                                      TextCapitalization.characters,
                                   onSubmitted: (text) =>
                                       _jobsheetController.nextStep(),
                                   decoration: InputDecoration(
