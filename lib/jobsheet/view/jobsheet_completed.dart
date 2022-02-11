@@ -1,4 +1,5 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,15 +50,13 @@ class JobsheetCompleted extends StatelessWidget {
                         icon: Icon(Icons.share),
                         onPressed: () =>
                             _jobsheetController.showShareJobsheet(_data),
-                        label: Text('Hantar maklumat Jobsheet')),
+                        label: Text('Hasilkan maklumat Jobsheet')),
                   ),
                   SizedBox(height: 10),
                   TextButton(
                     onPressed: () {
                       Haptic.feedbackSuccess();
-                      Get.back();
-                      Get.back();
-                      Get.back();
+                      Get.offAllNamed(MyRoutes.home);
                     },
                     child: Text('Tutup'),
                   ),

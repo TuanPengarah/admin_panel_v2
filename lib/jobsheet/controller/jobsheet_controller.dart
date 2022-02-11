@@ -72,60 +72,19 @@ class JobsheetController extends GetxController {
   }
 
   void showShareJobsheet(Map<String, String> data) {
-    Get.bottomSheet(
-      Material(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(Icons.print),
-              title: Text('Print'),
-              subtitle: Text('Print maklumat Jobsheet ini!'),
-              onTap: () {
-                Get.back();
-                Get.toNamed(MyRoutes.printView, parameters: data, arguments: {
-                  'isReceipt': false,
-                  'timeStamp': Timestamp.fromDate(DateTime.now()),
-                  'technician': _authController.userName.value,
-                  'nama': namaCust.text,
-                  'noTel': noPhone.text,
-                  'model': modelPhone.text,
-                  'kerosakkan': kerosakkan.text,
-                  'price': harga.text,
-                  'remarks': remarks.text,
-                  'mysid': mySID.value,
-                  'email': data['email'],
-                });
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.picture_as_pdf),
-              title: Text('PDF'),
-              subtitle: Text('Hasilkan maklumat Jobsheet berformat PDF!'),
-              onTap: () {
-                Get.back();
-                Get.toNamed(MyRoutes.pdfJobsheeetViewer,
-                    parameters: data,
-                    arguments: {
-                      'isReceipt': false,
-                      'timeStamp': Timestamp.fromDate(DateTime.now()),
-                      'technician': _authController.userName.value,
-                      'nama': namaCust.text,
-                      'noTel': noPhone.text,
-                      'model': modelPhone.text,
-                      'kerosakkan': kerosakkan.text,
-                      'price': harga.text,
-                      'remarks': remarks.text,
-                      'mysid': mySID.value,
-                      'email': data['email'],
-                    });
-              },
-            ),
-            SizedBox(height: 10),
-          ],
-        ),
-      ),
-    );
+    Get.toNamed(MyRoutes.pdfJobsheeetViewer, parameters: data, arguments: {
+      'isReceipt': false,
+      'timeStamp': Timestamp.fromDate(DateTime.now()),
+      'technician': _authController.userName.value,
+      'nama': namaCust.text,
+      'noTel': noPhone.text,
+      'model': modelPhone.text,
+      'kerosakkan': kerosakkan.text,
+      'price': harga.text,
+      'remarks': remarks.text,
+      'mysid': mySID.value,
+      'email': data['email'],
+    });
   }
 
   Future<bool> exitJobSheet() async {

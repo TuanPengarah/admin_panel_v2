@@ -1,6 +1,7 @@
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/technicians/controller/technician_controller.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -80,7 +81,8 @@ class TechnicianView extends StatelessWidget {
                             image: technician.photoURL == null ||
                                     technician.photoURL == ''
                                 ? null
-                                : NetworkImage(technician.photoURL),
+                                : ExtendedNetworkImageProvider(
+                                    technician.photoURL),
                             decoration: BoxDecoration(
                               color: Get.theme.primaryColor,
                               borderRadius: BorderRadius.circular(200),

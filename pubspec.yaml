@@ -38,11 +38,12 @@ dependencies:
   firebase_messaging: "^11.1.0"
   awesome_notifications: ^0.6.19
   restart_app: ^1.1.0
+  gsheets: ^0.3.2
 
   # Native Hardware
-  esc_pos_bluetooth: ^0.2.8
-  esc_pos_utils: ^0.3.6
-  flutter_bluetooth_basic: ^0.1.5
+  # esc_pos_bluetooth: ^0.2.8
+  # esc_pos_utils: ^0.3.6
+  # flutter_bluetooth_basic: ^0.1.5
 
   # State Management
   get: ^4.6.1
@@ -53,13 +54,14 @@ dependencies:
   url_launcher: ^6.0.9
   share_plus: ^2.1.4
   file_picker: ^4.2.0
+  extended_image: ^6.0.1
   
   # Data Models
   intl: ^0.17.0
   flutter_native_contact_picker: ^0.0.3
   path_provider: ^2.0.2
   pdf:
-  flutter_full_pdf_viewer: ^1.0.6
+  pdf_render: ^1.0.23
   flutter_app_badger: ^1.2.0
   device_info_plus: ^2.1.0
   image_picker: ^0.8.4+2

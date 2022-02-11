@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,7 @@ class ProfileAvatar {
               name: name,
               image: photoURL == null || photoURL == ''
                   ? null
-                  : NetworkImage(photoURL),
+                  : ExtendedNetworkImageProvider(photoURL),
               style: TextStyle(fontSize: 50),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,

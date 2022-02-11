@@ -2,6 +2,7 @@ import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/chat/controller/chat_controller.dart';
 import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -271,7 +272,8 @@ class ChatView extends GetView<ChatController> {
             : Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage(_data['photoURL1']),
+                  backgroundImage:
+                      ExtendedNetworkImageProvider(_data['photoURL1']),
                 ),
               ),
       ],

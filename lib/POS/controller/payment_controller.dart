@@ -262,6 +262,7 @@ class PaymentController extends GetxController {
         Map<String, dynamic> data = {
           'isWarranty': true,
           'Tarikh Waranti': '$tempohWaranti',
+          'Kerosakkan': '${currentStock.value}',
           'Status': 'Selesai',
           'Harga': double.parse(priceText.text),
           'Technician': currentTechnician.value,
@@ -353,11 +354,11 @@ class PaymentController extends GetxController {
             'Pembayaran telah selesai!',
             'Juruteknik ${_authController.userName.value} telah membuka resit bayaran dengan berjumlah RM${priceText.text}',
           )
-          .then((value) => print(value.body));
+          .then((value) => debugPrint(value.body));
       Haptic.feedbackSuccess();
       Get.back();
     } on Exception catch (e) {
-      print(e);
+      debugPrint(e.toString());
       Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 1));
       Get.back();

@@ -21,19 +21,19 @@ class RepairHistoryController extends GetxController {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // ListTile(
+            //   leading: Icon(Icons.print),
+            //   title: Text('Print Jobsheet'),
+            //   subtitle: Text('Print maklumat Jobsheet ini!'),
+            //   onTap: () {
+            //     Get.back();
+            //     Get.toNamed(MyRoutes.printView, arguments: data);
+            //   },
+            // ),
             ListTile(
-              leading: Icon(Icons.print),
-              title: Text('Print Jobsheet'),
-              subtitle: Text('Print maklumat Jobsheet ini!'),
-              onTap: () {
-                Get.back();
-                Get.toNamed(MyRoutes.printView, arguments: data);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.picture_as_pdf),
-              title: Text('Hasilkan Jobsheet PDF'),
-              subtitle: Text('Hasilkan maklumat Jobsheet berformat PDF!'),
+              leading: Icon(Icons.receipt),
+              title: Text('Hasilkan Jobsheet'),
+              subtitle: Text('Hasilkan maklumat Jobsheet'),
               onTap: () {
                 Get.back();
                 Get.toNamed(MyRoutes.pdfJobsheeetViewer, arguments: data);
@@ -41,12 +41,31 @@ class RepairHistoryController extends GetxController {
             ),
             data['status'] == 'Selesai'
                 ? ListTile(
-                    leading: Icon(Icons.more_horiz),
-                    title: Text('Lagi'),
-                    subtitle: Text('Pilihan untuk menghasilkan Resit Waranti!'),
+                    leading: Icon(Icons.receipt_long),
+                    title: Text('Hasilkan Resit'),
+                    subtitle: Text('Print maklumat Invois!'),
                     onTap: () {
+                      // Get.back();
+                      Get.put(PriceCalculatorController());
+
+                      final payment = Get.put(PaymentController());
+
+                      final value = {
+                        'title': data['kerosakkan'] + ' ' + data['model'],
+                        'waranti': '',
+                        'harga': data['price'],
+                        'technician': data['technician'],
+                      };
+                      payment.bills.add(value);
+                      payment.totalBillsPrice.value =
+                          double.parse(data['price']);
+                      payment.customerName = data['nama'];
+                      payment.phoneNumber = '';
+                      print(payment.bills[0]);
                       Get.back();
-                      dialogReceipt(data);
+                      Get.toNamed(MyRoutes.pdfReceiptViewer,
+                          arguments: {'isBills': false});
+                      // dialogReceipt(data);
                     },
                   )
                 : Container(),
@@ -67,14 +86,7 @@ class RepairHistoryController extends GetxController {
               leading: Icon(Icons.print),
               title: Text('Print Resit Waranti'),
               subtitle: Text('Print maklumat resit waranti untuk model ini!'),
-              onTap: () {
-                Get.toNamed(MyRoutes.printView, arguments: {
-                  'isReceipt': true,
-                  'technician': data['technician'],
-                  'nama': data['nama'],
-                  'noTel': data['noTel'],
-                });
-              },
+              onTap: () {},
             ),
             SizedBox(height: 10),
             ListTile(
