@@ -354,7 +354,7 @@ class PaymentController extends GetxController {
             'Pembayaran telah selesai!',
             'Juruteknik ${_authController.userName.value} telah membuka resit bayaran dengan berjumlah RM${priceText.text}',
           )
-          .then((value) => debugPrint(value.body));
+          .then((value) => debugPrint(value.body.toString()));
       Haptic.feedbackSuccess();
       Get.back();
     } on Exception catch (e) {
@@ -439,42 +439,12 @@ class PaymentController extends GetxController {
 
   void choosePrint() {
     Haptic.feedbackClick();
-    Get.bottomSheet(
-      Material(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(Icons.picture_as_pdf),
-              title: Text('Hasilkan Resit PDF'),
-              onTap: () {
-                Haptic.feedbackClick();
-                Get.back();
-                final data = {
-                  'isBills': true,
-                };
-                Get.toNamed(
-                  MyRoutes.pdfReceiptViewer,
-                  arguments: data,
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.print),
-              title: Text('Print Resit'),
-              onTap: () {
-                Haptic.feedbackClick();
-                Get.back();
-                var payload = {
-                  'isReceipt': true,
-                  'bills': bills,
-                };
-                Get.toNamed(MyRoutes.printView, arguments: payload);
-              },
-            ),
-          ],
-        ),
-      ),
+    final data = {
+      'isBills': true,
+    };
+    Get.toNamed(
+      MyRoutes.pdfReceiptViewer,
+      arguments: data,
     );
   }
 

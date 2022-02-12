@@ -21,9 +21,7 @@ class ProfileAvatar {
             AdvancedAvatar(
               size: 120,
               name: name,
-              image: photoURL == null || photoURL == ''
-                  ? null
-                  : ExtendedNetworkImageProvider(photoURL),
+              image: ExtendedNetworkImageProvider(photoURL),
               style: TextStyle(fontSize: 50),
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,

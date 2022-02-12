@@ -51,7 +51,7 @@ class RepairHistoryController extends GetxController {
                       final payment = Get.put(PaymentController());
 
                       final value = {
-                        'title': data['kerosakkan'] + ' ' + data['model'],
+                        'title': data['kerosakkan'],
                         'waranti': '',
                         'harga': data['price'],
                         'technician': data['technician'],

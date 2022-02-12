@@ -14,7 +14,7 @@ import 'config/routes.dart';
 
 Future<void> _firebaseMessagingBackground(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
+  debugPrint("Handling a background message: ${message.messageId}");
 }
 
 Future<void> main() async {

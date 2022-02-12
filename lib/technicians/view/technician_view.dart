@@ -78,11 +78,8 @@ class TechnicianView extends StatelessWidget {
                           leading: AdvancedAvatar(
                             name: '${technician.nama}',
                             size: 40,
-                            image: technician.photoURL == null ||
-                                    technician.photoURL == ''
-                                ? null
-                                : ExtendedNetworkImageProvider(
-                                    technician.photoURL),
+                            image: ExtendedNetworkImageProvider(
+                                technician.photoURL),
                             decoration: BoxDecoration(
                               color: Get.theme.primaryColor,
                               borderRadius: BorderRadius.circular(200),

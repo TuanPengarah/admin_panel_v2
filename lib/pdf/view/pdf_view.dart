@@ -58,11 +58,6 @@ class PdfViewerWidget extends StatelessWidget {
             }
 
             return PdfViewer.openFile(_pdfController.fullPath);
-
-            // return PDFViewerScaffold(
-
-            //   path: _pdfController.fullPath,
-            // );
           }),
     );
   }
