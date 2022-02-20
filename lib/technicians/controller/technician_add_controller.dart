@@ -208,7 +208,7 @@ class TechnicianAddController extends GetxController {
   }
 
   Future<File> _cropSquareImage(File imageFile) async =>
-      await ImageCropper.cropImage(
+      await ImageCropper().cropImage(
           sourcePath: imageFile.path,
           aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
           aspectRatioPresets: [

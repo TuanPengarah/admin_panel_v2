@@ -235,7 +235,7 @@ class CustomerPage extends StatelessWidget {
                                               BorderRadius.circular(200),
                                         ),
                                         style: TextStyle(
-                                          color: !Get.isDarkMode
+                                          color: Get.isDarkMode
                                               ? Colors.blue.shade600
                                               : Colors.white,
                                         ),
