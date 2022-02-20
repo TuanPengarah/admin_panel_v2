@@ -1,5 +1,6 @@
 import 'package:admin_panel/config/initial_binding.dart';
 import 'package:admin_panel/config/mouse_drag.dart';
+import 'package:admin_panel/price_list/model/price_list_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -35,6 +36,7 @@ Future<void> main() async {
     _isLogin = false;
   }
   await GetStorage.init();
+  await PriceListApi.init();
   runApp(MyApp(
     isLogin: _isLogin,
   ));

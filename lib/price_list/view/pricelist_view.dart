@@ -52,11 +52,11 @@ class PriceListView extends StatelessWidget {
                         (BuildContext context, PriceListModel pricelist) {
                       return ListTile(
                         title: Text('${pricelist.parts} ${pricelist.model}'),
-                        subtitle: Text('RM ${pricelist.price}'),
+                        subtitle: Text('RM ${pricelist.harga}'),
                         onTap: () {
                           _controller.isSearch.value = false;
                           Share.share(
-                              '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.price}');
+                              '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.harga}');
                         },
                         onLongPress: () {
                           _controller.isSearch.value = false;
@@ -95,7 +95,7 @@ class PriceListView extends StatelessWidget {
                     );
             }),
             IconButton(
-              onPressed: _controller.addListDialog,
+              onPressed: () => _controller.addListDialog(isEdit: false),
               icon: Icon(Icons.add),
             ),
           ],

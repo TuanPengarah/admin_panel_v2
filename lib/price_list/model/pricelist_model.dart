@@ -1,28 +1,61 @@
+import 'dart:convert';
+
+import 'package:admin_panel/price_list/model/pricelist_field.dart';
+
 class PriceListModel {
   String model;
   String parts;
   int id;
-  int price;
+  int harga;
 
-  PriceListModel({this.model, this.parts, this.price, this.id});
+  PriceListModel({this.model, this.parts, this.harga, this.id});
 
-  factory PriceListModel.fromJson(dynamic json) {
+  // factory PriceListModel.fromJson(dynamic json) {
+  //   return PriceListModel(
+  //     model: json['model'],
+  //     parts: json['parts'],
+  //     harga: json['harga'],
+  //     id: json['id'],
+  //   );
+  // }
+
+  factory PriceListModel.fromJsonSqlite(dynamic json) {
     return PriceListModel(
+      id: json['id'],
       model: json['model'],
       parts: json['parts'],
-      price: json['price'],
-      id: json['id'],
+      harga: json['price'],
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      {'model': model, 'parts': parts, 'price': price, 'id': id};
+  static PriceListModel fromJson(Map<String, dynamic> json) => PriceListModel(
+        id: jsonDecode(json[PriceListField.id]),
+        model: json[PriceListField.model],
+        parts: json[PriceListField.parts],
+        harga: jsonDecode(json[PriceListField.harga]),
+      );
 
-  String addParams() {
-    return '?model=$model&parts=$parts&price=$price&id=$id';
-  }
+  Map<String, dynamic> toJson() => {
+        PriceListField.id: id,
+        PriceListField.model: model,
+        PriceListField.parts: parts,
+        PriceListField.harga: harga,
+      };
 
-  String deleteParams() {
-    return '?id=${id.toString()}';
-  }
+  Map<String, dynamic> toJsonSQlite() => {
+        'id': id,
+        'model': model,
+        'parts': parts,
+        'price': harga,
+      };
+
+  // {};
+
+  // String addParams() {
+  //   return '?model=$model&parts=$parts&price=$harga&id=$id';
+  // }
+
+  // String deleteParams() {
+  //   return '?id=${id.toString()}';
+  // }
 }

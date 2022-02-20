@@ -312,7 +312,7 @@ class AddSparepartsController extends GetxController {
               _addPriceList.modelText.text = modelParts.text;
               _addPriceList.partsText.text = jenisParts.text;
               _addPriceList.priceText.text = harga.toStringAsFixed(0);
-              _addPriceList.addListDialog();
+              _addPriceList.addListDialog(isEdit: false);
             },
             child: Text('Tambah'),
           ),

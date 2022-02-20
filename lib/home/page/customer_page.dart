@@ -2,6 +2,7 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/model/popupmenu_model.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -224,7 +225,8 @@ class CustomerPage extends StatelessWidget {
                                         name: customer['Nama'],
                                         image: image == ''
                                             ? null
-                                            : NetworkImage(image),
+                                            : ExtendedNetworkImageProvider(
+                                                image),
                                         decoration: BoxDecoration(
                                           color: Get.isDarkMode
                                               ? Colors.blueGrey.shade800

@@ -1,15 +1,12 @@
 import 'dart:math';
 
 import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:admin_panel/price_list/model/pricelist_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TabPriceList extends StatelessWidget {
@@ -21,7 +18,7 @@ class TabPriceList extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _controller.getList.timeout(Duration(seconds: 10)),
-      builder: (context, AsyncSnapshot<String> snapshot) {
+      builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ListView.builder(
               itemCount: 20,
@@ -53,7 +50,7 @@ class TabPriceList extends StatelessWidget {
                   ),
                 );
               });
-        } else if (snapshot.data == 'success' ||
+        } else if (_controller.internet.value == true ||
             _controller.offlineMode.value == true) {
           return list.length > 0
               ? RefreshIndicator(
@@ -71,18 +68,96 @@ class TabPriceList extends StatelessWidget {
                               child: ListTile(
                                 title: Text(
                                     '${pricelist.parts} ${pricelist.model}'),
-                                subtitle: Text('RM ${pricelist.price}'),
+                                subtitle: Text('RM ${pricelist.harga}'),
                                 onTap: () {
-                                  Share.share(
-                                      '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.price}');
-                                },
-                                onLongPress: () {
-                                  Clipboard.setData(ClipboardData(
-                                      text: pricelist.id.toString()));
-                                  ShowSnackbar.success(
-                                      'ID Disalin',
-                                      'ID Senarai Harga ini telah disalin pada clipboard anda',
-                                      false);
+                                  Haptic.feedbackSuccess();
+                                  Get.bottomSheet(
+                                    Material(
+                                      color: Get.theme.scaffoldBackgroundColor,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const SizedBox(height: 25),
+                                          Text(
+                                            '${pricelist.parts} ${pricelist.model}',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            'RM ${pricelist.harga}',
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                          const SizedBox(height: 15),
+                                          ListTile(
+                                            leading: Icon(Icons.copy),
+                                            title: Text('Salin Senarai Harga'),
+                                            onTap: () => _controller
+                                                .copyPricelistText(pricelist),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.fingerprint),
+                                            title: Text('Salin ID'),
+                                            onTap: () => _controller
+                                                .copyPricelistID(pricelist),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.edit),
+                                            title: Text('Edit'),
+                                            onTap: () =>
+                                                _controller.addListDialog(
+                                              isEdit: true,
+                                              list: pricelist,
+                                              model: pricelist.model,
+                                              parts: pricelist.parts,
+                                              harga: pricelist.harga.toString(),
+                                            ),
+                                          ),
+                                          ListTile(
+                                            leading: Icon(Icons.delete),
+                                            title: Text('Buang'),
+                                            onTap: () => Get.dialog(
+                                              AlertDialog(
+                                                title:
+                                                    Text('Adakah anda pasti?'),
+                                                content: Text(
+                                                    'Adakah anda pasti untuk membuang senarai harga ${pricelist.parts} ${pricelist.model}'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Haptic.feedbackError();
+                                                      Get.back();
+                                                      _controller
+                                                          .deletePriceList(
+                                                              pricelist.id);
+                                                    },
+                                                    child: Text('Pasti'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Haptic.feedbackClick();
+                                                      Get.back();
+                                                    },
+                                                    child: Text(
+                                                      'Batal',
+                                                      style: TextStyle(
+                                                        color:
+                                                            Colors.amber[900],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                             ),
@@ -117,7 +192,7 @@ class TabPriceList extends StatelessWidget {
                         child: TextButton.icon(
                           onPressed: () {
                             Haptic.feedbackClick();
-                            _controller.addListDialog();
+                            _controller.addListDialog(isEdit: false);
                           },
                           icon: Icon(Icons.add),
                           label: Text('Tambah Senarai Harga'),
@@ -144,7 +219,7 @@ class TabPriceList extends StatelessWidget {
                     ],
                   ),
                 );
-        } else if (snapshot.data != 'success') {
+        } else if (_controller.internet.value == false) {
           return GetBuilder<PriceListController>(
             builder: (_) {
               return Padding(

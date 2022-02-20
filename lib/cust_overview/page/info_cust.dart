@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:admin_panel/cust_overview/controller/overview_controller.dart';
 import 'package:admin_panel/cust_overview/model/popupmenu_overview.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +24,7 @@ class CustomerInfoPage extends StatelessWidget {
                 : Stack(
                     fit: StackFit.expand,
                     children: [
-                      Image.network(
+                      ExtendedImage.network(
                         _data[2],
                         fit: BoxFit.cover,
                         colorBlendMode: BlendMode.darken,

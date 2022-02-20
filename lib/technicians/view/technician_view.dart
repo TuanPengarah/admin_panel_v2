@@ -79,7 +79,8 @@ class TechnicianView extends StatelessWidget {
                             name: '${technician.nama}',
                             size: 40,
                             image: ExtendedNetworkImageProvider(
-                                technician.photoURL),
+                                technician.photoURL,
+                                cache: true),
                             decoration: BoxDecoration(
                               color: Get.theme.primaryColor,
                               borderRadius: BorderRadius.circular(200),

@@ -2,13 +2,13 @@ import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
-import 'package:admin_panel/price_list/controller/sheet_api.dart';
+import 'package:admin_panel/price_list/model/price_list_api.dart';
+import 'package:admin_panel/price_list/model/pricelist_field.dart';
 import 'package:admin_panel/price_list/model/pricelist_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'dart:convert' as convert;
-
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class PriceListController extends GetxController {
@@ -41,6 +41,55 @@ class PriceListController extends GetxController {
     internet.value = getInternet;
   }
 
+  void deletePriceList(int id) async {
+    Get.dialog(AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          CircularProgressIndicator(),
+        ],
+      ),
+    ));
+    await PriceListApi().delete(id);
+    await Future.delayed(Duration(seconds: 2));
+    await getPriceList();
+    update();
+    Get.back();
+    Get.back();
+    ShowSnackbar.success(
+        'Berjaya Dipadam', 'Senarai harga anda telah dipadam', false);
+  }
+
+  void copyPricelistText(PriceListModel pricelist) {
+    Haptic.feedbackClick();
+    Clipboard.setData(ClipboardData(
+            text:
+                '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.harga}'))
+        .onError((error, stackTrace) => ShowSnackbar.error(
+            'Kesalahan telah berlaku',
+            'Gagal untuk menyalin ke papan clipboard anda: $error',
+            false))
+        .whenComplete(() => ShowSnackbar.success(
+            'Senarai harga telah harga disalin',
+            'Senarai harga telah disalin ke papan clipboard anda',
+            false));
+    Get.back();
+  }
+
+  void copyPricelistID(PriceListModel pricelist) {
+    Haptic.feedbackClick();
+    Clipboard.setData(ClipboardData(text: '${pricelist.id}'))
+        .onError((error, stackTrace) => ShowSnackbar.error(
+            'Kesalahan telah berlaku',
+            'Gagal untuk menyalin id ke papan clipboard anda: $error',
+            false))
+        .whenComplete(() => ShowSnackbar.success(
+            'ID telah harga disalin',
+            'Senarai harga ID (${pricelist.id}) telah disalin ke papan clipboard anda',
+            false));
+    Get.back();
+  }
+
   void activateOffline() async {
     offlineMode.value = true;
     priceList = [];
@@ -55,32 +104,26 @@ class PriceListController extends GetxController {
   Future<String> getPriceList() async {
     bool adaInternet = await InternetConnectionChecker().hasConnection;
     try {
-      var data = await GoogleSheet().getList().timeout(Duration(seconds: 10),
-          onTimeout: () {
-        errorText.value = 'Sambungan Tamat';
-        throw Exception('Connection Failed!');
-      });
       if (adaInternet == true) {
+        var data = await PriceListApi.getAll().timeout(Duration(seconds: 10),
+            onTimeout: () {
+          errorText.value = 'Sambungan Tamat';
+          throw Exception('Connection Failed!');
+        });
         priceList = [];
-        var jsonPricelist = convert.jsonDecode(data.bodyString);
+
         await DatabaseHelper.instance.deleteCachePriceList();
 
-        jsonPricelist.forEach((value) {
-          PriceListModel priceListModel = PriceListModel(
-            parts: value['parts'],
-            model: value['model'],
-            price: value['harga'],
-            id: value['id'],
-          );
-          priceList.add(priceListModel);
+        data.forEach((value) {
+          priceList.add(value);
           priceList.sort((a, b) => a.parts.compareTo(b.parts));
 
-          DatabaseHelper.instance.addCachePriceList(priceListModel);
+          DatabaseHelper.instance.addCachePriceList(value);
           update();
         });
         return 'success';
       } else {
-        errorText.value = data.statusText;
+        errorText.value = 'Internet Tidak Ditemui!';
       }
     } on Exception catch (e) {
       errorText.value = e.toString();
@@ -91,7 +134,6 @@ class PriceListController extends GetxController {
   }
 
   Future<void> addPriceList() async {
-    String callback = '';
     var status = 'Menyediakan senarai anda ke Google Sheet...'.obs;
     String id = DateTime.now().millisecondsSinceEpoch.toString();
     Get.dialog(
@@ -119,44 +161,39 @@ class PriceListController extends GetxController {
         ),
       ),
     );
-    PriceListModel priceListModel = PriceListModel(
-      parts: partsText.text,
-      model: modelText.text,
-      price: int.parse(priceText.text),
-      id: int.parse(id),
-    );
     PartsSuggestion partsSuggestion = PartsSuggestion(parts: partsText.text);
 
     ModelSuggestion modelSuggestion = ModelSuggestion(model: modelText.text);
 
     try {
       status.value = 'Menambah senarai harga ke Google Sheet...';
-      await GoogleSheet()
-          .addList(priceListModel.addParams())
-          .then((response) async {
-        callback = convert.jsonDecode(response.bodyString)['STATUS'];
-        status.value = 'Menambah data sqlite...';
-        await DatabaseHelper.instance.addModelSuggestion(modelSuggestion);
-        await DatabaseHelper.instance.addPartsSuggestion(partsSuggestion);
-        status.value = 'Selesai!';
-        await getPriceList();
-        Haptic.feedbackSuccess();
-        Get.back();
-        reset();
-        ShowSnackbar.success(
-            'Senarai telah disimpan',
-            'Senarai disimpan ke Google Sheet anda. Status penghantaran: $callback',
-            false);
-      });
+
+      final partsPrice = PriceListModel(
+        model: modelText.text,
+        parts: partsText.text,
+        harga: int.parse(priceText.text),
+        id: int.parse(id),
+      );
+
+      await PriceListApi.insert([partsPrice.toJson()]);
+      status.value = 'Menambah data sqlite...';
+      await DatabaseHelper.instance.addModelSuggestion(modelSuggestion);
+      await DatabaseHelper.instance.addPartsSuggestion(partsSuggestion);
+      status.value = 'Selesai!';
+      await Future.delayed(Duration(seconds: 2));
+      await getPriceList();
+      Haptic.feedbackSuccess();
+      Get.back();
+      reset();
+      ShowSnackbar.success('Senarai telah disimpan',
+          'Senarai disimpan ke Google Sheet anda!', false);
     } on Exception catch (e) {
       status.value = 'Kesalahan telah berlaku';
       print(e);
       Get.back();
       Haptic.feedbackError();
-      ShowSnackbar.error(
-          'Senarai tidak dapat ditambah',
-          'Kesalahan telah berlaku: ${e.toString()}. Status Penghantaran: $callback',
-          false);
+      ShowSnackbar.error('Senarai tidak dapat ditambah',
+          'Kesalahan telah berlaku: ${e.toString()}.', false);
     }
   }
 
@@ -167,12 +204,25 @@ class PriceListController extends GetxController {
   //   });
   // }
 
-  void addListDialog() {
+  void addListDialog({
+    @required bool isEdit,
+    PriceListModel list,
+    String model,
+    String parts,
+    String harga,
+  }) {
+    if (isEdit == true) {
+      modelText.text = model;
+      partsText.text = parts;
+      priceText.text = harga;
+      Get.back();
+    }
     Get.dialog(
       GestureDetector(
         onTap: () => Get.focusScope.unfocus(),
         child: AlertDialog(
-          title: Text('Tambah Senarai Harga'),
+          title: Text(
+              isEdit == false ? 'Tambah Senarai Harga' : 'Edit Senarai Harga'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -260,11 +310,41 @@ class PriceListController extends GetxController {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             Haptic.feedbackClick();
                             Get.back();
                             Get.back();
-                            addPriceList();
+                            if (isEdit == false) {
+                              addPriceList();
+                            } else {
+                              Get.dialog(AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CircularProgressIndicator(),
+                                  ],
+                                ),
+                              ));
+                              await PriceListApi.update(
+                                id: list.id,
+                                partsKey: PriceListField.parts,
+                                hargaKey: PriceListField.harga,
+                                modelKey: PriceListField.model,
+                                hargaValue: priceText.text,
+                                modelValue: modelText.text,
+                                partsValue: partsText.text,
+                              ).onError((error, stackTrace) =>
+                                  ShowSnackbar.error('Kesalahan telah berlaku',
+                                      '${error.toString()}', false));
+
+                              await getPriceList();
+
+                              Get.back();
+                              ShowSnackbar.success(
+                                  'Berjaya di kemasini',
+                                  'Senarai harga anda telah berjaya di kemaskini',
+                                  false);
+                            }
                           },
                           child: Text('Pasti'),
                         ),
@@ -278,12 +358,12 @@ class PriceListController extends GetxController {
                       'Sila masukkan semua maklumat dengan betul', false);
                 }
               },
-              child: Text('Tambah'),
+              child: Text(isEdit == false ? 'Tambah' : 'Simpan Perubahan'),
             ),
           ],
         ),
       ),
-    );
+    ).whenComplete(() => reset());
   }
 
   void reset() {

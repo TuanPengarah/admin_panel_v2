@@ -268,7 +268,7 @@ class DatabaseHelper {
     var caching = await db.query('priceListCache');
 
     List<PriceListModel> getCache = caching.isNotEmpty
-        ? caching.map((e) => PriceListModel.fromJson(e)).toList()
+        ? caching.map((e) => PriceListModel.fromJsonSqlite(e)).toList()
         : [];
 
     return getCache;
@@ -277,7 +277,7 @@ class DatabaseHelper {
   Future<int> addCachePriceList(PriceListModel priceList) async {
     Database db = await instance.database;
 
-    return await db.insert('priceListCache', priceList.toJson());
+    return await db.insert('priceListCache', priceList.toJsonSQlite());
   }
 
   Future<int> deleteCachePriceList() async {

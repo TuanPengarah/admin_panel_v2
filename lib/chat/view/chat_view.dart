@@ -272,8 +272,9 @@ class ChatView extends GetView<ChatController> {
             : Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: CircleAvatar(
-                  backgroundImage:
-                      ExtendedNetworkImageProvider(_data['photoURL1']),
+                  backgroundImage: ExtendedNetworkImageProvider(
+                      _data['photoURL1'],
+                      cache: true),
                 ),
               ),
       ],
