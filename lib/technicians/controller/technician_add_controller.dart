@@ -93,7 +93,7 @@ class TechnicianAddController extends GetxController {
         status.value = 'Mencipta data staff ke server...!';
         final String token = await FirebaseMessaging.instance.getToken();
         await FirebaseDatabase.instance
-            .reference()
+            .ref()
             .child('Technician')
             .child(uid)
             .set(Technician(

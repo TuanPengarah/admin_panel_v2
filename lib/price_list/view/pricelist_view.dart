@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'package:share_plus/share_plus.dart';
 
 class PriceListView extends StatelessWidget {
   final _controller = Get.find<PriceListController>();
@@ -55,8 +54,8 @@ class PriceListView extends StatelessWidget {
                         subtitle: Text('RM ${pricelist.harga}'),
                         onTap: () {
                           _controller.isSearch.value = false;
-                          Share.share(
-                              '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.harga}');
+                          Haptic.feedbackClick();
+                          _controller.priceListInfo(pricelist);
                         },
                         onLongPress: () {
                           _controller.isSearch.value = false;

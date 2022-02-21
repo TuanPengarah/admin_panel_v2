@@ -41,6 +41,92 @@ class PriceListController extends GetxController {
     internet.value = getInternet;
   }
 
+  void priceListInfo(PriceListModel pricelist) {
+    Get.bottomSheet(
+      Material(
+        color: Get.theme.canvasColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 25),
+            Text(
+              '${pricelist.parts} ${pricelist.model}',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            Text(
+              'RM ${pricelist.harga}',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey),
+            ),
+            const SizedBox(height: 15),
+            ListTile(
+              leading: Icon(Icons.copy),
+              title: Text('Salin Senarai Harga'),
+              onTap: () => copyPricelistText(pricelist),
+            ),
+            ListTile(
+              leading: Icon(Icons.fingerprint),
+              title: Text('Salin ID'),
+              onTap: () => copyPricelistID(pricelist),
+            ),
+            internet.value == true
+                ? ListTile(
+                    leading: Icon(Icons.edit),
+                    title: Text('Edit'),
+                    onTap: () => addListDialog(
+                      isEdit: true,
+                      list: pricelist,
+                      model: pricelist.model,
+                      parts: pricelist.parts,
+                      harga: pricelist.harga.toString(),
+                    ),
+                  )
+                : const SizedBox(),
+            internet.value == true
+                ? ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text('Buang'),
+                    onTap: () => Get.dialog(
+                      AlertDialog(
+                        title: Text('Adakah anda pasti?'),
+                        content: Text(
+                            'Adakah anda pasti untuk membuang senarai harga ${pricelist.parts} ${pricelist.model}'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Haptic.feedbackError();
+                              Get.back();
+
+                              deletePriceList(pricelist.id);
+                            },
+                            child: Text('Pasti'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Haptic.feedbackClick();
+                              Get.back();
+                            },
+                            child: Text(
+                              'Batal',
+                              style: TextStyle(
+                                color: Colors.amber[900],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+            const SizedBox(height: 30),
+          ],
+        ),
+      ),
+    );
+  }
+
   void deletePriceList(int id) async {
     Get.dialog(AlertDialog(
       content: Column(

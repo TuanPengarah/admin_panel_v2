@@ -221,7 +221,7 @@ class AddSparepartsController extends GetxController {
         status.value =
             'Memasukkan maklumat spareparts anda ke pangkalan data...';
         await FirebaseDatabase.instance
-            .reference()
+            .ref()
             .child('Spareparts')
             .child(partsID.value)
             .set(spareparts.toJson());

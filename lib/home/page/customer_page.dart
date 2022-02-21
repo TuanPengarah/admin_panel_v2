@@ -198,8 +198,54 @@ class CustomerPage extends StatelessWidget {
                                   _customerController.customerList[i];
                               var image = customer['photoURL'];
                               return Slidable(
-                                actionPane: SlidableDrawerActionPane(),
-                                actionExtentRatio: 0.25,
+                                startActionPane: ActionPane(
+                                  motion: ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      backgroundColor: Colors.green,
+                                      label: 'Hubungi',
+                                      icon: Icons.phone,
+                                      onPressed: (_) {
+                                        _customerController
+                                            .launchCaller(customer['No Phone']);
+                                      },
+                                    ),
+                                    SlidableAction(
+                                        backgroundColor: Colors.amber[900],
+                                        label: 'Mesej',
+                                        icon: Icons.sms,
+                                        onPressed: (_) {
+                                          _customerController
+                                              .launchSms(customer['No Phone']);
+                                        }),
+                                  ],
+                                ),
+                                endActionPane: ActionPane(
+                                  motion: ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      backgroundColor: Colors.blue,
+                                      label: 'Jobsheet',
+                                      icon: Icons.receipt_long,
+                                      onPressed: (_) =>
+                                          _customerController.addToJobsheet(
+                                              customer['Nama'],
+                                              customer['No Phone'],
+                                              customer['Email'],
+                                              customer['UID']),
+                                    ),
+                                    SlidableAction(
+                                        backgroundColor: Colors.red,
+                                        label: 'Buang',
+                                        icon: Icons.delete,
+                                        onPressed: (_) {
+                                          Haptic.feedbackError();
+                                          _customerController.deleteUser(
+                                              customer['UID'],
+                                              customer['Nama']);
+                                        })
+                                  ],
+                                ),
                                 child: ListTile(
                                   onTap: () {
                                     Haptic.feedbackClick();
@@ -223,21 +269,15 @@ class CustomerPage extends StatelessWidget {
                                       child: AdvancedAvatar(
                                         size: 35,
                                         name: customer['Nama'],
-                                        image: image == ''
-                                            ? null
-                                            : ExtendedNetworkImageProvider(
-                                                image),
+                                        image:
+                                            ExtendedNetworkImageProvider(image),
                                         decoration: BoxDecoration(
-                                          color: Get.isDarkMode
-                                              ? Colors.blueGrey.shade800
-                                              : Colors.blue.shade50,
+                                          color: Get.theme.primaryColor,
                                           borderRadius:
                                               BorderRadius.circular(200),
                                         ),
                                         style: TextStyle(
-                                          color: Get.isDarkMode
-                                              ? Colors.blue.shade600
-                                              : Colors.white,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
@@ -247,42 +287,6 @@ class CustomerPage extends StatelessWidget {
                                       ? '--'
                                       : customer['No Phone']),
                                 ),
-                                actions: [
-                                  IconSlideAction(
-                                    color: Colors.green,
-                                    caption: 'Hubungi',
-                                    icon: Icons.phone,
-                                    onTap: () => _customerController
-                                        .launchCaller(customer['No Phone']),
-                                  ),
-                                  IconSlideAction(
-                                    color: Colors.amber[900],
-                                    caption: 'Mesej',
-                                    icon: Icons.sms,
-                                    onTap: () => _customerController
-                                        .launchSms(customer['No Phone']),
-                                  ),
-                                ],
-                                secondaryActions: [
-                                  IconSlideAction(
-                                    color: Colors.blue,
-                                    caption: 'Jobsheet',
-                                    icon: Icons.receipt_long,
-                                    onTap: () =>
-                                        _customerController.addToJobsheet(
-                                            customer['Nama'],
-                                            customer['No Phone'],
-                                            customer['Email'],
-                                            customer['UID']),
-                                  ),
-                                  IconSlideAction(
-                                    color: Colors.red,
-                                    caption: 'Buang',
-                                    icon: Icons.delete,
-                                    onTap: () => _customerController.deleteUser(
-                                        customer['UID'], customer['Nama']),
-                                  ),
-                                ],
                               );
                             },
                           ),

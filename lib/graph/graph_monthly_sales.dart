@@ -12,17 +12,20 @@ class GraphMonthlySales extends StatelessWidget {
       assignId: true,
       builder: (logic) {
         return Padding(
-          padding: const EdgeInsets.only(right: 65.0, left: 30),
+          padding: const EdgeInsets.only(right: 40.0, left: 30),
           child: LineChart(
             LineChartData(
                 minX: 0,
-                maxX: 11,
+                maxX: DateTime.now().month.toDouble() - 1,
                 minY: 0,
                 maxY: _graphController.findY(
                     _graphController.untungKasar.value.toDouble(),
                     _graphController.jumlahModal.value.toDouble()),
                 lineTouchData: LineTouchData(
                   enabled: true,
+                  // touchCallback: (touchEvent, response) {
+                  //   print(touchEvent.localPosition);
+                  // },
                   touchTooltipData: LineTouchTooltipData(
                     getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
                       return touchedBarSpots.map((barSpot) {
@@ -54,34 +57,39 @@ class GraphMonthlySales extends StatelessWidget {
                 ),
                 titlesData: FlTitlesData(
                   show: true,
+                  topTitles: SideTitles(showTitles: false),
+                  rightTitles: SideTitles(showTitles: false),
                   bottomTitles: SideTitles(
+                    textAlign: TextAlign.start,
                     showTitles: true,
+                    interval: 1,
+                    // rotateAngle: 40,
                     getTitles: (value) {
                       switch (value.toInt()) {
                         case 0:
                           return 'JAN';
-                        // case 1:
-                        //   return 'FEB';
+                        case 1:
+                          return value > 10 ? '' : 'FEB';
                         case 2:
-                          return 'MAR';
-                        // case 3:
-                        //   return 'APR';
+                          return 'MAC';
+                        case 3:
+                          return value > 10 ? '' : 'APR';
                         case 4:
-                          return 'MAY';
-                        // case 5:
-                        //   return 'JUN';
+                          return 'MEI';
+                        case 5:
+                          return value > 10 ? '' : 'JUN';
                         case 6:
                           return 'JUL';
-                        // case 7:
-                        //   return 'AUG';
+                        case 7:
+                          return value > 10 ? '' : 'AUG';
                         case 8:
                           return 'SEP';
-                        // case 9:
-                        //   return 'OCT';
+                        case 9:
+                          return value > 10 ? '' : 'OCT';
                         case 10:
                           return 'NOV';
-                        // case 11:
-                        //   return 'DEC';
+                        case 11:
+                          return value > 10 ? '' : 'DEC';
                       }
 
                       return '';
@@ -90,10 +98,12 @@ class GraphMonthlySales extends StatelessWidget {
                     margin: 3,
                   ),
                   leftTitles: SideTitles(
+                      reservedSize: 30,
+                      textAlign: TextAlign.start,
                       showTitles: true,
-                      getTitles: (_) {
-                        return '';
-                      }),
+                      interval: 1000,
+                      getTextStyles: (_, __) =>
+                          TextStyle(color: Colors.white, fontSize: 11)),
                 ),
                 gridData: FlGridData(
                     show: false,

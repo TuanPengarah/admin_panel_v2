@@ -89,7 +89,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
                                     }),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 5.0, horizontal: 10),
+                                          vertical: 10, horizontal: 0),
                                       child: Container(
                                         height: 220,
                                         child: GraphMonthlySales(),

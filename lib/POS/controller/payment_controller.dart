@@ -244,7 +244,7 @@ class PaymentController extends GetxController {
     try {
       title.value = 'Memulakan perbuahan di database...';
       final firestore = FirebaseFirestore.instance;
-      final db = FirebaseDatabase.instance.reference();
+      final db = FirebaseDatabase.instance.ref();
 
       //UPDATE STATUS 'isPayment' PADA MYREPAIR ID
 

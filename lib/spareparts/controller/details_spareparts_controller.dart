@@ -105,7 +105,7 @@ class DetailsSparepartsController extends GetxController {
               );
               try {
                 await FirebaseDatabase.instance
-                    .reference()
+                    .ref()
                     .child('Spareparts')
                     .child(id)
                     .update(spareparts.toJson());
@@ -155,7 +155,7 @@ class DetailsSparepartsController extends GetxController {
               ),
             );
             await FirebaseDatabase.instance
-                .reference()
+                .ref()
                 .child('Spareparts')
                 .child(id)
                 .remove()

@@ -74,12 +74,12 @@ class SparepartController extends GetxController {
 
     if (internet == true) {
       await FirebaseDatabase.instance
-          .reference()
+          .ref()
           .child("Spareparts")
           .once()
           .then((snapshot) async {
         spareparts.clear();
-        Map<dynamic, dynamic> values = snapshot.value;
+        Map<dynamic, dynamic> values = snapshot.snapshot.value;
         try {} catch (e) {
           debugPrint(e.toString());
         }

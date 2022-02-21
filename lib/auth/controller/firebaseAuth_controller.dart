@@ -62,12 +62,12 @@ class AuthController extends GetxController {
       }
 
       await FirebaseDatabase.instance
-          .reference()
+          .ref()
           .child('Technician')
           .child(value.user.uid)
           .once()
           .then((snapshot) async {
-        if (snapshot.value == null || !snapshot.exists) {
+        if (snapshot.snapshot.value == null || !snapshot.snapshot.exists) {
           await _auth.signOut();
           ShowSnackbar.error(
               'You shall not pass!!🧙🪄',
@@ -161,12 +161,12 @@ class AuthController extends GetxController {
 
     if (internet == true) {
       await FirebaseDatabase.instance
-          .reference()
+          .ref()
           .child('Technician')
           .child(user.uid)
           .once()
           .then((snapshot) async {
-        final json = snapshot.value as Map<dynamic, dynamic>;
+        final json = snapshot.snapshot.value as Map<dynamic, dynamic>;
         final technician = Technician.fromJson(json);
         userUID.value = user.uid;
         userEmail.value = email;
@@ -212,7 +212,7 @@ class AuthController extends GetxController {
           print('tukar token baru: $deviceToken');
           token = deviceToken;
           FirebaseDatabase.instance
-              .reference()
+              .ref()
               .child('Technician')
               .child(user.uid)
               .update({'token': deviceToken});

@@ -64,7 +64,7 @@ class TechnicianController extends GetxController {
               }
               try {
                 await FirebaseDatabase.instance
-                    .reference()
+                    .ref()
                     .child('Technician')
                     .child(uid)
                     .remove()
@@ -105,11 +105,11 @@ class TechnicianController extends GetxController {
     bool internet = await InternetConnectionChecker().hasConnection;
     if (internet == true) {
       await FirebaseDatabase.instance
-          .reference()
+          .ref()
           .child('Technician')
           .once()
           .then((snapshot) async {
-        Map<dynamic, dynamic> values = snapshot.value;
+        Map<dynamic, dynamic> values = snapshot.snapshot.value;
         technicians = [];
         try {
           await DatabaseHelper.instance.deleteTechnicianCache();

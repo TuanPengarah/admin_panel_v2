@@ -18,7 +18,7 @@ class ReceiptPDFController extends GetxController {
 
   String _tarikh() {
     final tarikhDart = DateTime.now();
-    return DateFormat('hh/MM/yyyy').format(tarikhDart).toString();
+    return DateFormat('dd/MM/yyyy').format(tarikhDart).toString();
   }
 
   void sendEmailPDF(String email, String technician, userName) async {

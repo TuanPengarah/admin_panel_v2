@@ -51,8 +51,20 @@ class HistorySparepartsView extends StatelessWidget {
                     itemBuilder: (context, i) {
                       Spareparts history = snapshot.data[i];
                       return Slidable(
-                        actionPane: SlidableDrawerActionPane(),
-                        actionExtentRatio: 0.25,
+                        startActionPane: ActionPane(
+                          motion: ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              icon: Icons.delete,
+                              label: 'Buang',
+                              backgroundColor: Colors.red,
+                              onPressed: (_) {
+                                _historyController
+                                    .deleteHistory(int.parse(history.partsID));
+                              },
+                            )
+                          ],
+                        ),
                         child: ListTile(
                           leading: Icon(Icons.history),
                           title: Text(
@@ -69,17 +81,6 @@ class HistorySparepartsView extends StatelessWidget {
                             harga: history.harga,
                           ),
                         ),
-                        secondaryActions: [
-                          IconSlideAction(
-                            icon: Icons.delete,
-                            caption: 'Buang',
-                            color: Colors.red,
-                            onTap: () async {
-                              _historyController
-                                  .deleteHistory(int.parse(history.partsID));
-                            },
-                          ),
-                        ],
                       );
                     });
               },
