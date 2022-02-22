@@ -30,16 +30,16 @@ class GraphMonthlySales extends StatelessWidget {
                           flSpot.barIndex == 0 ? 'RM' : 'RM',
                           TextStyle(
                             color: flSpot.barIndex == 0
-                                ? Colors.amber
-                                : Colors.white,
+                                ? Colors.white
+                                : Colors.amber,
                           ),
                           children: [
                             TextSpan(
                               text: flSpot.y.toStringAsFixed(0),
                               style: TextStyle(
                                 color: flSpot.barIndex == 0
-                                    ? Colors.amber
-                                    : Colors.white,
+                                    ? Colors.white
+                                    : Colors.amber,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -106,7 +106,7 @@ class GraphMonthlySales extends StatelessWidget {
                     horizontalInterval: 500,
                     getDrawingHorizontalLine: (value) {
                       return FlLine(
-                          color: Colors.blue.shade600,
+                          color: Colors.white38,
                           strokeWidth: 2,
                           dashArray: [4]);
                     }),

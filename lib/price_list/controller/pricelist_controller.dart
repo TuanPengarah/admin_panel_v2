@@ -111,19 +111,19 @@ class PriceListController extends GetxController {
 
                               deletePriceList(pricelist.id);
                             },
-                            child: Text('Pasti'),
+                            child: Text(
+                              'Pasti',
+                              style: TextStyle(
+                                color: Colors.amber[900],
+                              ),
+                            ),
                           ),
                           TextButton(
                             onPressed: () {
                               Haptic.feedbackClick();
                               Get.back();
                             },
-                            child: Text(
-                              'Batal',
-                              style: TextStyle(
-                                color: Colors.amber[900],
-                              ),
-                            ),
+                            child: Text('Batal'),
                           ),
                         ],
                       ),
