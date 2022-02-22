@@ -16,11 +16,7 @@ class GraphMonthlySales extends StatelessWidget {
           child: LineChart(
             LineChartData(
                 minX: 0,
-                maxX: DateTime.now().month.toDouble() - 1,
                 minY: 0,
-                maxY: _graphController.findY(
-                    _graphController.untungKasar.value.toDouble(),
-                    _graphController.jumlahModal.value.toDouble()),
                 lineTouchData: LineTouchData(
                   enabled: true,
                   // touchCallback: (touchEvent, response) {
@@ -31,9 +27,7 @@ class GraphMonthlySales extends StatelessWidget {
                       return touchedBarSpots.map((barSpot) {
                         final flSpot = barSpot;
                         return LineTooltipItem(
-                          flSpot.barIndex == 0
-                              ? 'Modal: RM '
-                              : 'Harga jual: RM ',
+                          flSpot.barIndex == 0 ? 'RM' : 'RM',
                           TextStyle(
                             color: flSpot.barIndex == 0
                                 ? Colors.amber
@@ -106,34 +100,39 @@ class GraphMonthlySales extends StatelessWidget {
                           TextStyle(color: Colors.white, fontSize: 11)),
                 ),
                 gridData: FlGridData(
-                    show: false,
+                    show: true,
+                    drawVerticalLine: true,
+                    verticalInterval: DateTime.now().month.toDouble() - 1,
+                    horizontalInterval: 500,
                     getDrawingHorizontalLine: (value) {
                       return FlLine(
-                        color: Colors.white,
-                        strokeWidth: 0.5,
-                      );
+                          color: Colors.blue.shade600,
+                          strokeWidth: 2,
+                          dashArray: [4]);
                     }),
                 borderData: FlBorderData(
                   show: false,
                 ),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: _graphController.spotSupplier,
-                    isCurved: false,
-                    colors: [
-                      Colors.amber,
-                    ],
-                    dotData: FlDotData(show: true),
-                    barWidth: 3,
-                  ),
-                  LineChartBarData(
+                    isStrokeCapRound: true,
                     spots: _graphController.spotJual,
                     isCurved: true,
                     colors: [
                       Colors.white,
                     ],
                     dotData: FlDotData(show: true),
-                    barWidth: 3,
+                    barWidth: 2,
+                  ),
+                  LineChartBarData(
+                    isStrokeCapRound: true,
+                    spots: _graphController.spotSupplier,
+                    isCurved: true,
+                    colors: [
+                      Colors.amber,
+                    ],
+                    dotData: FlDotData(show: true),
+                    barWidth: 2,
                   ),
                 ]),
           ),

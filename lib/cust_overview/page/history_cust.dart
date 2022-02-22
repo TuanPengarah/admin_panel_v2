@@ -112,23 +112,21 @@ class RepairHistoryPage extends StatelessWidget {
       child: Ink(
         child: InkWell(
           onTap: () {
-            if (!GetPlatform.isWeb) {
-              var payload = <String, dynamic>{
-                'nama': _data[1],
-                'noTel': _data[3],
-                'model': doc['Model'],
-                'kerosakkan': doc['Kerosakkan'].toString(),
-                'price': doc['Harga'].toString(),
-                'remarks': doc['Remarks'],
-                'mysid': doc['MID'],
-                'email': _data[4],
-                'timeStamp': doc['timeStamp'],
-                'technician': doc['Technician'],
-                'status': doc['Status'],
-                'waranti': doc['Tarikh Waranti'],
-              };
-              controller.showShareJobsheet(payload);
-            }
+            var payload = <String, dynamic>{
+              'nama': _data[1],
+              'noTel': _data[3],
+              'model': doc['Model'],
+              'kerosakkan': doc['Kerosakkan'].toString(),
+              'price': doc['Harga'].toString(),
+              'remarks': doc['Remarks'],
+              'mysid': doc['MID'],
+              'email': _data[4],
+              'timeStamp': doc['timeStamp'],
+              'technician': doc['Technician'],
+              'status': doc['Status'],
+              'waranti': doc['Tarikh Waranti'],
+            };
+            controller.showShareJobsheet(payload);
           },
           borderRadius: BorderRadius.circular(20),
           child: Padding(

@@ -26,9 +26,9 @@ class HomeController extends GetxController {
   @override
   void onReady() {
     if (!GetPlatform.isWeb) {
-      currentIndex.value = box.read<int>('nav') ?? 0;
       createQuickstep();
     }
+    currentIndex.value = box.read<int>('nav') ?? 0;
     notificationPermision();
     firebaseMessaging();
     super.onReady();
@@ -147,23 +147,24 @@ class HomeController extends GetxController {
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
-
-    //notification config
-    if (box.read<bool>('initNotif') == true) {
-      _notifController.subscribedToFCM('socmed');
-      if (_authController.jawatan.value == 'Founder') {
-        print('Notifikasi settlement telah diset kan sekali');
-        _notifController.subscribedToFCM('settlement');
+    if (!GetPlatform.isWeb) {
+      //notification config
+      if (box.read<bool>('initNotif') == true) {
+        _notifController.subscribedToFCM('socmed');
+        if (_authController.jawatan.value == 'Founder') {
+          print('Notifikasi settlement telah diset kan sekali');
+          _notifController.subscribedToFCM('settlement');
+        } else {
+          _notifController.unsubscribedFromFCM('settlement');
+        }
       } else {
-        _notifController.unsubscribedFromFCM('settlement');
-      }
-    } else {
-      _notifController.unsubscribedFromFCM('socmed');
-      if (_authController.jawatan.value == 'Founder') {
-        print('Notifikasi settlement akan dibatalkan sekali');
-        _notifController.unsubscribedFromFCM('settlement');
-      } else {
-        _notifController.unsubscribedFromFCM('settlement');
+        _notifController.unsubscribedFromFCM('socmed');
+        if (_authController.jawatan.value == 'Founder') {
+          print('Notifikasi settlement akan dibatalkan sekali');
+          _notifController.unsubscribedFromFCM('settlement');
+        } else {
+          _notifController.unsubscribedFromFCM('settlement');
+        }
       }
     }
   }
@@ -241,8 +242,7 @@ class HomeController extends GetxController {
   void navTap(int index) {
     Haptic.feedbackClick();
     currentIndex.value = index;
-    if (!GetPlatform.isWeb) {
-      box.write('nav', index);
-    }
+
+    box.write('nav', index);
   }
 }

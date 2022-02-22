@@ -116,16 +116,18 @@ class AuthController extends GetxController {
             ),
             onPressed: () {
               _auth.signOut().then((value) async {
-                Directory documentDirectory =
-                    await getApplicationDocumentsDirectory();
-                String path =
-                    join(documentDirectory.path, '${userUID.value}.db');
-                File file = File(path);
-                bool checkFile = await File(path).exists();
-                if (checkFile == true) {
-                  final destination = 'database/SQLite/${userUID.value}.db';
-                  final ref = FirebaseStorage.instance.ref(destination);
-                  await ref.putFile(file);
+                if (!GetPlatform.isWeb) {
+                  Directory documentDirectory =
+                      await getApplicationDocumentsDirectory();
+                  String path =
+                      join(documentDirectory.path, '${userUID.value}.db');
+                  File file = File(path);
+                  bool checkFile = await File(path).exists();
+                  if (checkFile == true) {
+                    final destination = 'database/SQLite/${userUID.value}.db';
+                    final ref = FirebaseStorage.instance.ref(destination);
+                    await ref.putFile(file);
+                  }
                 }
                 userUID.value = '';
                 userEmail.value = '';
@@ -157,7 +159,13 @@ class AuthController extends GetxController {
     final box = GetStorage();
     final _notifController = Get.put(NotificationController());
     final user = FirebaseAuth.instance.currentUser;
-    bool internet = await InternetConnectionChecker().hasConnection;
+    bool internet = true;
+
+    if (GetPlatform.isWeb) {
+      internet = true;
+    } else {
+      internet = await InternetConnectionChecker().hasConnection;
+    }
 
     if (internet == true) {
       await FirebaseDatabase.instance
@@ -188,21 +196,23 @@ class AuthController extends GetxController {
         box.write('token', technician.token);
 
         //notification config
-        if (box.read<bool>('initNotif') == true) {
-          _notifController.subscribedToFCM('socmed');
-          if (jawatan.value == 'Founder') {
-            print('Notifikasi settlement telah diset kan sekali');
-            _notifController.subscribedToFCM('settlement');
+        if (!GetPlatform.isWeb) {
+          if (box.read<bool>('initNotif') == true) {
+            _notifController.subscribedToFCM('socmed');
+            if (jawatan.value == 'Founder') {
+              print('Notifikasi settlement telah diset kan sekali');
+              _notifController.subscribedToFCM('settlement');
+            } else {
+              _notifController.unsubscribedFromFCM('settlement');
+            }
           } else {
-            _notifController.unsubscribedFromFCM('settlement');
-          }
-        } else {
-          _notifController.unsubscribedFromFCM('socmed');
-          if (jawatan.value == 'Founder') {
-            print('Notifikasi settlement akan dibatalkan sekali');
-            _notifController.unsubscribedFromFCM('settlement');
-          } else {
-            _notifController.unsubscribedFromFCM('settlement');
+            _notifController.unsubscribedFromFCM('socmed');
+            if (jawatan.value == 'Founder') {
+              print('Notifikasi settlement akan dibatalkan sekali');
+              _notifController.unsubscribedFromFCM('settlement');
+            } else {
+              _notifController.unsubscribedFromFCM('settlement');
+            }
           }
         }
         final String deviceToken = await FirebaseMessaging.instance.getToken();

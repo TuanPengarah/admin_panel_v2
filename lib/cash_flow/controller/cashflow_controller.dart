@@ -39,13 +39,9 @@ class CashFlowController extends GetxController {
         .get()
         .then((snapshot) {
       snapshot.docs.forEach((doc) {
-        CashFlowModel model = CashFlowModel(
-            id: doc.id,
-            remark: doc['remark'],
-            jumlah: double.parse(doc['jumlah'].toString()),
-            isModal: doc['isModal'],
-            timeStamp: doc['timeStamp']);
-        cashFlow.add(model);
+        // DateTime dt = (doc['timeStamp'] as Timestamp).toDate();
+
+        cashFlow.add(CashFlowModel.fromJson(doc));
       });
     });
     cashFlow.forEach((element) {

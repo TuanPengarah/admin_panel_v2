@@ -30,6 +30,8 @@ class NotificationController extends GetxController {
     await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
   }
 
-  Future<void> getValue() async =>
+  Future<void> getValue() async {
+    if (!GetPlatform.isWeb)
       groupValue.value = box.read<bool>('initNotif') ?? false;
+  }
 }

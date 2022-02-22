@@ -86,6 +86,12 @@ class PriceListApi {
       columnKey: hargaKey,
       rowKey: id,
     );
+
+    //update id
+    await _userSheet.values.insertValueByKeys(
+        DateTime.now().millisecondsSinceEpoch,
+        columnKey: 'ID',
+        rowKey: id);
   }
 
   Future<void> delete(int id) async {

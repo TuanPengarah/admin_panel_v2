@@ -15,6 +15,16 @@ class CashFlowModel {
       @required this.isModal,
       @required this.timeStamp});
 
+  factory CashFlowModel.fromJson(
+          QueryDocumentSnapshot<Map<String, dynamic>> doc) =>
+      new CashFlowModel(
+        id: doc.id,
+        jumlah: double.parse(doc['jumlah'].toString()),
+        isModal: doc['isModal'],
+        timeStamp: doc['timeStamp'],
+        remark: doc['remark'],
+      );
+
   void toJson() => {
         'remark': remark,
         'jumlah': jumlah,

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
-
 import '../../spareparts/model/sparepart_model.dart';
 
 class SparepartController extends GetxController {
@@ -70,7 +69,13 @@ class SparepartController extends GetxController {
   }
 
   Future<void> getSparepartsList() async {
-    bool internet = await InternetConnectionChecker().hasConnection;
+    bool internet = true;
+
+    if (GetPlatform.isWeb) {
+      internet = true;
+    } else {
+      internet = await InternetConnectionChecker().hasConnection;
+    }
 
     if (internet == true) {
       await FirebaseDatabase.instance
@@ -92,20 +97,22 @@ class SparepartController extends GetxController {
 
         spareparts..sort((a, b) => b.tarikh.compareTo(a.tarikh));
       });
-      spareparts.forEach((element) async {
-        Spareparts parts = Spareparts(
-            id: element.id,
-            model: element.model,
-            jenisSpareparts: element.jenisSpareparts,
-            supplier: element.supplier,
-            kualiti: element.kualiti,
-            maklumatSpareparts: element.maklumatSpareparts,
-            tarikh: element.tarikh,
-            harga: element.harga,
-            partsID: element.id);
-        await DatabaseHelper.instance.deleteSparepartsCache();
-        await DatabaseHelper.instance.addSparepartsCache(parts);
-      });
+      if (!GetPlatform.isWeb) {
+        spareparts.forEach((element) async {
+          Spareparts parts = Spareparts(
+              id: element.id,
+              model: element.model,
+              jenisSpareparts: element.jenisSpareparts,
+              supplier: element.supplier,
+              kualiti: element.kualiti,
+              maklumatSpareparts: element.maklumatSpareparts,
+              tarikh: element.tarikh,
+              harga: element.harga,
+              partsID: element.id);
+          await DatabaseHelper.instance.deleteSparepartsCache();
+          await DatabaseHelper.instance.addSparepartsCache(parts);
+        });
+      }
     } else {
       debugPrint('offline mode');
       spareparts = [];

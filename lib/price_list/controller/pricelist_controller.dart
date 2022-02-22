@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl/intl.dart';
 
 class PriceListController extends GetxController {
   List<PriceListModel> priceList = [];
@@ -42,6 +43,8 @@ class PriceListController extends GetxController {
   }
 
   void priceListInfo(PriceListModel pricelist) {
+    DateTime dt = DateTime.fromMillisecondsSinceEpoch(pricelist.id);
+    var tarikh = DateFormat('dd/MM/yyyy').format(dt);
     Get.bottomSheet(
       Material(
         color: Get.theme.canvasColor,
@@ -60,7 +63,14 @@ class PriceListController extends GetxController {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey),
             ),
+            const SizedBox(height: 5),
+            Text(
+              'Tarikh dikemaskini: $tarikh',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey),
+            ),
             const SizedBox(height: 15),
+            Divider(),
             ListTile(
               leading: Icon(Icons.copy),
               title: Text('Salin Senarai Harga'),
