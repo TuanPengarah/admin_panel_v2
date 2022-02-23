@@ -1,4 +1,6 @@
 import 'package:admin_panel/config/binding.dart';
+import 'package:admin_panel/pdf/view/cashflow_statement_view.dart';
+import 'package:admin_panel/record/view/record_monthly.dart';
 import 'package:get/get.dart';
 import 'get_route_export.dart';
 
@@ -33,6 +35,8 @@ class MyRoutes {
   static const allrecord = '/all-record';
   static const notifHistory = '/notif-history';
   static const chat = '/chat';
+  static const monthlyRecord = '/monthly-record';
+  static const cashflowStatement = '/cashflow-statement';
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
@@ -94,5 +98,14 @@ class MyRoutes {
     ),
     GetPage(name: notifHistory, page: () => NotificationHistoryView()),
     GetPage(name: chat, page: () => ChatView(), binding: ChatBinding()),
+    GetPage(
+      name: monthlyRecord,
+      page: () => MonthlyRecordView(),
+      binding: MonthlyBinding(),
+    ),
+    GetPage(
+        name: cashflowStatement,
+        page: () => CashFlowStatementPDF(),
+        binding: CashFlowStatementBinding()),
   ];
 }

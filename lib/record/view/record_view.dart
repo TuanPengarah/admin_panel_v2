@@ -30,7 +30,7 @@ class RecordView extends StatelessWidget {
                   const SizedBox(height: 30),
                   CashFlowCard(true),
                   const SizedBox(height: 30),
-                  DashboardCardMonths(),
+                  DashboardCardMonths(DateTime.now().month - 1, false),
                   const SizedBox(height: 30),
                   SparepartsCard(true),
                   const SizedBox(height: 30),

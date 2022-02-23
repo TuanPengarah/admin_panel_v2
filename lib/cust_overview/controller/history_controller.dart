@@ -21,15 +21,27 @@ class RepairHistoryController extends GetxController {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // ListTile(
-            //   leading: Icon(Icons.print),
-            //   title: Text('Print Jobsheet'),
-            //   subtitle: Text('Print maklumat Jobsheet ini!'),
-            //   onTap: () {
-            //     Get.back();
-            //     Get.toNamed(MyRoutes.printView, arguments: data);
-            //   },
-            // ),
+            ListTile(
+              leading: Icon(Icons.receipt),
+              title: Text('Maklumat'),
+              subtitle: Text('Lihat maklumat untuk model ini'),
+              onTap: () {
+                var params = <String, String>{'id': data['mysid']};
+
+                var payload = {
+                  'Nama': data['nama'],
+                  'Model': data['model'],
+                  'Kerosakkan': data['kerosakkan'],
+                  'Password': data['password'],
+                  'Remarks': data['remarks'],
+                  'Percent': 1.0,
+                  'No Phone': data['noTel'],
+                };
+                Get.back();
+                Get.toNamed(MyRoutes.mysidUpdate,
+                    arguments: payload, parameters: params);
+              },
+            ),
             ListTile(
               leading: Icon(Icons.receipt),
               title: Text('Hasilkan Jobsheet'),

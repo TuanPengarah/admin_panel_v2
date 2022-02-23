@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../config/haptic_feedback.dart';
+import '../../config/routes.dart';
 import '../../graph/graph_controller.dart';
 
 class DashboardCardMonths extends StatelessWidget {
+  final int bulan;
+  final bool isSpecific;
+  DashboardCardMonths(this.bulan, this.isSpecific);
   @override
   Widget build(BuildContext context) {
     final _graphController = Get.find<GraphController>();
@@ -16,7 +21,7 @@ class DashboardCardMonths extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Rekod Data Bulan ${_graphController.checkMonthsMalay(DateTime.now().month - 1)}',
+                'Rekod Data Bulan ${_graphController.checkMonthsMalay(bulan)}',
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
@@ -28,17 +33,38 @@ class DashboardCardMonths extends StatelessWidget {
                 runSpacing: 15,
                 alignment: WrapAlignment.center,
                 children: [
-                  Obx(() {
-                    return infoCard(
-                        'Untung Kasar', _graphController.jumlahBulanan.value);
-                  }),
-                  infoCard('Untung Bersih',
-                      _graphController.getMonthsUntungBersih()),
                   infoCard(
-                      'Jumlah Modal', _graphController.getMonthsHargajual()),
+                      'Untung Kasar', _graphController.getUntungKasar(bulan)),
+                  infoCard(
+                      'Untung Bersih', _graphController.getUntungBersih(bulan)),
+                  infoCard('Jumlah Modal',
+                      _graphController.getMonthsHargajual(bulan).toDouble()),
                 ],
               ),
               SizedBox(height: 30),
+              isSpecific == false
+                  ? ElevatedButton.icon(
+                      onPressed: () => Get.toNamed(MyRoutes.monthlyRecord),
+                      label: Text('Lihat Rekod Mengikut Bulan '),
+                      icon: Icon(Icons.read_more),
+                    )
+                  : ElevatedButton.icon(
+                      onPressed: () {
+                        var payload = {
+                          'bulan': bulan,
+                          'untungKasar': _graphController.getUntungKasar(bulan),
+                          'untungBersih':
+                              _graphController.getUntungBersih(bulan),
+                          'modal': _graphController
+                              .getMonthsHargajual(bulan)
+                              .toDouble(),
+                        };
+                        Haptic.feedbackClick();
+                        Get.toNamed(MyRoutes.cashflowStatement,
+                            arguments: payload);
+                      },
+                      icon: Icon(Icons.picture_as_pdf),
+                      label: Text('Hasilkan Cash Flow Statement')),
             ],
           ),
         ),

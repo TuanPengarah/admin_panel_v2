@@ -22,6 +22,12 @@ class GraphController extends GetxController {
     super.onInit();
   }
 
+  int getTotalMonth() {
+    int totalMonths = 0;
+    for (int i = 0; i < DateTime.now().month; i++) totalMonths++;
+    return totalMonths;
+  }
+
   double findY(double untungKasar, double modal) {
     if (untungKasar < modal) {
       return modal;
@@ -115,13 +121,20 @@ class GraphController extends GetxController {
     }
   }
 
-  double getMonthsHargajual() {
-    return double.parse(
-        graphSupplier[0][checkMonths(DateTime.now().month - 1)].toString());
+  double getUntungKasar(int bulan) {
+    return double.parse(graphJual[0][checkMonths(bulan)].toString());
   }
 
-  double getMonthsUntungBersih() {
-    return jumlahBulanan.value - getMonthsHargajual();
+  double getUntungBersih(int bulan) {
+    return getUntungKasar(bulan) - getMonthsHargajual(bulan);
+  }
+
+  double getMonthsHargajual(int i) {
+    return double.parse(graphSupplier[0][checkMonths(i)].toString());
+  }
+
+  double getMonthsUntungBersih(int bulan) {
+    return jumlahBulanan.value - getMonthsHargajual(bulan);
   }
 
   void getGraphLength() {

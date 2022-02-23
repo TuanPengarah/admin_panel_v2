@@ -27,49 +27,53 @@ class MysidUpdate extends StatelessWidget {
                     pinned: true,
                     floating: true,
                     flexibleSpace: FlexibleSpaceBar(
-                      background: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 30),
-                          Obx(() {
-                            return CircularPercentIndicator(
-                              radius: 200.0,
-                              lineWidth: 13.0,
-                              animation: true,
-                              arcType: ArcType.HALF,
-                              arcBackgroundColor: Get.isDarkMode
-                                  ? Colors.blueGrey.shade700
-                                  : Colors.blue.shade600,
-                              percent: _mysidController.progressPercent.value,
-                              center: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Jumlah status\nkeselurahan",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
+                      background: FittedBox(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 100),
+                            Obx(() {
+                              return CircularPercentIndicator(
+                                radius: 100.0,
+                                lineWidth: 13.0,
+                                animation: true,
+                                arcType: ArcType.HALF,
+                                arcBackgroundColor: Get.isDarkMode
+                                    ? Colors.blueGrey.shade700
+                                    : Colors.blue.shade600,
+                                percent: _mysidController.progressPercent.value,
+                                center: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Jumlah status\nkeselurahan",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    '${_mysidController.percentage.value.toStringAsFixed(0)}%',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
+                                    SizedBox(height: 4),
+                                    Text(
+                                      '${_mysidController.percentage.value.toStringAsFixed(0)}%',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              circularStrokeCap: CircularStrokeCap.round,
-                              progressColor: Colors.white,
-                            );
-                          }),
-                          SizedBox(height: 40),
-                        ],
+                                  ],
+                                ),
+                                circularStrokeCap: CircularStrokeCap.round,
+                                progressColor: Colors.white,
+                              );
+                            }),
+                            SizedBox(height: 40),
+                          ],
+                        ),
                       ),
                     )),
               ];

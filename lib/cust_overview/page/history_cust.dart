@@ -125,6 +125,7 @@ class RepairHistoryPage extends StatelessWidget {
               'technician': doc['Technician'],
               'status': doc['Status'],
               'waranti': doc['Tarikh Waranti'],
+              'password': doc['Password'],
             };
             controller.showShareJobsheet(payload);
           },
