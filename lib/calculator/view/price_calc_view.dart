@@ -1,5 +1,6 @@
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/calculator/widget/widget_price_calc.dart';
+import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:another_xlider/another_xlider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ class PriceCalculatorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _priceController = Get.put(PriceCalculatorController());
+    final _priceListController = Get.put(PriceListController());
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -17,6 +19,16 @@ class PriceCalculatorView extends StatelessWidget {
             pinned: true,
             elevation: 3,
             flexibleSpace: PriceCalculatorWidget().cardPrice(),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  _priceListController.priceText.text =
+                      _priceController.jumlah.value.toStringAsFixed(0);
+                  _priceListController.addListDialog(isEdit: false);
+                },
+                icon: Icon(Icons.add),
+              ),
+            ],
           ),
           SliverList(
             delegate: SliverChildListDelegate(

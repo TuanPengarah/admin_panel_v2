@@ -143,6 +143,7 @@ class MysidController extends GetxController {
                     }),
                     SizedBox(height: 20),
                     RoundedLoadingButton(
+                      color: Get.theme.primaryColor,
                       controller: btnController,
                       child: Text(
                         'Simpan',
@@ -151,9 +152,6 @@ class MysidController extends GetxController {
                         ),
                       ),
                       onPressed: () {
-                        //   editPercent.value = editPercent.value / 100;
-                        //   _data['Percent'] = editPercent.value;
-                        //   checkPercent();
                         updateDB(
                           passRepairLog: repairLogText,
                           currentPercent: editPercent.value,
@@ -222,11 +220,7 @@ class MysidController extends GetxController {
     var firestore = FirebaseFirestore.instance;
     // bool isPayment = false;
     currentPercent = currentPercent / 100;
-    print(currentPercent);
-    // if (currentPercent == 1.0) {
-    //   isPayment = true;
-    // }
-    // print(isPayment);
+    debugPrint(currentPercent.toString());
     Map<String, dynamic> repairLog = {
       'Repair Log': passRepairLog.text.toString(),
       'isError': isError,

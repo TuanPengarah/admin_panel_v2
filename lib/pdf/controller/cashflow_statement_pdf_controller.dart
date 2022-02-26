@@ -22,7 +22,7 @@ class CashFlowStatementController extends GetxController {
     Haptic.feedbackClick();
     Share.shareFiles(['$fullPath'],
         text:
-            'Maklumat Penyata Cash Flow Bulan ${_graphController.checkMonthsMalay(bulan)}');
+            'Maklumat Penyata Cash Flow Bulan ${_graphController.checkMonthsMalay(bulan)} | ${_graphController.year}');
   }
 
   Future<void> writeCashFlowStatement(int bulan,
@@ -85,7 +85,7 @@ class CashFlowStatementController extends GetxController {
                               .toString(),
                           e.remark,
                           e.isModal == true
-                              ? '- RM ${e.jumlah}'
+                              ? ' - RM ${e.jumlah}'
                               : '+ RM ${e.jumlah}',
                         ])
                     .toList(),
@@ -98,12 +98,14 @@ class CashFlowStatementController extends GetxController {
           }),
     );
     String titleName =
-        'Cashflow Statement ${_graphController.checkMonths(bulan)}';
-    final String dir = (await getApplicationDocumentsDirectory()).path;
-    final String path = '$dir/$titleName.pdf';
-    fullPath = path;
-    final File file = File(path);
-    await file.writeAsBytes(await pdf.save());
+        'Cashflow Statement ${_graphController.checkMonthsMalay(bulan)} | $year}';
+    if (!GetPlatform.isWeb) {
+      final String dir = (await getApplicationDocumentsDirectory()).path;
+      final String path = '$dir/$titleName.pdf';
+      fullPath = path;
+      final File file = File(path);
+      await file.writeAsBytes(await pdf.save());
+    }
     Haptic.feedbackSuccess();
   }
 
@@ -141,7 +143,7 @@ class CashFlowStatementController extends GetxController {
               ),
               pw.SizedBox(height: 2),
               pw.Text(
-                'Rekod keseluruhan untuk bulan ${_graphController.checkMonthsMalay(bulan)}',
+                'Rekod keseluruhan untuk bulan ${_graphController.checkMonthsMalay(bulan)} | ${_graphController.year.toString()}',
               ),
               pw.SizedBox(height: 10),
             ],
