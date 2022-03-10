@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:admin_panel/pdf/controller/receipt_pdf_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pdf_render/pdf_render_widgets.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ReceiptPDF extends StatelessWidget {
   final _controller = Get.put(ReceiptPDFController());
@@ -29,7 +31,7 @@ class ReceiptPDF extends StatelessWidget {
                 ),
               );
             }
-            return PdfViewer.openFile(_controller.fullPath);
+            return SfPdfViewer.file(File(_controller.fullPath));
             // return PDFViewerScaffold(
 
             //     path: _controller.fullPath);

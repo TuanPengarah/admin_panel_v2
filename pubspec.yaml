@@ -29,7 +29,8 @@ dependencies:
   flutter_staggered_animations: ^1.0.0
 
   # API Services
-  firebase_core: ^1.5.0
+  flutterfire_cli: ^0.1.1+2
+  firebase_core: ^1.13.1
   cloud_firestore: ^3.1.8
   firebase_auth: ^3.0.2
   flutter_mailer: ^2.0.0
@@ -61,7 +62,7 @@ dependencies:
   flutter_native_contact_picker: ^0.0.3
   path_provider: ^2.0.2
   pdf:
-  pdf_render: ^1.0.23
+  syncfusion_flutter_pdfviewer: ^19.4.54-beta
   flutter_app_badger: ^1.2.0
   device_info_plus: ^3.2.2
   image_picker: ^0.8.4+2

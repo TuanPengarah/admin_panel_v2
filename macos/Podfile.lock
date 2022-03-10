@@ -338,8 +338,6 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
-  - awesome_notifications (0.0.3):
-    - Flutter
   - BoringSSL-GRPC (0.0.7):
     - BoringSSL-GRPC/Implementation (= 0.0.7)
     - BoringSSL-GRPC/Interface (= 0.0.7)
@@ -347,45 +345,12 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
   - cloud_firestore (3.1.8):
-    - Firebase/Firestore (= 8.11.0)
+    - Firebase/CoreOnly (~> 8.11.0)
+    - Firebase/Firestore (~> 8.11.0)
     - firebase_core
-    - Flutter
-  - device_info_plus (0.0.1):
-    - Flutter
-  - DKImagePickerController/Core (4.3.2):
-    - DKImagePickerController/ImageDataManager
-    - DKImagePickerController/Resource
-  - DKImagePickerController/ImageDataManager (4.3.2)
-  - DKImagePickerController/PhotoGallery (4.3.2):
-    - DKImagePickerController/Core
-    - DKPhotoGallery
-  - DKImagePickerController/Resource (4.3.2)
-  - DKPhotoGallery (0.0.17):
-    - DKPhotoGallery/Core (= 0.0.17)
-    - DKPhotoGallery/Model (= 0.0.17)
-    - DKPhotoGallery/Preview (= 0.0.17)
-    - DKPhotoGallery/Resource (= 0.0.17)
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Core (0.0.17):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Preview
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Model (0.0.17):
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Preview (0.0.17):
-    - DKPhotoGallery/Model
-    - DKPhotoGallery/Resource
-    - SDWebImage
-    - SwiftyGif
-  - DKPhotoGallery/Resource (0.0.17):
-    - SDWebImage
-    - SwiftyGif
-  - file_picker (0.0.1):
-    - DKImagePickerController/PhotoGallery
-    - Flutter
+    - FlutterMacOS
+  - device_info_plus_macos (0.0.1):
+    - FlutterMacOS
   - Firebase/Auth (8.11.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.11.0)
@@ -404,24 +369,28 @@ PODS:
     - Firebase/CoreOnly
     - FirebaseStorage (~> 8.11.0)
   - firebase_auth (3.3.7):
-    - Firebase/Auth (= 8.11.0)
+    - Firebase/Auth (~> 8.11.0)
+    - Firebase/CoreOnly (~> 8.11.0)
     - firebase_core
-    - Flutter
+    - FlutterMacOS
   - firebase_core (1.13.1):
-    - Firebase/CoreOnly (= 8.11.0)
-    - Flutter
+    - Firebase/CoreOnly (~> 8.11.0)
+    - FlutterMacOS
   - firebase_database (9.0.6):
-    - Firebase/Database (= 8.11.0)
+    - Firebase/CoreOnly (~> 8.11.0)
+    - Firebase/Database (~> 8.11.0)
     - firebase_core
-    - Flutter
+    - FlutterMacOS
   - firebase_messaging (11.2.6):
-    - Firebase/Messaging (= 8.11.0)
+    - Firebase/CoreOnly (~> 8.11.0)
+    - Firebase/Messaging (~> 8.11.0)
     - firebase_core
-    - Flutter
+    - FlutterMacOS
   - firebase_storage (10.2.7):
-    - Firebase/Storage (= 8.11.0)
+    - Firebase/CoreOnly (~> 8.11.0)
+    - Firebase/Storage (~> 8.11.0)
     - firebase_core
-    - Flutter
+    - FlutterMacOS
   - FirebaseAuth (8.11.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
@@ -469,15 +438,7 @@ PODS:
   - FirebaseStorage (8.11.0):
     - FirebaseCore (~> 8.0)
     - GTMSessionFetcher/Core (~> 1.5)
-  - Flutter (1.0.0)
-  - flutter_app_badger (0.0.1):
-    - Flutter
-  - flutter_keyboard_visibility (0.0.1):
-    - Flutter
-  - flutter_mailer (0.0.1):
-    - Flutter
-  - flutter_native_contact_picker (0.0.1):
-    - Flutter
+  - FlutterMacOS (1.0.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -527,67 +488,44 @@ PODS:
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.7.0)
-  - image_cropper (0.0.4):
-    - Flutter
-    - TOCropViewController (~> 2.6.1)
-  - image_picker (0.0.1):
-    - Flutter
   - leveldb-library (1.22.1)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - path_provider_ios (0.0.1):
-    - Flutter
+  - path_provider_macos (0.0.1):
+    - FlutterMacOS
   - PromisesObjC (2.0.0)
-  - quick_actions (0.0.1):
-    - Flutter
-  - SDWebImage (5.12.3):
-    - SDWebImage/Core (= 5.12.3)
-  - SDWebImage/Core (5.12.3)
-  - share_plus (0.0.1):
-    - Flutter
+  - share_plus_macos (0.0.1):
+    - FlutterMacOS
   - sqflite (0.0.2):
-    - Flutter
+    - FlutterMacOS
     - FMDB (>= 2.7.5)
-  - SwiftyGif (5.4.3)
-  - syncfusion_flutter_pdfviewer (0.0.1):
-    - Flutter
-  - TOCropViewController (2.6.1)
-  - url_launcher_ios (0.0.1):
-    - Flutter
+  - syncfusion_flutter_pdfviewer_macos (0.0.1):
+    - FlutterMacOS
+  - url_launcher_macos (0.0.1):
+    - FlutterMacOS
 
 DEPENDENCIES:
-  - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
-  - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
-  - file_picker (from `.symlinks/plugins/file_picker/ios`)
-  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
-  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
-  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
-  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
-  - Flutter (from `Flutter`)
-  - flutter_app_badger (from `.symlinks/plugins/flutter_app_badger/ios`)
-  - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
-  - flutter_mailer (from `.symlinks/plugins/flutter_mailer/ios`)
-  - flutter_native_contact_picker (from `.symlinks/plugins/flutter_native_contact_picker/ios`)
-  - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
-  - image_picker (from `.symlinks/plugins/image_picker/ios`)
-  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
-  - quick_actions (from `.symlinks/plugins/quick_actions/ios`)
-  - share_plus (from `.symlinks/plugins/share_plus/ios`)
-  - sqflite (from `.symlinks/plugins/sqflite/ios`)
-  - syncfusion_flutter_pdfviewer (from `.symlinks/plugins/syncfusion_flutter_pdfviewer/ios`)
-  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
+  - device_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos`)
+  - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
+  - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
+  - firebase_database (from `Flutter/ephemeral/.symlinks/plugins/firebase_database/macos`)
+  - firebase_messaging (from `Flutter/ephemeral/.symlinks/plugins/firebase_messaging/macos`)
+  - firebase_storage (from `Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+  - path_provider_macos (from `Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos`)
+  - share_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/share_plus_macos/macos`)
+  - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
+  - syncfusion_flutter_pdfviewer_macos (from `Flutter/ephemeral/.symlinks/plugins/syncfusion_flutter_pdfviewer_macos/macos`)
+  - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
 
 SPEC REPOS:
   trunk:
     - abseil
     - BoringSSL-GRPC
-    - DKImagePickerController
-    - DKPhotoGallery
     - Firebase
     - FirebaseAuth
     - FirebaseCore
@@ -606,71 +544,46 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - PromisesObjC
-    - SDWebImage
-    - SwiftyGif
-    - TOCropViewController
 
 EXTERNAL SOURCES:
-  awesome_notifications:
-    :path: ".symlinks/plugins/awesome_notifications/ios"
   cloud_firestore:
-    :path: ".symlinks/plugins/cloud_firestore/ios"
-  device_info_plus:
-    :path: ".symlinks/plugins/device_info_plus/ios"
-  file_picker:
-    :path: ".symlinks/plugins/file_picker/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos
+  device_info_plus_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos
   firebase_auth:
-    :path: ".symlinks/plugins/firebase_auth/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos
   firebase_core:
-    :path: ".symlinks/plugins/firebase_core/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
   firebase_database:
-    :path: ".symlinks/plugins/firebase_database/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_database/macos
   firebase_messaging:
-    :path: ".symlinks/plugins/firebase_messaging/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_messaging/macos
   firebase_storage:
-    :path: ".symlinks/plugins/firebase_storage/ios"
-  Flutter:
-    :path: Flutter
-  flutter_app_badger:
-    :path: ".symlinks/plugins/flutter_app_badger/ios"
-  flutter_keyboard_visibility:
-    :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
-  flutter_mailer:
-    :path: ".symlinks/plugins/flutter_mailer/ios"
-  flutter_native_contact_picker:
-    :path: ".symlinks/plugins/flutter_native_contact_picker/ios"
-  image_cropper:
-    :path: ".symlinks/plugins/image_cropper/ios"
-  image_picker:
-    :path: ".symlinks/plugins/image_picker/ios"
-  path_provider_ios:
-    :path: ".symlinks/plugins/path_provider_ios/ios"
-  quick_actions:
-    :path: ".symlinks/plugins/quick_actions/ios"
-  share_plus:
-    :path: ".symlinks/plugins/share_plus/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+  path_provider_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/path_provider_macos/macos
+  share_plus_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/share_plus_macos/macos
   sqflite:
-    :path: ".symlinks/plugins/sqflite/ios"
-  syncfusion_flutter_pdfviewer:
-    :path: ".symlinks/plugins/syncfusion_flutter_pdfviewer/ios"
-  url_launcher_ios:
-    :path: ".symlinks/plugins/url_launcher_ios/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/sqflite/macos
+  syncfusion_flutter_pdfviewer_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/syncfusion_flutter_pdfviewer_macos/macos
+  url_launcher_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
-  awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
-  cloud_firestore: 8bd22e19f6ccf3a0d1976ea298e0ce37c9ad5839
-  device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
-  DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
-  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
-  file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
+  cloud_firestore: b06c819c840a148bc51c8cc5719d5cf981ebc9ba
+  device_info_plus_macos: 1ad388a1ef433505c4038e7dd9605aadd1e2e9c7
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
-  firebase_auth: 20bf788012988ef04ce608fada5b8d8cd1069302
-  firebase_core: 08f6a85f62060111de5e98d6a214810d11365de9
-  firebase_database: 0ae3ce8034d44bd151770534edefef869df88b04
-  firebase_messaging: 8dc3a6f069774a0bf4dac04dd79fdaffcb62e145
-  firebase_storage: 627bc138c31654fc1320b262e16e3fad770dea6f
+  firebase_auth: ae95c9dac06919282c6a5e86fb07b4921d6fa6dc
+  firebase_core: 11d0b4e9fa6120706c015fbfe5f4b409758dae5d
+  firebase_database: a51435c31990136489797ef2bda8e4eb5c1a0717
+  firebase_messaging: 5661e6d32b41d9539163b227945fcfc5819f8bf1
+  firebase_storage: 4f16b268dc297f9096b29209a0a1191ebf07d4ba
   FirebaseAuth: d96d73aba85d192d7a7aa0b86dd6d7f8ec170b4b
   FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
   FirebaseCoreDiagnostics: 3b40dfadef5b90433a60ae01f01e90fe87aa76aa
@@ -679,32 +592,22 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 25764cf322e77f99449395870a65b2bef88e1545
   FirebaseMessaging: 02e248e8997f71fa8cc9d78e9d49ec1a701ba14a
   FirebaseStorage: 4d05cb1112ff8822a0f9f5090da8bd6d550602ec
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  flutter_app_badger: 65de4d6f0c34a891df49e6cfb8a1c0496426fa68
-  flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
-  flutter_mailer: 2ef5a67087bc8c6c4cefd04a178bf1ae2c94cd83
-  flutter_native_contact_picker: bd430ba0fbf82768bb50c2c52a69a65759a8f907
+  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
-  image_cropper: 60c2789d1f1a78c873235d4319ca0c34a69f2d98
-  image_picker: 541dcbb3b9cf32d87eacbd957845d8651d6c62c3
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
+  path_provider_macos: 160cab0d5461f0c0e02995469a98f24bdb9a3f1f
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
-  quick_actions: cd83314083fa994182e6cd9e7516167a215a4f83
-  SDWebImage: 53179a2dba77246efa8a9b85f5c5b21f8f43e38f
-  share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
-  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
-  syncfusion_flutter_pdfviewer: bb9998884b864cfedf72628df3503bdf57e397c0
-  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
-  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  share_plus_macos: 853ee48e7dce06b633998ca0735d482dd671ade4
+  sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
+  syncfusion_flutter_pdfviewer_macos: 89c1fef49f58dd3e309018a0440449a25c74a129
+  url_launcher_macos: 597e05b8e514239626bcf4a850fcf9ef5c856ec3
 
-PODFILE CHECKSUM: 5ecb25232b364c274111d5a50c1a29429aa38896
+PODFILE CHECKSUM: c7161fcf45d4fd9025dc0f48a76d6e64e52f8176
 
 COCOAPODS: 1.11.2

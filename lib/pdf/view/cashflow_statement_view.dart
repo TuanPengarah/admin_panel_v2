@@ -1,7 +1,9 @@
 import 'package:admin_panel/pdf/controller/cashflow_statement_pdf_controller.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:get/get.dart';
-import 'package:pdf_render/pdf_render_widgets.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class CashFlowStatementPDF extends GetView<CashFlowStatementController> {
   final _data = Get.arguments;
@@ -30,7 +32,7 @@ class CashFlowStatementPDF extends GetView<CashFlowStatementController> {
                 child: CircularProgressIndicator(),
               );
             }
-            return PdfViewer.openFile(controller.fullPath);
+            return SfPdfViewer.file(File(controller.fullPath));
           }),
     );
   }
