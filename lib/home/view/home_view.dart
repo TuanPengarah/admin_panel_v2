@@ -8,8 +8,18 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final _homeController = Get.find<HomeController>();
+  @override
+  void initState() {
+    _homeController.firebaseMessaging();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

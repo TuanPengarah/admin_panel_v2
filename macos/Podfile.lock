@@ -344,7 +344,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
-  - cloud_firestore (3.1.8):
+  - cloud_firestore (3.1.10):
     - Firebase/CoreOnly (~> 8.11.0)
     - Firebase/Firestore (~> 8.11.0)
     - firebase_core
@@ -368,7 +368,7 @@ PODS:
   - Firebase/Storage (8.11.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 8.11.0)
-  - firebase_auth (3.3.7):
+  - firebase_auth (3.3.10):
     - Firebase/Auth (~> 8.11.0)
     - Firebase/CoreOnly (~> 8.11.0)
     - firebase_core
@@ -376,17 +376,17 @@ PODS:
   - firebase_core (1.13.1):
     - Firebase/CoreOnly (~> 8.11.0)
     - FlutterMacOS
-  - firebase_database (9.0.6):
+  - firebase_database (9.0.8):
     - Firebase/CoreOnly (~> 8.11.0)
     - Firebase/Database (~> 8.11.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_messaging (11.2.6):
+  - firebase_messaging (11.2.10):
     - Firebase/CoreOnly (~> 8.11.0)
     - Firebase/Messaging (~> 8.11.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_storage (10.2.7):
+  - firebase_storage (10.2.9):
     - Firebase/CoreOnly (~> 8.11.0)
     - Firebase/Storage (~> 8.11.0)
     - firebase_core
@@ -576,14 +576,14 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
-  cloud_firestore: b06c819c840a148bc51c8cc5719d5cf981ebc9ba
+  cloud_firestore: aaecbaa2643ca4de74935d30d0eab5201268c44f
   device_info_plus_macos: 1ad388a1ef433505c4038e7dd9605aadd1e2e9c7
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
-  firebase_auth: ae95c9dac06919282c6a5e86fb07b4921d6fa6dc
+  firebase_auth: ed3018dbfc680091bff34d7230980b73ac9750ca
   firebase_core: 11d0b4e9fa6120706c015fbfe5f4b409758dae5d
-  firebase_database: a51435c31990136489797ef2bda8e4eb5c1a0717
-  firebase_messaging: 5661e6d32b41d9539163b227945fcfc5819f8bf1
-  firebase_storage: 4f16b268dc297f9096b29209a0a1191ebf07d4ba
+  firebase_database: 9a3bfb643e1f556df04b6c7c5771dc18ab32f032
+  firebase_messaging: 0d0f54cd935bc6fd3e5d3b82361eb26cdbc78eb1
+  firebase_storage: 81f9079d181bebf1cb405da85ada3b4cce961ff3
   FirebaseAuth: d96d73aba85d192d7a7aa0b86dd6d7f8ec170b4b
   FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
   FirebaseCoreDiagnostics: 3b40dfadef5b90433a60ae01f01e90fe87aa76aa

@@ -107,7 +107,7 @@ class CashFlowController extends GetxController {
             throw Exception("Harga modal tidak dijumpai");
           }
 
-          int newPoint = snap.get(months);
+          double newPoint = double.parse(snap.get(months).toString());
 
           transaction.update(ref, {months: newPoint + harga});
         });
@@ -119,7 +119,7 @@ class CashFlowController extends GetxController {
             throw Exception("Harga untung tidak dijumpai");
           }
 
-          int newPoint = snap.get(months);
+          double newPoint = double.parse(snap.get(months).toString());
 
           transaction.update(firestore, {months: newPoint + harga});
         });
@@ -131,6 +131,7 @@ class CashFlowController extends GetxController {
       await _graphController.getGraphFromFirestore();
       update();
       status.value = 'Selesai';
+      resetAdd();
       Get.back();
       Haptic.feedbackSuccess();
       ShowSnackbar.success(
