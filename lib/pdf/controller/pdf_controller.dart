@@ -58,66 +58,90 @@ class PdfController extends GetxController {
     );
     pdf.addPage(
       pw.MultiPage(
-        pageFormat: PdfPageFormat.a5,
-        crossAxisAlignment: pw.CrossAxisAlignment.start,
-        margin: pw.EdgeInsets.all(15),
-        build: (pw.Context context) {
-          return <pw.Widget>[
-            _jobheetHeader(assetImage, mysid),
-            pw.Row(
-              mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+          pageFormat: PdfPageFormat.a5,
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          margin: pw.EdgeInsets.all(15),
+          header: (pw.Context context) => _jobsheetHeader(assetImage, mysid),
+          build: (pw.Context context) {
+            return <pw.Widget>[
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      _jobsheetSubheader('Tarikh: ', '$tarikh'),
+                      _jobsheetSubheader('Juruteknik: ', '$technician'),
+                      _jobsheetSubheader('Cawangan: ', '$cawangan'),
+                    ],
+                  ),
+                  pw.BarcodeWidget(
+                    data: 'https://af-fix.com/mysid?id=$mysid',
+                    width: 60,
+                    height: 60,
+                    barcode: pw.Barcode.qrCode(),
+                    drawText: false,
+                  ),
+                ],
+              ),
+              pw.SizedBox(height: 10),
+              _jobsheetContent('Nama Pelanggan: ', '$namaCust'),
+              _jobsheetContent('No Telefon: ', '$noTel'),
+              _jobsheetContent('Model: ', '$model'),
+              _jobsheetContent('Kerosakkan: ', '$kerosakkan'),
+              _jobsheetContent('Anggaran Harga: ', 'RM$price'),
+              _jobsheetContent('Remarks: ', '*$remarks'),
+              pw.SizedBox(height: 10),
+            ];
+          },
+          footer: (pw.Context context) {
+            return pw.Column(
+              mainAxisAlignment: pw.MainAxisAlignment.start,
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
-                pw.Column(
-                  crossAxisAlignment: pw.CrossAxisAlignment.start,
-                  children: [
-                    _jobsheetSubheader('Tarikh: ', '$tarikh'),
-                    _jobsheetSubheader('Juruteknik: ', '$technician'),
-                    _jobsheetSubheader('Cawangan: ', '$cawangan'),
-                  ],
+                pw.Divider(thickness: 0.5, color: PdfColors.grey),
+                pw.Text(
+                  'Terma Dan Syarat:',
+                  style: pw.TextStyle(
+                    fontWeight: pw.FontWeight.bold,
+                    fontSize: 10,
+                    color: PdfColors.grey,
+                  ),
                 ),
-                pw.BarcodeWidget(
-                  data: 'https://af-fix.com/mysid?id=$mysid',
-                  width: 60,
-                  height: 60,
-                  barcode: pw.Barcode.qrCode(),
-                  drawText: false,
+                pw.SizedBox(height: 5),
+                pw.Text(
+                  '1. Kami berhak untuk mengubah mana-mana terma dan syarat.',
+                  style: pw.TextStyle(
+                    color: PdfColors.grey,
+                    fontSize: 9,
+                  ),
+                ),
+                pw.Text(
+                  '2. Kami tidak bertanggungjawab sekiranya ada kehilangan data.',
+                  style: pw.TextStyle(
+                    color: PdfColors.grey,
+                    fontSize: 9,
+                  ),
+                ),
+                pw.Text(
+                  '3. Pastikan kad memori, dan sim kad anda tidak dimasukkan daripada peranti anda semasa menghantar peranti anda kepada kami.',
+                  style: pw.TextStyle(
+                    color: PdfColors.grey,
+                    fontSize: 9,
+                  ),
+                ),
+                pw.SizedBox(height: 10),
+                pw.Text(
+                  'Untuk maklumat lebih lanjut tentang terma ,syarat dan juga privasi. Sila layari website kami - https://af-fix.com/terms',
+                  textAlign: pw.TextAlign.center,
+                  style: pw.TextStyle(
+                    color: PdfColors.grey,
+                    fontSize: 8,
+                  ),
                 ),
               ],
-            ),
-            pw.SizedBox(height: 10),
-            _jobsheetContent('Nama Pelanggan: ', '$namaCust'),
-            _jobsheetContent('No Telefon: ', '$noTel'),
-            _jobsheetContent('Model: ', '$model'),
-            _jobsheetContent('Kerosakkan: ', '$kerosakkan'),
-            _jobsheetContent('Anggaran Harga: ', 'RM$price'),
-            _jobsheetContent('Remarks: ', '*$remarks'),
-            pw.SizedBox(height: 10),
-            pw.Divider(thickness: 0.5),
-            pw.Text(
-              'Terma Dan Syarat:',
-              style: pw.TextStyle(
-                fontWeight: pw.FontWeight.bold,
-              ),
-            ),
-            pw.SizedBox(height: 10),
-            pw.Text(
-                '1. Kami berhak untuk mengubah mana-mana terma dan syarat.'),
-            pw.Text(
-                '2. Kami tidak bertanggungjawab sekiranya ada kehilangan data.'),
-            pw.Text(
-                '3. Pastikan kad memori, dan sim kad anda tidak dimasukkan daripada peranti anda semasa menghantar peranti anda kepada kami.'),
-            pw.SizedBox(height: 10),
-            pw.Text(
-              'Untuk maklumat lebih lanjut tentang terma ,syarat dan juga privasi. Sila layari website kami - https://af-fix.com/terms',
-              textAlign: pw.TextAlign.center,
-              style: pw.TextStyle(
-                color: PdfColors.grey,
-                fontSize: 10,
-              ),
-            ),
-          ];
-        },
-      ),
+            );
+          }),
     );
     String titleName = 'Jobsheet';
     final String dir = (await getApplicationDocumentsDirectory()).path;
@@ -128,8 +152,9 @@ class PdfController extends GetxController {
     Haptic.feedbackSuccess();
   }
 
-  pw.Header _jobheetHeader(pw.MemoryImage assetImage, String mysid) {
+  pw.Header _jobsheetHeader(pw.MemoryImage assetImage, String mysid) {
     return pw.Header(
+      decoration: pw.BoxDecoration(),
       child: pw.Row(
         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
         children: <pw.Widget>[
@@ -145,10 +170,22 @@ class PdfController extends GetxController {
                 ),
               ),
               pw.SizedBox(height: 2),
-              pw.Text(
-                'MyStatus Identification: $mysid',
+              pw.RichText(
+                text: pw.TextSpan(
+                  text: 'MyStatus Identification(Mysid) : ',
+                  style: pw.TextStyle(
+                    color: PdfColors.grey,
+                  ),
+                  children: [
+                    pw.TextSpan(
+                      text: '$mysid',
+                      style: pw.TextStyle(
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              pw.SizedBox(height: 2),
             ],
           ),
           pw.Image(assetImage, height: 50),

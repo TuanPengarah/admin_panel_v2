@@ -89,66 +89,56 @@ class HomeController extends GetxController {
     if (!GetPlatform.isWeb) {
       FirebaseMessaging.instance.subscribeToTopic('adminPanel');
     }
-    var onMessages = FirebaseMessaging.onMessage;
 
-    if (onMessages.isBroadcast) {
-      return null;
-    } else {
-      onMessages.listen((RemoteMessage message) async {
-        NotificationsModel notif = new NotificationsModel(
-          title: message.notification.title,
-          body: message.notification.body,
-          tarikh: DateTime.now().toString(),
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      NotificationsModel notif = new NotificationsModel(
+        title: message.notification.title,
+        body: message.notification.body,
+        tarikh: DateTime.now().toString(),
+      );
+      ChatModel chitChat = new ChatModel(
+        content: notif.body,
+        date: DateTime.now().toString(),
+        whoChat: 1,
+        idUser: message.data['uid'],
+      );
+
+      String screen = message.data['screen'];
+      DatabaseHelper.instance.addNotificationHistory(notif);
+
+      if (screen == '/chat' && isChat == false) {
+        await DatabaseHelper.instance.addChat(chitChat);
+        ShowSnackbar.notify(
+          message.notification.title,
+          message.notification.body,
+          onTap: (test) {
+            if (screen == null) {
+              return null;
+            } else if (screen == '/chat') {
+              Get.closeCurrentSnackbar();
+              Get.toNamed(screen, arguments: {
+                'name': message.data['name'],
+                'photoURL': message.data['photoURL1'],
+                'photoURL1': message.data['photoURL'],
+                'token': message.data['userToken'],
+                'userToken': message.data['token'],
+                'uid': message.data['uid'],
+              }, parameters: {
+                'id': message.data['uid']
+              });
+            } else {
+              Get.closeCurrentSnackbar();
+              Get.toNamed(screen);
+            }
+          },
         );
-        String screen = message.data['screen'];
-        if (screen == '/chat' && isChat == false) {
-          ChatModel chitChat = new ChatModel(
-            content: notif.body,
-            date: DateTime.now().toString(),
-            whoChat: 1,
-            idUser: message.data['uid'],
-          );
-
-          await DatabaseHelper.instance.addChat(chitChat);
-          ShowSnackbar.notify(
-            message.notification.title,
-            message.notification.body,
-            onTap: (test) {
-              if (screen == null) {
-                return null;
-              } else if (screen == '/chat') {
-                Get.closeCurrentSnackbar();
-                Get.toNamed(screen, arguments: {
-                  'name': message.data['name'],
-                  'photoURL': message.data['photoURL1'],
-                  'photoURL1': message.data['photoURL'],
-                  'token': message.data['userToken'],
-                  'userToken': message.data['token'],
-                  'uid': message.data['uid'],
-                }, parameters: {
-                  'id': message.data['uid']
-                });
-              } else {
-                Get.closeCurrentSnackbar();
-                Get.toNamed(screen);
-              }
-            },
-          );
-        } else if (screen == '/chat' && isChat == true) {
-          ChatModel chitChat = new ChatModel(
-            content: notif.body,
-            date: DateTime.now().toString(),
-            whoChat: 1,
-            idUser: message.data['uid'],
-          );
-
-          await DatabaseHelper.instance.addChat(chitChat);
-        } else {
-          DatabaseHelper.instance.addNotificationHistory(notif);
-          Haptic.feedbackClick();
-        }
-      });
-    }
+      } else if (screen == '/chat' && isChat == true) {
+        await DatabaseHelper.instance.addChat(chitChat);
+      } else {
+        ShowSnackbar.notify(
+            message.notification.title, message.notification.body);
+      }
+    });
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     RemoteMessage initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();

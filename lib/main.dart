@@ -1,6 +1,7 @@
 import 'package:admin_panel/config/initial_binding.dart';
 import 'package:admin_panel/config/mouse_drag.dart';
 import 'package:admin_panel/price_list/model/price_list_api.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -37,6 +38,25 @@ Future<void> main() async {
   }
   await GetStorage.init();
   await PriceListApi.init();
+  AwesomeNotifications().initialize(
+      // set the icon to null if you want to use the default app icon
+      'resource://drawable/res_notification_app_icon',
+      [
+        NotificationChannel(
+            channelGroupKey: 'basic_channel_group',
+            channelKey: 'basic_channel',
+            channelName: 'In App Notification',
+            channelDescription: 'Show notification when apps in use',
+            defaultColor: Colors.blue,
+            ledColor: Colors.blue)
+      ],
+      // Channel groups are only visual and are not required
+      channelGroups: [
+        NotificationChannelGroup(
+            channelGroupkey: 'basic_channel_group',
+            channelGroupName: 'Basic group')
+      ],
+      debug: true);
   runApp(MyApp(
     isLogin: _isLogin,
   ));

@@ -124,6 +124,7 @@ class RepairHistoryPage extends StatelessWidget {
               'timeStamp': doc['timeStamp'],
               'technician': doc['Technician'],
               'status': doc['Status'],
+              'tarikh': doc['Tarikh'],
               'waranti': doc['Tarikh Waranti'],
               'password': doc['Password'],
             };

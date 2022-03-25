@@ -4,6 +4,7 @@ import 'package:admin_panel/config/routes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 
 class RepairHistoryController extends GetxController {
   final _data = Get.arguments;
@@ -15,7 +16,27 @@ class RepairHistoryController extends GetxController {
     super.onInit();
   }
 
+  String _getWarranty(int minggu) {
+    switch (minggu) {
+      case 1:
+        return '1 Minggu';
+      case 4:
+        return '1 Bulan';
+      case 8:
+        return '2 Bulan';
+      case 14:
+        return '3 Bulan';
+        break;
+      default:
+        return '-';
+    }
+  }
+
   void showShareJobsheet(Map<String, dynamic> data) {
+    var jiffy1 = Jiffy(data['tarikh'], 'dd-MM-yyyy');
+    var jiffy2 = Jiffy(data['waranti'], 'dd-MM-yyyy');
+    int minggu = jiffy2.diff(jiffy1, Units.WEEK);
+    debugPrint('jumlah waranti $minggu');
     Get.bottomSheet(
       Material(
         child: Column(
@@ -64,15 +85,17 @@ class RepairHistoryController extends GetxController {
 
                       final value = {
                         'title': data['kerosakkan'],
-                        'waranti': '',
+                        'waranti': '${_getWarranty(minggu)}',
                         'harga': data['price'],
                         'technician': data['technician'],
+                        'noTel': data['noTel'],
+                        'nama': data['nama'],
                       };
                       payment.bills.add(value);
                       payment.totalBillsPrice.value =
                           double.parse(data['price']);
                       payment.customerName = data['nama'];
-                      payment.phoneNumber = '';
+                      payment.phoneNumber = data['noTel'];
                       print(payment.bills[0]);
                       Get.back();
                       Get.toNamed(MyRoutes.pdfReceiptViewer,

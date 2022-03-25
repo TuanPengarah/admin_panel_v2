@@ -98,7 +98,7 @@ class CashFlowStatementController extends GetxController {
           }),
     );
     String titleName =
-        'Cashflow Statement ${_graphController.checkMonthsMalay(bulan)} | $year}';
+        'Cashflow Statement ${_graphController.checkMonthsMalay(bulan)} | $year';
     if (!GetPlatform.isWeb) {
       final String dir = (await getApplicationDocumentsDirectory()).path;
       final String path = '$dir/$titleName.pdf';

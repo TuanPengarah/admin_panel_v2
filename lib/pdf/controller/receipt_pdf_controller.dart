@@ -58,36 +58,38 @@ class ReceiptPDFController extends GetxController {
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           margin: pw.EdgeInsets.all(15),
           header: (pw.Context context) {
-            return pw.Column(
-              children: [
-                pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                  children: [
-                    pw.Column(
-                      crossAxisAlignment: pw.CrossAxisAlignment.start,
-                      children: [
-                        pw.Text(
-                          'INVOIS',
-                          style: pw.TextStyle(
-                            color: PdfColors.blue,
-                            fontWeight: pw.FontWeight.bold,
-                            fontSize: 30,
+            return pw.Header(
+              decoration: pw.BoxDecoration(),
+              child: pw.Column(
+                children: [
+                  pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    children: [
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                          pw.Text(
+                            'INVOIS',
+                            style: pw.TextStyle(
+                              color: PdfColors.blue,
+                              fontWeight: pw.FontWeight.bold,
+                              fontSize: 30,
+                            ),
                           ),
-                        ),
-                        pw.Text(
-                          'Sila simpan resit ini untuk tujuan waranti (jika ada)',
-                          style: pw.TextStyle(
-                            color: PdfColors.grey,
+                          pw.Text(
+                            'Sila simpan resit ini untuk tujuan waranti (jika ada)',
+                            style: pw.TextStyle(
+                              color: PdfColors.grey,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    pw.Image(assetImage, height: 50),
-                  ],
-                ),
-                pw.Divider(),
-                pw.SizedBox(height: 10),
-              ],
+                        ],
+                      ),
+                      pw.Image(assetImage, height: 50),
+                    ],
+                  ),
+                  pw.SizedBox(height: 10),
+                ],
+              ),
             );
           },
           build: (pw.Context context) {
@@ -158,55 +160,78 @@ class ReceiptPDFController extends GetxController {
                             2: pw.Alignment.centerRight,
                           },
                         )
-                      : pw.Stack(children: [
-                          pw.Container(
-                            width: PdfPageFormat.a5.width,
-                            height: 38,
-                            color: PdfColors.blue300,
-                          ),
-                          pw.Column(
-                            children: [
-                              pw.SizedBox(height: 10),
-                              pw.Row(
-                                mainAxisAlignment:
-                                    pw.MainAxisAlignment.spaceBetween,
-                                children: [
-                                  pw.Text(
-                                    '  Butir',
+                      : pw.Table(
+                          children: [
+                            pw.TableRow(
+                              decoration: pw.BoxDecoration(
+                                color: PdfColors.blue,
+                                border: pw.Border.all(
+                                  color: PdfColors.blue,
+                                ),
+                              ),
+                              verticalAlignment:
+                                  pw.TableCellVerticalAlignment.middle,
+                              children: [
+                                pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Text(
+                                    'Butir',
                                     style: pw.TextStyle(
                                       fontWeight: pw.FontWeight.bold,
                                     ),
                                   ),
-                                  pw.Text(
-                                    'Harga  ',
+                                ),
+                                pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Text(
+                                    'Waranti',
                                     style: pw.TextStyle(
                                       fontWeight: pw.FontWeight.bold,
                                     ),
                                   ),
-                                ],
-                              ),
-                              pw.SizedBox(height: 25),
-                              pw.Row(
-                                mainAxisAlignment:
-                                    pw.MainAxisAlignment.spaceBetween,
-                                children: [
-                                  pw.Text(
-                                    '   ${_paymentController.bills[0]['title']}',
+                                ),
+                                pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Text(
+                                    'Harga',
+                                    style: pw.TextStyle(
+                                      fontWeight: pw.FontWeight.bold,
+                                    ),
                                   ),
-                                  pw.Text(
-                                    'RM${_paymentController.bills[0]['harga']}   ',
+                                ),
+                              ],
+                            ),
+                            pw.TableRow(
+                              verticalAlignment:
+                                  pw.TableCellVerticalAlignment.bottom,
+                              children: [
+                                pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Text(
+                                    '${_paymentController.bills[0]['title']}',
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ]),
+                                ),
+                                pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Text(
+                                      '${_paymentController.bills[0]['waranti']}'),
+                                ),
+                                pw.Padding(
+                                  padding: pw.EdgeInsets.all(10),
+                                  child: pw.Text(
+                                    '${_paymentController.bills[0]['harga']}',
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                   pw.Divider(color: PdfColors.blue300),
                   pw.Container(
                     margin: const pw.EdgeInsets.only(top: 5),
                     alignment: pw.Alignment.centerRight,
                     child: pw.Text(
-                      'Jumlah Keseluruhan:    RM${_paymentController.totalBillsPrice}',
+                      'Jumlah:  RM${_paymentController.totalBillsPrice}',
                       style: pw.TextStyle(
                         fontWeight: pw.FontWeight.bold,
                       ),
@@ -218,17 +243,17 @@ class ReceiptPDFController extends GetxController {
           },
           footer: (pw.Context context) {
             return pw.Column(
+              mainAxisAlignment: pw.MainAxisAlignment.center,
+              crossAxisAlignment: pw.CrossAxisAlignment.center,
               children: [
-                pw.Divider(),
-                pw.Text(
-                  'Anda juga boleh melihat status waranti di laman portal kami: www.af-fix.com/e-warranty',
-                  textAlign: pw.TextAlign.center,
-                ),
-                pw.SizedBox(height: 10),
-                pw.Text(
-                  'TERIMA KASIH!',
-                  style: pw.TextStyle(
-                    fontWeight: pw.FontWeight.bold,
+                pw.Center(
+                  child: pw.Text(
+                    'Anda juga boleh melihat status waranti di laman portal kami: www.af-fix.com/e-warranty',
+                    textAlign: pw.TextAlign.center,
+                    style: pw.TextStyle(
+                      color: PdfColors.grey,
+                      fontSize: 10,
+                    ),
                   ),
                 ),
               ],
