@@ -1,8 +1,8 @@
+import 'dart:async';
 import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
-import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/notification/controller/notification_controller.dart';
 import 'package:admin_panel/notification/model/notification_model.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -11,8 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quick_actions/quick_actions.dart';
-
 import '../../auth/controller/firebaseAuth_controller.dart';
+import '../../config/snackbar.dart';
 
 class HomeController extends GetxController {
   final _notifController = Get.find<NotificationController>();
@@ -30,7 +30,15 @@ class HomeController extends GetxController {
     }
     currentIndex.value = box.read<int>('nav') ?? 0;
     notificationPermision();
+    firebaseMessaging();
+    streamOnApp();
     super.onReady();
+  }
+
+  @override
+  void onClose() {
+    streamOnApp().cancel();
+    super.onClose();
   }
 
   void _handleMessage(RemoteMessage message) async {
@@ -84,13 +92,9 @@ class HomeController extends GetxController {
     }
   }
 
-  void firebaseMessaging() async {
-    debugPrint('initiate firebase Messaging');
-    if (!GetPlatform.isWeb) {
-      FirebaseMessaging.instance.subscribeToTopic('adminPanel');
-    }
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+  StreamSubscription<RemoteMessage> streamOnApp() {
+    return FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      debugPrint('masej masyuk');
       NotificationsModel notif = new NotificationsModel(
         title: message.notification.title,
         body: message.notification.body,
@@ -139,6 +143,13 @@ class HomeController extends GetxController {
             message.notification.title, message.notification.body);
       }
     });
+  }
+
+  void firebaseMessaging() async {
+    debugPrint('initiate firebase Messaging');
+    if (!GetPlatform.isWeb) {
+      FirebaseMessaging.instance.subscribeToTopic('adminPanel');
+    }
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     RemoteMessage initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();

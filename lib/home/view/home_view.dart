@@ -15,11 +15,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final _homeController = Get.find<HomeController>();
-  @override
-  void initState() {
-    _homeController.firebaseMessaging();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,35 +62,31 @@ class _HomeViewState extends State<HomeView> {
                 selectedIcon: Icon(Icons.person),
                 label: 'Pelanggan',
               ),
-              NavigationDestination(
-                icon: _homeController.totalMysid.value == 0
-                    ? Icon(Icons.date_range_outlined)
-                    : Badge(
-                        badgeContent: Obx(
-                          () => Text(
-                            '${_homeController.totalMysid.value}',
-                            style: TextStyle(color: Colors.white),
+              Obx(() => NavigationDestination(
+                    icon: _homeController.totalMysid.value == 0
+                        ? Icon(Icons.date_range_outlined)
+                        : Badge(
+                            badgeContent: Text(
+                              '${_homeController.totalMysid.value}',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            child: Icon(Icons.date_range_outlined),
+                            animationType: BadgeAnimationType.scale,
+                            animationDuration: Duration(milliseconds: 200),
                           ),
-                        ),
-                        child: Icon(Icons.date_range_outlined),
-                        animationType: BadgeAnimationType.scale,
-                        animationDuration: Duration(milliseconds: 200),
-                      ),
-                selectedIcon: _homeController.totalMysid.value == 0
-                    ? Icon(Icons.date_range)
-                    : Badge(
-                        badgeContent: Obx(
-                          () => Text(
-                            '${_homeController.totalMysid.value}',
-                            style: TextStyle(color: Colors.white),
+                    selectedIcon: _homeController.totalMysid.value == 0
+                        ? Icon(Icons.date_range)
+                        : Badge(
+                            badgeContent: Text(
+                              '${_homeController.totalMysid.value}',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            child: Icon(Icons.date_range),
+                            animationType: BadgeAnimationType.scale,
+                            animationDuration: Duration(milliseconds: 200),
                           ),
-                        ),
-                        child: Icon(Icons.date_range),
-                        animationType: BadgeAnimationType.scale,
-                        animationDuration: Duration(milliseconds: 200),
-                      ),
-                label: 'MySID',
-              ),
+                    label: 'MySID',
+                  )),
               NavigationDestination(
                 icon: Icon(Icons.category_outlined),
                 selectedIcon: Icon(Icons.category),
