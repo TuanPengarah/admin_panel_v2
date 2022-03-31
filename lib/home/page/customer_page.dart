@@ -2,6 +2,7 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/controller/customer_controller.dart';
 import 'package:admin_panel/home/model/popupmenu_model.dart';
+import 'package:admin_panel/sms/controller/sms_controller.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
@@ -10,7 +11,10 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CustomerPage extends StatelessWidget {
+  final isGrab;
+  CustomerPage(this.isGrab);
   final _customerController = Get.find<CustomerController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,16 +110,18 @@ class CustomerPage extends StatelessWidget {
                 )
                 .toList(),
           ),
-          IconButton(
-            onPressed: () {
-              Haptic.feedbackClick();
-              Get.toNamed(MyRoutes.jobsheet,
-                  arguments: [false, '', '', '', '']);
-            },
-            icon: Icon(
-              Icons.add,
-            ),
-          ),
+          isGrab == false
+              ? IconButton(
+                  onPressed: () {
+                    Haptic.feedbackClick();
+                    Get.toNamed(MyRoutes.jobsheet,
+                        arguments: [false, '', '', '', '']);
+                  },
+                  icon: Icon(
+                    Icons.add,
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
       body: GetBuilder<CustomerController>(
@@ -248,19 +254,34 @@ class CustomerPage extends StatelessWidget {
                                 ),
                                 child: ListTile(
                                   onTap: () {
-                                    Haptic.feedbackClick();
-                                    Get.toNamed(
-                                      MyRoutes.overview,
-                                      arguments: [
-                                        customer['UID'],
-                                        customer['Nama'],
-                                        customer['photoURL'],
-                                        customer['No Phone'],
-                                        customer['Email'],
-                                        customer['Points'],
-                                        customer['timeStamp'],
-                                      ],
-                                    );
+                                    if (isGrab == false) {
+                                      Haptic.feedbackClick();
+                                      Get.toNamed(
+                                        MyRoutes.overview,
+                                        arguments: [
+                                          customer['UID'],
+                                          customer['Nama'],
+                                          customer['photoURL'],
+                                          customer['No Phone'],
+                                          customer['Email'],
+                                          customer['Points'],
+                                          customer['timeStamp'],
+                                        ],
+                                      );
+                                    } else {
+                                      final smsController =
+                                          Get.put(SMSController());
+                                      if (smsController.recipientText.text ==
+                                          '') {
+                                        smsController.recipientText.text +=
+                                            '6${customer['No Phone']}';
+                                      } else {
+                                        smsController.recipientText.text +=
+                                            ',6${customer['No Phone']}';
+                                      }
+
+                                      Get.back();
+                                    }
                                   },
                                   leading: Hero(
                                     tag: customer['UID'],

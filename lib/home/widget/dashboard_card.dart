@@ -4,6 +4,7 @@ import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../config/haptic_feedback.dart';
 import '../../graph/graph_controller.dart';
 
@@ -40,15 +41,15 @@ class DashboardCardAll extends StatelessWidget {
                 children: [
                   Obx(() {
                     return infoCard('Untung Kasar',
-                        'RM ${_graphController.untungKasar.value.toStringAsFixed(2)}');
+                        '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: 'RM').format(_graphController.untungKasar.value)}');
                   }),
                   Obx(() {
                     return infoCard('Untung Bersih',
-                        'RM ${_graphController.untungBersih.value.toStringAsFixed(2)}');
+                        '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: 'RM').format(_graphController.untungBersih.value)}');
                   }),
                   Obx(() {
                     return infoCard('Jumlah Modal',
-                        'RM ${_graphController.jumlahModal.value.toStringAsFixed(2)}');
+                        '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: 'RM').format(_graphController.jumlahModal.value)}');
                   }),
                   Obx(() {
                     return infoCard('Jumlah Spareparts',

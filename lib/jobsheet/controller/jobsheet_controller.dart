@@ -310,8 +310,12 @@ class JobsheetController extends GetxController {
   void selectContact() async {
     final contact = await _contactPicker.selectContact();
     if (contact != null) {
+      String contactNum = contact.phoneNumbers.first;
       namaCust.text = contact.fullName;
-      noPhone.text = contact.phoneNumbers.first;
+      noPhone.text = contactNum
+          .replaceAll('+6', '')
+          .replaceAll(' ', '')
+          .replaceAll('-', '');
     }
   }
 }

@@ -29,10 +29,10 @@ Future<void> main() async {
 
   final _user = FirebaseAuth.instance.currentUser;
   if (_user != null) {
-    print('user already signed in');
+    debugPrint('user already signed in');
     _isLogin = true;
   } else {
-    print('User is currently signed out');
+    debugPrint('User is currently signed out');
     _isLogin = false;
   }
   await GetStorage.init();

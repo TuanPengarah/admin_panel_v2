@@ -12,6 +12,7 @@ import 'package:admin_panel/jobsheet/controller/history_controller.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:admin_panel/pdf/controller/cashflow_statement_pdf_controller.dart';
 import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
+import 'package:admin_panel/sms/controller/sms_controller.dart';
 import 'package:get/get.dart';
 
 class PriceListBinding extends Bindings {
@@ -89,5 +90,12 @@ class CashFlowStatementBinding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => CashFlowStatementController());
     Get.lazyPut(() => GraphController());
+  }
+}
+
+class SMSBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => SMSController());
   }
 }

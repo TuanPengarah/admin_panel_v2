@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../config/haptic_feedback.dart';
 import '../../config/routes.dart';
 import '../../graph/graph_controller.dart';
@@ -98,7 +99,9 @@ class DashboardCardMonths extends StatelessWidget {
               ),
             ),
             Text(
-              total <= 0.0 ? '--' : 'RM ${total.toStringAsFixed(2)}',
+              total <= 0.0
+                  ? '--'
+                  : '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: 'RM').format(total)}',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Get.isDarkMode ? Colors.white : Colors.grey,

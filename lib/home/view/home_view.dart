@@ -25,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
           index: _homeController.currentIndex.value,
           children: [
             DashboardPage(),
-            CustomerPage(),
+            CustomerPage(false),
             MySidPage(),
             SparepartPage(),
             SettingPage(),

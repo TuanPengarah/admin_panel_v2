@@ -1,6 +1,4 @@
 import 'package:admin_panel/config/binding.dart';
-import 'package:admin_panel/pdf/view/cashflow_statement_view.dart';
-import 'package:admin_panel/record/view/record_monthly.dart';
 import 'package:get/get.dart';
 import 'get_route_export.dart';
 
@@ -37,6 +35,7 @@ class MyRoutes {
   static const chat = '/chat';
   static const monthlyRecord = '/monthly-record';
   static const cashflowStatement = '/cashflow-statement';
+  static const smsView = '/sms-view';
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
@@ -107,5 +106,10 @@ class MyRoutes {
         name: cashflowStatement,
         page: () => CashFlowStatementPDF(),
         binding: CashFlowStatementBinding()),
+    GetPage(
+      name: smsView,
+      page: () => SMSView(),
+      binding: SMSBinding(),
+    ),
   ];
 }

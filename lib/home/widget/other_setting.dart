@@ -83,6 +83,20 @@ class OtherSettings {
               ),
             ),
           ),
+          Card(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () => Get.toNamed(MyRoutes.smsView),
+              child: ListTile(
+                leading: Icon(
+                  Icons.sms,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text('SMS Gateway'),
+                subtitle: Text('Hantar SMS kepada pelanggan'),
+              ),
+            ),
+          ),
           SizedBox(height: 30),
 
           ///SETTINGS

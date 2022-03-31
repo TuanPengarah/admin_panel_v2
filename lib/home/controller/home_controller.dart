@@ -5,7 +5,6 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/notification/controller/notification_controller.dart';
 import 'package:admin_panel/notification/model/notification_model.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -180,21 +179,6 @@ class HomeController extends GetxController {
   }
 
   void notificationPermision() async {
-    if (GetPlatform.isWeb == false) {
-      AwesomeNotifications().initialize(
-        'resource://drawable/res_notification_app_icon',
-        [
-          NotificationChannel(
-            channelKey: 'fcm',
-            channelName: 'Firebase Cloud Messaging',
-            channelDescription:
-                'Pemberitahuan daripada Firebase Cloud Messaging',
-            defaultColor: Colors.blue,
-            importance: NotificationImportance.High,
-          ),
-        ],
-      );
-    }
     if (GetPlatform.isIOS || GetPlatform.isWeb) {
       FirebaseMessaging messaging = FirebaseMessaging.instance;
 
