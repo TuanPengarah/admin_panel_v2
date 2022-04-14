@@ -8,7 +8,8 @@ import '../../graph/graph_controller.dart';
 class DashboardCardMonths extends StatelessWidget {
   final int bulan;
   final bool isSpecific;
-  DashboardCardMonths(this.bulan, this.isSpecific);
+  final bool isDashboard;
+  DashboardCardMonths(this.bulan, this.isSpecific, this.isDashboard);
   @override
   Widget build(BuildContext context) {
     final _graphController = Get.find<GraphController>();
@@ -16,7 +17,7 @@ class DashboardCardMonths extends StatelessWidget {
       elevation: Get.isDarkMode ? 0 : 10,
       margin: EdgeInsets.symmetric(horizontal: 18),
       child: Container(
-        // height: 500,
+        width: Get.width,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -49,23 +50,26 @@ class DashboardCardMonths extends StatelessWidget {
                       label: Text('Lihat Rekod Mengikut Bulan '),
                       icon: Icon(Icons.read_more),
                     )
-                  : ElevatedButton.icon(
-                      onPressed: () {
-                        var payload = {
-                          'bulan': bulan,
-                          'untungKasar': _graphController.getUntungKasar(bulan),
-                          'untungBersih':
-                              _graphController.getUntungBersih(bulan),
-                          'modal': _graphController
-                              .getMonthsHargajual(bulan)
-                              .toDouble(),
-                        };
-                        Haptic.feedbackClick();
-                        Get.toNamed(MyRoutes.cashflowStatement,
-                            arguments: payload);
-                      },
-                      icon: Icon(Icons.picture_as_pdf),
-                      label: Text('Hasilkan Cash Flow Statement')),
+                  : isDashboard == true
+                      ? Container()
+                      : ElevatedButton.icon(
+                          onPressed: () {
+                            var payload = {
+                              'bulan': bulan,
+                              'untungKasar':
+                                  _graphController.getUntungKasar(bulan),
+                              'untungBersih':
+                                  _graphController.getUntungBersih(bulan),
+                              'modal': _graphController
+                                  .getMonthsHargajual(bulan)
+                                  .toDouble(),
+                            };
+                            Haptic.feedbackClick();
+                            Get.toNamed(MyRoutes.cashflowStatement,
+                                arguments: payload);
+                          },
+                          icon: Icon(Icons.picture_as_pdf),
+                          label: Text('Hasilkan Cash Flow Statement')),
             ],
           ),
         ),

@@ -18,9 +18,22 @@ Future<void> _firebaseMessagingBackground(RemoteMessage message) async {
   debugPrint("Handling a background message: ${message.messageId}");
 }
 
+const firebaseOptions = FirebaseOptions(
+  appId: '1:432957311030:ios:28ff4cd8805045fa5a3097',
+  apiKey: 'AIzaSyDBfiwrlxhEsYX9Ng6WVRr13G2nUHtWmy0',
+  projectId: 'af-fix-database',
+  messagingSenderId: '432957311030',
+  authDomain: 'af-fix-database.firebaseapp.com',
+);
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (GetPlatform.isMacOS) {
+    await Firebase.initializeApp(options: firebaseOptions);
+  } else {
+    await Firebase.initializeApp();
+    await GetStorage.init();
+  }
   bool _isLogin = false;
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
@@ -35,7 +48,7 @@ Future<void> main() async {
     debugPrint('User is currently signed out');
     _isLogin = false;
   }
-  await GetStorage.init();
+
   await PriceListApi.init();
   runApp(MyApp(
     isLogin: _isLogin,

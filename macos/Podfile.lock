@@ -344,10 +344,12 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.7):
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
-  - cloud_firestore (3.1.10):
+  - cloud_firestore (3.1.11):
     - Firebase/CoreOnly (~> 8.11.0)
     - Firebase/Firestore (~> 8.11.0)
     - firebase_core
+    - FlutterMacOS
+  - desktop_webview_auth (0.0.1):
     - FlutterMacOS
   - device_info_plus_macos (0.0.1):
     - FlutterMacOS
@@ -373,10 +375,14 @@ PODS:
     - Firebase/CoreOnly (~> 8.11.0)
     - firebase_core
     - FlutterMacOS
+  - firebase_auth_desktop (0.1.1-dev.6):
+    - FlutterMacOS
   - firebase_core (1.13.1):
     - Firebase/CoreOnly (~> 8.11.0)
     - FlutterMacOS
-  - firebase_database (9.0.8):
+  - firebase_core_desktop (0.1.1-dev.3):
+    - FlutterMacOS
+  - firebase_database (9.0.9):
     - Firebase/CoreOnly (~> 8.11.0)
     - Firebase/Database (~> 8.11.0)
     - firebase_core
@@ -509,9 +515,12 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
+  - desktop_webview_auth (from `Flutter/ephemeral/.symlinks/plugins/desktop_webview_auth/macos`)
   - device_info_plus_macos (from `Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos`)
   - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
+  - firebase_auth_desktop (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth_desktop/macos`)
   - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
+  - firebase_core_desktop (from `Flutter/ephemeral/.symlinks/plugins/firebase_core_desktop/macos`)
   - firebase_database (from `Flutter/ephemeral/.symlinks/plugins/firebase_database/macos`)
   - firebase_messaging (from `Flutter/ephemeral/.symlinks/plugins/firebase_messaging/macos`)
   - firebase_storage (from `Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos`)
@@ -548,12 +557,18 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cloud_firestore:
     :path: Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos
+  desktop_webview_auth:
+    :path: Flutter/ephemeral/.symlinks/plugins/desktop_webview_auth/macos
   device_info_plus_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/device_info_plus_macos/macos
   firebase_auth:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos
+  firebase_auth_desktop:
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_auth_desktop/macos
   firebase_core:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
+  firebase_core_desktop:
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_core_desktop/macos
   firebase_database:
     :path: Flutter/ephemeral/.symlinks/plugins/firebase_database/macos
   firebase_messaging:
@@ -576,12 +591,15 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
-  cloud_firestore: aaecbaa2643ca4de74935d30d0eab5201268c44f
+  cloud_firestore: dccbceb86d99b03d9098b82dec3b300d54ae11d0
+  desktop_webview_auth: 9bba53a29c9bc6a4ff621fd0ebfbb18856c4dada
   device_info_plus_macos: 1ad388a1ef433505c4038e7dd9605aadd1e2e9c7
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
   firebase_auth: ed3018dbfc680091bff34d7230980b73ac9750ca
+  firebase_auth_desktop: aa7f2092efef96933a089b26d6fb21755dc80583
   firebase_core: 11d0b4e9fa6120706c015fbfe5f4b409758dae5d
-  firebase_database: 9a3bfb643e1f556df04b6c7c5771dc18ab32f032
+  firebase_core_desktop: 282e4e6d3c817e8320077d8d241a30593f6ae635
+  firebase_database: a69f721e8d86b9a0a96df8215127fcb3322bfaef
   firebase_messaging: ebfaa890ba507562f9cb8ad867bc94ac9752dda5
   firebase_storage: 81f9079d181bebf1cb405da85ada3b4cce961ff3
   FirebaseAuth: d96d73aba85d192d7a7aa0b86dd6d7f8ec170b4b

@@ -26,6 +26,7 @@ class DashboardPage extends GetResponsiveView<HomeController> {
               color: Get.theme.primaryColor,
             ),
             CustomScrollView(
+              primary: false,
               shrinkWrap: true,
               physics: BouncingScrollPhysics(),
               slivers: [

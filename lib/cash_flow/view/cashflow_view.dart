@@ -49,7 +49,19 @@ class CashFlowView extends GetView<CashFlowController> {
             children: [
               CashFlowCard(false),
               ListCashFlow(),
-              CashFlowAdd(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CashFlowAdd(
+                    isAdd: true,
+                    isEdit: false,
+                  ),
+                  CashFlowAdd(
+                    isAdd: false,
+                    isEdit: false,
+                  ),
+                ],
+              ),
             ],
           );
         },

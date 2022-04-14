@@ -3,7 +3,7 @@ description: Admin apps to control Af-Fix Smartphone Repair
 
 publish_to: 'none'
 
-version: 2.0.3+8
+version: 2.0.3+9
 
 environment:
   sdk: ">=2.11.0 <3.0.0"
@@ -14,6 +14,7 @@ dependencies:
   path: any
 
   # UI/UX
+  firebase_auth_desktop: ^0.1.1-dev.6
   cupertino_icons: ^1.0.2
   sliding_sheet: ^0.5.0
   rounded_loading_button: ^2.0.9
@@ -30,11 +31,12 @@ dependencies:
 
   # API Services
   flutterfire_cli: ^0.1.1+2
+  firebase_core_desktop: ^0.1.1-dev.3
   firebase_core: ^1.13.1
-  cloud_firestore: ^3.1.8
+  cloud_firestore: ^3.1.11
   firebase_auth: ^3.0.2
   flutter_mailer: ^2.0.0
-  firebase_database: ^9.0.6
+  firebase_database: ^9.0.9
   firebase_storage: ^10.0.3
   firebase_messaging: "^11.2.11"
   restart_app: ^1.1.0
@@ -59,7 +61,7 @@ dependencies:
   # Data Models
   intl: ^0.17.0
   flutter_native_contact_picker: ^0.0.3
-  path_provider: ^2.0.2
+  path_provider: ^2.0.9
   pdf:
   syncfusion_flutter_pdfviewer: ^19.4.54-beta
   flutter_app_badger: ^1.2.0

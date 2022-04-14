@@ -1,3 +1,4 @@
+import 'package:admin_panel/cash_flow/view/cashflow_viewall.dart';
 import 'package:admin_panel/config/binding.dart';
 import 'package:get/get.dart';
 import 'get_route_export.dart';
@@ -36,6 +37,7 @@ class MyRoutes {
   static const monthlyRecord = '/monthly-record';
   static const cashflowStatement = '/cashflow-statement';
   static const smsView = '/sms-view';
+  static const cashFlowViewAll = '/cashflow-viewAll';
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
@@ -110,6 +112,10 @@ class MyRoutes {
       name: smsView,
       page: () => SMSView(),
       binding: SMSBinding(),
+    ),
+    GetPage(
+      name: cashFlowViewAll,
+      page: () => CashflowViewAll(),
     ),
   ];
 }

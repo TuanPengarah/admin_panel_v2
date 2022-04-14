@@ -15,7 +15,7 @@ class MonthlyRecordView extends GetView<GraphController> {
           itemBuilder: (context, i) {
             return Padding(
               padding: const EdgeInsets.all(12.0),
-              child: DashboardCardMonths(i, true),
+              child: DashboardCardMonths(i, true, false),
             );
           }),
     );

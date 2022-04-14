@@ -15,8 +15,8 @@ class GraphMonthlySales extends StatelessWidget {
           padding: const EdgeInsets.only(right: 40.0, left: 30),
           child: LineChart(
             LineChartData(
-                minX: 0,
-                minY: 0,
+                // minX: 0,
+                // minY: 0,
                 lineTouchData: LineTouchData(
                   enabled: true,
                   // touchCallback: (touchEvent, response) {
@@ -92,12 +92,13 @@ class GraphMonthlySales extends StatelessWidget {
                     margin: 3,
                   ),
                   leftTitles: SideTitles(
-                      reservedSize: 30,
-                      textAlign: TextAlign.start,
-                      showTitles: true,
-                      interval: 1000,
-                      getTextStyles: (_, __) =>
-                          TextStyle(color: Colors.white, fontSize: 11)),
+                    reservedSize: 30,
+                    textAlign: TextAlign.start,
+                    showTitles: true,
+                    interval: 1000 * 2.5.toDouble(),
+                    getTextStyles: (_, __) =>
+                        TextStyle(color: Colors.white, fontSize: 11),
+                  ),
                 ),
                 gridData: FlGridData(
                     show: true,

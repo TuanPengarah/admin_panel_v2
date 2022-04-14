@@ -333,6 +333,8 @@ class PaymentController extends GetxController {
         'jumlah': int.parse(priceText.text),
         'remark': currentStock.value.toString(),
         'isModal': false,
+        'isSpareparts': false,
+        'isJualPhone': true,
         'timeStamp': FieldValue.serverTimestamp(),
       };
 

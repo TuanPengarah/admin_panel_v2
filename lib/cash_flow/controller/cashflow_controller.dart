@@ -14,7 +14,9 @@ class CashFlowController extends GetxController {
   var masuk = 0.0.obs;
   var keluar = 0.0.obs;
   var total = 0.0.obs;
-  var isModal = false.obs;
+  var isModal = true.obs;
+  var isSparepart = true.obs;
+  var isJualPhone = true.obs;
 
   final hargaText = TextEditingController();
   final remarksText = TextEditingController();
@@ -25,6 +27,37 @@ class CashFlowController extends GetxController {
   void onInit() {
     initCashFlow = getCashFlow();
     super.onInit();
+  }
+
+  Future<void> editCashFlow(String docID) async {
+    Haptic.feedbackClick();
+    Map<String, dynamic> data = {
+      'isSpareparts': isSparepart.value,
+      'isModal': isModal.value,
+      'isJualPhone': isJualPhone.value,
+      'jumlah': double.parse(hargaText.text),
+      'remark': remarksText.text,
+    };
+
+    Get.dialog(AlertDialog(
+      title: Text('Melakukan Perubahan...'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [CircularProgressIndicator.adaptive()],
+      ),
+    ));
+
+    await FirebaseFirestore.instance
+        .collection('Sales')
+        .doc(year)
+        .collection('cashFlow')
+        .doc(docID)
+        .update(data)
+        .whenComplete(() async {
+      await getCashFlow();
+      Get.back();
+      update();
+    });
   }
 
   Future<void> getCashFlow() async {
@@ -40,6 +73,15 @@ class CashFlowController extends GetxController {
         .then((snapshot) {
       snapshot.docs.forEach((doc) {
         // DateTime dt = (doc['timeStamp'] as Timestamp).toDate();
+        // FirebaseFirestore.instance
+        //     .collection('Sales')
+        //     .doc(year)
+        //     .collection('cashFlow')
+        //     .doc(doc.id)
+        //     .update({
+        //   'isJualPhone': false,
+        //   'isSpareparts': true,
+        // });
 
         cashFlow.add(CashFlowModel.fromJson(doc));
       });
@@ -91,6 +133,8 @@ class CashFlowController extends GetxController {
       'jumlah': harga,
       'isModal': isModal.value,
       'timeStamp': FieldValue.serverTimestamp(),
+      'isSpareparts': isSparepart.value,
+      'isJualPhone': isJualPhone.value,
     };
     try {
       await firestore.collection('cashFlow').add(cashflowPayload);
@@ -131,8 +175,8 @@ class CashFlowController extends GetxController {
       await _graphController.getGraphFromFirestore();
       update();
       status.value = 'Selesai';
-      resetAdd();
       Get.back();
+      resetAdd();
       Haptic.feedbackSuccess();
       ShowSnackbar.success(
           'Selesai', 'Cash Flow telah ditambah pada pangkalan data', false);
@@ -144,9 +188,10 @@ class CashFlowController extends GetxController {
   }
 
   void resetAdd() {
-    Get.back();
     hargaText.text = '';
     remarksText.text = '';
-    isModal.value = false;
+    isModal.value = true;
+    isSparepart.value = true;
+    isJualPhone.value = true;
   }
 }

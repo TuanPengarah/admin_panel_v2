@@ -22,6 +22,7 @@ class SettingPage extends StatelessWidget {
         );
       },
       child: CustomScrollView(
+        primary: false,
         physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(

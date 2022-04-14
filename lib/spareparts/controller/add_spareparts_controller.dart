@@ -253,6 +253,8 @@ class AddSparepartsController extends GetxController {
       final Map<String, dynamic> cashflow = {
         'jumlah': double.parse(hargaParts.text),
         'isModal': true,
+        'isSpareparts': false,
+        'isJualPhone': true,
         'remark': '${jenisParts.text} ${modelParts.text}',
         'timeStamp': FieldValue.serverTimestamp(),
       };
