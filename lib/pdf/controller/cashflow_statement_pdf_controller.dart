@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:admin_panel/cash_flow/model/cashflow_model.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,6 +27,12 @@ class CashFlowStatementController extends GetxController {
   Future<void> writeCashFlowStatement(int bulan,
       {double untungBersih, double untungKasar, double modal}) async {
     List<CashFlowModel> cashFlow = [];
+    double jumlahBukanSparepartsOut = 0.0;
+    double jumlahBukanSparepartsIn = 0.0;
+    double jumlahSparepartsOut = 0.0;
+    double jumlahSparepartsIn = 0.0;
+    double jumlahJualPhoneOut = 0.0;
+    double jumlahJualPhoneIn = 0.0;
     String year = DateFormat('yyyy').format(DateTime.now()).toString();
     var assetImage = pw.MemoryImage(
       (await rootBundle.load('assets/images/splash_dark.png'))
@@ -44,9 +49,35 @@ class CashFlowStatementController extends GetxController {
     snapshot.docs.forEach((doc) {
       DateTime dt = (doc['timeStamp'] as Timestamp).toDate();
 
-      if (dt.month == bulan + 1) cashFlow.add(CashFlowModel.fromJson(doc));
+      if (dt.month == bulan + 1) {
+        cashFlow.add(CashFlowModel.fromJson(doc));
+      }
     });
     cashFlow..sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+    cashFlow.forEach((e) {
+      if (e.isSpareparts == true && e.isModal == true) {
+        jumlahBukanSparepartsOut += e.jumlah;
+      }
+      if (e.isSpareparts == true && e.isModal == false) {
+        jumlahBukanSparepartsIn += e.jumlah;
+      }
+      if (e.isSpareparts == false && e.isModal == true) {
+        jumlahSparepartsOut += e.jumlah;
+      }
+      if (e.isSpareparts == false && e.isModal == false) {
+        jumlahSparepartsIn += e.jumlah;
+      }
+      if (e.isJualPhone == false &&
+          e.isSpareparts == true &&
+          e.isModal == false) {
+        jumlahJualPhoneIn += e.jumlah;
+      }
+      if (e.isJualPhone == false &&
+          e.isSpareparts == true &&
+          e.isModal == true) {
+        jumlahJualPhoneOut += e.jumlah;
+      }
+    });
 
     pdf.addPage(
       pw.MultiPage(
@@ -73,6 +104,8 @@ class CashFlowStatementController extends GetxController {
               _statementSubheader(
                   'Untung Bersih', 'RM ${untungBersih.toStringAsFixed(2)}'),
               pw.SizedBox(height: 30),
+              pw.Text('Cash Flow Keseluruhan: -'),
+              pw.SizedBox(height: 10),
               pw.Table.fromTextArray(
                 headers: ['Tarikh', 'Butir', 'Harga'],
                 border: null,
@@ -97,6 +130,174 @@ class CashFlowStatementController extends GetxController {
             ];
           }),
     );
+
+    pdf.addPage(
+      pw.MultiPage(
+        footer: (pw.Context context) {
+          return pw.Column(
+            children: [
+              pw.Divider(color: PdfColors.grey),
+              pw.Container(
+                alignment: pw.Alignment.centerRight,
+                child: pw.Text('${context.pageNumber}/${context.pagesCount}'),
+              ),
+            ],
+          );
+        },
+        build: (context) {
+          return <pw.Widget>[
+            pw.SizedBox(height: 15),
+            pw.Divider(color: PdfColors.grey),
+            pw.SizedBox(height: 15),
+            pw.Text('Cash Flow mengikut pecahan Spareparts sahaja:- '),
+            pw.SizedBox(height: 10),
+            pw.Table.fromTextArray(
+              headers: ['Tarikh', 'Butir', 'Harga'],
+              border: null,
+              cellHeight: 20,
+              headerAlignment: pw.Alignment.centerLeft,
+              data: cashFlow
+                  .where((e) => e.isSpareparts == false)
+                  .map((e) => [
+                        DateFormat('dd/MM/yyyy')
+                            .format(e.timeStamp.toDate())
+                            .toString(),
+                        e.remark,
+                        e.isModal == true
+                            ? ' - RM ${e.jumlah}'
+                            : '+ RM ${e.jumlah}',
+                      ])
+                  .toList(),
+              headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+              headerDecoration: pw.BoxDecoration(
+                color: PdfColors.blue300,
+              ),
+            ),
+            pw.SizedBox(height: 20),
+            pw.Text(
+              'Jumlah Duit Keluar: $jumlahSparepartsOut',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            ),
+            pw.Text(
+              'Jumlah Duit Masuk: $jumlahSparepartsIn',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            ),
+          ];
+        },
+      ),
+    );
+    pdf.addPage(
+      pw.MultiPage(
+        footer: (pw.Context context) {
+          return pw.Column(
+            children: [
+              pw.Divider(color: PdfColors.grey),
+              pw.Container(
+                alignment: pw.Alignment.centerRight,
+                child: pw.Text('${context.pageNumber}/${context.pagesCount}'),
+              ),
+            ],
+          );
+        },
+        build: (context) {
+          return <pw.Widget>[
+            pw.SizedBox(height: 15),
+            pw.Divider(color: PdfColors.grey),
+            pw.SizedBox(height: 15),
+            pw.Text('Cash Flow mengikut BUKAN Spareparts:- '),
+            pw.SizedBox(height: 10),
+            pw.Table.fromTextArray(
+              headers: ['Tarikh', 'Butir', 'Harga'],
+              border: null,
+              cellHeight: 20,
+              headerAlignment: pw.Alignment.centerLeft,
+              data: cashFlow
+                  .where((e) => e.isSpareparts == true)
+                  .map((e) => [
+                        DateFormat('dd/MM/yyyy')
+                            .format(e.timeStamp.toDate())
+                            .toString(),
+                        e.remark,
+                        e.isModal == true
+                            ? ' - RM ${e.jumlah}'
+                            : '+ RM ${e.jumlah}',
+                      ])
+                  .toList(),
+              headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+              headerDecoration: pw.BoxDecoration(
+                color: PdfColors.blue300,
+              ),
+            ),
+            pw.SizedBox(height: 20),
+            pw.Text(
+              'Jumlah Duit Keluar: $jumlahBukanSparepartsOut',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            ),
+            pw.Text(
+              'Jumlah Duit Masuk: $jumlahBukanSparepartsIn',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            ),
+          ];
+        },
+      ),
+    );
+    pdf.addPage(
+      pw.MultiPage(
+        footer: (pw.Context context) {
+          return pw.Column(
+            children: [
+              pw.Divider(color: PdfColors.grey),
+              pw.Container(
+                alignment: pw.Alignment.centerRight,
+                child: pw.Text('${context.pageNumber}/${context.pagesCount}'),
+              ),
+            ],
+          );
+        },
+        build: (context) {
+          return <pw.Widget>[
+            pw.SizedBox(height: 15),
+            pw.Divider(color: PdfColors.grey),
+            pw.SizedBox(height: 15),
+            pw.Text('Cash Flow mengikut Jual Phone:- '),
+            pw.SizedBox(height: 10),
+            pw.Table.fromTextArray(
+              headers: ['Tarikh', 'Butir', 'Harga'],
+              border: null,
+              cellHeight: 20,
+              headerAlignment: pw.Alignment.centerLeft,
+              data: cashFlow
+                  .where(
+                      (e) => e.isJualPhone == false && e.isSpareparts == true)
+                  .map((e) => [
+                        DateFormat('dd/MM/yyyy')
+                            .format(e.timeStamp.toDate())
+                            .toString(),
+                        e.remark,
+                        e.isModal == true
+                            ? ' - RM ${e.jumlah}'
+                            : '+ RM ${e.jumlah}',
+                      ])
+                  .toList(),
+              headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+              headerDecoration: pw.BoxDecoration(
+                color: PdfColors.blue300,
+              ),
+            ),
+            pw.SizedBox(height: 20),
+            pw.Text(
+              'Jumlah Duit Keluar: $jumlahJualPhoneOut',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            ),
+            pw.Text(
+              'Jumlah Duit Masuk: $jumlahJualPhoneIn',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            ),
+          ];
+        },
+      ),
+    );
+
     String titleName =
         'Cashflow Statement ${_graphController.checkMonthsMalay(bulan)} | $year';
     if (!GetPlatform.isWeb) {

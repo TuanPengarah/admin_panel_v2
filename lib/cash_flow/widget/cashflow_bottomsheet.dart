@@ -138,6 +138,7 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                   onPressed: () {
                     Haptic.feedbackError();
                     _controller.resetAdd();
+                    Get.back();
                   },
                   child: Text('Batal')),
             ],
