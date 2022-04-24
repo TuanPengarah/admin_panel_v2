@@ -1,12 +1,13 @@
 import 'package:admin_panel/cash_flow/controller/cashflow_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../config/haptic_feedback.dart';
 import '../../config/snackbar.dart';
 
 Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
   final _controller = Get.find<CashFlowController>();
+  bool jualPhoneKe = false;
+  bool sparepartKe = false;
   return Get.bottomSheet(
     Material(
       child: Padding(
@@ -51,7 +52,6 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                 children: [
                   Text(
                     'Duit Masuk',
-                    // style: TextStyle(color: Colors.green),
                   ),
                   Obx(() {
                     return Switch(
@@ -79,6 +79,8 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                       value: _controller.isSparepart.value,
                       onChanged: (newValue) {
                         _controller.isSparepart.value = newValue;
+                        sparepartKe = newValue;
+                        debugPrint('isSparepart = $sparepartKe');
                       },
                     );
                   }),
@@ -93,13 +95,14 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                 children: [
                   Text(
                     'Jual Phone',
-                    // style: TextStyle(color: Colors.green),
                   ),
                   Obx(() {
                     return Switch(
                       value: _controller.isJualPhone.value,
                       onChanged: (newValue) {
                         _controller.isJualPhone.value = newValue;
+                        jualPhoneKe = newValue;
+                        debugPrint('isJualPhone = $jualPhoneKe');
                       },
                     );
                   }),
@@ -119,7 +122,8 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                       Get.back();
                       isEdit == false
                           ? _controller.addCashFlow()
-                          : _controller.editCashFlow(docID);
+                          : _controller.editCashFlow(
+                              docID, jualPhoneKe, sparepartKe);
                     } else {
                       Haptic.feedbackError();
                       ShowSnackbar.error(

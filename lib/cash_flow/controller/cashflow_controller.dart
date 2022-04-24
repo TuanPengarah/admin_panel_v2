@@ -29,12 +29,13 @@ class CashFlowController extends GetxController {
     super.onInit();
   }
 
-  Future<void> editCashFlow(String docID) async {
+  Future<void> editCashFlow(
+      String docID, bool jualPhoneKe, bool sparepartKe) async {
     Haptic.feedbackClick();
     Map<String, dynamic> data = {
-      'isSpareparts': isSparepart.value,
+      'isSpareparts': sparepartKe,
       'isModal': isModal.value,
-      'isJualPhone': isJualPhone.value,
+      'isJualPhone': jualPhoneKe,
       'jumlah': double.parse(hargaText.text),
       'remark': remarksText.text,
     };

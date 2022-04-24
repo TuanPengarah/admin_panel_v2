@@ -67,13 +67,13 @@ class CashFlowStatementController extends GetxController {
       if (e.isSpareparts == false && e.isModal == false) {
         jumlahSparepartsIn += e.jumlah;
       }
-      if (e.isJualPhone == false &&
-          e.isSpareparts == true &&
+      if (e.isJualPhone == true &&
+          e.isSpareparts == false &&
           e.isModal == false) {
         jumlahJualPhoneIn += e.jumlah;
       }
-      if (e.isJualPhone == false &&
-          e.isSpareparts == true &&
+      if (e.isJualPhone == true &&
+          e.isSpareparts == false &&
           e.isModal == true) {
         jumlahJualPhoneOut += e.jumlah;
       }
@@ -157,7 +157,8 @@ class CashFlowStatementController extends GetxController {
               cellHeight: 20,
               headerAlignment: pw.Alignment.centerLeft,
               data: cashFlow
-                  .where((e) => e.isSpareparts == false)
+                  .where(
+                      (e) => e.isSpareparts == false && e.isJualPhone == true)
                   .map((e) => [
                         DateFormat('dd/MM/yyyy')
                             .format(e.timeStamp.toDate())
@@ -212,7 +213,7 @@ class CashFlowStatementController extends GetxController {
               cellHeight: 20,
               headerAlignment: pw.Alignment.centerLeft,
               data: cashFlow
-                  .where((e) => e.isSpareparts == true)
+                  .where((e) => e.isSpareparts == true && e.isJualPhone == true)
                   .map((e) => [
                         DateFormat('dd/MM/yyyy')
                             .format(e.timeStamp.toDate())

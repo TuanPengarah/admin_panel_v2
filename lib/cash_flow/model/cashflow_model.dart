@@ -27,8 +27,8 @@ class CashFlowModel {
         isModal: doc['isModal'],
         timeStamp: doc['timeStamp'],
         remark: doc['remark'],
-        isJualPhone: doc['isSpareparts'],
-        isSpareparts: doc['isJualPhone'],
+        isJualPhone: doc['isJualPhone'],
+        isSpareparts: doc['isSpareparts'],
       );
 
   void toJson() => {
