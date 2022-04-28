@@ -137,9 +137,11 @@ class HomeController extends GetxController {
         );
       } else if (screen == '/chat' && isChat == true) {
         await DatabaseHelper.instance.addChat(chitChat);
-      } else {
+      } else if (message.data['token'] != _authController.token) {
         ShowSnackbar.notify(
             message.notification.title, message.notification.body);
+      } else {
+        Haptic.feedbackClick();
       }
     });
   }

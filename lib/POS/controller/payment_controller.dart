@@ -1,3 +1,4 @@
+import 'package:admin_panel/API/notif_fcm_event.dart';
 import 'package:admin_panel/POS/model/payment_model.dart';
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
@@ -11,8 +12,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
-
-import '../../API/notif_fcm.dart';
 
 class PaymentController extends GetxController {
   List bills = [];
@@ -333,7 +332,7 @@ class PaymentController extends GetxController {
         'jumlah': int.parse(priceText.text),
         'remark': currentStock.value.toString(),
         'isModal': false,
-        'isSpareparts': true,
+        'isSpareparts': false,
         'isJualPhone': true,
         'timeStamp': FieldValue.serverTimestamp(),
       };
@@ -351,10 +350,11 @@ class PaymentController extends GetxController {
       await _graphController.getGraphFromFirestore();
       title.value = 'Selesai!';
       await Future.delayed(Duration(seconds: 1));
-      NotifFCM()
+      NotifFCMEvent()
           .postData(
             'Pembayaran telah selesai!',
             'Juruteknik ${_authController.userName.value} telah membuka resit bayaran dengan berjumlah RM${priceText.text}',
+            token: _authController.token,
           )
           .then((value) => debugPrint(value.body.toString()));
       Haptic.feedbackSuccess();

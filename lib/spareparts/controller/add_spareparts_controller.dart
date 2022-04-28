@@ -1,7 +1,7 @@
 import 'dart:math';
-
-import 'package:admin_panel/API/notif_fcm.dart';
+import 'package:admin_panel/API/notif_fcm_event.dart';
 import 'package:admin_panel/API/sqlite.dart';
+import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
@@ -15,11 +15,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-
 import '../../config/routes.dart';
 
 class AddSparepartsController extends GetxController {
   final _sparepartsController = Get.find<SparepartController>();
+  final _authController = Get.find<AuthController>();
 
   final modelParts = TextEditingController();
   final jenisParts = TextEditingController();
@@ -253,7 +253,7 @@ class AddSparepartsController extends GetxController {
       final Map<String, dynamic> cashflow = {
         'jumlah': double.parse(hargaParts.text),
         'isModal': true,
-        'isSpareparts': true,
+        'isSpareparts': false,
         'isJualPhone': true,
         'remark': '${jenisParts.text} ${modelParts.text}',
         'timeStamp': FieldValue.serverTimestamp(),
@@ -268,8 +268,11 @@ class AddSparepartsController extends GetxController {
       status.value = 'Menyegarkan semula semua data...';
       await _sparepartsController.refreshDialog(false);
       await _graphController.getGraphFromFirestore();
-      NotifFCM().postData('Sparepart telah ditambah!',
-          'Sparepart ${jenisParts.text} ${modelParts.text} telah dimasukkan ke inventori anda dengan bernilai RM${hargaParts.text}');
+      NotifFCMEvent().postData(
+        'Sparepart telah ditambah!',
+        'Sparepart ${jenisParts.text} ${modelParts.text} telah dimasukkan ke inventori anda dengan bernilai RM${hargaParts.text}',
+        token: _authController.token,
+      );
       status.value = 'Selesai!';
       Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 1));

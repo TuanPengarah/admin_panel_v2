@@ -67,13 +67,13 @@ class CashFlowStatementController extends GetxController {
       if (e.isSpareparts == false && e.isModal == false) {
         jumlahSparepartsIn += e.jumlah;
       }
-      if (e.isJualPhone == true &&
-          e.isSpareparts == false &&
+      if (e.isJualPhone == false &&
+          e.isSpareparts == true &&
           e.isModal == false) {
         jumlahJualPhoneIn += e.jumlah;
       }
-      if (e.isJualPhone == true &&
-          e.isSpareparts == false &&
+      if (e.isJualPhone == false &&
+          e.isSpareparts == true &&
           e.isModal == true) {
         jumlahJualPhoneOut += e.jumlah;
       }
@@ -181,6 +181,10 @@ class CashFlowStatementController extends GetxController {
             ),
             pw.Text(
               'Jumlah Duit Masuk: $jumlahSparepartsIn',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            ),
+            pw.Text(
+              'Untung bersih untuk sparepart: ${jumlahSparepartsIn - jumlahSparepartsOut}',
               style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
             ),
           ];
@@ -292,6 +296,10 @@ class CashFlowStatementController extends GetxController {
             ),
             pw.Text(
               'Jumlah Duit Masuk: $jumlahJualPhoneIn',
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+            ),
+            pw.Text(
+              'Untung bersih untuk jual phone: ${jumlahJualPhoneIn - jumlahJualPhoneOut}',
               style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
             ),
           ];
