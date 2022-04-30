@@ -55,6 +55,9 @@ class MySidPage extends StatelessWidget {
             });
           }
           if (snapshot.data.docs.isEmpty) {
+            Future.delayed(Duration(seconds: 1), () {
+              _homeController.totalMysid.value = snapshot.data.size;
+            });
             return Container(
               width: Get.width,
               padding: EdgeInsets.all(18),

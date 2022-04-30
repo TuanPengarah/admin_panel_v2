@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:admin_panel/API/firestoreAPI.dart';
 import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
@@ -8,12 +7,12 @@ import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
+import 'package:admin_panel/sms/controller/sms_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_native_contact_picker/flutter_native_contact_picker.dart';
 import 'package:get/get.dart';
-
 import '../../API/notif_fcm.dart';
 
 class JobsheetController extends GetxController {
@@ -72,19 +71,49 @@ class JobsheetController extends GetxController {
   }
 
   void showShareJobsheet(Map<String, String> data) {
-    Get.toNamed(MyRoutes.pdfJobsheeetViewer, parameters: data, arguments: {
-      'isReceipt': false,
-      'timeStamp': Timestamp.fromDate(DateTime.now()),
-      'technician': _authController.userName.value,
-      'nama': namaCust.text,
-      'noTel': noPhone.text,
-      'model': modelPhone.text,
-      'kerosakkan': kerosakkan.text,
-      'price': harga.text,
-      'remarks': remarks.text,
-      'mysid': mySID.value,
-      'email': data['email'],
-    });
+    Get.bottomSheet(
+      Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.message),
+            title: Text('SMS Gateway'),
+            subtitle: Text('Hantar pemberitahuan SMS ke pelanggan ini'),
+            onTap: () {
+              Get.back();
+              final _smsController = Get.put(SMSController());
+              _smsController.recipientText.text = '6${noPhone.text}';
+              _smsController.messageText.text =
+                  'Terima kasih kerana drop off peranti anda! Klik sini untuk menjejaki status repair peranti anda: af-fix.com/mysid?id=$mySID';
+              Get.toNamed(MyRoutes.smsView);
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.picture_as_pdf),
+            title: Text('Hasilkan PDF'),
+            subtitle: Text('Hasilkan PDF untuk maklumat jobsheet ini'),
+            onTap: () {
+              Get.toNamed(MyRoutes.pdfJobsheeetViewer,
+                  parameters: data,
+                  arguments: {
+                    'isReceipt': false,
+                    'timeStamp': Timestamp.fromDate(DateTime.now()),
+                    'technician': _authController.userName.value,
+                    'nama': namaCust.text,
+                    'noTel': noPhone.text,
+                    'model': modelPhone.text,
+                    'kerosakkan': kerosakkan.text,
+                    'price': harga.text,
+                    'remarks': remarks.text,
+                    'mysid': mySID.value,
+                    'email': data['email'],
+                  });
+            },
+          ),
+        ],
+      ),
+      backgroundColor: Get.theme.canvasColor,
+    );
   }
 
   Future<bool> exitJobSheet() async {

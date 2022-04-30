@@ -62,31 +62,35 @@ class _HomeViewState extends State<HomeView> {
                 selectedIcon: Icon(Icons.person),
                 label: 'Pelanggan',
               ),
-              Obx(() => NavigationDestination(
-                    icon: _homeController.totalMysid.value == 0
-                        ? Icon(Icons.date_range_outlined)
-                        : Badge(
-                            badgeContent: Text(
-                              '${_homeController.totalMysid.value}',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            child: Icon(Icons.date_range_outlined),
-                            animationType: BadgeAnimationType.scale,
-                            animationDuration: Duration(milliseconds: 200),
+              NavigationDestination(
+                icon: Obx(
+                  () => _homeController.totalMysid.value == 0
+                      ? Icon(Icons.date_range_outlined)
+                      : Badge(
+                          badgeContent: Text(
+                            '${_homeController.totalMysid.value}',
+                            style: TextStyle(color: Colors.white),
                           ),
-                    selectedIcon: _homeController.totalMysid.value == 0
-                        ? Icon(Icons.date_range)
-                        : Badge(
-                            badgeContent: Text(
-                              '${_homeController.totalMysid.value}',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            child: Icon(Icons.date_range),
-                            animationType: BadgeAnimationType.scale,
-                            animationDuration: Duration(milliseconds: 200),
+                          child: Icon(Icons.date_range_outlined),
+                          animationType: BadgeAnimationType.scale,
+                          animationDuration: Duration(milliseconds: 200),
+                        ),
+                ),
+                selectedIcon: Obx(
+                  () => _homeController.totalMysid.value == 0
+                      ? Icon(Icons.date_range)
+                      : Badge(
+                          badgeContent: Text(
+                            '${_homeController.totalMysid.value}',
+                            style: TextStyle(color: Colors.white),
                           ),
-                    label: 'MySID',
-                  )),
+                          child: Icon(Icons.date_range),
+                          animationType: BadgeAnimationType.scale,
+                          animationDuration: Duration(milliseconds: 200),
+                        ),
+                ),
+                label: 'MySID',
+              ),
               NavigationDestination(
                 icon: Icon(Icons.category_outlined),
                 selectedIcon: Icon(Icons.category),
