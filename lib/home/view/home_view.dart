@@ -94,7 +94,7 @@ class _HomeViewState extends State<HomeView> {
               NavigationDestination(
                 icon: Icon(Icons.category_outlined),
                 selectedIcon: Icon(Icons.category),
-                label: 'Spareparts',
+                label: 'Parts',
               ),
               NavigationDestination(
                 icon: Icon(Icons.more_horiz_outlined),

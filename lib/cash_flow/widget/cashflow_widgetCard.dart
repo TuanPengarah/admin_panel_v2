@@ -12,7 +12,7 @@ class CashFlowCard extends GetView<CashFlowController> {
     return isAllRecord == false
         ? Container(
             margin: const EdgeInsets.all(15),
-            height: 200,
+            // height: 200,
             width: Get.width,
             decoration: BoxDecoration(
               color: Get.isDarkMode ? Colors.grey[900] : Colors.grey[300],
@@ -71,8 +71,10 @@ class CashFlowCard extends GetView<CashFlowController> {
           }),
           SizedBox(height: 30),
           Obx(() {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            return Wrap(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              spacing: 10,
+              runSpacing: 10,
               children: [
                 _budget(
                   title: 'Masuk',

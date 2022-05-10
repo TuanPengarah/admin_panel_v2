@@ -48,6 +48,7 @@ class ShowBottomSheet {
                           SizedBox(height: 10),
                           Text(
                             'Sila log masuk ke akaun anda untuk teruskan',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.grey,
                             ),

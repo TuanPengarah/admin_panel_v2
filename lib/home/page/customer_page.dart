@@ -27,7 +27,9 @@ class CustomerPage extends StatelessWidget {
                     Text('Pelanggan'),
                     SizedBox(height: 3),
                     Text(
-                      'Jumlah keseluruhan pelanggan: ${_customerController.customerListRead.value}',
+                      Get.size.width < 300
+                          ? 'Jumlah keseluruhan pelanggan: ${_customerController.customerListRead.value}'
+                          : '${_customerController.customerListRead.value} Pelanggan',
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
