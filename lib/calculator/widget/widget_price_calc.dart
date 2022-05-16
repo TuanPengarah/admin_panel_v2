@@ -97,7 +97,7 @@ class PriceCalculatorWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Harga dari supplier',
+          'Harga supplier',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -143,7 +143,7 @@ class PriceCalculatorWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Jumlah Tempoh Waranti',
+          'Tempoh Waranti',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),

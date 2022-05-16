@@ -117,8 +117,8 @@ class CustomerController extends GetxController {
   void launchCaller(String noFon) async {
     Haptic.feedbackClick();
     final url = "tel:$noFon";
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       Get.back();
       ShowSnackbar.error('Kesalahan Telah berlaku',
@@ -129,8 +129,8 @@ class CustomerController extends GetxController {
   void launchSms(String noFon) async {
     Haptic.feedbackClick();
     final url = "sms:$noFon";
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       Get.back();
       ShowSnackbar.error(

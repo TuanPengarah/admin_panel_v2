@@ -133,10 +133,10 @@ class SMSView extends GetView<SMSController> {
                   color: Get.theme.primaryColor,
                 ),
               ),
-              onTap: () => launch('https://sms.ala.my'),
+              onTap: () => launchUrl(Uri.parse('https://sms.ala.my')),
             ),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 80),
         ],
       ),
     );

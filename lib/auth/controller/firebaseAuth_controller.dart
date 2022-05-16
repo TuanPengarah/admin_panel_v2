@@ -5,6 +5,7 @@ import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/notification/controller/notification_controller.dart';
+import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -14,7 +15,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -160,11 +160,12 @@ class AuthController extends GetxController {
     final _notifController = Get.put(NotificationController());
     final user = FirebaseAuth.instance.currentUser;
     bool internet = true;
+    var connect = await ConnectivityWrapper.instance.isConnected;
 
     if (GetPlatform.isWeb) {
       internet = true;
     } else {
-      internet = await InternetConnectionChecker().hasConnection;
+      internet = connect;
     }
 
     if (internet == true) {

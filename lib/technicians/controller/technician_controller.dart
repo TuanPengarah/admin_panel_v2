@@ -4,11 +4,11 @@ import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class TechnicianController extends GetxController {
   List<Technician> technicians = [];
@@ -102,7 +102,8 @@ class TechnicianController extends GetxController {
   }
 
   Future<void> getTechnician() async {
-    bool internet = await InternetConnectionChecker().hasConnection;
+    var connect = await ConnectivityWrapper.instance.isConnected;
+    bool internet = connect;
     if (internet == true) {
       await FirebaseDatabase.instance
           .ref()

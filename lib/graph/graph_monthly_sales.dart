@@ -2,6 +2,7 @@ import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class GraphMonthlySales extends StatelessWidget {
   final _graphController = Get.find<GraphController>();
@@ -51,53 +52,35 @@ class GraphMonthlySales extends StatelessWidget {
                 ),
                 titlesData: FlTitlesData(
                   show: true,
-                  topTitles: SideTitles(showTitles: false),
-                  rightTitles: SideTitles(showTitles: false),
-                  bottomTitles: SideTitles(
-                    textAlign: TextAlign.start,
-                    showTitles: true,
-                    interval: 1,
+                  topTitles: AxisTitles(),
+                  rightTitles: AxisTitles(),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                        showTitles: true,
+                        interval: 1,
+                        getTitlesWidget: (value, meta) {
+                          return Text(
+                            '${_graphController.showMonthsGraph(value.toInt())}',
+                            style: TextStyle(color: Colors.white, fontSize: 10),
+                          );
+                        }),
                     // rotateAngle: 40,
-                    getTitles: (value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return 'JAN';
-                        case 1:
-                          return value > 10 ? '' : 'FEB';
-                        case 2:
-                          return 'MAC';
-                        case 3:
-                          return value > 10 ? '' : 'APR';
-                        case 4:
-                          return 'MEI';
-                        case 5:
-                          return value > 10 ? '' : 'JUN';
-                        case 6:
-                          return 'JUL';
-                        case 7:
-                          return value > 10 ? '' : 'AUG';
-                        case 8:
-                          return 'SEP';
-                        case 9:
-                          return value > 10 ? '' : 'OCT';
-                        case 10:
-                          return 'NOV';
-                        case 11:
-                          return value > 10 ? '' : 'DEC';
-                      }
+                    // getTitles: (value) {
 
-                      return '';
-                    },
-                    getTextStyles: (_, __) => TextStyle(color: Colors.white),
-                    margin: 3,
+                    // },
                   ),
-                  leftTitles: SideTitles(
-                    reservedSize: 30,
-                    textAlign: TextAlign.start,
-                    showTitles: true,
-                    interval: 1000 * 2.5.toDouble(),
-                    getTextStyles: (_, __) =>
-                        TextStyle(color: Colors.white, fontSize: 11),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      getTitlesWidget: (value, tilesMeta) {
+                        return Text(
+                          '${NumberFormat.compactCurrency(symbol: '').format(value)}',
+                          style: TextStyle(color: Colors.white, fontSize: 10),
+                        );
+                      },
+                      reservedSize: 30,
+                      showTitles: true,
+                      interval: 1000 * 2.5.toDouble(),
+                    ),
                   ),
                 ),
                 gridData: FlGridData(
@@ -119,9 +102,7 @@ class GraphMonthlySales extends StatelessWidget {
                     isStrokeCapRound: true,
                     spots: _graphController.spotJual,
                     isCurved: true,
-                    colors: [
-                      Colors.white,
-                    ],
+                    color: Colors.white,
                     dotData: FlDotData(show: true),
                     barWidth: 2,
                   ),
@@ -129,9 +110,7 @@ class GraphMonthlySales extends StatelessWidget {
                     isStrokeCapRound: true,
                     spots: _graphController.spotSupplier,
                     isCurved: true,
-                    colors: [
-                      Colors.amber,
-                    ],
+                    color: Colors.amber,
                     dotData: FlDotData(show: true),
                     barWidth: 2,
                   ),

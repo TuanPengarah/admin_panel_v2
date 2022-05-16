@@ -21,6 +21,7 @@ class TabPriceList extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ListView.builder(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               itemCount: 20,
               itemBuilder: (context, i) {
                 return Padding(
@@ -95,6 +96,7 @@ class TabPriceList extends StatelessWidget {
                       SizedBox(height: 10),
                       Text(
                         'Maaf, tiada senarai harga ditemui untuk model ini!',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.grey,
                         ),

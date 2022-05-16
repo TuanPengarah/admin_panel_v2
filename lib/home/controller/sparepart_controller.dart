@@ -2,10 +2,10 @@ import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 import '../../spareparts/model/sparepart_model.dart';
 
@@ -70,11 +70,12 @@ class SparepartController extends GetxController {
 
   Future<void> getSparepartsList() async {
     bool internet = true;
+    var connect = await ConnectivityWrapper.instance.isConnected;
 
     if (GetPlatform.isWeb) {
       internet = true;
     } else {
-      internet = await InternetConnectionChecker().hasConnection;
+      internet = connect;
     }
 
     if (internet == true) {

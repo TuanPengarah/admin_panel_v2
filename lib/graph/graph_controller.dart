@@ -22,6 +22,37 @@ class GraphController extends GetxController {
     super.onInit();
   }
 
+  String showMonthsGraph(int value) {
+    switch (value.toInt()) {
+      case 0:
+        return 'JAN';
+      case 1:
+        return value > 10 ? '' : 'FEB';
+      case 2:
+        return 'MAC';
+      case 3:
+        return value > 10 ? '' : 'APR';
+      case 4:
+        return 'MEI';
+      case 5:
+        return value > 10 ? '' : 'JUN';
+      case 6:
+        return 'JUL';
+      case 7:
+        return value > 10 ? '' : 'AUG';
+      case 8:
+        return 'SEP';
+      case 9:
+        return value > 10 ? '' : 'OCT';
+      case 10:
+        return 'NOV';
+      case 11:
+        return value > 10 ? '' : 'DEC';
+    }
+
+    return '';
+  }
+
   int getTotalMonth() {
     int totalMonths = 0;
     for (int i = 0; i < DateTime.now().month; i++) totalMonths++;

@@ -286,8 +286,8 @@ class OverviewController extends GetxController {
 
   void launchCaller(String noFon) async {
     final url = "tel:$noFon";
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       Get.back();
       ShowSnackbar.error('Kesalahan Telah berlaku',
@@ -302,8 +302,8 @@ class OverviewController extends GetxController {
       query: 'subject=Pemberitahuan daripada Af-Fix&body=Assalamualaikum $nama',
     );
     var url = params.toString();
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       Get.back();
       ShowSnackbar.error(
@@ -313,8 +313,8 @@ class OverviewController extends GetxController {
 
   void launchSms(String noFon) async {
     final url = "sms:$noFon";
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       Get.back();
       ShowSnackbar.error(
@@ -325,8 +325,8 @@ class OverviewController extends GetxController {
   void launchWhatsapp(String noFon) async {
     final url =
         noFon.contains('+6') ? 'https://wa.me/$noFon' : "https://wa.me/6$noFon";
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       Get.back();
       ShowSnackbar.error(

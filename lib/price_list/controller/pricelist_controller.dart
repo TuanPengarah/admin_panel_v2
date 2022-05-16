@@ -5,11 +5,11 @@ import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/price_list/model/price_list_api.dart';
 import 'package:admin_panel/price_list/model/pricelist_field.dart';
 import 'package:admin_panel/price_list/model/pricelist_model.dart';
+import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl/intl.dart';
 
 class PriceListController extends GetxController {
@@ -38,7 +38,8 @@ class PriceListController extends GetxController {
   }
 
   void checkInternet() async {
-    bool getInternet = await InternetConnectionChecker().hasConnection;
+    var connect = await ConnectivityWrapper.instance.isConnected;
+    bool getInternet = connect;
     internet.value = getInternet;
   }
 
@@ -134,6 +135,7 @@ class PriceListController extends GetxController {
           ],
         ),
       ),
+      isScrollControlled: true,
     );
   }
 
@@ -198,7 +200,8 @@ class PriceListController extends GetxController {
   }
 
   Future<String> getPriceList() async {
-    bool adaInternet = await InternetConnectionChecker().hasConnection;
+    var connect = await ConnectivityWrapper.instance.isConnected;
+    bool adaInternet = connect;
     try {
       if (adaInternet == true) {
         var data = await PriceListApi.getAll().timeout(Duration(seconds: 10),
@@ -313,152 +316,181 @@ class PriceListController extends GetxController {
       priceText.text = harga;
       Get.back();
     }
-    Get.dialog(
+    Get.bottomSheet(
       GestureDetector(
         onTap: () => Get.focusScope.unfocus(),
-        child: AlertDialog(
-          title: Text(
-              isEdit == false ? 'Tambah Senarai Harga' : 'Edit Senarai Harga'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TypeAheadField(
-                textFieldConfiguration: TextFieldConfiguration(
-                  controller: modelText,
-                  focusNode: modelFocus,
-                  autofocus: true,
-                  textCapitalization: TextCapitalization.characters,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(labelText: 'Model'),
-                ),
-                suggestionsCallback: (String pattern) async =>
-                    await DatabaseHelper.instance.getModelSuggestion(pattern),
-                onSuggestionSelected: (ModelSuggestion suggestion) {
-                  partsFocus.requestFocus();
-                  return modelText.text = suggestion.model;
-                },
-                itemBuilder: (BuildContext context, ModelSuggestion data) {
-                  return ListTile(
-                    title: Text(data.model),
-                  );
-                },
-                getImmediateSuggestions: false,
-                hideOnEmpty: true,
-                hideSuggestionsOnKeyboardHide: true,
-              ),
-              SizedBox(height: 15),
-              TypeAheadField(
-                textFieldConfiguration: TextFieldConfiguration(
-                  controller: partsText,
-                  focusNode: partsFocus,
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.characters,
-                  decoration: InputDecoration(labelText: 'Parts'),
-                ),
-                suggestionsCallback: (String pattern) async =>
-                    await DatabaseHelper.instance.getPartsSuggestion(pattern),
-                onSuggestionSelected: (PartsSuggestion suggestion) {
-                  priceFocus.requestFocus();
-                  return partsText.text = suggestion.parts;
-                },
-                itemBuilder: (BuildContext context, PartsSuggestion data) {
-                  return ListTile(
-                    title: Text(data.parts),
-                  );
-                },
-                getImmediateSuggestions: false,
-                hideOnEmpty: true,
-                hideSuggestionsOnKeyboardHide: true,
-              ),
-              SizedBox(height: 15),
-              TextField(
-                controller: priceText,
-                focusNode: priceFocus,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: 'Harga',
-                  hintText: 'RM',
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                if (modelText.text.isNotEmpty &&
-                    partsText.text.isNotEmpty &&
-                    priceText.text.isNotEmpty) {
-                  Get.dialog(
-                    AlertDialog(
-                      title: Text('Adakah Anda Pasti?'),
-                      content: Text(
-                          'Pastikan maklumat yang telah diberikan adalah benar!'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Haptic.feedbackError();
-                            Get.back();
-                          },
-                          child: Text(
-                            'Batal',
-                            style: TextStyle(color: Colors.amber.shade900),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            Haptic.feedbackClick();
-                            Get.back();
-                            Get.back();
-                            if (isEdit == false) {
-                              addPriceList();
-                            } else {
-                              Get.dialog(AlertDialog(
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CircularProgressIndicator(),
-                                  ],
+        child: Material(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    alignment: Alignment.centerRight,
+                    child: TextButton.icon(
+                      label: Text('Tambah'),
+                      onPressed: () {
+                        if (modelText.text.isNotEmpty &&
+                            partsText.text.isNotEmpty &&
+                            priceText.text.isNotEmpty) {
+                          Get.dialog(
+                            AlertDialog(
+                              title: Text('Adakah Anda Pasti?'),
+                              content: Text(
+                                  'Pastikan maklumat yang telah diberikan adalah benar!'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Haptic.feedbackError();
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    'Batal',
+                                    style:
+                                        TextStyle(color: Colors.amber.shade900),
+                                  ),
                                 ),
-                              ));
-                              await PriceListApi.update(
-                                id: list.id,
-                                partsKey: PriceListField.parts,
-                                hargaKey: PriceListField.harga,
-                                modelKey: PriceListField.model,
-                                hargaValue: priceText.text,
-                                modelValue: modelText.text,
-                                partsValue: partsText.text,
-                              ).onError((error, stackTrace) =>
-                                  ShowSnackbar.error('Kesalahan telah berlaku',
-                                      '${error.toString()}', false));
+                                TextButton(
+                                  onPressed: () async {
+                                    Haptic.feedbackClick();
+                                    Get.back();
+                                    Get.back();
+                                    if (isEdit == false) {
+                                      addPriceList();
+                                    } else {
+                                      Get.dialog(AlertDialog(
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            CircularProgressIndicator(),
+                                          ],
+                                        ),
+                                      ));
+                                      await PriceListApi.update(
+                                        id: list.id,
+                                        partsKey: PriceListField.parts,
+                                        hargaKey: PriceListField.harga,
+                                        modelKey: PriceListField.model,
+                                        hargaValue: priceText.text,
+                                        modelValue: modelText.text,
+                                        partsValue: partsText.text,
+                                      ).onError((error, stackTrace) =>
+                                          ShowSnackbar.error(
+                                              'Kesalahan telah berlaku',
+                                              '${error.toString()}',
+                                              true));
 
-                              await getPriceList();
+                                      await getPriceList();
 
-                              Get.back();
-                              ShowSnackbar.success(
-                                  'Berjaya di kemasini',
-                                  'Senarai harga anda telah berjaya di kemaskini',
-                                  false);
-                            }
-                          },
-                          child: Text('Pasti'),
-                        ),
-                      ],
+                                      Get.back();
+                                      ShowSnackbar.success(
+                                          'Berjaya di kemasini',
+                                          'Senarai harga anda telah berjaya di kemaskini',
+                                          false);
+                                    }
+                                  },
+                                  child: Text('Pasti'),
+                                ),
+                                const SizedBox(height: 20),
+                              ],
+                            ),
+                          );
+                        } else {
+                          Haptic.feedbackError();
+
+                          ShowSnackbar.error(
+                              'Kesalahan telah berlaku!',
+                              'Sila masukkan semua maklumat dengan betul',
+                              true);
+                        }
+                      },
+                      icon: Icon(
+                        Icons.add,
+                        color: Get.theme.primaryColor,
+                      ),
                     ),
-                  );
-                } else {
-                  Haptic.feedbackError();
-
-                  ShowSnackbar.error('Kesalahan telah berlaku!',
-                      'Sila masukkan semua maklumat dengan betul', false);
-                }
-              },
-              child: Text(isEdit == false ? 'Tambah' : 'Simpan Perubahan'),
+                  ),
+                  Text(
+                    isEdit == false
+                        ? 'Tambah Senarai Harga'
+                        : 'Edit Senarai Harga',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      controller: modelText,
+                      focusNode: modelFocus,
+                      autofocus: true,
+                      textCapitalization: TextCapitalization.characters,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(labelText: 'Model'),
+                    ),
+                    suggestionsCallback: (String pattern) async =>
+                        await DatabaseHelper.instance
+                            .getModelSuggestion(pattern),
+                    onSuggestionSelected: (ModelSuggestion suggestion) {
+                      partsFocus.requestFocus();
+                      return modelText.text = suggestion.model;
+                    },
+                    itemBuilder: (BuildContext context, ModelSuggestion data) {
+                      return ListTile(
+                        title: Text(data.model),
+                      );
+                    },
+                    getImmediateSuggestions: false,
+                    hideOnEmpty: true,
+                    hideSuggestionsOnKeyboardHide: true,
+                  ),
+                  SizedBox(height: 15),
+                  TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      controller: partsText,
+                      focusNode: partsFocus,
+                      textInputAction: TextInputAction.next,
+                      textCapitalization: TextCapitalization.characters,
+                      decoration: InputDecoration(labelText: 'Parts'),
+                    ),
+                    suggestionsCallback: (String pattern) async =>
+                        await DatabaseHelper.instance
+                            .getPartsSuggestion(pattern),
+                    onSuggestionSelected: (PartsSuggestion suggestion) {
+                      priceFocus.requestFocus();
+                      return partsText.text = suggestion.parts;
+                    },
+                    itemBuilder: (BuildContext context, PartsSuggestion data) {
+                      return ListTile(
+                        title: Text(data.parts),
+                      );
+                    },
+                    getImmediateSuggestions: false,
+                    hideOnEmpty: true,
+                    hideSuggestionsOnKeyboardHide: true,
+                  ),
+                  SizedBox(height: 15),
+                  TextField(
+                    controller: priceText,
+                    focusNode: priceFocus,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Harga',
+                      hintText: 'RM',
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
+      isScrollControlled: true,
     ).whenComplete(() => reset());
   }
 
