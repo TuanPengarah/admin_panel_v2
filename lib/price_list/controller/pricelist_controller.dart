@@ -216,8 +216,10 @@ class PriceListController extends GetxController {
         data.forEach((value) {
           priceList.add(value);
           priceList.sort((a, b) => a.parts.compareTo(b.parts));
+          if (!GetPlatform.isMacOS) {
+            DatabaseHelper.instance.addCachePriceList(value);
+          }
 
-          DatabaseHelper.instance.addCachePriceList(value);
           update();
         });
         return 'success';

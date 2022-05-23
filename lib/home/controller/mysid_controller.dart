@@ -236,7 +236,6 @@ class MysidController extends GetxController {
         Haptic.feedbackError();
 
         await Future.delayed(Duration(seconds: 2));
-        Get.back();
         ShowSnackbar.error(
             'Repair Log',
             'Kesalahan telah berlaku, sila check rangkaian internet anda!',

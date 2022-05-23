@@ -103,6 +103,7 @@ class ListSpareparts extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   'Maaf, tiada spareparts ditemui untuk model ini!',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.grey,
                   ),

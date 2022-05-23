@@ -129,7 +129,6 @@ class TechnicianController extends GetxController {
       technicians = [];
       var cache = await DatabaseHelper.instance.getTechnicianCache();
       technicians = cache;
-      print('jumlah technician = ${technicians.length}');
       technicians..sort((a, b) => a.nama.compareTo(b.nama));
       update();
     }
