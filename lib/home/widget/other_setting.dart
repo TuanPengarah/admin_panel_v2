@@ -28,13 +28,14 @@ class OtherSettings {
           ),
           SizedBox(height: 10),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () => Get.toNamed(MyRoutes.bills),
               child: ListTile(
                 leading: Icon(
                   Icons.point_of_sale,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('POS'),
                 subtitle: Text('Point Of Sales'),
@@ -42,13 +43,14 @@ class OtherSettings {
             ),
           ),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () => Get.toNamed(MyRoutes.technician),
               child: ListTile(
                 leading: Icon(
                   Icons.badge,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Juruteknik'),
                 subtitle: Text('Senerai semua juruteknik di Af-Fix'),
@@ -56,13 +58,14 @@ class OtherSettings {
             ),
           ),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () => Get.toNamed(MyRoutes.pricelist),
               child: ListTile(
                 leading: Icon(
                   Icons.ballot,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Senarai Harga'),
                 subtitle: Text('Lihat semua senarai harga spareparts'),
@@ -70,13 +73,14 @@ class OtherSettings {
             ),
           ),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () => Get.toNamed(MyRoutes.priceCalc),
               child: ListTile(
                 leading: Icon(
                   Icons.calculate,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Pengiraan Harga'),
                 subtitle: Text('Alat untuk mengira harga spareparts'),
@@ -84,13 +88,14 @@ class OtherSettings {
             ),
           ),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () => Get.toNamed(MyRoutes.smsView),
               child: ListTile(
                 leading: Icon(
                   Icons.sms,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('SMS Gateway'),
                 subtitle: Text('Hantar SMS kepada pelanggan'),
@@ -114,6 +119,7 @@ class OtherSettings {
           ),
           SizedBox(height: 10),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () {
@@ -193,7 +199,7 @@ class OtherSettings {
               child: ListTile(
                 leading: Icon(
                   Icons.palette,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Tema'),
                 subtitle: Text('Pilih tema untuk aplikasi ini'),
@@ -201,13 +207,14 @@ class OtherSettings {
             ),
           ),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () => Get.toNamed(MyRoutes.notifSettings),
               child: ListTile(
                 leading: Icon(
                   Icons.notification_important,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Peringatan Media Sosial'),
                 subtitle: Text('Notifikasi untuk membuat siaran'),
@@ -215,13 +222,14 @@ class OtherSettings {
             ),
           ),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () => Get.toNamed(MyRoutes.notifHistory),
               child: ListTile(
                 leading: Icon(
                   Icons.notifications,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Sejarah Notifikasi'),
                 subtitle: Text('Lihat semua sejarah notifikasi anda'),
@@ -229,6 +237,7 @@ class OtherSettings {
             ),
           ),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () {
@@ -257,7 +266,7 @@ class OtherSettings {
               child: ListTile(
                 leading: Icon(
                   Icons.upload_file,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Eksport Database'),
                 subtitle: Text('Eksport segala maklumat SQLite'),
@@ -265,6 +274,7 @@ class OtherSettings {
             ),
           ),
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () {
@@ -295,7 +305,7 @@ class OtherSettings {
               child: ListTile(
                 leading: Icon(
                   Icons.sim_card_download_outlined,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Import Database'),
                 subtitle: Text('Import maklumat SQLite'),
@@ -304,6 +314,7 @@ class OtherSettings {
           ),
 
           Card(
+            color: Get.theme.colorScheme.surfaceVariant,
             child: InkWell(
               borderRadius: BorderRadius.circular(20),
               onTap: () {
@@ -335,7 +346,7 @@ class OtherSettings {
               child: ListTile(
                 leading: Icon(
                   Icons.delete,
-                  color: Theme.of(context).primaryColor,
+                  color: Get.theme.colorScheme.secondary,
                 ),
                 title: Text('Buang Database'),
                 subtitle: Text('Buang segala maklumat SQLite'),
@@ -347,16 +358,20 @@ class OtherSettings {
     );
   }
 
-  Container logOutButton() {
+  Widget logOutButton() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 18),
+      margin: const EdgeInsets.symmetric(horizontal: 45),
       height: 45,
       child: ElevatedButton.icon(
         onPressed: () => _authController.performLogOut(),
         icon: Icon(Icons.logout),
         label: Text('Log Keluar'),
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+          elevation: MaterialStateProperty.all<double>(8),
+          shadowColor: MaterialStateProperty.all<Color>(Get.theme.errorColor),
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          backgroundColor:
+              MaterialStateProperty.all<Color>(Get.theme.errorColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(45),

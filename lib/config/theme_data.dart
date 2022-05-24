@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/color_scheme.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,12 +55,9 @@ class MyThemes {
 
   //Theme Config
   static ThemeData lightTheme = ThemeData(
-    brightness: Brightness.light,
-    primarySwatch: Colors.blue,
-    primaryColor: Colors.blue,
-    // appBarTheme: AppBarTheme(
-    //   systemOverlayStyle: SystemUiOverlayStyle.dark,
-    // ),
+    useMaterial3: true,
+    colorScheme: lightColorScheme,
+    scaffoldBackgroundColor: lightColorScheme.surface, //Color(0xfffdfcff),
     cardTheme: CardTheme(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
@@ -119,16 +117,10 @@ class MyThemes {
     ),
   );
   static ThemeData darkTheme = ThemeData(
+    useMaterial3: true,
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: Colors.black,
-    primarySwatch: Colors.blueGrey,
-    primaryColor: Colors.blueGrey,
-    appBarTheme: AppBarTheme(
-      backgroundColor: Colors.blueGrey,
-    ),
-    canvasColor: Color(0xff131313),
-    bottomNavigationBarTheme:
-        BottomNavigationBarThemeData(backgroundColor: Color(0xff131313)),
+    colorScheme: darkColorScheme,
+    scaffoldBackgroundColor: darkColorScheme.surface,
     cardTheme: CardTheme(
       color: Colors.grey.shade900,
       shape: RoundedRectangleBorder(

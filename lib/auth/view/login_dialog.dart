@@ -100,6 +100,7 @@ class ShowBottomSheet {
                           ),
                           SizedBox(height: 50),
                           RoundedLoadingButton(
+                            color: Get.theme.colorScheme.secondary,
                             controller: btnController,
                             child: Text(
                               'Log Masuk',
@@ -107,7 +108,7 @@ class ShowBottomSheet {
                                 color: Colors.white,
                               ),
                             ),
-                            errorColor: Colors.amber[900],
+                            errorColor: Get.theme.colorScheme.error,
                             successColor: Colors.green,
                             onPressed: () {
                               FocusScope.of(context).unfocus();
@@ -131,7 +132,7 @@ class ShowBottomSheet {
                                 TextSpan(
                                   text: 'Akid Fikri Azhar',
                                   style: TextStyle(
-                                    color: Theme.of(context).primaryColor,
+                                    color: Get.theme.colorScheme.primary,
                                   ),
                                 ),
                                 TextSpan(text: ' untuk membuat akaun baru!')

@@ -19,7 +19,8 @@ class DashboardCardAll extends StatelessWidget {
     final _sparepartController = Get.find<SparepartController>();
     final _customerController = Get.find<CustomerController>();
     return Card(
-      elevation: Get.isDarkMode ? 0 : 10,
+      // elevation: 0,
+      // color: Get.theme.colorScheme.surfaceVariant,
       margin: EdgeInsets.symmetric(horizontal: 18),
       child: Container(
         // height: 500,
@@ -31,6 +32,7 @@ class DashboardCardAll extends StatelessWidget {
                 isDashboard == true ? 'Rekod Data' : 'Rekod Data Keseluruhan',
                 style: TextStyle(
                   fontSize: 19,
+                  color: Get.theme.colorScheme.secondary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -77,9 +79,19 @@ class DashboardCardAll extends StatelessWidget {
                         },
                         label: Text('Lihat Kesemua Rekod'),
                         icon: Icon(Icons.list_alt_rounded),
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Get.theme.colorScheme.onInverseSurface),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Get.theme.colorScheme.tertiary),
+                          shadowColor: MaterialStateProperty.all<Color>(
+                              Get.theme.colorScheme.tertiary),
+                          elevation: MaterialStateProperty.all<double>(7),
+                        ),
                       ),
                     )
                   : Container(),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -96,7 +108,7 @@ class DashboardCardAll extends StatelessWidget {
       height: 130,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Get.isDarkMode ? Colors.black12 : Colors.grey.shade200,
+        color: Colors.black.withOpacity(0.08),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -107,7 +119,7 @@ class DashboardCardAll extends StatelessWidget {
               '$title',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Get.isDarkMode ? Colors.white : Colors.grey.shade600,
+                color: Get.theme.colorScheme.secondary,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
@@ -116,7 +128,7 @@ class DashboardCardAll extends StatelessWidget {
               total == 'RM 0.0' ? '--' : '$total',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Get.isDarkMode ? Colors.white : Colors.grey,
+                color: Get.theme.colorScheme.secondary,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

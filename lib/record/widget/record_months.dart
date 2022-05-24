@@ -14,7 +14,6 @@ class DashboardCardMonths extends StatelessWidget {
   Widget build(BuildContext context) {
     final _graphController = Get.find<GraphController>();
     return Card(
-      elevation: Get.isDarkMode ? 0 : 10,
       margin: EdgeInsets.symmetric(horizontal: 18),
       child: Container(
         width: Get.width,
@@ -49,6 +48,15 @@ class DashboardCardMonths extends StatelessWidget {
                       onPressed: () => Get.toNamed(MyRoutes.monthlyRecord),
                       label: Text('Lihat Rekod Mengikut Bulan '),
                       icon: Icon(Icons.read_more),
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.onInverseSurface),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.tertiary),
+                        shadowColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.tertiary),
+                        elevation: MaterialStateProperty.all<double>(7),
+                      ),
                     )
                   : isDashboard == true
                       ? Container()
@@ -69,7 +77,17 @@ class DashboardCardMonths extends StatelessWidget {
                                 arguments: payload);
                           },
                           icon: Icon(Icons.picture_as_pdf),
-                          label: Text('Hasilkan Cash Flow Statement')),
+                          label: Text('Hasilkan Cash Flow Statement'),
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Get.theme.colorScheme.onInverseSurface),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Get.theme.colorScheme.tertiary),
+                            shadowColor: MaterialStateProperty.all<Color>(
+                                Get.theme.colorScheme.tertiary),
+                            elevation: MaterialStateProperty.all<double>(7),
+                          ),
+                        ),
             ],
           ),
         ),
@@ -86,7 +104,7 @@ class DashboardCardMonths extends StatelessWidget {
       height: 130,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Get.isDarkMode ? Colors.black12 : Colors.grey.shade200,
+        color: Colors.black.withOpacity(0.08),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -97,7 +115,7 @@ class DashboardCardMonths extends StatelessWidget {
               '$title',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Get.isDarkMode ? Colors.white : Colors.grey.shade600,
+                color: Get.theme.colorScheme.secondary,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
@@ -108,7 +126,7 @@ class DashboardCardMonths extends StatelessWidget {
                   : '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: 'RM').format(total)}',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Get.isDarkMode ? Colors.white : Colors.grey,
+                color: Get.theme.colorScheme.secondary,
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
               ),

@@ -47,7 +47,7 @@ class LoginView extends StatelessWidget {
                         : 'assets/images/splash_dark.png',
                     scale: 7,
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 2),
                   Text(
                     'Admin Panel',
                     textAlign: TextAlign.center,
@@ -55,7 +55,7 @@ class LoginView extends StatelessWidget {
                       fontSize: 30,
                       letterSpacing: 1.3,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue,
+                      color: Get.theme.colorScheme.primary,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -63,7 +63,7 @@ class LoginView extends StatelessWidget {
                     'Urus segala maklumat dan data pelanggan yang telah atau masih dibaiki di Af-Fix Smartphone Repair!',
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   SizedBox(
                     width: MediaQuery.of(context).size.width - 40,
                     height: 55,
@@ -77,12 +77,13 @@ class LoginView extends StatelessWidget {
                         'Mula Sekarang!',
                       ),
                       style: ButtonStyle(
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        ),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.onInverseSurface),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.secondary),
+                        shadowColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.secondary),
+                        elevation: MaterialStateProperty.all<double>(10),
                       ),
                     ),
                   ),

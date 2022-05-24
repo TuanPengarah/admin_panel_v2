@@ -80,9 +80,7 @@ class ProfileAvatar {
                 child: Container(
                   height: 180,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.grey.shade900
-                        : Colors.grey.shade200,
+                    color: Get.theme.colorScheme.surfaceVariant,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Center(
@@ -92,7 +90,7 @@ class ProfileAvatar {
                       children: [
                         Icon(
                           Icons.handyman_outlined,
-                          color: Theme.of(context).primaryColor,
+                          color: Get.theme.colorScheme.secondary,
                           size: 40,
                         ),
                         SizedBox(height: 10),
@@ -128,9 +126,7 @@ class ProfileAvatar {
                 child: Container(
                   height: 180,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.grey.shade900
-                        : Colors.grey.shade200,
+                    color: Get.theme.colorScheme.surfaceVariant,
                     borderRadius: BorderRadius.circular(18),
                   ),
                   child: Center(
@@ -140,7 +136,7 @@ class ProfileAvatar {
                       children: [
                         Icon(
                           Icons.toll_outlined,
-                          color: Theme.of(context).primaryColor,
+                          color: Get.theme.colorScheme.secondary,
                           size: 40,
                         ),
                         SizedBox(height: 10),

@@ -18,7 +18,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    bool _isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Obx(
         () => IndexedStack(
@@ -35,8 +34,6 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar: Obx(() {
         return NavigationBarTheme(
           data: NavigationBarThemeData(
-            indicatorColor:
-                _isDarkMode ? Colors.blueGrey : Colors.blue.shade100,
             labelTextStyle: MaterialStateProperty.all(
               TextStyle(
                 fontSize: 12,
@@ -45,7 +42,6 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           child: NavigationBar(
-            backgroundColor: Theme.of(context).canvasColor,
             height: 65,
             selectedIndex: _homeController.currentIndex.value,
             onDestinationSelected: (index) => _homeController.navTap(index),

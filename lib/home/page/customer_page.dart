@@ -295,12 +295,14 @@ class CustomerPage extends StatelessWidget {
                                         image:
                                             ExtendedNetworkImageProvider(image),
                                         decoration: BoxDecoration(
-                                          color: Get.theme.primaryColor,
+                                          color: Get
+                                              .theme.colorScheme.surfaceVariant,
                                           borderRadius:
                                               BorderRadius.circular(200),
                                         ),
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: Get.theme.colorScheme
+                                              .onSurfaceVariant,
                                         ),
                                       ),
                                     ),

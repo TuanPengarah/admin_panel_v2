@@ -17,13 +17,12 @@ class SparepartsCard extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 18),
             width: Get.width,
             decoration: BoxDecoration(
-              color: Get.theme.primaryColor,
+              color: Get.theme.colorScheme.surfaceVariant,
               borderRadius: BorderRadius.circular(30),
             ),
             child: _content(),
           )
         : Card(
-            elevation: Get.isDarkMode ? 0 : 10,
             margin: EdgeInsets.symmetric(horizontal: 18),
             child: _content(),
           );
@@ -38,53 +37,45 @@ class SparepartsCard extends StatelessWidget {
           Text(
             'Jumlah Spareparts: ',
             style: TextStyle(
-              color: isAllRecord == false
-                  ? Colors.white60
-                  : Get.theme.textTheme.bodyText1.color,
+              color: Get.theme.colorScheme.secondary,
               fontSize: 18,
               letterSpacing: 1.5,
               wordSpacing: 2.8,
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Obx(() {
             return Text(
               '${_sparepartController.totalSpareparts}',
               style: TextStyle(
-                color: isAllRecord == false
-                    ? Colors.white
-                    : Get.theme.textTheme.bodyText1.color,
+                color: Get.theme.colorScheme.secondary,
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             );
           }),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Text(
             'Harga Keseluruhan: ',
             style: TextStyle(
-              color: isAllRecord == false
-                  ? Colors.white60
-                  : Get.theme.textTheme.bodyText1.color,
+              color: Get.theme.colorScheme.secondary,
               fontSize: 18,
               letterSpacing: 1.5,
               wordSpacing: 2.8,
             ),
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           Obx(() {
             return Text(
               'RM ${_sparepartController.totalPartsPrice.toStringAsFixed(2)}',
               style: TextStyle(
-                color: isAllRecord == false
-                    ? Colors.white
-                    : Get.theme.textTheme.bodyText1.color,
+                color: Get.theme.colorScheme.secondary,
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
             );
           }),
-          SizedBox(height: 22),
+          const SizedBox(height: 22),
           isAllRecord == false
               ? Container(
                   alignment: Alignment.bottomCenter,
@@ -99,15 +90,18 @@ class SparepartsCard extends StatelessWidget {
                       child: Text('Tambah Spareparts'),
                     ),
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white24),
-                      shadowColor:
-                          MaterialStateProperty.all<Color>(Colors.transparent),
-                      elevation: MaterialStateProperty.all<double>(0),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Get.theme.colorScheme.onInverseSurface),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Get.theme.colorScheme.tertiary),
+                      shadowColor: MaterialStateProperty.all<Color>(
+                          Get.theme.colorScheme.tertiary),
+                      elevation: MaterialStateProperty.all<double>(7),
                     ),
                   ),
                 )
               : Container(),
+          const SizedBox(height: 10),
         ],
       ),
     );

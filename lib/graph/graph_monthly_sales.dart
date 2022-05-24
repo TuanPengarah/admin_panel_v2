@@ -61,7 +61,7 @@ class GraphMonthlySales extends StatelessWidget {
                         getTitlesWidget: (value, meta) {
                           return Text(
                             '${_graphController.showMonthsGraph(value.toInt())}',
-                            style: TextStyle(color: Colors.white, fontSize: 10),
+                            style: TextStyle(fontSize: 10),
                           );
                         }),
                     // rotateAngle: 40,
@@ -74,7 +74,7 @@ class GraphMonthlySales extends StatelessWidget {
                       getTitlesWidget: (value, tilesMeta) {
                         return Text(
                           '${NumberFormat.compactCurrency(symbol: '').format(value)}',
-                          style: TextStyle(color: Colors.white, fontSize: 10),
+                          style: TextStyle(fontSize: 10),
                         );
                       },
                       reservedSize: 30,
@@ -90,7 +90,7 @@ class GraphMonthlySales extends StatelessWidget {
                     horizontalInterval: 500,
                     getDrawingHorizontalLine: (value) {
                       return FlLine(
-                          color: Colors.white38,
+                          color: Get.isDarkMode ? Colors.white38 : Colors.grey,
                           strokeWidth: 2,
                           dashArray: [4]);
                     }),
@@ -102,7 +102,7 @@ class GraphMonthlySales extends StatelessWidget {
                     isStrokeCapRound: true,
                     spots: _graphController.spotJual,
                     isCurved: true,
-                    color: Colors.white,
+                    color: Get.theme.colorScheme.tertiary,
                     dotData: FlDotData(show: true),
                     barWidth: 2,
                   ),

@@ -28,9 +28,9 @@ Future<void> main() async {
     await GetStorage.init();
   }
   bool _isLogin = false;
-  SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackground);
 
   final _user = FirebaseAuth.instance.currentUser;

@@ -37,7 +37,7 @@ class CashFlowCard extends GetView<CashFlowController> {
             child: _content(),
           )
         : Card(
-            elevation: Get.isDarkMode ? 0 : 10,
+            // elevation: 0,
             margin: EdgeInsets.symmetric(horizontal: 18),
             child: _content(),
           );

@@ -83,14 +83,16 @@ class SparepartPage extends StatelessWidget {
                               leading: Hero(
                                 tag: spareparts.id,
                                 child: CircleAvatar(
-                                  backgroundColor: Get.theme.primaryColor,
+                                  backgroundColor:
+                                      Get.theme.colorScheme.surfaceVariant,
                                   child: Text(
                                     spareparts.supplier == 'Lain...'
                                         ? '...'
                                         : '${spareparts.supplier}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.white),
+                                        color: Get.theme.colorScheme
+                                            .onSurfaceVariant),
                                   ),
                                 ),
                               ),

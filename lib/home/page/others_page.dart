@@ -35,11 +35,11 @@ class SettingPage extends StatelessWidget {
             pinned: false,
             floating: false,
             actions: [
-              TextButton.icon(
-                onPressed: () => Haptic.feedbackClick(),
-                icon: Icon(Icons.place),
-                label: Text(_authController.cawangan.value.toString()),
-              )
+              Obx(() => TextButton.icon(
+                    onPressed: () => Haptic.feedbackClick(),
+                    icon: Icon(Icons.place),
+                    label: Text(_authController.cawangan.value.toString()),
+                  ))
             ],
           ),
           SliverList(
