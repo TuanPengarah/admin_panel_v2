@@ -16,7 +16,12 @@ class RepairHistoryPage extends StatelessWidget {
             expandedHeight: 180.0,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text('Sejarah Baiki'),
+              title: Text(
+                'Sejarah Baiki',
+                style: TextStyle(
+                  color: Get.theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
             ),
           ),
         ];
@@ -71,7 +76,7 @@ class RepairHistoryPage extends StatelessWidget {
                             TextSpan(
                               text: ' RM${_historyController.totalPrice.value}',
                               style: TextStyle(
-                                color: Get.theme.primaryColor,
+                                color: Get.theme.colorScheme.primary,
                               ),
                             ),
                           ],

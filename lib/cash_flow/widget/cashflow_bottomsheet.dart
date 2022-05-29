@@ -9,8 +9,7 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
   bool jualPhoneKe = false;
   bool sparepartKe = false;
   return Get.bottomSheet(
-    Material(
-      child: Padding(
+      Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Column(
@@ -22,6 +21,7 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                 child: Text(
                   isEdit == false ? 'Tambah Cash Flow' : 'Edit Cash Flow',
                   style: TextStyle(
+                    color: Get.theme.colorScheme.secondary,
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
                   ),
@@ -116,6 +116,15 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                 width: Get.width,
                 height: 48,
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        Get.theme.colorScheme.onInverseSurface),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Get.theme.colorScheme.tertiary),
+                    shadowColor: MaterialStateProperty.all<Color>(
+                        Get.theme.colorScheme.tertiary),
+                    elevation: MaterialStateProperty.all<double>(7),
+                  ),
                   onPressed: () {
                     if (_controller.hargaText.text.isNotEmpty &&
                         _controller.remarksText.text.isNotEmpty) {
@@ -126,6 +135,7 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                               docID, jualPhoneKe, sparepartKe);
                     } else {
                       Haptic.feedbackError();
+
                       ShowSnackbar.error(
                         'Kesalahan telah berlaku',
                         'Sila isi semua maklumat untuk teruskan',
@@ -138,19 +148,39 @@ Future<dynamic> bottomSheetCashFlow(bool isEdit, String docID) {
                       : 'Simpan Perubahan'),
                 ),
               ),
-              TextButton(
-                  onPressed: () {
-                    Haptic.feedbackError();
-                    _controller.resetAdd();
-                    Get.back();
-                  },
-                  child: Text('Batal')),
+              const SizedBox(height: 10),
+              isEdit == false
+                  ? Container()
+                  : Container(
+                      alignment: Alignment.center,
+                      child: TextButton.icon(
+                        onPressed: () => _controller.deleteCashFlow(docID),
+                        icon: Icon(Icons.delete),
+                        label: Text('Buang'),
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Get.theme.colorScheme.error),
+                        ),
+                      ),
+                    ),
+              // TextButton(
+              //   onPressed: () {
+              //     Haptic.feedbackError();
+              //     _controller.resetAdd();
+              //     Get.back();
+              //   },
+              //   child: Text(
+              //     'Batal',
+              //     style: TextStyle(
+              //       color: Get.theme.colorScheme.secondary,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
       ),
-    ),
-    isScrollControlled: true,
-    isDismissible: isEdit,
-  );
+      isScrollControlled: true,
+      isDismissible: isEdit,
+      backgroundColor: Get.theme.scaffoldBackgroundColor);
 }

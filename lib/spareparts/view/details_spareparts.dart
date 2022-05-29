@@ -27,7 +27,10 @@ class DetailsSpareparts extends GetView<SparepartController> {
             slivers: [
               SliverAppBar(
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text('Maklumat Spareparts'),
+                  title: Text(
+                    'Maklumat Spareparts',
+                    style: TextStyle(color: Get.theme.colorScheme.onBackground),
+                  ),
                   centerTitle: true,
                 ),
                 expandedHeight: 250,

@@ -17,6 +17,8 @@ class PriceCalculatorView extends StatelessWidget {
             title: Text('Pengiraan Harga'),
             expandedHeight: 300,
             pinned: true,
+            backgroundColor: Get.theme.colorScheme.primary,
+            foregroundColor: Get.theme.colorScheme.surface,
             elevation: 3,
             flexibleSpace: PriceCalculatorWidget().cardPrice(),
             actions: [

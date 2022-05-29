@@ -29,6 +29,41 @@ class CashFlowController extends GetxController {
     super.onInit();
   }
 
+  Future<void> deleteCashFlow(String docid) async {
+    Get.dialog(AlertDialog(
+      title: const Text('Adakah anda pasti?'),
+      content: const Text(
+        'Adakah anda pasti untuk membuang cash flow ini (Pastikan anda check pada graph database!)',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () async {
+            await FirebaseFirestore.instance
+                .collection('Sales')
+                .doc(year)
+                .collection('cashFlow')
+                .doc(docid)
+                .delete()
+                .then((value) async {
+              await getCashFlow();
+              Get.back();
+              Get.back();
+              update();
+            });
+          },
+          child: Text('Pasti'),
+        ),
+        TextButton(
+          onPressed: Get.back,
+          child: Text(
+            'Batal',
+            style: TextStyle(color: Get.theme.colorScheme.error),
+          ),
+        ),
+      ],
+    ));
+  }
+
   Future<void> editCashFlow(
       String docID, bool jualPhoneKe, bool sparepartKe) async {
     Haptic.feedbackClick();

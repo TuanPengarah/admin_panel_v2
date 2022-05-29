@@ -72,8 +72,6 @@ class SMSView extends GetView<SMSController> {
         },
         label: const Text('Hantar'),
         icon: const Icon(Icons.send),
-        backgroundColor: Get.theme.primaryColor,
-        foregroundColor: Colors.white,
       ),
       body: ListView(
         physics: BouncingScrollPhysics(),
@@ -93,6 +91,15 @@ class SMSView extends GetView<SMSController> {
             margin: const EdgeInsets.symmetric(horizontal: 25),
             alignment: Alignment.centerRight,
             child: ElevatedButton.icon(
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Get.theme.colorScheme.onInverseSurface),
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Get.theme.colorScheme.tertiary),
+                shadowColor: MaterialStateProperty.all<Color>(
+                    Get.theme.colorScheme.tertiary),
+                elevation: MaterialStateProperty.all<double>(7),
+              ),
               icon: const Icon(Icons.people),
               label: const Text('Pilih dari pelanggan'),
               onPressed: controller.getCustomer,
@@ -130,7 +137,7 @@ class SMSView extends GetView<SMSController> {
                 'https://sms.ala.my',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Get.theme.primaryColor,
+                  color: Colors.blue,
                 ),
               ),
               onTap: () => launchUrl(Uri.parse('https://sms.ala.my')),

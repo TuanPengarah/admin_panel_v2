@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class MysidUI{
- static Card mySidListCard(
-      QueryDocumentSnapshot<Object> document, BuildContext context, Function tap) {
+class MysidUI {
+  static Card mySidListCard(QueryDocumentSnapshot<Object> document,
+      BuildContext context, Function tap) {
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap:tap,
+        onTap: tap,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -78,6 +78,7 @@ class MysidUI{
                 width: MediaQuery.of(context).size.width - 110,
                 lineHeight: 3.2,
                 percent: document['Percent'],
+                backgroundColor: Get.theme.colorScheme.surfaceVariant,
                 progressColor: Get.theme.colorScheme.secondary,
               ),
               Padding(

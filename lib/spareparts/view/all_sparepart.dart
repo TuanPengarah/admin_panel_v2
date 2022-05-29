@@ -111,6 +111,8 @@ class AllSparepartsView extends GetView<SparepartController> {
             ),
           ],
           bottom: TabBar(
+            labelColor: Get.theme.colorScheme.onBackground,
+            indicatorColor: Get.theme.colorScheme.tertiary,
             isScrollable: true,
             tabs: ModelBrands.brandsTab,
           ),

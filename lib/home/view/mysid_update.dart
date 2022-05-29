@@ -43,9 +43,8 @@ class MysidUpdate extends StatelessWidget {
                               lineWidth: 13.0,
                               animation: true,
                               arcType: ArcType.HALF,
-                              arcBackgroundColor: Get.isDarkMode
-                                  ? Colors.blueGrey.shade700
-                                  : Colors.blue.shade600,
+                              arcBackgroundColor:
+                                  Get.theme.colorScheme.surfaceVariant,
                               percent: _mysidController.progressPercent.value,
                               center: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -55,15 +54,13 @@ class MysidUpdate extends StatelessWidget {
                                   Text(
                                     "Jumlah status\nkeselurahan",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
+                                    style: TextStyle(),
                                   ),
                                   SizedBox(height: 4),
                                   Text(
                                     '${_mysidController.percentage.value.toStringAsFixed(0)}%',
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Get.theme.colorScheme.secondary,
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -71,7 +68,7 @@ class MysidUpdate extends StatelessWidget {
                                 ],
                               ),
                               circularStrokeCap: CircularStrokeCap.round,
-                              progressColor: Colors.white,
+                              progressColor: Get.theme.colorScheme.secondary,
                             );
                           }),
                           SizedBox(height: 40),
@@ -103,10 +100,12 @@ class MysidUpdate extends StatelessWidget {
             },
             body: MysidCard(params: _params, data: _data),
           ),
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: FloatingActionButton.extended(
+            isExtended: false,
             heroTag: null,
             onPressed: () => _mysidController.setMysid(context),
-            child: Icon(Icons.drive_file_rename_outline_outlined),
+            label: Text('Kemaskini'),
+            icon: Icon(Icons.drive_file_rename_outline_outlined),
           ),
         ),
       ),

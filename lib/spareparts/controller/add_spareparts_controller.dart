@@ -205,6 +205,7 @@ class AddSparepartsController extends GetxController {
         await DatabaseHelper.instance
             .addModelSuggestion(ModelSuggestion(model: modelParts.text));
       }
+      var firestore = FirebaseFirestore.instance;
       for (int i = 0; i < int.parse(kuantitiParts.text); i++) {
         generatePartsID();
         Spareparts spareparts = new Spareparts(
@@ -225,45 +226,45 @@ class AddSparepartsController extends GetxController {
             .child('Spareparts')
             .child(partsID.value)
             .set(spareparts.toJson());
+
+        //TAMBAH MODAL PADA GRAPH SALES
+
+        String months = _graphController.checkMonths(DateTime.now().month - 1);
+        status.value = 'Menambah harga modal pada graph sales...';
+        DocumentReference hargaModal = firestore
+            .collection('Sales')
+            .doc(_graphController.year)
+            .collection('supplierRecord')
+            .doc('record');
+        firestore.runTransaction((transaction) async {
+          DocumentSnapshot snap = await transaction.get(hargaModal);
+
+          if (!snap.exists) {
+            throw Exception("Harga modal tidak dijumpai");
+          }
+
+          double newPoints = double.parse(snap.get(months).toString());
+          transaction.update(
+              hargaModal, {months: newPoints + double.parse(hargaParts.text)});
+        });
+
+        //TAMBAH PADA CASH FLOW
+        status.value = 'Mengemaskini cash flow...';
+        final Map<String, dynamic> cashflow = {
+          'jumlah': double.parse(hargaParts.text),
+          'isModal': true,
+          'isSpareparts': false,
+          'isJualPhone': true,
+          'remark': '${jenisParts.text} ${modelParts.text}',
+          'timeStamp': FieldValue.serverTimestamp(),
+        };
+
+        await firestore
+            .collection('Sales')
+            .doc(_graphController.year)
+            .collection('cashFlow')
+            .add(cashflow);
       }
-
-      //TAMBAH MODAL PADA GRAPH SALES
-      var firestore = FirebaseFirestore.instance;
-      String months = _graphController.checkMonths(DateTime.now().month - 1);
-      status.value = 'Menambah harga modal pada graph sales...';
-      DocumentReference hargaModal = firestore
-          .collection('Sales')
-          .doc(_graphController.year)
-          .collection('supplierRecord')
-          .doc('record');
-      firestore.runTransaction((transaction) async {
-        DocumentSnapshot snap = await transaction.get(hargaModal);
-
-        if (!snap.exists) {
-          throw Exception("Harga modal tidak dijumpai");
-        }
-
-        double newPoints = double.parse(snap.get(months).toString());
-        transaction.update(
-            hargaModal, {months: newPoints + double.parse(hargaParts.text)});
-      });
-
-      //TAMBAH PADA CASH FLOW
-      status.value = 'Mengemaskini cash flow...';
-      final Map<String, dynamic> cashflow = {
-        'jumlah': double.parse(hargaParts.text),
-        'isModal': true,
-        'isSpareparts': false,
-        'isJualPhone': true,
-        'remark': '${jenisParts.text} ${modelParts.text}',
-        'timeStamp': FieldValue.serverTimestamp(),
-      };
-
-      await firestore
-          .collection('Sales')
-          .doc(_graphController.year)
-          .collection('cashFlow')
-          .add(cashflow);
 
       status.value = 'Menyegarkan semula semua data...';
       await _sparepartsController.refreshDialog(false);

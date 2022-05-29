@@ -210,7 +210,8 @@ class CustomerPage extends StatelessWidget {
                                   motion: ScrollMotion(),
                                   children: [
                                     SlidableAction(
-                                      backgroundColor: Colors.green,
+                                      backgroundColor: Get
+                                          .theme.colorScheme.primaryContainer,
                                       label: 'Hubungi',
                                       icon: Icons.phone,
                                       onPressed: (_) {
@@ -219,7 +220,8 @@ class CustomerPage extends StatelessWidget {
                                       },
                                     ),
                                     SlidableAction(
-                                        backgroundColor: Colors.amber[900],
+                                        backgroundColor: Get.theme.colorScheme
+                                            .onPrimaryContainer,
                                         label: 'Mesej',
                                         icon: Icons.sms,
                                         onPressed: (_) {
@@ -232,7 +234,8 @@ class CustomerPage extends StatelessWidget {
                                   motion: ScrollMotion(),
                                   children: [
                                     SlidableAction(
-                                      backgroundColor: Colors.blue,
+                                      backgroundColor: Get
+                                          .theme.colorScheme.tertiaryContainer,
                                       label: 'Jobsheet',
                                       icon: Icons.receipt_long,
                                       onPressed: (_) =>
@@ -243,7 +246,8 @@ class CustomerPage extends StatelessWidget {
                                               customer['UID']),
                                     ),
                                     SlidableAction(
-                                        backgroundColor: Colors.red,
+                                        backgroundColor: Get
+                                            .theme.colorScheme.onErrorContainer,
                                         label: 'Buang',
                                         icon: Icons.delete,
                                         onPressed: (_) {

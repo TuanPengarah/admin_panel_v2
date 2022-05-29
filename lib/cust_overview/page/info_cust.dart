@@ -18,7 +18,12 @@ class CustomerInfoPage extends StatelessWidget {
           expandedHeight: 180.0,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
-            title: Obx(() => Text(_overviewController.customerName.value)),
+            title: Obx(
+              () => Text(
+                _overviewController.customerName.value,
+                style: TextStyle(color: Get.theme.colorScheme.onSurfaceVariant),
+              ),
+            ),
             background: _data[2] == ''
                 ? Container()
                 : Stack(
@@ -33,7 +38,9 @@ class CustomerInfoPage extends StatelessWidget {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                           child: Container(
-                            color: Colors.black45,
+                            color: Get.isDarkMode
+                                ? Colors.black54
+                                : Colors.white60,
                             alignment: Alignment.center,
                           ),
                         ),

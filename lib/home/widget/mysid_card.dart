@@ -82,7 +82,7 @@ class MysidCard extends StatelessWidget {
                     TextSpan(
                       text: 'klik sini',
                       style: TextStyle(
-                        color: Get.theme.primaryColor,
+                        color: Get.theme.colorScheme.primary,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {

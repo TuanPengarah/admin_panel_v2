@@ -19,8 +19,6 @@ class DashboardCardAll extends StatelessWidget {
     final _sparepartController = Get.find<SparepartController>();
     final _customerController = Get.find<CustomerController>();
     return Card(
-      // elevation: 0,
-      // color: Get.theme.colorScheme.surfaceVariant,
       margin: EdgeInsets.symmetric(horizontal: 18),
       child: Container(
         // height: 500,

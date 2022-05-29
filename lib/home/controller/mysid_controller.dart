@@ -115,13 +115,11 @@ class MysidController extends GetxController {
                           inactiveTrackBarHeight: 130,
                           inactiveTrackBar: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Get.isDarkMode
-                                ? Colors.grey.shade900
-                                : Colors.black12,
+                            color: Get.theme.colorScheme.surfaceVariant,
                           ),
                           activeTrackBar: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Get.theme.primaryColor,
+                            color: Get.theme.colorScheme.tertiary,
                           ),
                         ),
                         onDragging: (index, lower, upper) {
@@ -143,12 +141,12 @@ class MysidController extends GetxController {
                     }),
                     SizedBox(height: 20),
                     RoundedLoadingButton(
-                      color: Get.theme.primaryColor,
+                      color: Get.theme.colorScheme.tertiary,
                       controller: btnController,
                       child: Text(
                         'Simpan',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Get.theme.colorScheme.surface,
                         ),
                       ),
                       onPressed: () {
@@ -169,7 +167,7 @@ class MysidController extends GetxController {
                       child: Text(
                         'Tutup',
                         style: TextStyle(
-                          color: Get.theme.primaryColor,
+                          color: Get.theme.colorScheme.error,
                         ),
                       ),
                     ),
@@ -231,16 +229,16 @@ class MysidController extends GetxController {
     };
 
     try {
-      Future.delayed(Duration(seconds: 40), () async {
-        btnController.error();
-        Haptic.feedbackError();
+      // Future.delayed(Duration(seconds: 40), () async {
+      //   btnController.error();
+      //   Haptic.feedbackError();
 
-        await Future.delayed(Duration(seconds: 2));
-        ShowSnackbar.error(
-            'Repair Log',
-            'Kesalahan telah berlaku, sila check rangkaian internet anda!',
-            true);
-      });
+      //   await Future.delayed(Duration(seconds: 2));
+      //   ShowSnackbar.error(
+      //       'Repair Log',
+      //       'Kesalahan telah berlaku, sila check rangkaian internet anda!',
+      //       true);
+      // });
       await firestore
           .collection('MyrepairID')
           .doc(Get.parameters['id'])

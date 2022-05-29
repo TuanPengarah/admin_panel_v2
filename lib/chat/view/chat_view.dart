@@ -15,7 +15,6 @@ class ChatView extends GetView<ChatController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Get.theme.primaryColor,
       appBar: AppBar(
         centerTitle: false,
         title: Text(_data['name']),
@@ -75,17 +74,9 @@ class ChatView extends GetView<ChatController> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
           color: Get.theme.canvasColor,
         ),
         child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
           child: Column(
             children: [
               Expanded(

@@ -99,6 +99,8 @@ class PriceListView extends StatelessWidget {
             ),
           ],
           bottom: TabBar(
+            labelColor: Get.theme.colorScheme.onBackground,
+            indicatorColor: Get.theme.colorScheme.tertiary,
             isScrollable: true,
             tabs: ModelBrands.brandsTab,
           ),
