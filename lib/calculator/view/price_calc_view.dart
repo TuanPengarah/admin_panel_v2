@@ -58,7 +58,7 @@ class PriceCalculatorView extends StatelessWidget {
                           ),
                           activeTrackBar: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Get.theme.primaryColor,
+                            color: Get.theme.colorScheme.secondary,
                           ),
                         ),
                         onDragging: (handlerIndex, lowerValue, upperValue) {
@@ -102,9 +102,8 @@ class PriceCalculatorView extends StatelessWidget {
                                 : Colors.black12,
                           ),
                           activeTrackBar: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Get.theme.primaryColor,
-                          ),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Get.theme.colorScheme.secondary),
                         ),
                         onDragging: (handlerIndex, lowerValue, upperValue) {
                           _priceController.tempohWarranti.value = lowerValue;

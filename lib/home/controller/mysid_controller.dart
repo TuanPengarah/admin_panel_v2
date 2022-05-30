@@ -119,7 +119,7 @@ class MysidController extends GetxController {
                           ),
                           activeTrackBar: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Get.theme.colorScheme.tertiary,
+                            color: Get.theme.colorScheme.secondary,
                           ),
                         ),
                         onDragging: (index, lower, upper) {
@@ -141,7 +141,7 @@ class MysidController extends GetxController {
                     }),
                     SizedBox(height: 20),
                     RoundedLoadingButton(
-                      color: Get.theme.colorScheme.tertiary,
+                      color: Get.theme.colorScheme.secondary,
                       controller: btnController,
                       child: Text(
                         'Simpan',

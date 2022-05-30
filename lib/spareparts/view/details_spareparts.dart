@@ -242,7 +242,7 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                       Get.toNamed(MyRoutes.priceCalc);
                                     },
                                   style: TextStyle(
-                                    color: Get.theme.primaryColor,
+                                    color: Get.theme.colorScheme.primary,
                                   ),
                                 ),
                               ],

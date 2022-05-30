@@ -24,7 +24,7 @@ class ProfileAvatar {
               image: ExtendedNetworkImageProvider(photoURL, cache: true),
               style: TextStyle(fontSize: 50),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Get.theme.colorScheme.primary,
                 borderRadius: BorderRadius.circular(200),
               ),
             ),

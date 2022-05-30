@@ -1,7 +1,9 @@
+import 'package:admin_panel/config/color_scheme.dart';
 import 'package:admin_panel/config/initial_binding.dart';
 import 'package:admin_panel/config/mouse_drag.dart';
 import 'package:admin_panel/firebase_options.dart';
 import 'package:admin_panel/price_list/model/price_list_api.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -53,16 +55,29 @@ class MyApp extends StatelessWidget {
   MyApp({this.isLogin});
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Af-Fix Admin Panel',
-      scrollBehavior: MyCustomScrollBehavior(),
-      debugShowCheckedModeBanner: false,
-      initialBinding: InitialBinding(),
-      theme: MyThemes.lightTheme,
-      darkTheme: MyThemes.darkTheme,
-      themeMode: MyThemes().themeMode,
-      initialRoute: isLogin == false ? MyRoutes.login : MyRoutes.home,
-      getPages: MyRoutes().page,
+    return DynamicColorBuilder(
+      builder: (ColorScheme lightDynamic, ColorScheme darkDynamic) {
+        ColorScheme colorSchemeLight;
+        ColorScheme colorSchemeDark;
+        if (lightDynamic != null && darkDynamic != null) {
+          colorSchemeLight = lightDynamic.harmonized();
+          colorSchemeDark = darkDynamic.harmonized();
+        } else {
+          colorSchemeLight = lightColorScheme;
+          colorSchemeDark = darkColorScheme;
+        }
+        return GetMaterialApp(
+          title: 'Af-Fix Admin Panel',
+          scrollBehavior: MyCustomScrollBehavior(),
+          debugShowCheckedModeBanner: false,
+          initialBinding: InitialBinding(),
+          theme: MyThemes().light(colorSchemeLight),
+          darkTheme: MyThemes().dark(colorSchemeDark),
+          themeMode: MyThemes().themeMode,
+          initialRoute: isLogin == false ? MyRoutes.login : MyRoutes.home,
+          getPages: MyRoutes().page,
+        );
+      },
     );
   }
 }
