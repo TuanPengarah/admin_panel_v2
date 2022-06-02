@@ -17,10 +17,11 @@ class LoginView extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.dark_mode,
-                color: Get.isDarkMode
-                    ? Colors.amber
-                    : Theme.of(context).primaryColor),
+            icon: Icon(
+              Icons.dark_mode,
+              color:
+                  Get.isDarkMode ? Colors.amber : Get.theme.colorScheme.primary,
+            ),
             onPressed: MyThemes().switchTheme,
           ),
         ],
@@ -41,12 +42,33 @@ class LoginView extends StatelessWidget {
                       height: 300,
                     ),
                   ),
-                  Image.asset(
-                    Get.isDarkMode
-                        ? 'assets/images/splash_light.png'
-                        : 'assets/images/splash_dark.png',
-                    scale: 7,
+                  ShaderMask(
+                    child: SizedBox(
+                        width: 55.0,
+                        height: 55.0,
+                        child: Image(
+                          image: AssetImage(
+                            'assets/images/splash_light.png',
+                          ),
+                        )),
+                    shaderCallback: ((bounds) => LinearGradient(
+                          colors: [
+                            Get.theme.colorScheme.primary,
+                            Get.theme.colorScheme.primary
+                          ],
+                          stops: [
+                            0.0,
+                            0.0,
+                          ],
+                        ).createShader(bounds)),
+                    blendMode: BlendMode.srcATop,
                   ),
+                  // Image.asset(
+                  //   Get.isDarkMode
+                  //       ? 'assets/images/splash_light.png'
+                  //       : 'assets/images/splash_dark.png',
+                  //   scale: 7,
+                  // ),
                   SizedBox(height: 2),
                   Text(
                     'Admin Panel',

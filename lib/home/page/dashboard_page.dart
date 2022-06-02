@@ -21,12 +21,11 @@ class DashboardPage extends StatelessWidget {
         child: CustomScrollView(
           primary: false,
           shrinkWrap: true,
-          physics: BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
               floating: false,
               snap: false,
-              backgroundColor: Get.theme.scaffoldBackgroundColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               actions: [
                 IconButton(
                   color: Get.theme.colorScheme.tertiary,
@@ -41,7 +40,7 @@ class DashboardPage extends StatelessWidget {
                 child: Container(),
                 preferredSize: Size(0, 20),
               ),
-              expandedHeight: 380,
+              expandedHeight: 450,
               flexibleSpace: FlexibleSpaceBar(
                 background: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -49,9 +48,6 @@ class DashboardPage extends StatelessWidget {
                   children: [
                     Container(
                       width: Get.context.width,
-                      // decoration: BoxDecoration(
-                      //   color: Get.theme.primaryColor,
-                      // ),
                       child: FutureBuilder(
                           future: _graphController.getGraph,
                           builder: (context, snapshot) {
@@ -65,13 +61,11 @@ class DashboardPage extends StatelessWidget {
                             }
                             return Column(
                               children: [
+                                const SizedBox(height: 40),
                                 Text(
                                   'Laporan Jualan Bulan ${_graphController.checkMonthsMalay(DateTime.now().month - 1)}',
-                                  // style: TextStyle(
-                                  //   color: Colors.white,
-                                  // ),
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Obx(() {
                                   return Text(
                                     'RM ${_graphController.jumlahBulanan.value.toStringAsFixed(2)}',
@@ -81,6 +75,33 @@ class DashboardPage extends StatelessWidget {
                                     ),
                                   );
                                 }),
+                                Obx(() => Text.rich(
+                                      TextSpan(
+                                        text: _graphController
+                                                    .percentBulanan.value >=
+                                                0
+                                            ? '${_graphController.percentBulanan.value.toStringAsFixed(2)}%'
+                                            : '-${_graphController.percentBulanan.value.toStringAsFixed(2)}%',
+                                        style: TextStyle(
+                                          fontSize: 12.2,
+                                          color: _graphController
+                                                      .percentBulanan.value >=
+                                                  0
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                              text:
+                                                  ' daripada jualan bulan lepas',
+                                              style: TextStyle(
+                                                color: Get.theme.colorScheme
+                                                    .inverseSurface,
+                                              )),
+                                        ],
+                                      ),
+                                    )),
+                                const SizedBox(height: 5),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 0),
@@ -112,7 +133,7 @@ class DashboardPage extends StatelessWidget {
                                         Container(
                                           height: 20,
                                           width: 20,
-                                          color: Colors.amber,
+                                          color: Colors.amber[900],
                                         ),
                                         SizedBox(width: 10),
                                         const Text(
@@ -123,10 +144,26 @@ class DashboardPage extends StatelessWidget {
                                   ],
                                 ),
                                 SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      color: Get.theme.colorScheme.primary,
+                                    ),
+                                    SizedBox(width: 10),
+                                    const Text(
+                                      'Untung Bersih',
+                                    ),
+                                  ],
+                                ),
                               ],
                             );
                           }),
                     ),
+                    SizedBox(height: 30),
                   ],
                 ),
               ),

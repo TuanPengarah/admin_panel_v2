@@ -77,15 +77,6 @@ class DashboardCardAll extends StatelessWidget {
                         },
                         label: Text('Lihat Kesemua Rekod'),
                         icon: Icon(Icons.list_alt_rounded),
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              Get.theme.colorScheme.onInverseSurface),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Get.theme.colorScheme.tertiary),
-                          shadowColor: MaterialStateProperty.all<Color>(
-                              Get.theme.colorScheme.tertiary),
-                          elevation: MaterialStateProperty.all<double>(7),
-                        ),
                       ),
                     )
                   : Container(),

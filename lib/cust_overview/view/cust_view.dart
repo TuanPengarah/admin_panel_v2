@@ -17,15 +17,22 @@ class CustomerView extends StatelessWidget {
       child: Hero(
         tag: _data[0],
         child: Scaffold(
-          bottomNavigationBar: Obx(() => BottomNavigationBar(
-                onTap: (index) =>
+          bottomNavigationBar: Obx(() => NavigationBar(
+                onDestinationSelected: (index) =>
                     _overviewController.currentIndex.value = index,
-                currentIndex: _overviewController.currentIndex.value,
-                items: [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: 'Maklumat'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.history), label: 'Sejarah Baiki'),
+                animationDuration: Duration(milliseconds: 500),
+                selectedIndex: _overviewController.currentIndex.value,
+                destinations: [
+                  NavigationDestination(
+                    icon: Icon(Icons.person_outline),
+                    selectedIcon: Icon(Icons.person),
+                    label: 'Maklumat',
+                  ),
+                  NavigationDestination(
+                    icon: Icon(Icons.history_outlined),
+                    selectedIcon: Icon(Icons.history),
+                    label: 'Sejarah Baiki',
+                  ),
                 ],
               )),
           body: Obx(

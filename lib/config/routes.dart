@@ -77,7 +77,6 @@ class MyRoutes {
       binding: PosBinding(),
     ),
     GetPage(name: paymentSetup, page: () => PaymentSetup()),
-    GetPage(name: paymentCompleted, page: () => PaymentCompleted()),
     GetPage(name: pdfReceiptViewer, page: () => ReceiptPDF()),
     GetPage(
         name: pricelist,

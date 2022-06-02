@@ -23,7 +23,6 @@ class CashflowViewAll extends GetView<CashFlowController> {
                 }
                 return GetBuilder<CashFlowController>(builder: (context) {
                   return ListView.builder(
-                    physics: BouncingScrollPhysics(),
                     itemCount: controller.cashFlow.length,
                     itemBuilder: (context, i) {
                       var cash = controller.cashFlow[i];

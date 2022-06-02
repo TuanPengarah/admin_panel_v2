@@ -14,16 +14,17 @@ class CustomerController extends GetxController {
   var status = ''.obs;
   var descending = false.obs;
   String orderBy = 'Nama';
-  final searchController = TextEditingController();
   final _firestore = FirebaseFirestore.instance.collection('customer');
   List customerList = [];
   List getFromFirestore = [];
   var customerListRead = ''.obs;
   String currentlySelected = '';
   final box = GetStorage();
+  Future getCust;
 
   @override
   void onInit() {
+    getCust = getCustomerDetails();
     initSorting(box.read('sortCustomer') ?? 'Mengikut abjad A-Z');
     getCustomerDetails();
     super.onInit();
@@ -164,35 +165,23 @@ class CustomerController extends GetxController {
     }
   }
 
-  void clickSearch() {
-    isSearch.value = !isSearch.value;
-    if (isSearch.value == false) {
-      searchController.text = '';
-      getCustomerDetails();
-    }
-  }
-
   Future<void> getCustomerDetails() async {
     await _firestore
         .orderBy(orderBy, descending: descending.value)
         .get()
         .then((snapshot) {
       getFromFirestore = snapshot.docs;
+
       status.value = '';
-      searchResultList();
+      searchResultList('');
       update();
       customerListRead.value = customerList.length.toString();
-      return 'Completed';
-    }).catchError((err) {
-      status.value = err.toString();
-      print(err);
-      return 'Error';
     });
   }
 
-  void searchResultList() {
-    var showResult = [];
-    if (searchController.text != '') {
+  void searchResultList(String query) {
+    List showResult = [];
+    if (query != '') {
       // perform search
       for (var customerSnapshot in getFromFirestore) {
         var title = CustomerSuggestion.getCustomer(customerSnapshot)
@@ -203,9 +192,9 @@ class CustomerController extends GetxController {
             .phoneNumber
             .toLowerCase();
 
-        if (title.contains(searchController.text.toLowerCase())) {
+        if (title.contains(query.toLowerCase())) {
           showResult.add(customerSnapshot);
-        } else if (noPhone.contains(searchController.text.toLowerCase())) {
+        } else if (noPhone.contains(query.toLowerCase())) {
           showResult.add(customerSnapshot);
         }
       }
@@ -213,6 +202,6 @@ class CustomerController extends GetxController {
       showResult = List.from(getFromFirestore);
     }
     customerList = showResult;
-    update();
+    // update();
   }
 }

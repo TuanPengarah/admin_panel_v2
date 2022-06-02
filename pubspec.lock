@@ -14,7 +14,7 @@ packages:
       name: another_xlider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1+2"
+    version: "1.1.0"
   ansi_styles:
     dependency: transitive
     description:
@@ -793,13 +793,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.8.0"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.11.1"
   percent_indicator:
     dependency: "direct main"
     description:
@@ -1042,49 +1035,49 @@ packages:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.1.55"
+    version: "20.1.58+1"
   syncfusion_flutter_pdf:
     dependency: transitive
     description:
       name: syncfusion_flutter_pdf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.1.55-beta"
+    version: "20.1.58-beta"
   syncfusion_flutter_pdfviewer:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_pdfviewer
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.1.55-beta"
+    version: "20.1.58-beta"
   syncfusion_pdfviewer_macos:
     dependency: transitive
     description:
       name: syncfusion_pdfviewer_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.1.55-beta"
+    version: "20.1.58-beta"
   syncfusion_pdfviewer_platform_interface:
     dependency: transitive
     description:
       name: syncfusion_pdfviewer_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.1.55-beta"
+    version: "20.1.58-beta"
   syncfusion_pdfviewer_web:
     dependency: transitive
     description:
       name: syncfusion_pdfviewer_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.1.55-beta"
+    version: "20.1.58-beta"
   syncfusion_pdfviewer_windows:
     dependency: transitive
     description:
       name: syncfusion_pdfviewer_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.1.55-beta"
+    version: "20.1.58-beta"
   synchronized:
     dependency: transitive
     description:

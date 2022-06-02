@@ -25,7 +25,6 @@ class RecordView extends StatelessWidget {
                 );
               }
               return ListView(
-                physics: BouncingScrollPhysics(),
                 children: [
                   const SizedBox(height: 30),
                   CashFlowCard(true),

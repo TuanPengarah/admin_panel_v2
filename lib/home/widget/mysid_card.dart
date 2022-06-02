@@ -25,7 +25,6 @@ class MysidCard extends StatelessWidget {
         elevation: 8,
         child: SafeArea(
           child: ListView(
-            physics: BouncingScrollPhysics(),
             children: [
               Text(
                 'Maklumat Kerosakkan',

@@ -74,7 +74,6 @@ class SMSView extends GetView<SMSController> {
         icon: const Icon(Icons.send),
       ),
       body: ListView(
-        physics: BouncingScrollPhysics(),
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
@@ -91,15 +90,6 @@ class SMSView extends GetView<SMSController> {
             margin: const EdgeInsets.symmetric(horizontal: 25),
             alignment: Alignment.centerRight,
             child: ElevatedButton.icon(
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Get.theme.colorScheme.onInverseSurface),
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Get.theme.colorScheme.tertiary),
-                shadowColor: MaterialStateProperty.all<Color>(
-                    Get.theme.colorScheme.tertiary),
-                elevation: MaterialStateProperty.all<double>(7),
-              ),
               icon: const Icon(Icons.people),
               label: const Text('Pilih dari pelanggan'),
               onPressed: controller.getCustomer,

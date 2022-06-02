@@ -24,23 +24,27 @@ class GraphMonthlySales extends StatelessWidget {
                   //   print(touchEvent.localPosition);
                   // },
                   touchTooltipData: LineTouchTooltipData(
+                    tooltipBgColor: Get.theme.colorScheme.surfaceVariant,
                     getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
                       return touchedBarSpots.map((barSpot) {
                         final flSpot = barSpot;
                         return LineTooltipItem(
                           flSpot.barIndex == 0 ? 'RM' : 'RM',
                           TextStyle(
-                            color: flSpot.barIndex == 0
-                                ? Colors.white
-                                : Colors.amber,
-                          ),
+                              color: flSpot.barIndex == 0
+                                  ? Get.theme.colorScheme.tertiary
+                                  : flSpot.barIndex == 1
+                                      ? Colors.amber[900]
+                                      : Get.theme.colorScheme.primary),
                           children: [
                             TextSpan(
                               text: flSpot.y.toStringAsFixed(0),
                               style: TextStyle(
                                 color: flSpot.barIndex == 0
-                                    ? Colors.white
-                                    : Colors.amber,
+                                    ? Get.theme.colorScheme.tertiary
+                                    : flSpot.barIndex == 1
+                                        ? Colors.amber[900]
+                                        : Get.theme.colorScheme.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -79,7 +83,7 @@ class GraphMonthlySales extends StatelessWidget {
                       },
                       reservedSize: 30,
                       showTitles: true,
-                      interval: 1000 * 2.5.toDouble(),
+                      interval: 500 * 2.5.toDouble(),
                     ),
                   ),
                 ),
@@ -110,7 +114,15 @@ class GraphMonthlySales extends StatelessWidget {
                     isStrokeCapRound: true,
                     spots: _graphController.spotSupplier,
                     isCurved: true,
-                    color: Colors.amber,
+                    color: Colors.amber[900],
+                    dotData: FlDotData(show: true),
+                    barWidth: 2,
+                  ),
+                  LineChartBarData(
+                    isStrokeCapRound: true,
+                    spots: _graphController.spotUntungBersih,
+                    isCurved: true,
+                    color: Get.theme.colorScheme.primary,
                     dotData: FlDotData(show: true),
                     barWidth: 2,
                   ),

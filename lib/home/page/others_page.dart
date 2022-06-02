@@ -1,11 +1,9 @@
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
-import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/home/controller/other_controller.dart';
 import 'package:admin_panel/home/widget/other_setting.dart';
 import 'package:admin_panel/home/widget/profile_avatar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -23,48 +21,58 @@ class SettingPage extends StatelessWidget {
       },
       child: CustomScrollView(
         primary: false,
-        physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            systemOverlayStyle: Theme.of(context).brightness == Brightness.light
-                ? SystemUiOverlayStyle.dark
-                : SystemUiOverlayStyle.light,
-            elevation: 0,
             snap: false,
             pinned: false,
             floating: false,
-            actions: [
-              Obx(() => TextButton.icon(
-                    onPressed: () => Haptic.feedbackClick(),
-                    icon: Icon(Icons.place),
-                    label: Text(_authController.cawangan.value.toString()),
-                  ))
-            ],
+            expandedHeight: 180,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 30),
+                    Obx(
+                      () => ProfileAvatar(
+                        email: _authController.userEmail.value,
+                        jawatan: _authController.jawatan.value,
+                        name: _authController.userName.value,
+                        photoURL: _authController.photoURL.value,
+                        cawangan: _authController.cawangan.value,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            // systemOverlayStyle: Theme.of(context).brightness == Brightness.light
+            //     ? SystemUiOverlayStyle.dark
+            //     : SystemUiOverlayStyle.light,
+            // elevation: 0,
+
+            // actions: [
+            //   Obx(() => TextButton.icon(
+            //         onPressed: () => Haptic.feedbackClick(),
+            //         icon: Icon(Icons.place),
+            //         label: Text(_authController.cawangan.value.toString()),
+            //       ))
+            // ],
           ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 Obx(
-                  () => ProfileAvatar().profile(
-                    email: _authController.userEmail.value,
-                    name: _authController.userName.value,
-                    jawatan: _authController.jawatan.value,
-                    context: context,
-                    photoURL: _authController.photoURL.value,
+                  () => YourRecord(
+                    jumlahKeuntungan: _authController.jumlahKeuntungan.value,
+                    isMy: true,
+                    jumlahRepair: _authController.jumlahRepair.value,
                   ),
                 ),
                 SizedBox(height: 30),
-                Obx(
-                  () => ProfileAvatar().yourRecord(
-                    context,
-                    _authController.jumlahRepair.value,
-                    _authController.jumlahKeuntungan.value,
-                    true,
-                  ),
-                ),
-                SizedBox(height: 30),
-                OtherSettings().otherAndSetting(context),
+                OtherSettings(),
                 SizedBox(height: 40),
                 OtherSettings().logOutButton(),
                 SizedBox(height: 40),

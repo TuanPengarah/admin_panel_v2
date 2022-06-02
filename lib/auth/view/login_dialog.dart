@@ -105,7 +105,7 @@ class ShowBottomSheet {
                             child: Text(
                               'Log Masuk',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Get.theme.colorScheme.background,
                               ),
                             ),
                             errorColor: Get.theme.colorScheme.error,

@@ -138,7 +138,6 @@ class NotificationHistoryView extends GetView<NotificationController> {
                           DatabaseHelper.instance.getNotificationHistory(),
                       child: AnimationLimiter(
                         child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, i) {
                               var history = snapshot.data[i];

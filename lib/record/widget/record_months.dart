@@ -48,15 +48,6 @@ class DashboardCardMonths extends StatelessWidget {
                       onPressed: () => Get.toNamed(MyRoutes.monthlyRecord),
                       label: Text('Lihat Rekod Mengikut Bulan '),
                       icon: Icon(Icons.read_more),
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Get.theme.colorScheme.onInverseSurface),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Get.theme.colorScheme.tertiary),
-                        shadowColor: MaterialStateProperty.all<Color>(
-                            Get.theme.colorScheme.tertiary),
-                        elevation: MaterialStateProperty.all<double>(7),
-                      ),
                     )
                   : isDashboard == true
                       ? Container()
@@ -78,15 +69,6 @@ class DashboardCardMonths extends StatelessWidget {
                           },
                           icon: Icon(Icons.picture_as_pdf),
                           label: Text('Hasilkan Cash Flow Statement'),
-                          style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Get.theme.colorScheme.onInverseSurface),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Get.theme.colorScheme.tertiary),
-                            shadowColor: MaterialStateProperty.all<Color>(
-                                Get.theme.colorScheme.tertiary),
-                            elevation: MaterialStateProperty.all<double>(7),
-                          ),
                         ),
             ],
           ),

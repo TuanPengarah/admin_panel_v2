@@ -240,7 +240,7 @@ class OverviewController extends GetxController {
     Get.toNamed(MyRoutes.jobsheet, arguments: [true, nama, phone, email, uid]);
   }
 
-  void showSheet(String noFon) {
+  void showSheet(String noFon, String nama) {
     Haptic.feedbackClick();
     Get.bottomSheet(
       Material(
@@ -261,7 +261,7 @@ class OverviewController extends GetxController {
                 leading: Icon(Icons.chat_bubble),
                 title: Text('WhatsApp'),
                 subtitle: Text('$noFon'),
-                onTap: () => launchWhatsapp(noFon)),
+                onTap: () => launchWhatsapp(noFon, nama)),
             ListTile(
                 leading: Icon(Icons.content_copy),
                 title: Text('Salin ke Clipboard'),
@@ -322,9 +322,11 @@ class OverviewController extends GetxController {
     }
   }
 
-  void launchWhatsapp(String noFon) async {
-    final url =
-        noFon.contains('+6') ? 'https://wa.me/$noFon' : "https://wa.me/6$noFon";
+  void launchWhatsapp(String noFon, String nama) async {
+    String phone = noFon.contains('+6') ? noFon : '+6$noFon';
+    final url = GetPlatform.isAndroid
+        ? "whatsapp://send?phone=$phone&text=Salam $nama!"
+        : "whatsapp://wa.me/$phone/?text=Salam $nama!";
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {

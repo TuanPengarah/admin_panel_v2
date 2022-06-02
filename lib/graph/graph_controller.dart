@@ -9,17 +9,25 @@ class GraphController extends GetxController {
   List graphSupplier = [];
   List<FlSpot> spotJual = [];
   List<FlSpot> spotSupplier = [];
+  List<FlSpot> spotUntungBersih = [];
 
   var jumlahBulanan = 0.0.obs;
   var untungBersih = 0.0.obs;
   var untungKasar = 0.0.obs;
   var jumlahModal = 0.0.obs;
+  var percentBulanan = 0.0.obs;
 
   Future getGraph;
   @override
   void onInit() {
     getGraph = getGraphFromFirestore();
     super.onInit();
+  }
+
+  double pengiraanPercentBulanan(double bulanIni, double bulanLepas) {
+    double jawapan;
+    jawapan = bulanIni / bulanLepas * 100;
+    return jawapan;
   }
 
   String showMonthsGraph(int value) {
@@ -171,6 +179,8 @@ class GraphController extends GetxController {
   void getGraphLength() {
     spotJual = [];
     spotSupplier = [];
+    spotUntungBersih = [];
+    spotUntungBersih = [];
     jumlahModal.value = 0;
     untungKasar.value = 0;
     for (int i = 0; i < DateTime.now().month; i++) {
@@ -186,9 +196,21 @@ class GraphController extends GetxController {
       jumlahModal.value += graphSupplier[0][checkMonths(i)];
     }
 
+    for (int i = 0; i < DateTime.now().month; i++) {
+      spotUntungBersih.add(FlSpot(
+          i.toDouble(),
+          double.parse(graphJual[0][checkMonths(i)].toString()) -
+              double.parse(graphSupplier[0][checkMonths(i)].toString())));
+    }
+
     jumlahBulanan.value = double.parse(
         graphJual[0][checkMonths(DateTime.now().month - 1)].toString());
     untungBersih.value = untungKasar.value - jumlahModal.value;
+// DateTime.now().month.toDouble()
+    double bulanIni = jumlahBulanan.value;
+    double bulanLepas = double.parse(
+        graphJual[0][checkMonths(DateTime.now().month - 2)].toString());
+    percentBulanan.value = pengiraanPercentBulanan(bulanIni, bulanLepas);
   }
 
   Future<void> getGraphFromFirestore() async {

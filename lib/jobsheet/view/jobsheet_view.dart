@@ -97,7 +97,6 @@ class JobsheetView extends StatelessWidget {
                           ),
                       child: Obx(
                         () => Stepper(
-                          physics: BouncingScrollPhysics(),
                           currentStep: _jobsheetController.currentSteps.value,
                           onStepTapped: (index) =>
                               _jobsheetController.stepTap(index),

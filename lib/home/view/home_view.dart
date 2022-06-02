@@ -32,73 +32,61 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       bottomNavigationBar: Obx(() {
-        return NavigationBarTheme(
-          data: NavigationBarThemeData(
-            labelTextStyle: MaterialStateProperty.all(
-              TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
+        return NavigationBar(
+          selectedIndex: _homeController.currentIndex.value,
+          onDestinationSelected: (index) => _homeController.navTap(index),
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          animationDuration: Duration(milliseconds: 500),
+          destinations: [
+            NavigationDestination(
+              icon: Icon(Icons.dashboard_outlined),
+              selectedIcon: Icon(Icons.dashboard),
+              label: 'Utama',
             ),
-          ),
-          child: NavigationBar(
-            height: 65,
-            selectedIndex: _homeController.currentIndex.value,
-            onDestinationSelected: (index) => _homeController.navTap(index),
-            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-            animationDuration: Duration(milliseconds: 500),
-            destinations: [
-              NavigationDestination(
-                icon: Icon(Icons.dashboard_outlined),
-                selectedIcon: Icon(Icons.dashboard),
-                label: 'Utama',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.person_outlined),
-                selectedIcon: Icon(Icons.person),
-                label: 'Pelanggan',
-              ),
-              NavigationDestination(
-                icon: Obx(
-                  () => _homeController.totalMysid.value == 0
-                      ? Icon(Icons.date_range_outlined)
-                      : Badge(
-                          badgeContent: Text(
+            NavigationDestination(
+              icon: Icon(Icons.person_outlined),
+              selectedIcon: Icon(Icons.person),
+              label: 'Pelanggan',
+            ),
+            NavigationDestination(
+              icon: Obx(
+                () => _homeController.totalMysid.value == 0
+                    ? Icon(Icons.date_range_outlined)
+                    : Badge(
+                        badgeContent: Text(
                             '${_homeController.totalMysid.value}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          child: Icon(Icons.date_range_outlined),
-                          animationType: BadgeAnimationType.scale,
-                          animationDuration: Duration(milliseconds: 200),
+                            style: TextStyle(color: Colors.white)),
+                        child: Icon(Icons.date_range_outlined),
+                        animationType: BadgeAnimationType.scale,
+                        animationDuration: Duration(milliseconds: 200),
+                      ),
+              ),
+              selectedIcon: Obx(
+                () => _homeController.totalMysid.value == 0
+                    ? Icon(Icons.date_range)
+                    : Badge(
+                        badgeContent: Text(
+                          '${_homeController.totalMysid.value}',
+                          style: TextStyle(color: Colors.white),
                         ),
-                ),
-                selectedIcon: Obx(
-                  () => _homeController.totalMysid.value == 0
-                      ? Icon(Icons.date_range)
-                      : Badge(
-                          badgeContent: Text(
-                            '${_homeController.totalMysid.value}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          child: Icon(Icons.date_range),
-                          animationType: BadgeAnimationType.scale,
-                          animationDuration: Duration(milliseconds: 200),
-                        ),
-                ),
-                label: 'MySID',
+                        child: Icon(Icons.date_range),
+                        animationType: BadgeAnimationType.scale,
+                        animationDuration: Duration(milliseconds: 200),
+                      ),
               ),
-              NavigationDestination(
-                icon: Icon(Icons.category_outlined),
-                selectedIcon: Icon(Icons.category),
-                label: 'Parts',
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.more_horiz_outlined),
-                selectedIcon: Icon(Icons.more_horiz),
-                label: 'Lain',
-              ),
-            ],
-          ),
+              label: 'MySID',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.category_outlined),
+              selectedIcon: Icon(Icons.category),
+              label: 'Parts',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.more_horiz_outlined),
+              selectedIcon: Icon(Icons.more_horiz),
+              label: 'Lain',
+            ),
+          ],
         );
       }),
     );

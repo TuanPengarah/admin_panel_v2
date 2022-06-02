@@ -12,7 +12,6 @@ class CustomerInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      physics: BouncingScrollPhysics(),
       slivers: [
         SliverAppBar(
           expandedHeight: 180.0,
@@ -133,7 +132,9 @@ class CustomerInfoPage extends StatelessWidget {
                               : Icons.phone,
                           pressed: () {
                             if (_overviewController.isEdit.value != true) {
-                              _overviewController.showSheet(_data[3]);
+                              if (_data[3] != '')
+                                _overviewController.showSheet(
+                                    _data[3], _data[1]);
                             } else {
                               _overviewController.editPhone();
                             }

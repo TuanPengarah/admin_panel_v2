@@ -86,7 +86,6 @@ class RepairHistoryPage extends StatelessWidget {
               Expanded(
                 child: AnimationLimiter(
                   child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
                     itemCount: _historyController.items.length,
                     itemBuilder: (context, int i) {
                       var doc = _historyController.items[i];

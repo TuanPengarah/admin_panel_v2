@@ -55,19 +55,17 @@ class TechnicianInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ProfileAvatar().profile(
-                context: context,
+              ProfileAvatar(
                 name: _data['name'],
                 photoURL: _data['photoURL'],
                 email: _data['email'],
                 jawatan: _data['jawatan'],
+                cawangan: _data['cawangan'],
               ),
-              SizedBox(height: 30),
-              ProfileAvatar().yourRecord(
-                context,
-                _data['jumlahRepair'],
-                _data['jumlahKeuntungan'],
-                false,
+              YourRecord(
+                isMy: false,
+                jumlahKeuntungan: _data['jumlahKeuntungan'],
+                jumlahRepair: _data['jumlahRepair'],
               ),
               SizedBox(height: 30),
               TextButton(

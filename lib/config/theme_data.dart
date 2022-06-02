@@ -34,6 +34,7 @@ class MyThemes {
 
   void setDarkMode() {
     Haptic.feedbackClick();
+
     Get.changeThemeMode(ThemeMode.dark);
     _saveThemeToBox(true);
     _saveThemeSystem(false);
@@ -41,6 +42,7 @@ class MyThemes {
 
   void setLightMode() {
     Haptic.feedbackClick();
+
     Get.changeThemeMode(ThemeMode.light);
     _saveThemeToBox(false);
     _saveThemeSystem(false);
@@ -57,7 +59,7 @@ class MyThemes {
     return ThemeData(
       useMaterial3: true,
       colorScheme: color,
-      scaffoldBackgroundColor: lightColorScheme.surface, //Color(0xfffdfcff),
+      scaffoldBackgroundColor: color.background, //Color(0xfffdfcff),
       cardTheme: CardTheme(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
@@ -65,6 +67,13 @@ class MyThemes {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all<Color>(
+              Get.theme.colorScheme.onTertiary),
+          backgroundColor:
+              MaterialStateProperty.all<Color>(Get.theme.colorScheme.tertiary),
+          shadowColor:
+              MaterialStateProperty.all<Color>(Get.theme.colorScheme.tertiary),
+          elevation: MaterialStateProperty.all<double>(7),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -87,20 +96,20 @@ class MyThemes {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: Colors.blue,
+            color: color.primary,
             width: 2,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: Colors.amber.shade900,
+            color: color.error,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: Colors.amber.shade900,
+            color: color.error,
             width: 2,
           ),
         ),
@@ -154,25 +163,25 @@ class MyThemes {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: Colors.blueGrey,
+            color: color.primary,
             width: 2,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: Colors.amber.shade900,
+            color: color.error,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: Colors.amber.shade900,
+            color: color.error,
             width: 2,
           ),
         ),
         errorStyle: TextStyle(
-          color: Colors.amber.shade900,
+          color: color.error,
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -10,6 +10,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../controller/customer_search.dart';
+
 class CustomerPage extends StatelessWidget {
   final isGrab;
   CustomerPage(this.isGrab);
@@ -18,309 +20,294 @@ class CustomerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Obx(
-          () => _customerController.isSearch.value == false
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Pelanggan'),
-                    SizedBox(height: 3),
-                    Text(
-                      Get.size.width < 300
-                          ? 'Jumlah keseluruhan pelanggan: ${_customerController.customerListRead.value}'
-                          : '${_customerController.customerListRead.value} Pelanggan',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                )
-              : Theme(
-                  data: Theme.of(context).copyWith(
-                      textSelectionTheme: TextSelectionThemeData(
-                          selectionColor: Colors.white54)),
-                  child: TextField(
-                    controller: _customerController.searchController,
-                    autofocus: true,
-                    style: TextStyle(color: Colors.white),
-                    textInputAction: TextInputAction.search,
-                    cursorColor: Colors.white,
-                    onChanged: (text) =>
-                        _customerController.getCustomerDetails(),
-                    decoration: InputDecoration(
-                      hoverColor: Colors.white,
-                      focusColor: Colors.white,
-                      fillColor: Colors.white,
-                      hintText: 'Cari Pelanggan...',
-                      hintStyle: TextStyle(color: Colors.white60),
-                      filled: false,
-                      border: UnderlineInputBorder(),
-                      enabledBorder: UnderlineInputBorder(),
-                      focusedBorder: UnderlineInputBorder(),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 150,
+              leading: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.person_outlined),
+                  Text(
+                    '${_customerController.customerListRead.value}',
+                    style: TextStyle(fontSize: 10),
+                  )
+                ],
+              ),
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+                  'Pelanggan',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.inverseSurface),
+                ),
+              ),
+              actions: [
+                Obx(
+                  () => IconButton(
+                    onPressed: () {
+                      showSearch(context: context, delegate: CustomerSearch());
+                    },
+                    icon: Icon(
+                      _customerController.isSearch.value == false
+                          ? Icons.search
+                          : Icons.close,
                     ),
                   ),
                 ),
-        ),
-        actions: [
-          Obx(
-            () => IconButton(
-              onPressed: () => _customerController.clickSearch(),
-              icon: Icon(
-                _customerController.isSearch.value == false
-                    ? Icons.search
-                    : Icons.close,
-              ),
-            ),
-          ),
-          PopupMenuButton<IconMenu>(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            icon: Icon(Icons.sort),
-            onSelected: (value) {
-              _customerController.sorting(value);
-              _customerController.currentlySelected = value.text;
-              _customerController.box.write('sortCustomer', value.text);
-            },
-            itemBuilder: (context) => PopupSortMenu.items
-                .map(
-                  (i) => PopupMenuItem<IconMenu>(
-                    value: i,
-                    child: ListTile(
-                      leading: Icon(
-                        i.icon,
-                        color: _customerController.currentlySelected == i.text
-                            ? Get.theme.iconTheme.color
-                            : Colors.grey,
-                      ),
-                      title: Text(
-                        i.text,
-                        style: TextStyle(
-                            color:
-                                _customerController.currentlySelected == i.text
-                                    ? Get.theme.textTheme.bodyText1.color
-                                    : Colors.grey,
-                            fontWeight:
-                                _customerController.currentlySelected == i.text
-                                    ? FontWeight.bold
-                                    : FontWeight.normal),
-                      ),
-                    ),
+                PopupMenuButton<IconMenu>(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                )
-                .toList(),
-          ),
-          isGrab == false
-              ? IconButton(
-                  onPressed: () {
-                    Haptic.feedbackClick();
-                    Get.toNamed(MyRoutes.jobsheet,
-                        arguments: [false, '', '', '', '']);
+                  icon: Icon(Icons.sort),
+                  onSelected: (value) {
+                    _customerController.sorting(value);
+                    _customerController.currentlySelected = value.text;
+                    _customerController.box.write('sortCustomer', value.text);
                   },
-                  icon: Icon(
-                    Icons.add,
-                  ),
-                )
-              : const SizedBox(),
-        ],
-      ),
-      body: GetBuilder<CustomerController>(
-        builder: (_) {
-          return _customerController.status.value != ''
-              ? Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                          'Uh Oh! Kesalahan telah berlaku:\n${_customerController.status.value}',
-                          textAlign: TextAlign.center),
-                      TextButton(
-                        onPressed: () async {
-                          await _customerController.getCustomerDetails();
-                          Haptic.feedbackSuccess();
-                        },
-                        child: Text(
-                          'Muat Semula',
+                  itemBuilder: (context) => PopupSortMenu.items
+                      .map(
+                        (i) => PopupMenuItem<IconMenu>(
+                          value: i,
+                          child: ListTile(
+                            leading: Icon(
+                              i.icon,
+                              color: _customerController.currentlySelected ==
+                                      i.text
+                                  ? Get.theme.iconTheme.color
+                                  : Colors.grey,
+                            ),
+                            title: Text(
+                              i.text,
+                              style: TextStyle(
+                                  color:
+                                      _customerController.currentlySelected ==
+                                              i.text
+                                          ? Get.theme.textTheme.bodyText1.color
+                                          : Colors.grey,
+                                  fontWeight:
+                                      _customerController.currentlySelected ==
+                                              i.text
+                                          ? FontWeight.bold
+                                          : FontWeight.normal),
+                            ),
+                          ),
                         ),
                       )
-                    ],
-                  ),
-                )
-              : _customerController.isSearch.value == true &&
-                      _customerController.customerList.length == 0
-                  ? Center(
-                      child: Column(
+                      .toList(),
+                ),
+                isGrab == false
+                    ? IconButton(
+                        onPressed: () {
+                          Haptic.feedbackClick();
+                          Get.toNamed(MyRoutes.jobsheet,
+                              arguments: [false, '', '', '', '']);
+                        },
+                        icon: Icon(
+                          Icons.add,
+                        ),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
+          ];
+        },
+        body: GetBuilder<CustomerController>(builder: (_) {
+          return FutureBuilder(
+              future: _customerController.getCust,
+              initialData: 5,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return ListView.builder(
+                      keyboardDismissBehavior:
+                          ScrollViewKeyboardDismissBehavior.onDrag,
+                      itemCount: 20,
+                      itemBuilder: (context, i) {
+                        return Shimmer.fromColors(
+                          baseColor: Get.isDarkMode
+                              ? Colors.grey[900]
+                              : Colors.black26,
+                          highlightColor: Get.isDarkMode
+                              ? Colors.grey[700]
+                              : Colors.grey.shade400,
+                          child: ListTile(
+                            leading: CircleAvatar(),
+                            title: Container(
+                              height: 10,
+                              width: double.infinity,
+                              color: Colors.grey[50],
+                            ),
+                            subtitle: Container(
+                              height: 8,
+                              width: 35,
+                              color: Colors.grey[50],
+                            ),
+                          ),
+                        );
+                      });
+                }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.person_search,
-                            size: 150, color: Colors.grey),
-                        SizedBox(height: 10),
                         Text(
-                          'Pelanggan tidak dapat ditemui!',
-                          style: TextStyle(
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ))
-                  : _customerController.customerList.length == 0
-                      ? ListView.builder(
-                          itemCount: 20,
-                          itemBuilder: (context, i) {
-                            return Shimmer.fromColors(
-                              baseColor: Get.isDarkMode
-                                  ? Colors.grey[900]
-                                  : Colors.black26,
-                              highlightColor: Get.isDarkMode
-                                  ? Colors.grey[700]
-                                  : Colors.grey.shade400,
-                              child: ListTile(
-                                leading: CircleAvatar(),
-                                title: Container(
-                                  height: 10,
-                                  width: double.infinity,
-                                  color: Colors.grey[50],
-                                ),
-                                subtitle: Container(
-                                  height: 8,
-                                  width: 35,
-                                  color: Colors.grey[50],
-                                ),
-                              ),
-                            );
-                          })
-                      : RefreshIndicator(
-                          onRefresh: () async {
+                            'Uh Oh! Kesalahan telah berlaku:\n${_customerController.status.value}',
+                            textAlign: TextAlign.center),
+                        TextButton(
+                          onPressed: () async {
                             await _customerController.getCustomerDetails();
                             Haptic.feedbackSuccess();
                           },
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: _customerController.customerList.length,
-                            itemBuilder: (BuildContext context, int i) {
-                              var customer =
-                                  _customerController.customerList[i];
-                              var image = customer['photoURL'];
-                              return Slidable(
-                                startActionPane: ActionPane(
-                                  motion: ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      backgroundColor: Get
-                                          .theme.colorScheme.primaryContainer,
-                                      label: 'Hubungi',
-                                      icon: Icons.phone,
-                                      onPressed: (_) {
-                                        _customerController
-                                            .launchCaller(customer['No Phone']);
-                                      },
-                                    ),
-                                    SlidableAction(
-                                        backgroundColor: Get.theme.colorScheme
-                                            .onPrimaryContainer,
-                                        label: 'Mesej',
-                                        icon: Icons.sms,
-                                        onPressed: (_) {
-                                          _customerController
-                                              .launchSms(customer['No Phone']);
-                                        }),
-                                  ],
-                                ),
-                                endActionPane: ActionPane(
-                                  motion: ScrollMotion(),
-                                  children: [
-                                    SlidableAction(
-                                      backgroundColor: Get
-                                          .theme.colorScheme.tertiaryContainer,
-                                      label: 'Jobsheet',
-                                      icon: Icons.receipt_long,
-                                      onPressed: (_) =>
-                                          _customerController.addToJobsheet(
-                                              customer['Nama'],
-                                              customer['No Phone'],
-                                              customer['Email'],
-                                              customer['UID']),
-                                    ),
-                                    SlidableAction(
-                                        backgroundColor: Get
-                                            .theme.colorScheme.onErrorContainer,
-                                        label: 'Buang',
-                                        icon: Icons.delete,
-                                        onPressed: (_) {
-                                          Haptic.feedbackError();
-                                          _customerController.deleteUser(
-                                              customer['UID'],
-                                              customer['Nama']);
-                                        })
-                                  ],
-                                ),
-                                child: ListTile(
-                                  onTap: () {
-                                    if (isGrab == false) {
-                                      Haptic.feedbackClick();
-                                      Get.toNamed(
-                                        MyRoutes.overview,
-                                        arguments: [
-                                          customer['UID'],
-                                          customer['Nama'],
-                                          customer['photoURL'],
-                                          customer['No Phone'],
-                                          customer['Email'],
-                                          customer['Points'],
-                                          customer['timeStamp'],
-                                        ],
-                                      );
-                                    } else {
-                                      final smsController =
-                                          Get.put(SMSController());
-                                      if (smsController.recipientText.text ==
-                                          '') {
-                                        smsController.recipientText.text +=
-                                            '6${customer['No Phone']}';
-                                      } else {
-                                        smsController.recipientText.text +=
-                                            ',6${customer['No Phone']}';
-                                      }
-
-                                      Get.back();
-                                    }
-                                  },
-                                  leading: Hero(
-                                    tag: customer['UID'],
-                                    child: SingleChildScrollView(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      child: AdvancedAvatar(
-                                        size: 35,
-                                        name: customer['Nama'],
-                                        image:
-                                            ExtendedNetworkImageProvider(image),
-                                        decoration: BoxDecoration(
-                                          color: Get
-                                              .theme.colorScheme.surfaceVariant,
-                                          borderRadius:
-                                              BorderRadius.circular(200),
-                                        ),
-                                        style: TextStyle(
-                                          color: Get.theme.colorScheme
-                                              .onSurfaceVariant,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  title: Text(customer['Nama']),
-                                  subtitle: Text(customer['No Phone'] == ''
-                                      ? '--'
-                                      : customer['No Phone']),
-                                ),
-                              );
-                            },
+                          child: Text(
+                            'Muat Semula',
                           ),
-                        );
+                        )
+                      ],
+                    ),
+                  );
+                }
+                if (_customerController.customerList.isEmpty) {
+                  return Center(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.person_search, size: 150, color: Colors.grey),
+                      SizedBox(height: 10),
+                      Text(
+                        'Pelanggan tidak dapat ditemui!',
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ));
+                }
+
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await _customerController.getCustomerDetails();
+                    Haptic.feedbackSuccess();
+                  },
+                  child: ListView.builder(
+                    keyboardDismissBehavior:
+                        ScrollViewKeyboardDismissBehavior.onDrag,
+                    itemCount: _customerController.customerList.length,
+                    itemBuilder: (BuildContext context, int i) {
+                      var customer = _customerController.customerList[i];
+                      var image = customer['photoURL'];
+                      return customerTiles(customer, image);
+                    },
+                  ),
+                );
+              });
+        }),
+      ),
+    );
+  }
+
+  Slidable customerTiles(customer, image) {
+    return Slidable(
+      startActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            backgroundColor: Get.theme.colorScheme.primaryContainer,
+            foregroundColor: Get.theme.colorScheme.onPrimaryContainer,
+            label: 'Hubungi',
+            icon: Icons.phone,
+            onPressed: (_) {
+              _customerController.launchCaller(customer['No Phone']);
+            },
+          ),
+          SlidableAction(
+              backgroundColor: Get.theme.colorScheme.onPrimaryContainer,
+              foregroundColor: Get.theme.colorScheme.primaryContainer,
+              label: 'Mesej',
+              icon: Icons.sms,
+              onPressed: (_) {
+                _customerController.launchSms(customer['No Phone']);
+              }),
+        ],
+      ),
+      endActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            backgroundColor: Get.theme.colorScheme.tertiaryContainer,
+            foregroundColor: Get.theme.colorScheme.tertiary,
+            label: 'Jobsheet',
+            icon: Icons.receipt_long,
+            onPressed: (_) => _customerController.addToJobsheet(
+                customer['Nama'],
+                customer['No Phone'],
+                customer['Email'],
+                customer['UID']),
+          ),
+          SlidableAction(
+              backgroundColor: Get.theme.colorScheme.onErrorContainer,
+              foregroundColor: Get.theme.colorScheme.onError,
+              label: 'Buang',
+              icon: Icons.delete,
+              onPressed: (_) {
+                Haptic.feedbackError();
+                _customerController.deleteUser(
+                    customer['UID'], customer['Nama']);
+              })
+        ],
+      ),
+      child: ListTile(
+        onTap: () {
+          if (isGrab == false) {
+            Haptic.feedbackClick();
+            Get.toNamed(
+              MyRoutes.overview,
+              arguments: [
+                customer['UID'],
+                customer['Nama'],
+                customer['photoURL'],
+                customer['No Phone'],
+                customer['Email'],
+                customer['Points'],
+                customer['timeStamp'],
+              ],
+            );
+          } else {
+            final smsController = Get.put(SMSController());
+            if (smsController.recipientText.text == '') {
+              smsController.recipientText.text += '6${customer['No Phone']}';
+            } else {
+              smsController.recipientText.text += ',6${customer['No Phone']}';
+            }
+
+            Get.back();
+          }
         },
+        leading: Hero(
+          tag: customer['UID'],
+          child: SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            child: AdvancedAvatar(
+              size: 35,
+              name: customer['Nama'],
+              image: ExtendedNetworkImageProvider(image),
+              decoration: BoxDecoration(
+                color: Get.theme.colorScheme.surfaceVariant,
+                borderRadius: BorderRadius.circular(200),
+              ),
+              style: TextStyle(
+                color: Get.theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+        ),
+        title: Text(customer['Nama']),
+        subtitle:
+            Text(customer['No Phone'] == '' ? '--' : customer['No Phone']),
       ),
     );
   }

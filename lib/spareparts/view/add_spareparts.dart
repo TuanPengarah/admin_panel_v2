@@ -94,22 +94,6 @@ class AddSparepart extends StatelessWidget {
                                   Expanded(
                                     child: ElevatedButton(
                                       onPressed: details.onStepContinue,
-                                      style: ButtonStyle(
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(Get
-                                                .theme
-                                                .colorScheme
-                                                .onInverseSurface),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Get.theme.colorScheme.tertiary),
-                                        shadowColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Get.theme.colorScheme.tertiary),
-                                        elevation:
-                                            MaterialStateProperty.all<double>(
-                                                7),
-                                      ),
                                       child: Text(
                                         _controller.currentSteps.value == 7
                                             ? 'Selesai'

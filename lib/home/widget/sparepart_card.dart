@@ -89,15 +89,6 @@ class SparepartsCard extends StatelessWidget {
                       padding: const EdgeInsets.all(13.0),
                       child: Text('Tambah Spareparts'),
                     ),
-                    style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          Get.theme.colorScheme.onInverseSurface),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Get.theme.colorScheme.tertiary),
-                      shadowColor: MaterialStateProperty.all<Color>(
-                          Get.theme.colorScheme.tertiary),
-                      elevation: MaterialStateProperty.all<double>(7),
-                    ),
                   ),
                 )
               : Container(),
