@@ -49,6 +49,15 @@ class DashboardCardMonths extends StatelessWidget {
                       onPressed: () => Get.toNamed(MyRoutes.monthlyRecord),
                       label: Text('Lihat Rekod Mengikut Bulan '),
                       icon: Icon(Icons.read_more),
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.onTertiary),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.tertiary),
+                        shadowColor: MaterialStateProperty.all<Color>(
+                            Get.theme.colorScheme.tertiary),
+                        elevation: MaterialStateProperty.all<double>(7),
+                      ),
                     )
                   : isDashboard == true
                       ? Container()

@@ -408,10 +408,7 @@ class PriceListController extends GetxController {
                               true);
                         }
                       },
-                      icon: Icon(
-                        Icons.add,
-                        color: Get.theme.primaryColor,
-                      ),
+                      icon: Icon(Icons.add),
                     ),
                   ),
                   Text(

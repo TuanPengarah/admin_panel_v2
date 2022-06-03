@@ -40,6 +40,7 @@ class HistorySparepartsView extends StatelessWidget {
                       SizedBox(height: 10),
                       Text(
                         'Tiada sejarah penambahan Spareparts ditemui!',
+                        textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.grey),
                       ),
                     ],

@@ -35,55 +35,7 @@ class ListSpareparts extends StatelessWidget {
                         duration: const Duration(milliseconds: 400),
                         child: SlideAnimation(
                           child: FadeInAnimation(
-                            child: ListTile(
-                                leading: Hero(
-                                  tag: spareparts.id,
-                                  child: CircleAvatar(
-                                    backgroundColor:
-                                        Get.theme.colorScheme.surfaceVariant,
-                                    child: Text(
-                                      spareparts.supplier == 'Lain...'
-                                          ? '...'
-                                          : '${spareparts.supplier}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Get
-                                            .theme.colorScheme.onSurfaceVariant,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                title: Text(
-                                    '${spareparts.jenisSpareparts} ${spareparts.model} (${spareparts.kualiti})'),
-                                subtitle: Text(spareparts.maklumatSpareparts),
-                                trailing: Text('RM${spareparts.harga}'),
-                                onTap: () {
-                                  print(spareparts.partsID);
-                                  _sparepartsController.isSearch.value = false;
-                                  if (_data == null) {
-                                    var arguments = {
-                                      'Model': spareparts.model,
-                                      'Kualiti': spareparts.kualiti,
-                                      'Jenis Spareparts':
-                                          spareparts.jenisSpareparts,
-                                      'Tarikh': spareparts.tarikh,
-                                      'Harga': spareparts.harga,
-                                      'Supplier': spareparts.supplier,
-                                      'Maklumat Spareparts':
-                                          spareparts.maklumatSpareparts,
-                                    };
-                                    _sparepartsController.goToDetails(
-                                        arguments, spareparts.id);
-                                  } else {
-                                    final data = {
-                                      'model':
-                                          '${spareparts.jenisSpareparts} ${spareparts.model} (${spareparts.kualiti})',
-                                      'id': spareparts.id,
-                                      'harga': spareparts.harga,
-                                    };
-                                    Get.back(result: data);
-                                  }
-                                }),
+                            child: listSpareparts(spareparts),
                           ),
                         ),
                       );
@@ -133,5 +85,52 @@ class ListSpareparts extends StatelessWidget {
               ],
             ),
           );
+  }
+
+  ListTile listSpareparts(Spareparts spareparts) {
+    return ListTile(
+        leading: Hero(
+          tag: spareparts.id,
+          child: CircleAvatar(
+            backgroundColor: Get.theme.colorScheme.surfaceVariant,
+            child: Text(
+              spareparts.supplier == 'Lain...'
+                  ? '...'
+                  : '${spareparts.supplier}',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Get.theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+        ),
+        title: Text(
+            '${spareparts.jenisSpareparts} ${spareparts.model} (${spareparts.kualiti})'),
+        subtitle: Text(spareparts.maklumatSpareparts),
+        trailing: Text('RM${spareparts.harga}'),
+        onTap: () {
+          print(spareparts.partsID);
+          _sparepartsController.isSearch.value = false;
+          if (_data == null) {
+            var arguments = {
+              'Model': spareparts.model,
+              'Kualiti': spareparts.kualiti,
+              'Jenis Spareparts': spareparts.jenisSpareparts,
+              'Tarikh': spareparts.tarikh,
+              'Harga': spareparts.harga,
+              'Supplier': spareparts.supplier,
+              'Maklumat Spareparts': spareparts.maklumatSpareparts,
+            };
+            _sparepartsController.goToDetails(arguments, spareparts.id);
+          } else {
+            final data = {
+              'model':
+                  '${spareparts.jenisSpareparts} ${spareparts.model} (${spareparts.kualiti})',
+              'id': spareparts.id,
+              'harga': spareparts.harga,
+            };
+            Get.back(result: data);
+          }
+        });
   }
 }
