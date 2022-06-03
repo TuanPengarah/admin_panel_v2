@@ -81,6 +81,7 @@ class CustomerSearch extends SearchDelegate {
                 const SizedBox(height: 10),
                 const Text(
                   'Anda boleh cari nama atau nombor telefon pelanggan',
+                  textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.grey,
                   ),

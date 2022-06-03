@@ -26,6 +26,7 @@ class CustomerPage extends StatelessWidget {
             SliverAppBar(
               pinned: true,
               expandedHeight: 150,
+              centerTitle: false,
               leading: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -38,6 +39,7 @@ class CustomerPage extends StatelessWidget {
                 ],
               ),
               flexibleSpace: FlexibleSpaceBar(
+                centerTitle: false,
                 title: Text(
                   'Pelanggan',
                   style: TextStyle(

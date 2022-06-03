@@ -112,7 +112,7 @@ class JobsheetView extends StatelessWidget {
                                           foregroundColor:
                                               MaterialStateProperty.all<Color>(
                                                   Get.theme.colorScheme
-                                                      .onInverseSurface),
+                                                      .onTertiary),
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
                                                   Get.theme.colorScheme

@@ -26,7 +26,7 @@ class SettingPage extends StatelessWidget {
             snap: false,
             pinned: false,
             floating: false,
-            expandedHeight: 180,
+            expandedHeight: Get.mediaQuery.size.width >= 640 ? 180 : 290,
             flexibleSpace: FlexibleSpaceBar(
               background: Center(
                 child: Column(

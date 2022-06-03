@@ -30,66 +30,101 @@ class ProfileAvatar extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  AdvancedAvatar(
-                    size: 120,
-                    name: name,
-                    image: ExtendedNetworkImageProvider(photoURL, cache: true),
-                    style: TextStyle(
-                        fontSize: 50,
-                        color: Theme.of(context).colorScheme.onBackground),
-                    decoration: BoxDecoration(
-                      color: Get.theme.colorScheme.secondaryContainer,
-                      borderRadius: BorderRadius.circular(200),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '$name',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
+              Get.mediaQuery.size.width >= 700
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        AdvancedAvatar(
+                          size: 120,
+                          name: name,
+                          image: ExtendedNetworkImageProvider(photoURL,
+                              cache: true),
+                          style: TextStyle(
+                              fontSize: 50,
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                          decoration: BoxDecoration(
+                            color: Get.theme.colorScheme.secondaryContainer,
+                            borderRadius: BorderRadius.circular(200),
+                          ),
                         ),
-                      ),
-                      Text(
-                        '$jawatan',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      // Text(
-                      //   '$email',
-                      // ),
-                      const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on_outlined,
-                            size: 18,
-                            color: Get.theme.colorScheme.secondary,
+                        const SizedBox(width: 20),
+                        _details(),
+                      ],
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        AdvancedAvatar(
+                          size: 120,
+                          name: name,
+                          image: ExtendedNetworkImageProvider(photoURL,
+                              cache: true),
+                          style: TextStyle(
+                              fontSize: 50,
+                              color:
+                                  Theme.of(context).colorScheme.onBackground),
+                          decoration: BoxDecoration(
+                            color: Get.theme.colorScheme.secondaryContainer,
+                            borderRadius: BorderRadius.circular(200),
                           ),
-                          const SizedBox(width: 5),
-                          Text(
-                            '$cawangan',
-                            style: TextStyle(
-                              color: Get.theme.colorScheme.secondary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                        ),
+                        _details(),
+                      ],
+                    ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Column _details() {
+    return Column(
+      mainAxisAlignment: Get.mediaQuery.size.width >= 700
+          ? MainAxisAlignment.start
+          : MainAxisAlignment.center,
+      crossAxisAlignment: Get.mediaQuery.size.width >= 700
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.center,
+      children: [
+        Text(
+          '$name',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+          ),
+        ),
+        Text(
+          '$jawatan',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: Get.mediaQuery.size.width >= 700
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.center,
+          crossAxisAlignment: Get.mediaQuery.size.width >= 700
+              ? CrossAxisAlignment.start
+              : CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.location_on_outlined,
+              size: 18,
+              color: Get.theme.colorScheme.secondary,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              '$cawangan',
+              style: TextStyle(
+                color: Get.theme.colorScheme.secondary,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

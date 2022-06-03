@@ -26,7 +26,12 @@ class GraphController extends GetxController {
 
   double pengiraanPercentBulanan(double bulanIni, double bulanLepas) {
     double jawapan;
-    jawapan = bulanIni / bulanLepas * 100;
+    double first;
+    //Formula
+    //(Bulan ini - Bulan Lepas) x 100 / Bulan Lepas
+    first = bulanIni - bulanLepas;
+    jawapan = first / bulanLepas * 100;
+    // jawapan = bulanIni / bulanLepas * 100;
     return jawapan;
   }
 

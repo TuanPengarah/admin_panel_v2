@@ -36,7 +36,7 @@ class DashboardCardAll extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Wrap(
-                spacing: 15,
+                spacing: Get.mediaQuery.size.width >= 640 ? 15 : 5,
                 runSpacing: 15,
                 children: [
                   Obx(() {
@@ -75,6 +75,15 @@ class DashboardCardAll extends StatelessWidget {
                           Haptic.feedbackClick();
                           Get.toNamed(MyRoutes.allrecord);
                         },
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Get.theme.colorScheme.onTertiary),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Get.theme.colorScheme.tertiary),
+                          shadowColor: MaterialStateProperty.all<Color>(
+                              Get.theme.colorScheme.tertiary),
+                          elevation: MaterialStateProperty.all<double>(7),
+                        ),
                         label: Text('Lihat Kesemua Rekod'),
                         icon: Icon(Icons.list_alt_rounded),
                       ),

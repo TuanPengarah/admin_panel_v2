@@ -85,6 +85,15 @@ class SparepartsCard extends StatelessWidget {
                       Get.toNamed(MyRoutes.sparepartsAdd);
                     },
                     icon: Icon(Icons.add),
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Get.theme.colorScheme.onTertiary),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Get.theme.colorScheme.tertiary),
+                      shadowColor: MaterialStateProperty.all<Color>(
+                          Get.theme.colorScheme.tertiary),
+                      elevation: MaterialStateProperty.all<double>(7),
+                    ),
                     label: Padding(
                       padding: const EdgeInsets.all(13.0),
                       child: Text('Tambah Spareparts'),

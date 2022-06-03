@@ -77,11 +77,8 @@ class DashboardPage extends StatelessWidget {
                                 }),
                                 Obx(() => Text.rich(
                                       TextSpan(
-                                        text: _graphController
-                                                    .percentBulanan.value >=
-                                                0
-                                            ? '${_graphController.percentBulanan.value.toStringAsFixed(2)}%'
-                                            : '-${_graphController.percentBulanan.value.toStringAsFixed(2)}%',
+                                        text:
+                                            '${_graphController.percentBulanan.value.toStringAsFixed(2)}%',
                                         style: TextStyle(
                                           fontSize: 12.2,
                                           color: _graphController

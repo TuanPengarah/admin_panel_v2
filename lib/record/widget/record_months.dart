@@ -14,7 +14,7 @@ class DashboardCardMonths extends StatelessWidget {
   Widget build(BuildContext context) {
     final _graphController = Get.find<GraphController>();
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 18),
+      margin: EdgeInsets.symmetric(horizontal: 5),
       child: Container(
         width: Get.width,
         child: Padding(
@@ -23,14 +23,15 @@ class DashboardCardMonths extends StatelessWidget {
             children: [
               Text(
                 'Rekod Data Bulan ${_graphController.checkMonthsMalay(bulan)}',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Wrap(
-                spacing: 15,
+                spacing: Get.mediaQuery.size.width >= 640 ? 15 : 5,
                 runSpacing: 15,
                 alignment: WrapAlignment.center,
                 children: [
@@ -51,24 +52,42 @@ class DashboardCardMonths extends StatelessWidget {
                     )
                   : isDashboard == true
                       ? Container()
-                      : ElevatedButton.icon(
-                          onPressed: () {
-                            var payload = {
-                              'bulan': bulan,
-                              'untungKasar':
-                                  _graphController.getUntungKasar(bulan),
-                              'untungBersih':
-                                  _graphController.getUntungBersih(bulan),
-                              'modal': _graphController
-                                  .getMonthsHargajual(bulan)
-                                  .toDouble(),
-                            };
-                            Haptic.feedbackClick();
-                            Get.toNamed(MyRoutes.cashflowStatement,
-                                arguments: payload);
-                          },
-                          icon: Icon(Icons.picture_as_pdf),
-                          label: Text('Hasilkan Cash Flow Statement'),
+                      : SizedBox(
+                          // width: Get.width,
+                          height: 45,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              var payload = {
+                                'bulan': bulan,
+                                'untungKasar':
+                                    _graphController.getUntungKasar(bulan),
+                                'untungBersih':
+                                    _graphController.getUntungBersih(bulan),
+                                'modal': _graphController
+                                    .getMonthsHargajual(bulan)
+                                    .toDouble(),
+                              };
+                              Haptic.feedbackClick();
+                              Get.toNamed(MyRoutes.cashflowStatement,
+                                  arguments: payload);
+                            },
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Get.theme.colorScheme.onTertiary),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Get.theme.colorScheme.tertiary),
+                              shadowColor: MaterialStateProperty.all<Color>(
+                                  Get.theme.colorScheme.tertiary),
+                              elevation: MaterialStateProperty.all<double>(7),
+                            ),
+                            // icon: Icon(Icons.picture_as_pdf),
+                            child: Center(
+                              child: Text(
+                                'Hasilkan Cash Flow Statement',
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
                         ),
             ],
           ),
