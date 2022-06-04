@@ -119,7 +119,6 @@ class CustomerPage extends StatelessWidget {
         body: GetBuilder<CustomerController>(builder: (_) {
           return FutureBuilder(
               future: _customerController.getCust,
-              initialData: 5,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return ListView.builder(

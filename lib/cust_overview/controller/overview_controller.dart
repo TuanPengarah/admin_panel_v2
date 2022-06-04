@@ -326,7 +326,7 @@ class OverviewController extends GetxController {
     String phone = noFon.contains('+6') ? noFon : '+6$noFon';
     final url = GetPlatform.isAndroid
         ? "whatsapp://send?phone=$phone&text=Salam $nama!"
-        : "whatsapp://wa.me/$phone/?text=Salam $nama!";
+        : "https://wa.me/$phone/?text=Salam $nama!";
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {

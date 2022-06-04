@@ -24,20 +24,19 @@ class CustomerController extends GetxController {
 
   @override
   void onInit() {
-    getCust = getCustomerDetails();
-    initSorting(box.read('sortCustomer') ?? 'Mengikut abjad A-Z');
-    getCustomerDetails();
+    getCust = initSorting(box.read('sortCustomer') ?? 'Mengikut abjad A-Z');
     super.onInit();
   }
 
-  void initSorting(String value) {
+  Future<void> initSorting(String value) async {
+    debugPrint('sorting...');
     switch (value) {
       case 'Mengikut abjad A-Z':
         descending.value = false;
         currentlySelected = value;
         Haptic.feedbackClick();
         orderBy = 'Nama';
-        getCustomerDetails();
+        await getCustomerDetails();
         update();
         break;
       case 'Mengikut abjad Z-A':
@@ -45,7 +44,7 @@ class CustomerController extends GetxController {
         descending.value = true;
         currentlySelected = value;
         orderBy = 'Nama';
-        getCustomerDetails();
+        await getCustomerDetails();
         update();
         break;
       case 'Susun mengikut masa':
@@ -53,7 +52,7 @@ class CustomerController extends GetxController {
         orderBy = 'timeStamp';
         descending.value = true;
         currentlySelected = value;
-        getCustomerDetails();
+        await getCustomerDetails();
         update();
         break;
     }
