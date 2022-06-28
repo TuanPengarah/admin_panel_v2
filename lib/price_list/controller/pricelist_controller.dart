@@ -200,9 +200,9 @@ class PriceListController extends GetxController {
   }
 
   Future<String> getPriceList() async {
-    var connect = await ConnectivityWrapper.instance.isConnected;
-    bool adaInternet = connect;
     try {
+      var connect = await ConnectivityWrapper.instance.isConnected;
+      bool adaInternet = connect;
       if (adaInternet == true) {
         var data = await PriceListApi.getAll().timeout(Duration(seconds: 10),
             onTimeout: () {

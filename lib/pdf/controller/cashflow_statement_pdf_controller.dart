@@ -55,10 +55,14 @@ class CashFlowStatementController extends GetxController {
     });
     cashFlow..sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
     cashFlow.forEach((e) {
-      if (e.isSpareparts == true && e.isModal == true) {
+      if (e.isSpareparts == true &&
+          e.isModal == true &&
+          e.isJualPhone == true) {
         jumlahBukanSparepartsOut += e.jumlah;
       }
-      if (e.isSpareparts == true && e.isModal == false) {
+      if (e.isSpareparts == true &&
+          e.isModal == false &&
+          e.isJualPhone == true) {
         jumlahBukanSparepartsIn += e.jumlah;
       }
       if (e.isSpareparts == false && e.isModal == true) {

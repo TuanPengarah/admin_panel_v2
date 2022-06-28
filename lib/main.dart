@@ -1,7 +1,6 @@
 import 'package:admin_panel/config/color_scheme.dart';
 import 'package:admin_panel/config/initial_binding.dart';
 import 'package:admin_panel/config/mouse_drag.dart';
-import 'package:admin_panel/firebase_options.dart';
 import 'package:admin_panel/price_list/model/price_list_api.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,12 +22,9 @@ Future<void> _firebaseMessagingBackground(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (GetPlatform.isMacOS) {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.macos);
-  } else {
-    await Firebase.initializeApp();
-    await GetStorage.init();
-  }
+  await Firebase.initializeApp();
+  await GetStorage.init();
+
   bool _isLogin = false;
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
