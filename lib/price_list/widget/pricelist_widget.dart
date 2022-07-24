@@ -6,7 +6,6 @@ import 'package:admin_panel/price_list/model/pricelist_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TabPriceList extends StatelessWidget {
@@ -146,7 +145,7 @@ class TabPriceList extends StatelessWidget {
                   children: [
                     const Spacer(),
                     const Icon(
-                      LineIcons.exclamationTriangle,
+                      Icons.warning,
                       size: 120,
                       // color: Colors.grey,
                     ),
