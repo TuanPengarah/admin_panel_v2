@@ -5,7 +5,6 @@ import 'package:admin_panel/home/widget/profile_avatar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
 
 class SettingPage extends StatelessWidget {
   final _otherController = Get.find<OtherController>();
@@ -78,10 +77,10 @@ class SettingPage extends StatelessWidget {
                 SizedBox(height: 40),
                 Icon(
                     GetPlatform.isIOS
-                        ? LineIcons.apple
+                        ? Icons.apple
                         : GetPlatform.isAndroid
-                            ? LineIcons.android
-                            : LineIcons.tablet,
+                            ? Icons.android
+                            : Icons.web,
                     color: Colors.grey),
                 Obx(() {
                   return Text(

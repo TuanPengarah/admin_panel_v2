@@ -17,19 +17,21 @@ class RepairHistoryController extends GetxController {
   }
 
   String _getWarranty(int minggu) {
-    switch (minggu) {
-      case 1:
-        return '1 Minggu';
-      case 4:
-        return '1 Bulan';
-      case 8:
-        return '2 Bulan';
-      case 14:
-        return '3 Bulan';
-        break;
-      default:
-        return '-';
+    String warranty = '-';
+
+    if (minggu == 1) {
+      warranty = '1 Minggu';
+    } else if (minggu == 4) {
+      warranty = '1 Bulan';
+    } else if (minggu == 8) {
+      warranty = '2 Bulan';
+    } else if (minggu >= 12) {
+      warranty = '3 Bulan';
+    } else {
+      warranty = '-';
     }
+
+    return warranty;
   }
 
   void showShareJobsheet(Map<String, dynamic> data) {

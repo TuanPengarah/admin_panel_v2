@@ -1,4 +1,3 @@
-import 'package:admin_panel/config/color_scheme.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -132,7 +131,7 @@ class MyThemes {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: color,
-      scaffoldBackgroundColor: darkColorScheme.surface,
+      scaffoldBackgroundColor: color.background,
       cardTheme: CardTheme(
         color: Colors.grey.shade900,
         shape: RoundedRectangleBorder(
