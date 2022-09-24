@@ -59,7 +59,7 @@ class FirestoreContoller extends GetxController {
           'photoURL': '',
           'timeStamp': FieldValue.serverTimestamp(),
         });
-        print(userUID);
+        debugPrint(userUID);
         await credential.user.updateDisplayName(nama);
         status.value = 'Tahniah! data pelanggan telah di setkan!';
       }).catchError((err) async {

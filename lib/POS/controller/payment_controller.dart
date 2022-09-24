@@ -1,4 +1,5 @@
 import 'package:admin_panel/API/notif_fcm_event.dart';
+import 'package:admin_panel/POS/model/invoice_model.dart';
 import 'package:admin_panel/POS/model/payment_model.dart';
 import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
@@ -44,12 +45,17 @@ class PaymentController extends GetxController {
   String customerName = '';
   String phoneNumber = '';
 
+  String environment = '';
+
   @override
   void onInit() {
     currentTechnician.value = _authController.userName.value;
     currentTechnicianID = _authController.userUID.value;
     var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
     tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
+    environment = DateTime.now().millisecondsSinceEpoch.toString();
+    debugPrint('Environment invoices has been init: $environment');
+
     super.onInit();
   }
 
@@ -188,16 +194,6 @@ class PaymentController extends GetxController {
         TextButton(
           onPressed: () async {
             await addToDatabase();
-            bills.add(
-              PaymentModel(
-                currentStock.value,
-                currentTechnician.value,
-                selectedWaranti.value,
-                int.parse(priceText.text),
-                isPending,
-              ).toJson(),
-            );
-            totalBillsPrice.value += int.parse(priceText.text);
 
             Get.back();
             Get.back();
@@ -342,6 +338,54 @@ class PaymentController extends GetxController {
           .doc(_graphController.year)
           .collection('cashFlow')
           .add(cashflow);
+
+      //TAMBAH INVOIS DAN PEMBAYARAN PADA CUSTOMER
+      title.value = 'Tambah invoid dan pembayaran kepada pelanggan...';
+      bills.add(
+        PaymentModel(
+          currentStock.value,
+          currentTechnician.value,
+          selectedWaranti.value,
+          int.parse(priceText.text),
+          isPending,
+        ).toJson(),
+      );
+      totalBillsPrice.value += int.parse(priceText.text);
+
+      List<InvoiceModel> invoisData = [];
+
+      for (int i = 0; i < bills.length; i++) {
+        var inv = bills[i];
+        InvoiceModel invois = InvoiceModel(
+          isPay: true,
+          title: '${inv['title']}',
+          price: double.parse(inv['harga'].toString()),
+          technician: inv['technician'],
+          warranty: inv['waranti'],
+        );
+        invoisData.add(invois);
+      }
+      Map<String, dynamic> invoisList = {
+        'InvoiceList': invoisData.map((e) => e.toMap()).toList(),
+      };
+      if (bills.length == 1) {
+        debugPrint('first bills');
+        await FirebaseFirestore.instance
+            .collection('customer')
+            .doc(customerUID)
+            .collection('invoice')
+            .doc(environment)
+            .set(invoisList);
+      } else if (bills.length >= 2) {
+        debugPrint('NOT first bills');
+        await FirebaseFirestore.instance
+            .collection('customer')
+            .doc(customerUID)
+            .collection('invoice')
+            .doc(environment)
+            .update(invoisList);
+      }
+
       title.value = 'Menyegarkan semula semua data...';
       final _sparepartsController = Get.find<SparepartController>();
       final _authController = Get.find<AuthController>();

@@ -280,6 +280,8 @@ class JobsheetController extends GetxController {
       )
           .then((v) {
         if (v == 'operation-completed') {
+          NotifFCM().postData('Resit Jobsheet telah dibuka!',
+              'Juruteknik ${_authController.userName.value} telah membuka Resit Jobsheet');
           Haptic.feedbackSuccess();
           errFirestore.value = false;
           var payload = <String, String>{
@@ -295,10 +297,7 @@ class JobsheetController extends GetxController {
           };
 
           Get.toNamed(MyRoutes.jobsheetDone, parameters: payload);
-          NotifFCM()
-              .postData('Resit Jobsheet telah dibuka!',
-                  'Juruteknik ${_authController.userName.value} telah membuka Resit Jobsheet')
-              .then((value) => print(value.body));
+
           ShowSnackbar.success('Operasi Selesai!',
               'Jobsheet telah ditambah ke pangkalan data', true);
         }

@@ -21,6 +21,7 @@ class HomeController extends GetxController {
   final QuickActions quickActions = const QuickActions();
   final box = GetStorage();
   bool isChat = false;
+  static int semaphore = 0;
 
   @override
   void onReady() {
@@ -93,6 +94,10 @@ class HomeController extends GetxController {
 
   StreamSubscription<RemoteMessage> streamOnApp() {
     return FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      if (semaphore != 0) {
+        return;
+      }
+      semaphore = 1;
       debugPrint('masej masyuk');
       NotificationsModel notif = new NotificationsModel(
         title: message.notification.title,
@@ -143,6 +148,8 @@ class HomeController extends GetxController {
       } else {
         Haptic.feedbackClick();
       }
+      await Future.delayed(Duration(milliseconds: 500));
+      semaphore = 0;
     });
   }
 

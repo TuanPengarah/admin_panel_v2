@@ -54,7 +54,7 @@ class MySidPage extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }
-                if (snapshot.hasData) {
+                if (snapshot.data.docChanges.isNotEmpty) {
                   Future.delayed(Duration(seconds: 1), () {
                     _homeController.totalMysid.value = snapshot.data.size;
                     if (snapshot.data.docs.isEmpty) {
@@ -68,7 +68,7 @@ class MySidPage extends StatelessWidget {
                     }
                   });
                 }
-                if (snapshot.data.docs.isEmpty) {
+                if (snapshot.data.docChanges.isEmpty) {
                   Future.delayed(Duration(seconds: 1), () {
                     _homeController.totalMysid.value = snapshot.data.size;
                   });

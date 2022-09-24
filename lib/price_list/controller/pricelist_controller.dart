@@ -332,7 +332,7 @@ class PriceListController extends GetxController {
                   Container(
                     alignment: Alignment.centerRight,
                     child: TextButton.icon(
-                      label: Text('Tambah'),
+                      label: isEdit == true ? Text('Edit') : Text('Tambah'),
                       onPressed: () {
                         if (modelText.text.isNotEmpty &&
                             partsText.text.isNotEmpty &&
@@ -408,7 +408,7 @@ class PriceListController extends GetxController {
                               true);
                         }
                       },
-                      icon: Icon(Icons.add),
+                      icon: isEdit == true ? Icon(Icons.edit) : Icon(Icons.add),
                     ),
                   ),
                   Text(
