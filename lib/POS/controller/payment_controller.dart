@@ -357,15 +357,15 @@ class PaymentController extends GetxController {
       for (int i = 0; i < bills.length; i++) {
         var inv = bills[i];
         InvoiceModel invois = InvoiceModel(
-          isPay: true,
           title: '${inv['title']}',
           price: double.parse(inv['harga'].toString()),
-          technician: inv['technician'],
           warranty: inv['waranti'],
         );
         invoisData.add(invois);
       }
       Map<String, dynamic> invoisList = {
+        'isPay': true,
+        'technician': currentTechnician.value,
         'InvoiceList': invoisData.map((e) => e.toMap()).toList(),
       };
       if (bills.length == 1) {
