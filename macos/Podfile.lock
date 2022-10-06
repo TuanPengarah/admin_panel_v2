@@ -902,7 +902,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 5e5118a2383b3531e730d974680954c679ca0a13
   FirebaseStorage: 8019af461599b2c3bc61c6a5dbdfa3d2de66a4d9
   flutter_app_badger: 55a64b179f8438e89d574320c77b306e327a1730
-  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
+  FlutterMacOS: ae6af50a8ea7d6103d888583d46bd8328a7e9811
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1

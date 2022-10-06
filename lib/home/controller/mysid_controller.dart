@@ -226,6 +226,7 @@ class MysidController extends GetxController {
     };
     Map<String, dynamic> updateStatus = {
       'Percent': currentPercent,
+      'timeStamp': FieldValue.serverTimestamp(),
     };
 
     try {
