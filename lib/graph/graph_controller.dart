@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -181,7 +182,7 @@ class GraphController extends GetxController {
     return jumlahBulanan.value - getMonthsHargajual(bulan);
   }
 
-  void getGraphLength() {
+  void getGraphLength() async {
     spotJual = [];
     spotSupplier = [];
     spotUntungBersih = [];
@@ -215,6 +216,20 @@ class GraphController extends GetxController {
     double bulanIni = jumlahBulanan.value;
     double bulanLepas = double.parse(
         graphJual[0][checkMonths(DateTime.now().month - 2)].toString());
+    if (bulanLepas <= 0) {
+      debugPrint('Happy New Year');
+      int tahunLepas = DateTime.now().year - 1;
+      List graphTahunLepas = [];
+      await FirebaseFirestore.instance
+          .collection('Sales')
+          .doc(tahunLepas.toString())
+          .get()
+          .then((value) {
+        graphTahunLepas.add(value);
+
+        bulanLepas = graphTahunLepas[0]['December'];
+      });
+    }
     percentBulanan.value = pengiraanPercentBulanan(bulanIni, bulanLepas);
   }
 

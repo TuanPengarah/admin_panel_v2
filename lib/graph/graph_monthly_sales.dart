@@ -90,7 +90,9 @@ class GraphMonthlySales extends StatelessWidget {
                 gridData: FlGridData(
                     show: true,
                     drawVerticalLine: true,
-                    verticalInterval: DateTime.now().month.toDouble() - 1,
+                    verticalInterval: DateTime.now().month.toDouble() - 1 <= 0
+                        ? 1
+                        : DateTime.now().month.toDouble() - 1,
                     horizontalInterval: 500,
                     getDrawingHorizontalLine: (value) {
                       return FlLine(
