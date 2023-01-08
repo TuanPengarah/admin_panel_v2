@@ -27,6 +27,8 @@ dependencies:
   another_xlider: ^1.1.0
   flutter_staggered_animations: ^1.0.0
   dynamic_color: ^1.3.0
+  stacked_bar_chart: ^1.1.0+2
+  masonry_grid: ^1.0.0
 
   # API Services
   firebase_auth_desktop: ^0.1.1-dev.6

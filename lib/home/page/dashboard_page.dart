@@ -1,10 +1,10 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
-import 'package:admin_panel/graph/graph_monthly_sales.dart';
 import 'package:admin_panel/home/widget/dashboard_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:stacked_bar_chart/stacked_bar_chart.dart';
 
 class DashboardPage extends StatelessWidget {
   final _graphController = Get.find<GraphController>();
@@ -40,7 +40,7 @@ class DashboardPage extends StatelessWidget {
                 child: Container(),
                 preferredSize: Size(0, 20),
               ),
-              expandedHeight: 450,
+              expandedHeight: 600,
               flexibleSpace: FlexibleSpaceBar(
                 background: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -103,8 +103,105 @@ class DashboardPage extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 0),
                                   child: Container(
-                                    height: 220,
-                                    child: GraphMonthlySales(),
+                                    height: 330,
+                                    // child: GraphMonthlySales(),
+                                    child: Graph(
+                                      GraphData(
+                                        'Monthly Report',
+                                        [
+                                          GraphBar(
+                                            DateTime(2023, 1),
+                                            [
+                                              GraphBarSection(200,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                            ],
+                                          ),
+                                          GraphBar(
+                                            DateTime(2023, 2),
+                                            [
+                                              GraphBarSection(400,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                            ],
+                                          ),
+                                          GraphBar(
+                                            DateTime(2023, 3),
+                                            [
+                                              GraphBarSection(400,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                            ],
+                                          ),
+                                          GraphBar(
+                                            DateTime(2023, 4),
+                                            [
+                                              GraphBarSection(29,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                            ],
+                                          ),
+                                          GraphBar(
+                                            DateTime(2023, 5),
+                                            [
+                                              GraphBarSection(300,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                            ],
+                                          ),
+                                          GraphBar(
+                                            DateTime(2023, 6),
+                                            [
+                                              GraphBarSection(20,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                            ],
+                                          ),
+                                          GraphBar(
+                                            DateTime(2023, 7),
+                                            [
+                                              GraphBarSection(20,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                            ],
+                                          ),
+                                          GraphBar(
+                                            DateTime(2023, 8),
+                                            [
+                                              GraphBarSection(20,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                            ],
+                                          ),
+                                          GraphBar(
+                                            DateTime(2023, 9),
+                                            [
+                                              GraphBarSection(90,
+                                                  color: Get.theme.colorScheme
+                                                      .tertiary),
+                                              GraphBarSection(90,
+                                                  color: Get.theme.colorScheme
+                                                      .secondary),
+                                            ],
+                                          ),
+                                        ],
+                                        Get.theme.colorScheme.surface,
+                                      ),
+                                      graphType: GraphType.StackedRect,
+                                      height: 280,
+                                      netLine: NetLine(
+                                        strokeWidth: 1,
+                                        showLine: true,
+                                        lineColor: Colors.black,
+                                        pointBorderColor: Colors.black,
+                                        coreColor: Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer,
+                                      ),
+                                      onBarTapped: (GraphBar bar) {
+                                        print(bar.high);
+                                      },
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 5),

@@ -234,6 +234,7 @@ class GraphController extends GetxController {
   }
 
   Future<void> getGraphFromFirestore() async {
+    debugPrint('getting graph');
     final sales = FirebaseFirestore.instance.collection('Sales');
     graphJual = [];
     graphSupplier = [];

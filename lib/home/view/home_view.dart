@@ -1,6 +1,7 @@
 import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:admin_panel/home/page/customer_page.dart';
 import 'package:admin_panel/home/page/dashboard_page.dart';
+import 'package:admin_panel/home/page/dashboard_page_v2.dart';
 import 'package:admin_panel/home/page/mysid_page.dart';
 import 'package:admin_panel/home/page/others_page.dart';
 import 'package:admin_panel/home/page/sparepart_page.dart';
@@ -24,7 +25,7 @@ class _HomeViewState extends State<HomeView> {
         () => IndexedStack(
           index: _homeController.currentIndex.value,
           children: [
-            DashboardPage(),
+            DashboardPage2(),
             CustomerPage(false),
             MySidPage(),
             SparepartPage(),

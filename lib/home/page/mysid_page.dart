@@ -72,27 +72,33 @@ class MySidPage extends StatelessWidget {
                   Future.delayed(Duration(seconds: 1), () {
                     _homeController.totalMysid.value = snapshot.data.size;
                   });
-                  return Container(
-                    width: Get.width,
-                    padding: EdgeInsets.all(18),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.date_range,
-                          size: 100,
-                          color: Colors.grey,
+                  return Builder(builder: (context) {
+                    return ConstrainedBox(
+                      constraints: BoxConstraints(
+                          minWidth: Get.width, minHeight: Get.height / 2),
+                      child: Container(
+                        width: Get.width,
+                        padding: EdgeInsets.all(18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.date_range,
+                              size: 100,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Nampak gayanya anda tidak mempunyai sebarang Pending Job!',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.grey),
+                            )
+                          ],
                         ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Nampak gayanya anda tidak mempunyai sebarang Pending Job!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      ],
-                    ),
-                  );
+                      ),
+                    );
+                  });
                 }
                 return Column(
                   children: snapshot.data.docs.map(
