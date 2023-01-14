@@ -122,15 +122,24 @@ class CashFlowController extends GetxController {
         cashFlow.add(CashFlowModel.fromJson(doc));
       });
     });
-    cashFlow.forEach((element) {
-      masuk.value += element.isModal == false
-          ? double.parse(element.jumlah.toString())
-          : 0;
+    // cashFlow.forEach((element) {
+    //   masuk.value += element.isModal == false
+    //       ? double.parse(element.jumlah.toString())
+    //       : 0;
+    //   keluar.value +=
+    //       element.isModal == true ? double.parse(element.jumlah.toString()) : 0;
+    //   total.value = double.parse(masuk.value.toString()) -
+    //       double.parse(keluar.value.toString());
+    // });
+
+    for (var cash in cashFlow) {
+      masuk.value +=
+          cash.isModal == false ? double.parse(cash.jumlah.toString()) : 0;
       keluar.value +=
-          element.isModal == true ? double.parse(element.jumlah.toString()) : 0;
+          cash.isModal == true ? double.parse(cash.jumlah.toString()) : 0;
       total.value = double.parse(masuk.value.toString()) -
           double.parse(keluar.value.toString());
-    });
+    }
     cashFlow..sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
     update();
   }

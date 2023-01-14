@@ -16,7 +16,11 @@ class GraphController extends GetxController {
   var untungBersih = 0.0.obs;
   var untungKasar = 0.0.obs;
   var jumlahModal = 0.0.obs;
-  var percentBulanan = 0.0.obs;
+  var percentBulanan = '0'.obs;
+  var untungBulananTahunLepas = 0.0.obs;
+  List<double> untungBulananTahunLepasSpike = [];
+  List<double> untungBersihSpike = [];
+  List<double> modalSpike = [];
 
   Future getGraph;
   @override
@@ -71,6 +75,23 @@ class GraphController extends GetxController {
     int totalMonths = 0;
     for (int i = 0; i < DateTime.now().month; i++) totalMonths++;
     return totalMonths;
+  }
+
+  List<double> jualanBulanIni() {
+    List<double> line = [];
+    untungBulananTahunLepasSpike.clear();
+    for (int i = 0; i < DateTime.now().month; i++) {
+      line.add(double.parse(graphJual[0][checkMonths(i)].toString()));
+    }
+
+    untungBulananTahunLepasSpike.add(0);
+
+    line.forEach((element) {
+      untungBulananTahunLepasSpike.add(element);
+      print(element);
+    });
+
+    return line;
   }
 
   double findY(double untungKasar, double modal) {
@@ -186,27 +207,37 @@ class GraphController extends GetxController {
     spotJual = [];
     spotSupplier = [];
     spotUntungBersih = [];
-    spotUntungBersih = [];
     jumlahModal.value = 0;
     untungKasar.value = 0;
+    modalSpike.clear();
+    untungBersihSpike.clear();
+
     for (int i = 0; i < DateTime.now().month; i++) {
       spotJual.add(
         FlSpot(i.toDouble(), graphJual[0][checkMonths(i)].toDouble()),
       );
       untungKasar.value += graphJual[0][checkMonths(i)];
     }
+
+    modalSpike.add(0);
     for (int i = 0; i < DateTime.now().month; i++) {
       spotSupplier.add(
         FlSpot(i.toDouble(), graphSupplier[0][checkMonths(i)].toDouble()),
       );
+      modalSpike.add(double.parse(graphSupplier[0][checkMonths(i)].toString()));
       jumlahModal.value += graphSupplier[0][checkMonths(i)];
     }
-
+    untungBersihSpike.add(0);
     for (int i = 0; i < DateTime.now().month; i++) {
-      spotUntungBersih.add(FlSpot(
-          i.toDouble(),
+      spotUntungBersih.add(
+        FlSpot(
+            i.toDouble(),
+            double.parse(graphJual[0][checkMonths(i)].toString()) -
+                double.parse(graphSupplier[0][checkMonths(i)].toString())),
+      );
+      untungBersihSpike.add(
           double.parse(graphJual[0][checkMonths(i)].toString()) -
-              double.parse(graphSupplier[0][checkMonths(i)].toString())));
+              double.parse(graphSupplier[0][checkMonths(i)].toString()));
     }
 
     jumlahBulanan.value = double.parse(
@@ -228,9 +259,11 @@ class GraphController extends GetxController {
         graphTahunLepas.add(value);
 
         bulanLepas = graphTahunLepas[0]['December'];
+        untungBulananTahunLepas.value = bulanLepas;
       });
     }
-    percentBulanan.value = pengiraanPercentBulanan(bulanIni, bulanLepas);
+    percentBulanan.value =
+        pengiraanPercentBulanan(bulanIni, bulanLepas).toStringAsFixed(2);
   }
 
   Future<void> getGraphFromFirestore() async {
@@ -251,6 +284,7 @@ class GraphController extends GetxController {
           graphSupplier.add(value);
         });
         getGraphLength();
+        jualanBulanIni();
         update();
       } else {
         print('generating sales report');
