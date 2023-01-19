@@ -1,4 +1,5 @@
 import 'package:admin_panel/POS/controller/payment_controller.dart';
+import 'package:admin_panel/config/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,10 +10,10 @@ class BillsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Resit'),
+          title: Text('Invois'),
           actions: [
             IconButton(
-              onPressed: () => _paymentController.addBills(),
+              onPressed: () => Get.toNamed(MyRoutes.posview),
               icon: Icon(Icons.add),
             ),
           ],
@@ -87,7 +88,7 @@ class BillsView extends StatelessWidget {
                         ),
                         SizedBox(height: 18),
                         Text(
-                          'Sila tekan + untuk membuat pembayaran dan mencetak resit',
+                          'Sila tekan + untuk membuat invois',
                           textAlign: TextAlign.center,
                           style: TextStyle(color: Colors.grey),
                         )

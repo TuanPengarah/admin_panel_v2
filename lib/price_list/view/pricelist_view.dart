@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PriceListView extends StatelessWidget {
-  final _controller = Get.find<PriceListController>();
+  final _controller = Get.put(PriceListController());
 
   @override
   Widget build(BuildContext context) {

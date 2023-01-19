@@ -89,21 +89,6 @@ class OtherSettings extends StatelessWidget {
               color: Get.theme.colorScheme.surfaceVariant,
               child: InkWell(
                 borderRadius: BorderRadius.circular(20),
-                onTap: () => Get.toNamed(MyRoutes.pricelist),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.ballot,
-                    color: Get.theme.colorScheme.secondary,
-                  ),
-                  title: Text('Senarai Harga'),
-                  subtitle: Text('Lihat semua senarai harga spareparts'),
-                ),
-              ),
-            ),
-            Card(
-              color: Get.theme.colorScheme.surfaceVariant,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(20),
                 onTap: () => Get.toNamed(MyRoutes.priceCalc),
                 child: ListTile(
                   leading: Icon(

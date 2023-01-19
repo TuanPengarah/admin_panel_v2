@@ -213,7 +213,7 @@ class PriceListController extends GetxController {
 
         await DatabaseHelper.instance.deleteCachePriceList();
 
-        data.forEach((value) {
+        for (var value in data) {
           priceList.add(value);
           priceList.sort((a, b) => a.parts.compareTo(b.parts));
           if (!GetPlatform.isMacOS) {
@@ -221,7 +221,7 @@ class PriceListController extends GetxController {
           }
 
           update();
-        });
+        }
         return 'success';
       } else {
         errorText.value = 'Internet Tidak Ditemui!';

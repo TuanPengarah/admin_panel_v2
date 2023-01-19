@@ -21,6 +21,7 @@ class PaymentController extends GetxController {
   final _priceController = Get.find<PriceCalculatorController>();
 
   final priceText = TextEditingController();
+  final otherServicesText = TextEditingController();
 
   var currentSteps = 0.obs;
 
@@ -35,6 +36,7 @@ class PaymentController extends GetxController {
   String mysid = '';
   var price = 0.obs;
   var selectedWaranti = 'Tiada Waranti'.obs;
+  var selectedDibayar = 'Dibayar'.obs;
   int warantiCost = 30;
   int hargaSpareparts = 0;
   var recommendedPrice = 0.0.obs;
@@ -111,37 +113,6 @@ class PaymentController extends GetxController {
     }
   }
 
-  void addBills() {
-    Get.dialog(AlertDialog(
-      title: Text('Tambah Resit'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: Icon(Icons.pending_actions),
-            title: Text('Ambil dari Pending Payment'),
-            onTap: () {
-              Get.back();
-              isPending = true;
-              Haptic.feedbackClick();
-              Get.toNamed(MyRoutes.posview);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.add),
-            title: Text('Hasilkan resit baru'),
-            onTap: () {
-              Get.back();
-              isPending = false;
-              Haptic.feedbackClick();
-              Get.toNamed(MyRoutes.paymentSetup);
-            },
-          ),
-        ],
-      ),
-    ));
-  }
-
   void nextSteps() {
     if (currentSteps.value == 0) {
       if (currentStock.value != '...') {
@@ -168,6 +139,9 @@ class PaymentController extends GetxController {
         currentSteps.value++;
       }
     } else if (currentSteps.value == 4) {
+      Haptic.feedbackClick();
+      currentSteps.value++;
+    } else if (currentSteps.value == 5) {
       print(mysid);
       paymentConfirmation();
     }
@@ -293,54 +267,60 @@ class PaymentController extends GetxController {
       }
 
       //TAMBAH JUMLAH REPAIR DAN JUMLAH KEUNTUNGAN TECHNICIAN
-      title.value = 'Tambah jumlah repair dan keuntungan technician...';
-      Map<String, dynamic> updateTechnician = {
-        'jumlahRepair': ServerValue.increment(1),
-        'jumlahKeuntungan': ServerValue.increment(
-          _commision(int.parse(priceText.text)),
-        ),
-      };
-      await db
-          .child('Technician')
-          .child(currentTechnicianID)
-          .update(updateTechnician);
+      if (selectedDibayar.value == 'Dibayar') {
+        title.value = 'Tambah jumlah repair dan keuntungan technician...';
+        Map<String, dynamic> updateTechnician = {
+          'jumlahRepair': ServerValue.increment(1),
+          'jumlahKeuntungan': ServerValue.increment(
+            _commision(int.parse(priceText.text)),
+          ),
+        };
+        await db
+            .child('Technician')
+            .child(currentTechnicianID)
+            .update(updateTechnician);
+      }
 
       //TAMBAH HARGA JUAL PADA GRAPH SALES
-      String months = _graphController.checkMonths(DateTime.now().month - 1);
-      title.value = 'Menambah harga jual pada graph sales...';
-      DocumentReference hargaJual =
-          firestore.collection('Sales').doc(_graphController.year);
-      firestore.runTransaction((transaction) async {
-        DocumentSnapshot snap = await transaction.get(hargaJual);
+      if (selectedDibayar.value == 'Dibayar') {
+        String months = _graphController.checkMonths(DateTime.now().month - 1);
+        title.value = 'Menambah harga jual pada graph sales...';
+        DocumentReference hargaJual =
+            firestore.collection('Sales').doc(_graphController.year);
+        firestore.runTransaction((transaction) async {
+          DocumentSnapshot snap = await transaction.get(hargaJual);
 
-        if (!snap.exists) {
-          throw Exception("Harga jual tidak dijumpai");
-        }
+          if (!snap.exists) {
+            throw Exception("Harga jual tidak dijumpai");
+          }
 
-        double newPoints = double.parse(snap.get(months).toString());
-        transaction.update(
-            hargaJual, {months: newPoints + double.parse(priceText.text)});
-      });
+          double newPoints = double.parse(snap.get(months).toString());
+          transaction.update(
+              hargaJual, {months: newPoints + double.parse(priceText.text)});
+        });
+      }
 
       //TAMBAH PADA CASH FLOW
-      title.value = 'Mengemaskini cash flow...';
-      final Map<String, dynamic> cashflow = {
-        'jumlah': int.parse(priceText.text),
-        'remark': currentStock.value.toString(),
-        'isModal': false,
-        'isSpareparts': false,
-        'isJualPhone': true,
-        'timeStamp': FieldValue.serverTimestamp(),
-      };
+      if (selectedDibayar.value == 'Dibayar') {
+        title.value = 'Mengemaskini cash flow...';
+        final Map<String, dynamic> cashflow = {
+          'jumlah': int.parse(priceText.text),
+          'remark': currentStock.value.toString(),
+          'isModal': false,
+          'isSpareparts': false,
+          'isJualPhone': true,
+          'timeStamp': FieldValue.serverTimestamp(),
+        };
 
-      await firestore
-          .collection('Sales')
-          .doc(_graphController.year)
-          .collection('cashFlow')
-          .add(cashflow);
+        await firestore
+            .collection('Sales')
+            .doc(_graphController.year)
+            .collection('cashFlow')
+            .add(cashflow);
+      }
 
       //TAMBAH INVOIS DAN PEMBAYARAN PADA CUSTOMER
-      title.value = 'Tambah invoid dan pembayaran kepada pelanggan...';
+      title.value = 'Tambah invois dan pembayaran kepada pelanggan...';
       bills.add(
         PaymentModel(
           currentStock.value,
@@ -364,7 +344,7 @@ class PaymentController extends GetxController {
         invoisData.add(invois);
       }
       Map<String, dynamic> invoisList = {
-        'isPay': true,
+        'isPay': selectedDibayar.value == 'Dibayar' ? true : false,
         'technician': currentTechnician.value,
         'InvoiceList': invoisData.map((e) => e.toMap()).toList(),
       };
@@ -396,8 +376,8 @@ class PaymentController extends GetxController {
       await Future.delayed(Duration(seconds: 1));
       NotifFCMEvent()
           .postData(
-            'Pembayaran telah selesai!',
-            'Juruteknik ${_authController.userName.value} telah membuka resit bayaran dengan berjumlah RM${priceText.text}',
+            'Invois telah dibuka!',
+            'Juruteknik ${_authController.userName.value} telah membuka invois dengan berjumlah RM${priceText.text}',
             token: _authController.token,
           )
           .then((value) => debugPrint(value.body.toString()));
@@ -414,6 +394,7 @@ class PaymentController extends GetxController {
 
   void reset() {
     currentStock.value = '...';
+    selectedDibayar.value = 'Dibayar';
     currentSteps.value = 0;
     currentTechnician.value = _authController.userName.value;
     currentTechnicianID = _authController.userUID.value;
@@ -478,6 +459,49 @@ class PaymentController extends GetxController {
               Get.back();
             },
           ),
+          ListTile(
+            title: Text('Lain-lain'),
+            onTap: () async {
+              Haptic.feedbackClick();
+              await Get.dialog(
+                AlertDialog(
+                  title: Text('Maklumat Servis'),
+                  content: TextField(
+                    controller: otherServicesText,
+                    maxLines: 2,
+                    textCapitalization: TextCapitalization.sentences,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: 'Masukkan maklumat jenis stock / servis',
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        otherServicesText.text = '';
+                        Get.back();
+                      },
+                      child: Text(
+                        'Batal',
+                        style: TextStyle(color: Colors.amber.shade900),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        if (otherServicesText.text.isNotEmpty) {
+                          currentStock.value = otherServicesText.text;
+                          Get.back();
+                        }
+                      },
+                      child: const Text('Selesai'),
+                    ),
+                  ],
+                ),
+              );
+
+              Get.back();
+            },
+          ),
         ],
       ),
     ));
@@ -515,6 +539,8 @@ class PaymentController extends GetxController {
               result = true;
               customerName = '';
               phoneNumber = '';
+              reset();
+
               Get.back();
             },
             child: Text(

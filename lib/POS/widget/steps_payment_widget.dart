@@ -1,6 +1,7 @@
 import 'package:admin_panel/POS/controller/payment_controller.dart';
 import 'package:admin_panel/config/management.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class StepsPayment {
@@ -109,7 +110,14 @@ class StepsPayment {
                 Obx(
                   () => TextField(
                     controller: _controller.priceText,
-                    keyboardType: TextInputType.number,
+                    keyboardType: GetPlatform.isIOS
+                        ? TextInputType.numberWithOptions(
+                            signed: true, decimal: true)
+                        : TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,4}'))
+                    ],
                     decoration: InputDecoration(
                         hintText: _controller.recommendedPrice.value.toString(),
                         errorText: _controller.errPriceMiss.value == true
@@ -133,6 +141,40 @@ class StepsPayment {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 4,
+          title: const Text('Status Invois'),
+          content: Container(
+            width: Get.width,
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+                color: Get.isDarkMode
+                    ? Colors.grey.shade900
+                    : Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(10)),
+            child: DropdownButton(
+              icon: Container(),
+              underline: SizedBox(),
+              items: Management.dahBayar.map((String value) {
+                return DropdownMenuItem(
+                  child: Text(
+                    value.toString(),
+                  ),
+                  value: value,
+                );
+              }).toList(),
+              value: _controller.selectedDibayar.value,
+              onChanged: (String newValue) {
+                _controller.selectedDibayar.value = newValue;
+                // _controller.changeWaranti();
+                // _controller.calculatePrice(_controller.hargaSpareparts);
+              },
+            ),
+          ),
+        ),
+        Step(
+          state: _controller.currentSteps.value > 5
+              ? StepState.complete
+              : StepState.indexed,
+          isActive: _controller.currentSteps.value >= 5,
           title: Text('Kepastian'),
           content: Column(
             children: [
@@ -140,6 +182,7 @@ class StepsPayment {
               _info('Juruteknik: ', _controller.currentTechnician.value),
               _info('Waranti: ', _controller.selectedWaranti.value),
               _info('Harga: ', 'RM${_controller.priceText.text}'),
+              _info('Status Invois: ', '${_controller.selectedDibayar.value}'),
             ],
           ),
         ),

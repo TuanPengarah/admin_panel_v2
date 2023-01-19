@@ -4,6 +4,7 @@ import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 
@@ -210,7 +211,14 @@ class JobsheetView extends StatelessWidget {
                                 focusNode: _jobsheetController.focusNoPhone,
                                 controller: _jobsheetController.noPhone,
                                 textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.phone,
+                                keyboardType: GetPlatform.isIOS
+                                    ? TextInputType.numberWithOptions(
+                                        signed: true, decimal: true)
+                                    : TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d+\.?\d{0,4}'))
+                                ],
                                 onSubmitted: (text) =>
                                     _jobsheetController.nextStep(),
                                 decoration: InputDecoration(
@@ -339,7 +347,14 @@ class JobsheetView extends StatelessWidget {
                                 focusNode: _jobsheetController.focusHarga,
                                 controller: _jobsheetController.harga,
                                 textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.number,
+                                keyboardType: GetPlatform.isIOS
+                                    ? TextInputType.numberWithOptions(
+                                        signed: true, decimal: true)
+                                    : TextInputType.phone,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d+\.?\d{0,4}'))
+                                ],
                                 onSubmitted: (text) =>
                                     _jobsheetController.nextStep(),
                                 decoration: InputDecoration(
@@ -362,7 +377,7 @@ class JobsheetView extends StatelessWidget {
                               content: TextField(
                                   focusNode: _jobsheetController.focusRemarks,
                                   controller: _jobsheetController.remarks,
-                                  textInputAction: TextInputAction.newline,
+                                  textInputAction: TextInputAction.done,
                                   textCapitalization:
                                       TextCapitalization.sentences,
                                   maxLines: 5),

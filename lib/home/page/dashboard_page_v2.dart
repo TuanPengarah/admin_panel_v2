@@ -30,7 +30,7 @@ class DashboardPage2 extends StatelessWidget {
             SliverAppBar(
               actions: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => Get.toNamed(MyRoutes.setting),
                   icon: Icon(
                     Icons.settings_outlined,
                   ),
@@ -172,71 +172,6 @@ class DashboardPage2 extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                              _dashboard(
-                                context: context,
-                                title: 'Jualan Bulan Ini',
-                                icon: Icons.calendar_month_outlined,
-                                children: [
-                                  FutureBuilder(
-                                      future: _graphController.getGraph,
-                                      builder: (context, snapshot) {
-                                        return Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const SizedBox(height: 30),
-                                              const Text(
-                                                'RM',
-                                                style: const TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                              Text(
-                                                snapshot.connectionState ==
-                                                        ConnectionState.waiting
-                                                    ? '--'
-                                                    : '${_graphController.jumlahBulanan.value.toStringAsFixed(0)}',
-                                                style: TextStyle(
-                                                  fontSize: 35,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Get.theme.colorScheme
-                                                      .onSecondaryContainer,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5),
-                                              Obx(() => Text(
-                                                    snapshot.connectionState ==
-                                                            ConnectionState
-                                                                .waiting
-                                                        ? '--'
-                                                        : '${_graphController.percentBulanan.value}%',
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: double.parse(
-                                                                  _graphController
-                                                                      .percentBulanan
-                                                                      .value) >=
-                                                              0
-                                                          ? Colors.green
-                                                          : Colors.red,
-                                                    ),
-                                                  )),
-                                              const Text(
-                                                'Daripada bulan lepas',
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
                                 ],
                               ),
                               _dashboard(
@@ -513,6 +448,67 @@ class DashboardPage2 extends StatelessWidget {
                               ),
                               _dashboard(
                                 context: context,
+                                title: 'Jualan Bulan Ini',
+                                icon: Icons.calendar_month_outlined,
+                                children: [
+                                  FutureBuilder(
+                                      future: _graphController.getGraph,
+                                      builder: (context, snapshot) {
+                                        return Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(height: 30),
+                                              Obx(() => Text(
+                                                    snapshot.connectionState ==
+                                                            ConnectionState
+                                                                .waiting
+                                                        ? '--'
+                                                        : '${_graphController.percentBulanan.value}%',
+                                                    style: TextStyle(
+                                                      color: double.parse(
+                                                                  _graphController
+                                                                      .percentBulanan
+                                                                      .value) >=
+                                                              0
+                                                          ? Colors.green
+                                                          : Colors.red,
+                                                      fontSize: 28,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )),
+                                              const Text(
+                                                'Daripada bulan lepas',
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 20),
+                                              SizedBox(
+                                                width: double.infinity,
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    Haptic.feedbackClick();
+                                                    Get.toNamed(
+                                                        MyRoutes.monthlyRecord);
+                                                  },
+                                                  child: Text('Rekod'),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                ],
+                              ),
+                              _dashboard(
+                                context: context,
                                 title: 'Jumlah Pelanggan',
                                 icon: Icons.people_outline,
                                 children: [
@@ -597,7 +593,7 @@ class DashboardPage2 extends StatelessWidget {
                                             children: [
                                               const SizedBox(height: 20),
                                               const Text(
-                                                'RM',
+                                                'Kesulurahan (RM)',
                                                 style: const TextStyle(
                                                   color: Colors.grey,
                                                 ),
@@ -628,56 +624,45 @@ class DashboardPage2 extends StatelessWidget {
                                                               .onSecondaryContainer,
                                                         ),
                                                       )),
-                                              const Text(
-                                                'Jumlah keseluruhan',
-                                                style: const TextStyle(
-                                                  color: Colors.grey,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 20),
+                                              const SizedBox(height: 10),
                                               Container(
                                                 child: Row(
                                                   children: [
-                                                    Container(
-                                                      height: 45,
-                                                      width: 45,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Colors.grey.shade50,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(100),
-                                                      ),
+                                                    Expanded(
                                                       child: Icon(
                                                         Icons.arrow_upward,
                                                         color: Colors.green,
+                                                        size: 18,
                                                       ),
                                                     ),
-                                                    SizedBox(width: 15),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          'Masuk',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey),
-                                                        ),
-                                                        Text(
-                                                          'RM${_cashFlowController.masuk.value}',
-                                                          style: TextStyle(
-                                                            color: Get
-                                                                    .isDarkMode
-                                                                ? Colors.white
-                                                                : Colors.grey
-                                                                    .shade800,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'Masuk',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey),
                                                           ),
-                                                        ),
-                                                      ],
+                                                          Text(
+                                                            'RM${_cashFlowController.masuk.value}',
+                                                            style: TextStyle(
+                                                              color: Get
+                                                                      .isDarkMode
+                                                                  ? Colors.white
+                                                                  : Colors.grey
+                                                                      .shade800,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
@@ -686,46 +671,41 @@ class DashboardPage2 extends StatelessWidget {
                                               Container(
                                                 child: Row(
                                                   children: [
-                                                    Container(
-                                                      height: 45,
-                                                      width: 45,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Colors.grey.shade50,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(100),
-                                                      ),
+                                                    Expanded(
                                                       child: Icon(
                                                         Icons.arrow_downward,
                                                         color: Colors.red,
+                                                        size: 18,
                                                       ),
                                                     ),
-                                                    SizedBox(width: 15),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        const Text(
-                                                          'Keluar',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey),
-                                                        ),
-                                                        Text(
-                                                          'RM${_cashFlowController.keluar.value}',
-                                                          style: TextStyle(
-                                                            color: Get
-                                                                    .isDarkMode
-                                                                ? Colors.white
-                                                                : Colors.grey
-                                                                    .shade800,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const Text(
+                                                            'Keluar',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .grey),
                                                           ),
-                                                        ),
-                                                      ],
+                                                          Text(
+                                                            'RM${_cashFlowController.keluar.value}',
+                                                            style: TextStyle(
+                                                              color: Get
+                                                                      .isDarkMode
+                                                                  ? Colors.white
+                                                                  : Colors.grey
+                                                                      .shade800,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),

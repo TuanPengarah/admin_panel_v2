@@ -19,4 +19,9 @@ class Management {
     '2 Bulan Waranti',
     '3 Bulan Waranti'
   ];
+
+  static const List<String> dahBayar = [
+    'Dibayar',
+    'Belum Bayar',
+  ];
 }

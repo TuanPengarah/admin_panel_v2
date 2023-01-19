@@ -34,14 +34,14 @@ class PaymentSetup extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Pembayaran',
+                          'Invois',
                           style: TextStyle(
                               fontSize: 40, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           _data == null
-                              ? 'Sunting dan tambah kaedah pembayaran'
-                              : 'Tambah kaedah pembayaran untuk ${_data['model']}',
+                              ? 'Sunting dan tambah kaedah Invois'
+                              : 'Tambah invois untuk ${_data['model']}',
                         ),
                         SizedBox(height: 18),
                       ],
@@ -70,8 +70,8 @@ class PaymentSetup extends StatelessWidget {
                                 ElevatedButton(
                                   onPressed: details.onStepContinue,
                                   child: Text(
-                                      _controller.currentSteps.value == 4
-                                          ? 'Bayar'
+                                      _controller.currentSteps.value == 5
+                                          ? 'Hasilkan Invois'
                                           : 'Seterusnya'),
                                 ),
                                 SizedBox(width: 10),

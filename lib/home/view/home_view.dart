@@ -1,9 +1,8 @@
+import 'package:admin_panel/config/get_route_export.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
 import 'package:admin_panel/home/page/customer_page.dart';
-import 'package:admin_panel/home/page/dashboard_page.dart';
 import 'package:admin_panel/home/page/dashboard_page_v2.dart';
 import 'package:admin_panel/home/page/mysid_page.dart';
-import 'package:admin_panel/home/page/others_page.dart';
 import 'package:admin_panel/home/page/sparepart_page.dart';
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
             CustomerPage(false),
             MySidPage(),
             SparepartPage(),
-            SettingPage(),
+            PriceListView(),
           ],
         ),
       ),
@@ -96,9 +95,9 @@ class _HomeViewState extends State<HomeView> {
                       label: 'Parts',
                     ),
                     NavigationDestination(
-                      icon: Icon(Icons.more_horiz_outlined),
-                      selectedIcon: Icon(Icons.more_horiz),
-                      label: 'Lain',
+                      icon: Icon(Icons.line_weight_outlined),
+                      selectedIcon: Icon(Icons.line_weight),
+                      label: 'Harga',
                     ),
                   ],
                 );
