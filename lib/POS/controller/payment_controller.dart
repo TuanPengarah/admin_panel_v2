@@ -51,14 +51,21 @@ class PaymentController extends GetxController {
 
   @override
   void onInit() {
+    super.onInit();
     currentTechnician.value = _authController.userName.value;
     currentTechnicianID = _authController.userUID.value;
     var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
     tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
     environment = DateTime.now().millisecondsSinceEpoch.toString();
     debugPrint('Environment invoices has been init: $environment');
+  }
 
-    super.onInit();
+  @override
+  void onReady() {
+    super.onReady();
+    if (bills.isEmpty) {
+      Get.toNamed(MyRoutes.posview);
+    }
   }
 
   void calculatePrice(int harga) {
@@ -365,6 +372,17 @@ class PaymentController extends GetxController {
             .doc(environment)
             .update(invoisList);
       }
+
+      ///TAMBAH INVOIS PADA FIREBASE DATABASE
+      Map<String, dynamic> invoisListDatabase = {
+        'isPay': selectedDibayar.value == 'Dibayar' ? true : false,
+        'technician': currentTechnician.value,
+        'InvoiceList': invoisData.map((e) => e.toMap()).toList(),
+        'customerUID': customerUID,
+      };
+      FirebaseDatabase.instance
+          .ref('Invoices/$environment')
+          .set(invoisListDatabase);
 
       title.value = 'Menyegarkan semula semua data...';
       final _sparepartsController = Get.find<SparepartController>();

@@ -118,6 +118,7 @@ class StepsPayment {
                       FilteringTextInputFormatter.allow(
                           RegExp(r'^\d+\.?\d{0,4}'))
                     ],
+                    onSubmitted: ((value) => _controller.nextSteps()),
                     decoration: InputDecoration(
                         hintText: _controller.recommendedPrice.value.toString(),
                         errorText: _controller.errPriceMiss.value == true

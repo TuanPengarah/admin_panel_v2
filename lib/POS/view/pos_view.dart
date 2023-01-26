@@ -29,19 +29,35 @@ class POSView extends StatelessWidget {
             return Center(
                 child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.money_off, color: Colors.grey, size: 120),
-                    SizedBox(height: 10),
-                    Text(
-                      'Maaf! tidak menjumpai sebarang pending payment',
-                      style: TextStyle(
-                        color: Colors.grey,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.money_off, color: Colors.grey, size: 120),
+                      SizedBox(height: 10),
+                      Text(
+                        'Maaf! tidak menjumpai sebarang pending payment',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ]),
+                      const SizedBox(height: 30),
+                      SizedBox(
+                        height: 45,
+                        width: 250,
+                        child: ElevatedButton(
+                          onPressed: () => Get.toNamed(
+                            MyRoutes.jobsheet,
+                            arguments: [false, '', '', '', ''],
+                          ),
+                          child: const Text('Buat Jobsheet'),
+                        ),
+                      ),
+                    ]),
+              ),
             ));
           }
           return ListView(

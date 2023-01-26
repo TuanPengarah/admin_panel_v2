@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:admin_panel/cash_flow/model/cashflow_model.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +20,7 @@ class CashFlowStatementController extends GetxController {
 
   void sharePDF(int bulan) {
     Haptic.feedbackClick();
-    Share.shareFiles(['$fullPath'],
+    Share.shareXFiles([XFile(fullPath)],
         text:
             'Maklumat Penyata Cash Flow Bulan ${_graphController.checkMonthsMalay(bulan)} | ${_graphController.year}');
   }

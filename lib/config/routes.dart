@@ -1,3 +1,4 @@
+import 'package:admin_panel/POS/view/view_invois.dart';
 import 'package:admin_panel/cash_flow/view/cashflow_viewall.dart';
 import 'package:admin_panel/config/binding.dart';
 import 'package:admin_panel/settings/setting_view.dart';
@@ -40,6 +41,7 @@ class MyRoutes {
   static const smsView = '/sms-view';
   static const cashFlowViewAll = '/cashflow-viewAll';
   static const setting = '/setting';
+  static const invoisView = '/view-invoice';
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
@@ -121,6 +123,10 @@ class MyRoutes {
     GetPage(
       name: setting,
       page: () => ViewSettings(),
+    ),
+    GetPage(
+      name: invoisView,
+      page: () => ViewInvoice(),
     ),
   ];
 }

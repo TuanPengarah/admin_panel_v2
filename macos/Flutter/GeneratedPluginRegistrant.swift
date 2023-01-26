@@ -7,7 +7,7 @@ import Foundation
 
 import cloud_firestore
 import desktop_webview_auth
-import device_info_plus_macos
+import device_info_plus
 import dynamic_color
 import firebase_auth
 import firebase_core
@@ -15,7 +15,7 @@ import firebase_database
 import firebase_messaging
 import firebase_storage
 import flutter_app_badger
-import path_provider_macos
+import path_provider_foundation
 import share_plus_macos
 import sqflite
 import syncfusion_pdfviewer_macos

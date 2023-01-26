@@ -18,11 +18,11 @@ dependencies:
   sliding_sheet: ^0.5.2
   rounded_loading_button: ^2.0.9
   lottie:
-  fl_chart: ^0.50.5
+  fl_chart: ^0.55.2
   flutter_advanced_avatar: ^1.0.0+1
   shimmer: ^2.0.0
-  flutter_slidable: ^1.2.0
-  badges: ^2.0.1
+  flutter_slidable: ^2.0.0
+  badges: ^3.0.2
   percent_indicator: ^4.0.0
   another_xlider: ^1.1.0
   flutter_staggered_animations: ^1.0.0
@@ -30,20 +30,23 @@ dependencies:
   stacked_bar_chart: ^1.1.0+2
   masonry_grid: ^1.0.0
   chart_sparkline: ^1.0.12
+  grouped_list: ^5.1.2
 
   # API Services
-  firebase_auth_desktop: ^0.1.1-dev.6
-  flutterfire_cli: ^0.1.1+2
-  firebase_core_desktop: ^0.1.1-dev.3
+  firebase_core_platform_interface: 4.5.1
+  firebase_auth_desktop: ^1.0.2
+  flutterfire_cli: ^0.2.7
+  firebase_core_desktop: ^1.0.2
   firebase_core: ^1.17.0
   cloud_firestore: ^3.1.15
   firebase_auth: ^3.0.2
   flutter_mailer: ^2.0.0
   firebase_database: ^9.0.9
   firebase_storage: ^10.0.3
-  firebase_messaging: "^11.2.11"
+  firebase_messaging: ^13.1.0
   restart_app: ^1.1.0
-  gsheets: ^0.3.2
+  gsheets: ^0.4.2
+  
   
   # State Management
   get: ^4.6.3
@@ -52,9 +55,10 @@ dependencies:
   get_storage: ^2.0.3
   sqflite: ^2.0.0+4
   url_launcher: ^6.1.2
-  share_plus: ^4.0.4
-  file_picker: ^4.2.0
+  share_plus: ^5.0.0
+  file_picker: ^5.0.1
   extended_image: ^6.0.1
+  cross_file: ^0.3.3+2
   
   # Data Models
   intl: ^0.17.0
@@ -63,12 +67,12 @@ dependencies:
   pdf:
   syncfusion_flutter_pdfviewer: ^20.1.55-beta
   flutter_app_badger: ^1.2.0
-  device_info_plus: ^3.2.2
+  device_info_plus: ^8.0.0
   image_picker: ^0.8.4+2
-  image_cropper: ^1.4.1
+  image_cropper: ^3.0.1
   jiffy: ^5.0.0
   flutter_typeahead: ^4.0.0
-  quick_actions: ^0.6.0+7
+  quick_actions: ^1.0.1
   connectivity_checker: ^1.1.0
 
 dev_dependencies:

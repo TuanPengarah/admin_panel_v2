@@ -4,7 +4,7 @@ import 'package:admin_panel/home/page/customer_page.dart';
 import 'package:admin_panel/home/page/dashboard_page_v2.dart';
 import 'package:admin_panel/home/page/mysid_page.dart';
 import 'package:admin_panel/home/page/sparepart_page.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badge;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,24 +68,22 @@ class _HomeViewState extends State<HomeView> {
                       icon: snapshot.data == null ||
                               snapshot.data.docs.length == 0
                           ? Icon(Icons.date_range_outlined)
-                          : Badge(
+                          : badge.Badge(
                               badgeContent: Text('${snapshot.data.docs.length}',
                                   style: TextStyle(color: Colors.white)),
                               child: Icon(Icons.date_range_outlined),
-                              animationType: BadgeAnimationType.scale,
-                              animationDuration: Duration(milliseconds: 200),
+                              badgeAnimation: badge.BadgeAnimation.scale(),
                             ),
                       selectedIcon: snapshot.data == null ||
                               snapshot.data.docs.length == 0
                           ? Icon(Icons.date_range)
-                          : Badge(
+                          : badge.Badge(
                               badgeContent: Text(
                                 '${snapshot.data.docs.length}',
                                 style: TextStyle(color: Colors.white),
                               ),
                               child: Icon(Icons.date_range),
-                              animationType: BadgeAnimationType.scale,
-                              animationDuration: Duration(milliseconds: 200),
+                              badgeAnimation: badge.BadgeAnimation.scale(),
                             ),
                       label: 'MySID',
                     ),

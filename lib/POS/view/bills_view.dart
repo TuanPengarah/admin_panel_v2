@@ -10,7 +10,7 @@ class BillsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Invois'),
+          title: Text('Buat Invois'),
           actions: [
             IconButton(
               onPressed: () => Get.toNamed(MyRoutes.posview),

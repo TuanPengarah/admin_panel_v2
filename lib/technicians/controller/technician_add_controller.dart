@@ -184,7 +184,9 @@ class TechnicianAddController extends GetxController {
                 final file = await _pickImage(
                     source: ImageSource.camera, cropImage: _cropSquareImage);
                 if (file == null) return;
-                imageFile = file;
+
+                final fileRaw = File(file.path);
+                imageFile = fileRaw;
                 Get.back();
                 update();
               },
@@ -196,7 +198,8 @@ class TechnicianAddController extends GetxController {
                 final file = await _pickImage(
                     source: ImageSource.gallery, cropImage: _cropSquareImage);
                 if (file == null) return;
-                imageFile = file;
+                final fileRaw = File(file.path);
+                imageFile = fileRaw;
                 Get.back();
                 update();
               },
@@ -207,17 +210,21 @@ class TechnicianAddController extends GetxController {
     );
   }
 
-  Future<File> _cropSquareImage(File imageFile) async =>
+  Future<CroppedFile> _cropSquareImage(CroppedFile imageFile) async =>
       await ImageCropper().cropImage(
-          sourcePath: imageFile.path,
-          aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-          aspectRatioPresets: [
-            CropAspectRatioPreset.original,
-            CropAspectRatioPreset.square
-          ],
-          compressQuality: 70,
-          compressFormat: ImageCompressFormat.jpg,
-          androidUiSettings: _androidUiCrop());
+        sourcePath: imageFile.path,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
+        aspectRatioPresets: [
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.square
+        ],
+        compressQuality: 70,
+        compressFormat: ImageCompressFormat.jpg,
+        // androidUiSettings: _androidUiCrop(),
+        uiSettings: [
+          _androidUiCrop(),
+        ],
+      );
 
   AndroidUiSettings _androidUiCrop() => AndroidUiSettings(
         toolbarTitle: 'Sunting Gambar',
@@ -225,16 +232,17 @@ class TechnicianAddController extends GetxController {
         toolbarWidgetColor: Colors.white,
       );
 
-  Future<File> _pickImage(
-      {ImageSource source, Future<File> Function(File file) cropImage}) async {
+  Future<CroppedFile> _pickImage(
+      {ImageSource source,
+      Future<CroppedFile> Function(CroppedFile file) cropImage}) async {
     final pickImage = await ImagePicker().pickImage(source: source);
 
     if (pickImage == null) return null;
 
     if (cropImage == null) {
-      return File(pickImage.path);
+      return CroppedFile(pickImage.path);
     } else {
-      final file = File(pickImage.path);
+      final file = CroppedFile(pickImage.path);
 
       return cropImage(file);
     }

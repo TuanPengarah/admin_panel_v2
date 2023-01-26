@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:admin_panel/config/haptic_feedback.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
@@ -36,7 +37,7 @@ class PdfController extends GetxController {
   }
 
   void sharePDF() {
-    Share.shareFiles(['$fullPath'], text: 'Maklumat Jobsheet');
+    Share.shareXFiles([XFile(fullPath)], text: 'Maklumat Jobsheet');
   }
 
   Future<void> writeJobsheetPdf({

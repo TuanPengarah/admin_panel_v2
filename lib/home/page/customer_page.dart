@@ -87,7 +87,7 @@ class CustomerPage extends StatelessWidget {
                                   color:
                                       _customerController.currentlySelected ==
                                               i.text
-                                          ? Get.theme.textTheme.bodyText1.color
+                                          ? Get.theme.textTheme.bodyLarge.color
                                           : Colors.grey,
                                   fontWeight:
                                       _customerController.currentlySelected ==

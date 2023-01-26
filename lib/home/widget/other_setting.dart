@@ -20,10 +20,11 @@ class OtherSettings extends StatelessWidget {
         label: Text('Log Keluar'),
         style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(8),
-          shadowColor: MaterialStateProperty.all<Color>(Get.theme.errorColor),
+          shadowColor:
+              MaterialStateProperty.all<Color>(Get.theme.colorScheme.error),
           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
           backgroundColor:
-              MaterialStateProperty.all<Color>(Get.theme.errorColor),
+              MaterialStateProperty.all<Color>(Get.theme.colorScheme.error),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(45),
