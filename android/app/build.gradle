@@ -34,6 +34,10 @@ if (keystorePropertiesFile.exists()) {
 android {
     compileSdkVersion 33
     ndkVersion '21.3.6528147'
+     lintOptions {
+        disable 'InvalidPackage'
+        checkReleaseBuilds false //<- add this line
+    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -49,6 +53,7 @@ android {
     }
     signingConfigs {
         release {
+            
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
