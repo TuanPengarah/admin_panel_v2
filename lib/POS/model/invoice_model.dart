@@ -19,3 +19,26 @@ class InvoiceModel {
     };
   }
 }
+
+class InvoiceDetailsModel {
+  final List invoiceList;
+  final String custUID;
+  final bool ispay;
+  final String technician;
+
+  InvoiceDetailsModel({
+    @required this.invoiceList,
+    @required this.custUID,
+    @required this.ispay,
+    @required this.technician,
+  });
+
+  factory InvoiceDetailsModel.fromDatabase(Map<dynamic, dynamic> json) {
+    return InvoiceDetailsModel(
+      technician: json['technician'],
+      invoiceList: json['InvoiceList'],
+      custUID: json['customerUID'],
+      ispay: json['isPay'],
+    );
+  }
+}

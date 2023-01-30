@@ -374,15 +374,14 @@ class PaymentController extends GetxController {
       }
 
       ///TAMBAH INVOIS PADA FIREBASE DATABASE
+      String invId = DateTime.now().millisecondsSinceEpoch.toString();
       Map<String, dynamic> invoisListDatabase = {
         'isPay': selectedDibayar.value == 'Dibayar' ? true : false,
         'technician': currentTechnician.value,
         'InvoiceList': invoisData.map((e) => e.toMap()).toList(),
         'customerUID': customerUID,
       };
-      FirebaseDatabase.instance
-          .ref('Invoices/$environment')
-          .set(invoisListDatabase);
+      FirebaseDatabase.instance.ref('Invoices/$invId').set(invoisListDatabase);
 
       title.value = 'Menyegarkan semula semua data...';
       final _sparepartsController = Get.find<SparepartController>();
