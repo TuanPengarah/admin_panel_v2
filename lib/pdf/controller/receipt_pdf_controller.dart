@@ -126,7 +126,7 @@ class ReceiptPDFController extends GetxController {
                         ),
                       ]),
                   pw.SizedBox(height: 40),
-                  pw.Text('Tarikh: ${_tarikh()}'),
+                  pw.Text('Tarikh: ${_data['tarikh']}'),
                   _paymentController.customerName != '' &&
                           _paymentController.phoneNumber != ''
                       ? pw.Text('Nama: ${_paymentController.customerName}')

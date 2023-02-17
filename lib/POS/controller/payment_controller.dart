@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
 class PaymentController extends GetxController {
@@ -91,24 +92,24 @@ class PaymentController extends GetxController {
         var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
-      case '1 Minggu Waranti':
+      case '1 Minggu':
         warantiCost = 10;
         var jiffy9 = Jiffy()..add(duration: Duration(days: 7));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
-      case '1 Bulan Waranti':
+      case '1 Bulan':
         warantiCost = 30;
         var jiffy9 = Jiffy()..add(duration: Duration(days: 30));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         print(tempohWaranti);
         break;
-      case '2 Bulan Waranti':
+      case '2 Bulan':
         warantiCost = 50;
         var jiffy9 = Jiffy()..add(duration: Duration(days: 60));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         print(tempohWaranti);
         break;
-      case '3 Bulan Waranti':
+      case '3 Bulan':
         warantiCost = 70;
         var jiffy9 = Jiffy()..add(duration: Duration(days: 90));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
@@ -400,6 +401,7 @@ class PaymentController extends GetxController {
           .then((value) => debugPrint(value.body.toString()));
       Haptic.feedbackSuccess();
       Get.back();
+      Get.back();
     } on Exception catch (e) {
       debugPrint(e.toString());
       Haptic.feedbackSuccess();
@@ -526,8 +528,11 @@ class PaymentController extends GetxController {
 
   void choosePrint() {
     Haptic.feedbackClick();
+    final tarikh = DateFormat('dd-MM-yyyy').format(DateTime.now());
+
     final data = {
       'isBills': true,
+      'tarikh': tarikh,
     };
     Get.toNamed(
       MyRoutes.pdfReceiptViewer,

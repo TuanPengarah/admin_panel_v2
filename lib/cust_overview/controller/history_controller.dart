@@ -100,8 +100,10 @@ class RepairHistoryController extends GetxController {
                       payment.phoneNumber = data['noTel'];
                       print(payment.bills[0]);
                       Get.back();
-                      Get.toNamed(MyRoutes.pdfReceiptViewer,
-                          arguments: {'isBills': false});
+                      Get.toNamed(MyRoutes.pdfReceiptViewer, arguments: {
+                        'isBills': false,
+                        'tarikh': data['tarikh'],
+                      });
                       // dialogReceipt(data);
                     },
                   )
