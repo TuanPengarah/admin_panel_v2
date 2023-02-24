@@ -31,6 +31,7 @@ dependencies:
   masonry_grid: ^1.0.0
   chart_sparkline: ^1.0.12
   grouped_list: ^5.1.2
+  quds_popup_menu: ^0.0.1+1
 
   # API Services
   firebase_core_platform_interface: ^4.5.2

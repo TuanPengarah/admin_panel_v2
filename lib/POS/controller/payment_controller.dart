@@ -375,14 +375,22 @@ class PaymentController extends GetxController {
       }
 
       ///TAMBAH INVOIS PADA FIREBASE DATABASE
-      String invId = DateTime.now().millisecondsSinceEpoch.toString();
+      // String invId = DateTime.now().millisecondsSinceEpoch.toString();
       Map<String, dynamic> invoisListDatabase = {
         'isPay': selectedDibayar.value == 'Dibayar' ? true : false,
         'technician': currentTechnician.value,
         'InvoiceList': invoisData.map((e) => e.toMap()).toList(),
         'customerUID': customerUID,
       };
-      FirebaseDatabase.instance.ref('Invoices/$invId').set(invoisListDatabase);
+      if (bills.length == 1) {
+        await FirebaseDatabase.instance
+            .ref('Invoices/$environment')
+            .set(invoisListDatabase);
+      } else {
+        FirebaseDatabase.instance
+            .ref('Invoices/$environment')
+            .update(invoisListDatabase);
+      }
 
       title.value = 'Menyegarkan semula semua data...';
       final _sparepartsController = Get.find<SparepartController>();

@@ -5,7 +5,6 @@ import 'package:cross_file/cross_file.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -16,11 +15,6 @@ class ReceiptPDFController extends GetxController {
   final pdf = pw.Document();
   String fullPath = '';
   final _data = Get.arguments;
-
-  String _tarikh() {
-    final tarikhDart = DateTime.now();
-    return DateFormat('dd/MM/yyyy').format(tarikhDart).toString();
-  }
 
   void sendEmailPDF(String email, String technician, userName) async {
     String currentEmail = email;
@@ -149,6 +143,11 @@ class ReceiptPDFController extends GetxController {
                                   ])
                               .toList(),
                           border: null,
+                          columnWidths: {
+                            0: pw.FlexColumnWidth(7),
+                            1: pw.FlexColumnWidth(2),
+                            2: pw.FlexColumnWidth(2)
+                          },
                           headerStyle:
                               pw.TextStyle(fontWeight: pw.FontWeight.bold),
                           headerDecoration: pw.BoxDecoration(
@@ -157,8 +156,8 @@ class ReceiptPDFController extends GetxController {
                           cellHeight: 30,
                           cellAlignments: {
                             0: pw.Alignment.centerLeft,
-                            1: pw.Alignment.centerRight,
-                            2: pw.Alignment.centerRight,
+                            1: pw.Alignment.centerLeft,
+                            2: pw.Alignment.centerLeft,
                           },
                         )
                       : pw.Table(
@@ -226,6 +225,11 @@ class ReceiptPDFController extends GetxController {
                               ],
                             ),
                           ],
+                          columnWidths: {
+                            0: pw.FlexColumnWidth(7),
+                            1: pw.FlexColumnWidth(2),
+                            2: pw.FlexColumnWidth(2)
+                          },
                         ),
                   pw.Divider(color: PdfColors.blue300),
                   pw.Container(
