@@ -109,6 +109,7 @@ class StepsPayment {
               children: [
                 Obx(
                   () => TextField(
+                    focusNode: _controller.focusHarga,
                     controller: _controller.priceText,
                     keyboardType: GetPlatform.isIOS
                         ? TextInputType.numberWithOptions(

@@ -25,7 +25,7 @@ class AddSparepartsController extends GetxController {
   final jenisParts = TextEditingController();
   final hargaParts = TextEditingController();
   final maklumatParts = TextEditingController();
-  final kuantitiParts = TextEditingController();
+  final kuantitiParts = TextEditingController(text: '1');
 
   var selectedSupplier = 'MG'.obs;
   var selectedQuality = 'OEM'.obs;
@@ -103,12 +103,13 @@ class AddSparepartsController extends GetxController {
     partsID.value = converter;
   }
 
-  void nextStepper() {
+  void nextStepper() async {
     // final lastStep =
     //     currentSteps.value == AddSparepartStepper().getStepper().length - 1;
     Haptic.feedbackClick();
     if (currentSteps.value == 0) {
       currentSteps += 1;
+      await Future.delayed(Duration(milliseconds: 500));
       Get.focusScope.requestFocus(focusModelSmartphone);
     } else if (currentSteps.value == 1) {
       if (modelParts.text.isEmpty) {
@@ -116,6 +117,7 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errModelParts.value = false;
+        await Future.delayed(Duration(milliseconds: 500));
         focusJenisSparepart.requestFocus();
       }
     } else if (currentSteps.value == 2) {
@@ -124,9 +126,11 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errJenisParts.value = false;
+
         focusJenisSparepart.unfocus();
       }
     } else if (currentSteps.value == 3) {
+      await Future.delayed(Duration(milliseconds: 500));
       focusHargaParts.requestFocus();
       currentSteps += 1;
     } else if (currentSteps.value == 4) {
@@ -135,6 +139,7 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errHargaParts.value = false;
+        await Future.delayed(Duration(milliseconds: 500));
         focusMaklumatParts.requestFocus();
       }
     } else if (currentSteps.value == 5) {
@@ -143,6 +148,7 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errMaklumatParts.value = false;
+        await Future.delayed(Duration(milliseconds: 500));
         focusKuantitiParts.requestFocus();
       }
     } else if (currentSteps.value == 6) {

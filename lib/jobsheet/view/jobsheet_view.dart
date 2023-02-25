@@ -170,8 +170,11 @@ class JobsheetView extends StatelessWidget {
                                   controller: _jobsheetController.namaCust,
                                   textInputAction: TextInputAction.next,
                                   textCapitalization: TextCapitalization.words,
-                                  onSubmitted: (text) =>
-                                      _jobsheetController.nextStep(),
+                                  onSubmitted: (text) {
+                                    _jobsheetController.nextStep();
+                                    FocusScope.of(context).requestFocus(
+                                        _jobsheetController.focusNoPhone);
+                                  },
                                   decoration: InputDecoration(
                                     errorText:
                                         _jobsheetController.errNama.value ==

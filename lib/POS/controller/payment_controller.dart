@@ -24,6 +24,8 @@ class PaymentController extends GetxController {
   final priceText = TextEditingController();
   final otherServicesText = TextEditingController();
 
+  final focusHarga = FocusNode();
+
   var currentSteps = 0.obs;
 
   var errPriceMiss = false.obs;
@@ -121,7 +123,7 @@ class PaymentController extends GetxController {
     }
   }
 
-  void nextSteps() {
+  void nextSteps() async {
     if (currentSteps.value == 0) {
       if (currentStock.value != '...') {
         Haptic.feedbackClick();
@@ -137,6 +139,8 @@ class PaymentController extends GetxController {
     } else if (currentSteps.value == 2) {
       Haptic.feedbackClick();
       currentSteps.value++;
+      await Future.delayed(Duration(milliseconds: 300));
+      focusHarga.requestFocus();
     } else if (currentSteps.value == 3) {
       if (priceText.text.isEmpty) {
         Haptic.feedbackError();

@@ -57,6 +57,9 @@ class JobsheetController extends GetxController {
       generateMySID();
     }
     checkExistingCust();
+    focusNoPhone.addListener(() {
+      print('tengah focus no phone');
+    });
 
     super.onInit();
   }
@@ -169,6 +172,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errNama.value = false;
+        await Future.delayed(Duration(milliseconds: 500));
         focusNoPhone.requestFocus();
       }
     } else if (currentSteps.value == 1) {
@@ -178,10 +182,12 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errNoPhone.value = false;
+        await Future.delayed(Duration(milliseconds: 500));
         focusEmail.requestFocus();
       }
     } else if (currentSteps.value == 2) {
       currentSteps.value++;
+      await Future.delayed(Duration(milliseconds: 500));
       focusModelPhone.requestFocus();
     } else if (currentSteps.value == 3) {
       if (modelPhone.text.isEmpty) {
@@ -190,10 +196,12 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errModel.value = false;
+        await Future.delayed(Duration(milliseconds: 500));
         focusPassPhone.requestFocus();
       }
     } else if (currentSteps.value == 4) {
       currentSteps.value++;
+      await Future.delayed(Duration(milliseconds: 500));
       focusKerosakkan.requestFocus();
     } else if (currentSteps.value == 5) {
       if (kerosakkan.text.isEmpty) {
@@ -202,6 +210,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errKerosakkan.value = false;
+        await Future.delayed(Duration(milliseconds: 500));
         focusHarga.requestFocus();
       }
     } else if (currentSteps.value == 6) {
@@ -211,6 +220,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errPrice.value = false;
+        await Future.delayed(Duration(milliseconds: 500));
         focusRemarks.requestFocus();
       }
     } else if (currentSteps.value == 7) {

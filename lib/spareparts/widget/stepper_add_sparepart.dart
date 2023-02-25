@@ -3,6 +3,7 @@ import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 
@@ -150,7 +151,12 @@ class AddSparepartStepper {
           isActive: _controller.currentSteps.value >= 4,
           title: Text('Harga'),
           content: TextField(
-            keyboardType: TextInputType.number,
+            keyboardType: GetPlatform.isIOS
+                ? TextInputType.numberWithOptions(signed: true, decimal: true)
+                : TextInputType.phone,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}'))
+            ],
             controller: _controller.hargaParts,
             focusNode: _controller.focusHargaParts,
             textInputAction: TextInputAction.next,
@@ -194,7 +200,12 @@ class AddSparepartStepper {
           content: TextField(
             controller: _controller.kuantitiParts,
             focusNode: _controller.focusKuantitiParts,
-            keyboardType: TextInputType.number,
+            keyboardType: GetPlatform.isIOS
+                ? TextInputType.numberWithOptions(signed: true, decimal: true)
+                : TextInputType.phone,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}'))
+            ],
             textInputAction: TextInputAction.done,
             onSubmitted: (newText) {
               _controller.nextStepper();
