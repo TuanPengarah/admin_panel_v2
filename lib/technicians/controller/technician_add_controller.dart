@@ -129,7 +129,7 @@ class TechnicianAddController extends GetxController {
     }
   }
 
-  void nextStepper() {
+  void nextStepper() async {
     Haptic.feedbackClick();
     String generateEmail = '';
     if (currentSteps.value == 0) {
@@ -148,6 +148,7 @@ class TechnicianAddController extends GetxController {
       currentSteps.value++;
     } else if (currentSteps.value == 2) {
       currentSteps.value++;
+      await Future.delayed(Duration(milliseconds: 300));
       emailFocus.requestFocus();
     } else if (currentSteps.value == 3) {
       if (emailStaff.text.isEmpty) {

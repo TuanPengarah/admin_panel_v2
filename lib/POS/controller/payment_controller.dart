@@ -154,7 +154,6 @@ class PaymentController extends GetxController {
       Haptic.feedbackClick();
       currentSteps.value++;
     } else if (currentSteps.value == 5) {
-      print(mysid);
       paymentConfirmation();
     }
   }

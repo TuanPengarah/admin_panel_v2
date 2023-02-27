@@ -109,7 +109,7 @@ class AddSparepartsController extends GetxController {
     Haptic.feedbackClick();
     if (currentSteps.value == 0) {
       currentSteps += 1;
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 300));
       Get.focusScope.requestFocus(focusModelSmartphone);
     } else if (currentSteps.value == 1) {
       if (modelParts.text.isEmpty) {
@@ -117,7 +117,7 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errModelParts.value = false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         focusJenisSparepart.requestFocus();
       }
     } else if (currentSteps.value == 2) {
@@ -130,7 +130,7 @@ class AddSparepartsController extends GetxController {
         focusJenisSparepart.unfocus();
       }
     } else if (currentSteps.value == 3) {
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 300));
       focusHargaParts.requestFocus();
       currentSteps += 1;
     } else if (currentSteps.value == 4) {
@@ -139,7 +139,7 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errHargaParts.value = false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         focusMaklumatParts.requestFocus();
       }
     } else if (currentSteps.value == 5) {
@@ -148,7 +148,7 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errMaklumatParts.value = false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         focusKuantitiParts.requestFocus();
       }
     } else if (currentSteps.value == 6) {

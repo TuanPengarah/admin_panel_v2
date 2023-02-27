@@ -172,7 +172,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errNama.value = false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         focusNoPhone.requestFocus();
       }
     } else if (currentSteps.value == 1) {
@@ -182,12 +182,12 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errNoPhone.value = false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         focusEmail.requestFocus();
       }
     } else if (currentSteps.value == 2) {
       currentSteps.value++;
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 300));
       focusModelPhone.requestFocus();
     } else if (currentSteps.value == 3) {
       if (modelPhone.text.isEmpty) {
@@ -196,12 +196,12 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errModel.value = false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         focusPassPhone.requestFocus();
       }
     } else if (currentSteps.value == 4) {
       currentSteps.value++;
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 300));
       focusKerosakkan.requestFocus();
     } else if (currentSteps.value == 5) {
       if (kerosakkan.text.isEmpty) {
@@ -210,7 +210,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errKerosakkan.value = false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         focusHarga.requestFocus();
       }
     } else if (currentSteps.value == 6) {
@@ -220,7 +220,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errPrice.value = false;
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         focusRemarks.requestFocus();
       }
     } else if (currentSteps.value == 7) {
