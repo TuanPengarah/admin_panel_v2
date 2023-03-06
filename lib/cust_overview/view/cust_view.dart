@@ -15,7 +15,7 @@ class CustomerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Hero(
-        tag: _data[0],
+        tag: _data['UID'],
         child: Scaffold(
           bottomNavigationBar: Obx(() => NavigationBar(
                 onDestinationSelected: (index) =>

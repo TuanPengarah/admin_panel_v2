@@ -267,15 +267,24 @@ class CustomerPage extends StatelessWidget {
             Haptic.feedbackClick();
             Get.toNamed(
               MyRoutes.overview,
-              arguments: [
-                customer['UID'],
-                customer['Nama'],
-                customer['photoURL'],
-                customer['No Phone'],
-                customer['Email'],
-                customer['Points'],
-                customer['timeStamp'],
-              ],
+              // arguments: [
+              //   customer['UID'],
+              //   customer['Nama'],
+              //   customer['photoURL'],
+              //   customer['No Phone'],
+              //   customer['Email'],
+              //   customer['Points'],
+              //   customer['timeStamp'],
+              // ],
+              arguments: {
+                'UID': customer['UID'],
+                'Nama': customer['Nama'],
+                'photoURL': customer['photoURL'],
+                'No Phone': customer['No Phone'],
+                'Email': customer['Email'],
+                'Points': customer['Points'],
+                'timeStamp': customer['timeStamp']
+              },
             );
           } else {
             final smsController = Get.put(SMSController());

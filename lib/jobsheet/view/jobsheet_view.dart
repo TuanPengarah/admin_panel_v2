@@ -2,6 +2,8 @@ import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
+import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
+import 'package:admin_panel/price_list/model/pricelist_model.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +20,7 @@ extension Utility on BuildContext {
 
 class JobsheetView extends StatelessWidget {
   final _jobsheetController = Get.find<JobsheetController>();
+  final _pricelistController = Get.find<PriceListController>();
 
   @override
   Widget build(BuildContext context) {
@@ -277,14 +280,13 @@ class JobsheetView extends StatelessWidget {
                                               ? 'Sila masukkan model peranti'
                                               : null,
                                     )),
-                                suggestionsCallback: (String pattern) async =>
-                                    await DatabaseHelper.instance
-                                        .getModelSuggestion(pattern),
-                                onSuggestionSelected: (ModelSuggestion data) =>
+                                suggestionsCallback: (String pattern) =>
+                                    _pricelistController.getModelName(pattern),
+                                onSuggestionSelected: (PriceListModel data) =>
                                     _jobsheetController.modelPhone.text =
                                         data.model,
                                 itemBuilder: (BuildContext context,
-                                    ModelSuggestion data) {
+                                    PriceListModel data) {
                                   return ListTile(
                                     title: Text(data.model),
                                   );

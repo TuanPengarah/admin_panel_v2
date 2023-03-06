@@ -1,6 +1,8 @@
 import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/inventory.dart';
 import 'package:admin_panel/home/model/suggestion.dart';
+import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
+import 'package:admin_panel/price_list/model/pricelist_model.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +11,7 @@ import 'package:get/get.dart';
 
 class AddSparepartStepper {
   final _controller = Get.find<AddSparepartsController>();
+  final _priceListController = Get.find<PriceListController>();
 
   List<Step> getStepper() => [
         Step(
@@ -65,11 +68,11 @@ class AddSparepartStepper {
                     : null,
               ),
             ),
-            suggestionsCallback: (String pattern) async =>
-                await DatabaseHelper.instance.getModelSuggestion(pattern),
-            onSuggestionSelected: (ModelSuggestion suggestion) =>
+            suggestionsCallback: (String pattern) =>
+                _priceListController.getModelName(pattern),
+            onSuggestionSelected: (PriceListModel suggestion) =>
                 _controller.modelParts.text = suggestion.model,
-            itemBuilder: (BuildContext context, ModelSuggestion data) {
+            itemBuilder: (BuildContext context, PriceListModel data) {
               return ListTile(
                 title: Text(data.model),
               );

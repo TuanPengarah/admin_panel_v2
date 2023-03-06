@@ -163,7 +163,7 @@ class RepairHistoryController extends GetxController {
     double sum = 0.0;
     await FirebaseFirestore.instance
         .collection('customer')
-        .doc(_data[0])
+        .doc(_data['UID'])
         .collection('repair history')
         .orderBy('timeStamp', descending: true)
         .get()

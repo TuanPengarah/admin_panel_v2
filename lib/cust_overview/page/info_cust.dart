@@ -23,13 +23,13 @@ class CustomerInfoPage extends StatelessWidget {
                 style: TextStyle(color: Get.theme.colorScheme.onSurfaceVariant),
               ),
             ),
-            background: _data[2] == ''
+            background: _data['photoURL'] == ''
                 ? Container()
                 : Stack(
                     fit: StackFit.expand,
                     children: [
                       ExtendedImage.network(
-                        _data[2],
+                        _data['photoURL'],
                         fit: BoxFit.cover,
                         colorBlendMode: BlendMode.darken,
                       ),
@@ -52,7 +52,7 @@ class CustomerInfoPage extends StatelessWidget {
               () => _overviewController.isEdit.value == true
                   ? IconButton(
                       onPressed: () =>
-                          _overviewController.saveUserData(_data[0]),
+                          _overviewController.saveUserData(_data['UID']),
                       icon: Icon(
                         Icons.save,
                       ),
@@ -61,8 +61,9 @@ class CustomerInfoPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      onSelected: (value) => _overviewController
-                          .popupMenuSelected(value, _data[0], _data[1]),
+                      onSelected: (value) =>
+                          _overviewController.popupMenuSelected(
+                              value, _data['UID'], _data['Nama']),
                       itemBuilder: (context) => PopupMenuOverview.items
                           .map(
                             (i) => PopupMenuItem<IconMenuOverview>(
@@ -90,7 +91,10 @@ class CustomerInfoPage extends StatelessWidget {
                         height: 190,
                         child: InkWell(
                           onTap: () => _overviewController.addToJobsheet(
-                              _data[1], _data[3], _data[4], _data[0]),
+                              _data['Nama'],
+                              _data['No Phone'],
+                              _data['Email'],
+                              _data['UID']),
                           borderRadius: BorderRadius.circular(25),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +113,7 @@ class CustomerInfoPage extends StatelessWidget {
                     Obx(
                       () => infoCard(
                           title: 'Nama Pelanggan',
-                          subtitle: _data[1] == ''
+                          subtitle: _data['Nama'] == ''
                               ? '--'
                               : _overviewController.customerName.value,
                           icon: _overviewController.isEdit.value == true
@@ -124,7 +128,7 @@ class CustomerInfoPage extends StatelessWidget {
                     Obx(
                       () => infoCard(
                           title: 'Nombor Telefon',
-                          subtitle: _data[3] == ''
+                          subtitle: _data['No Phone'] == ''
                               ? '--'
                               : _overviewController.noPhone.value,
                           icon: _overviewController.isEdit.value == true
@@ -132,9 +136,9 @@ class CustomerInfoPage extends StatelessWidget {
                               : Icons.phone,
                           pressed: () {
                             if (_overviewController.isEdit.value != true) {
-                              if (_data[3] != '')
+                              if (_data['No Phone'] != '')
                                 _overviewController.showSheet(
-                                    _data[3], _data[1]);
+                                    _data['No Phone'], _data['Nama']);
                             } else {
                               _overviewController.editPhone();
                             }
@@ -142,22 +146,22 @@ class CustomerInfoPage extends StatelessWidget {
                     ),
                     infoCard(
                       title: 'Email',
-                      subtitle: _data[4] == '' ? '--' : _data[4],
+                      subtitle: _data['Email'] == '' ? '--' : _data['Email'],
                       icon: Icons.email,
-                      pressed: () =>
-                          _overviewController.launchEmail(_data[4], _data[1]),
+                      pressed: () => _overviewController.launchEmail(
+                          _data['Email'], _data['Nama']),
                     ),
                     infoCard(
                       title: 'Repair Points',
-                      subtitle: _data[5].toString(),
+                      subtitle: _data['Points'].toString(),
                       icon: Icons.toll,
                       pressed: () {},
                     ),
                     infoCard(
                       title: 'ID Pengguna',
-                      subtitle: _data[0],
+                      subtitle: _data['UID'],
                       icon: Icons.badge,
-                      pressed: () => _overviewController.copyUID(_data[0]),
+                      pressed: () => _overviewController.copyUID(_data['UID']),
                     ),
                     SizedBox(height: 30),
                   ],

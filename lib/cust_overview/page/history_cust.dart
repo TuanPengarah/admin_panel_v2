@@ -117,14 +117,14 @@ class RepairHistoryPage extends StatelessWidget {
         child: InkWell(
           onTap: () {
             var payload = <String, dynamic>{
-              'nama': _data[1],
-              'noTel': _data[3],
+              'nama': _data['Nama'],
+              'noTel': _data['No Phone'],
               'model': doc['Model'],
               'kerosakkan': doc['Kerosakkan'].toString(),
               'price': doc['Harga'].toString(),
               'remarks': doc['Remarks'],
               'mysid': doc['MID'],
-              'email': _data[4],
+              'email': _data['Email'],
               'timeStamp': doc['timeStamp'],
               'technician': doc['Technician'],
               'status': doc['Status'],

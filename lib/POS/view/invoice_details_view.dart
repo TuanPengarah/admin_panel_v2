@@ -1,6 +1,8 @@
 import 'package:admin_panel/POS/model/invoice_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
+import 'package:admin_panel/home/controller/customer_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +14,7 @@ import '../../config/routes.dart';
 import '../controller/payment_controller.dart';
 
 class ViewInvoiceDetail extends StatelessWidget {
+  final _customerController = Get.find<CustomerController>();
   final _id = Get.parameters;
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,20 @@ class ViewInvoiceDetail extends StatelessWidget {
               QudsPopupMenuItem(
                 title: Text('Maklumat Pelanggan'),
                 leading: Icon(Icons.person),
-                onPressed: () {},
+                onPressed: () {
+                  var customer = _customerController.customerList.where((cust) {
+                    return cust['UID'] == _id['uid'];
+                  }).toList()[0];
+                  Get.toNamed(MyRoutes.overview, arguments: {
+                    'UID': customer['UID'],
+                    'Nama': customer['Nama'],
+                    'photoURL': customer['photoURL'],
+                    'No Phone': customer['No Phone'],
+                    'Email': customer['Email'],
+                    'Points': customer['Points'],
+                    'timeStamp': customer['timeStamp']
+                  });
+                },
               ),
               QudsPopupMenuItem(
                 title: Text(
@@ -136,6 +152,11 @@ class ViewInvoiceDetail extends StatelessWidget {
                                   Get.put(PriceCalculatorController());
 
                                   final payment = Get.put(PaymentController());
+                                  var customer = _customerController
+                                      .customerList
+                                      .where((cust) {
+                                    return cust['UID'] == _id['uid'];
+                                  }).toList()[0];
 
                                   Map<String, dynamic> value = {};
                                   payment.bills = [];
@@ -146,15 +167,15 @@ class ViewInvoiceDetail extends StatelessWidget {
                                       'waranti': inv['warranty'],
                                       'harga': inv['price'],
                                       'technician': invoice.technician,
-                                      'noTel': '',
-                                      'nama': '',
+                                      'noTel': customer['No Phone'],
+                                      'nama': customer['Nama'],
                                     };
                                     payment.bills.add(value);
                                   }
 
                                   payment.totalBillsPrice.value = totalPrice;
-                                  payment.customerName = '';
-                                  payment.phoneNumber = '';
+                                  payment.customerName = customer['Nama'];
+                                  payment.phoneNumber = customer['No Phone'];
                                   print(payment.bills);
                                   Get.toNamed(MyRoutes.pdfReceiptViewer,
                                       arguments: {

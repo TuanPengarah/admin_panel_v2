@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 class PriceListController extends GetxController {
   List<PriceListModel> priceList = [];
@@ -35,6 +36,14 @@ class PriceListController extends GetxController {
     getList = getPriceList();
 
     super.onInit();
+  }
+
+  List<PriceListModel> getModelName(String pattern) {
+    List<PriceListModel> model =
+        priceList.distinct(by: (item) => item.model.removeAllWhitespace);
+    return model.where((phone) {
+      return phone.model.toLowerCase().contains(pattern.toLowerCase());
+    }).toList();
   }
 
   void checkInternet() async {
@@ -430,14 +439,13 @@ class PriceListController extends GetxController {
                       textInputAction: TextInputAction.next,
                       decoration: InputDecoration(labelText: 'Model'),
                     ),
-                    suggestionsCallback: (String pattern) async =>
-                        await DatabaseHelper.instance
-                            .getModelSuggestion(pattern),
-                    onSuggestionSelected: (ModelSuggestion suggestion) {
+                    suggestionsCallback: (String pattern) =>
+                        getModelName(pattern),
+                    onSuggestionSelected: (PriceListModel suggestion) {
                       partsFocus.requestFocus();
                       return modelText.text = suggestion.model;
                     },
-                    itemBuilder: (BuildContext context, ModelSuggestion data) {
+                    itemBuilder: (BuildContext context, PriceListModel data) {
                       return ListTile(
                         title: Text(data.model),
                       );

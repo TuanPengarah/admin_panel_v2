@@ -25,8 +25,8 @@ class OverviewController extends GetxController {
   }
 
   void checkEdit() {
-    customerName.value = _data[1];
-    noPhone.value = _data[3];
+    customerName.value = _data['Nama'];
+    noPhone.value = _data['No Phone'];
   }
 
   void popupMenuSelected(IconMenuOverview value, String uid, String nama) {
@@ -156,7 +156,7 @@ class OverviewController extends GetxController {
   Future<bool> saveUserData(String uid) async {
     bool result = false;
     Haptic.feedbackSuccess();
-    if (customerName != _data[1] || noPhone != _data[3]) {
+    if (customerName != _data['Nama'] || noPhone != _data['No Phone']) {
       await Get.dialog(AlertDialog(
         title: Text('Simpan suntingan anda?'),
         content: Text(

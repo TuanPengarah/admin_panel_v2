@@ -5,6 +5,14 @@ import 'package:get/get.dart';
 
 class CustomerSearch extends SearchDelegate {
   final _customerController = Get.find<CustomerController>();
+
+  List _getCust() {
+    return _customerController.customerList.where((e) {
+      return '${e['Nama'].toString().toLowerCase()} ${e['No Phone'].toString().toLowerCase()}'
+          .contains(query.toLowerCase());
+    }).toList();
+  }
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -57,13 +65,13 @@ class CustomerSearch extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    _customerController.searchResultList(query);
+    // _customerController.searchResultList(query);
+    List suggestion = _getCust();
     return query != ''
         ? ListView.builder(
-            itemCount:
-                query.isEmpty ? 0 : _customerController.customerList.length,
+            itemCount: query.isEmpty ? 0 : suggestion.length,
             itemBuilder: ((context, i) {
-              var customer = _customerController.customerList[i];
+              var customer = suggestion[i];
               var image = customer['photoURL'];
               return CustomerPage(false).customerTiles(customer, image);
             }),

@@ -1,7 +1,6 @@
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
-import 'package:admin_panel/home/model/customer_suggestion_model.dart';
 import 'package:admin_panel/home/model/popupmenu_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -172,35 +171,36 @@ class CustomerController extends GetxController {
       getFromFirestore = snapshot.docs;
 
       status.value = '';
-      searchResultList('');
+      // searchResultList('');
+      customerList = List.from(getFromFirestore);
       update();
       customerListRead.value = customerList.length.toString();
     });
   }
 
-  void searchResultList(String query) {
-    List showResult = [];
-    if (query != '') {
-      // perform search
-      for (var customerSnapshot in getFromFirestore) {
-        var title = CustomerSuggestion.getCustomer(customerSnapshot)
-            .title
-            .toLowerCase();
+  // void searchResultList(String query) {
+  //   List showResult = [];
+  //   if (query != '') {
+  //     // perform search
+  //     for (var customerSnapshot in getFromFirestore) {
+  //       var title = CustomerSuggestion.getCustomer(customerSnapshot)
+  //           .title
+  //           .toLowerCase();
 
-        var noPhone = CustomerSuggestion.getCustomer(customerSnapshot)
-            .phoneNumber
-            .toLowerCase();
+  //       var noPhone = CustomerSuggestion.getCustomer(customerSnapshot)
+  //           .phoneNumber
+  //           .toLowerCase();
 
-        if (title.contains(query.toLowerCase())) {
-          showResult.add(customerSnapshot);
-        } else if (noPhone.contains(query.toLowerCase())) {
-          showResult.add(customerSnapshot);
-        }
-      }
-    } else {
-      showResult = List.from(getFromFirestore);
-    }
-    customerList = showResult;
-    // update();
-  }
+  //       if (title.contains(query.toLowerCase())) {
+  //         showResult.add(customerSnapshot);
+  //       } else if (noPhone.contains(query.toLowerCase())) {
+  //         showResult.add(customerSnapshot);
+  //       }
+  //     }
+  //   } else {
+  //     showResult = List.from(getFromFirestore);
+  //   }
+  //   customerList = showResult;
+  //   // update();
+  // }
 }

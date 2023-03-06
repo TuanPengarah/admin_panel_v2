@@ -84,9 +84,7 @@ class ViewInvoice extends StatelessWidget {
       onTap: () {
         Get.toNamed(
           MyRoutes.detailsInvoice,
-          parameters: {
-            'id': docs['id'],
-          },
+          parameters: {'id': docs['id'], 'uid': docs['customerUID']},
         );
       },
     );

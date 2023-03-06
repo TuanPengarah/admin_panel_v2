@@ -73,6 +73,7 @@ dependencies:
   flutter_typeahead: ^4.0.0
   quick_actions: ^1.0.1
   connectivity_checker: ^1.1.0
+  fast_immutable_collections: ^9.0.0
 
 dev_dependencies:
   flutter_test:

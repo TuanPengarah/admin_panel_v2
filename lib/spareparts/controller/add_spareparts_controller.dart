@@ -20,6 +20,7 @@ import '../../config/routes.dart';
 class AddSparepartsController extends GetxController {
   final _sparepartsController = Get.find<SparepartController>();
   final _authController = Get.find<AuthController>();
+  final _priceListController = Get.find<PriceListController>();
 
   final modelParts = TextEditingController();
   final jenisParts = TextEditingController();
@@ -284,7 +285,13 @@ class AddSparepartsController extends GetxController {
       Haptic.feedbackSuccess();
       await Future.delayed(Duration(seconds: 1));
       Get.offAllNamed(MyRoutes.home);
-      showRecommended();
+      final bool exist = _priceListController.priceList.any((item) =>
+          item.parts.contains(jenisParts.text) &&
+          item.model.contains(modelParts.text));
+      debugPrint(exist.toString());
+      if (exist == false) {
+        showRecommended();
+      }
     } on Exception catch (e) {
       status.value = 'Opps! Kesalahan talah berlaku: $e';
       Haptic.feedbackError();
