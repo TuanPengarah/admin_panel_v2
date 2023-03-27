@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:admin_panel/POS/controller/payment_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:cross_file/cross_file.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:get/get.dart';
@@ -37,7 +37,10 @@ class ReceiptPDFController extends GetxController {
   }
 
   void sharePDF() {
-    Share.shareXFiles([XFile(fullPath)], text: 'Invois');
+    Share.shareXFiles(
+      [XFile(fullPath)],
+      sharePositionOrigin: Rect.fromLTWH(0, 0, Get.width, Get.height / 2),
+    );
   }
 
   Future<void> writeReceiptPDF() async {
@@ -64,7 +67,7 @@ class ReceiptPDFController extends GetxController {
                         crossAxisAlignment: pw.CrossAxisAlignment.start,
                         children: [
                           pw.Text(
-                            'INVOIS',
+                            'RECEIPT',
                             style: pw.TextStyle(
                               color: PdfColors.blue,
                               fontWeight: pw.FontWeight.bold,

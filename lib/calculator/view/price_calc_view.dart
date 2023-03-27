@@ -2,6 +2,8 @@ import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/calculator/widget/widget_price_calc.dart';
 import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:another_xlider/another_xlider.dart';
+import 'package:another_xlider/models/fixed_value.dart';
+import 'package:another_xlider/models/trackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

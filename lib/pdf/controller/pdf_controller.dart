@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:cross_file/cross_file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';

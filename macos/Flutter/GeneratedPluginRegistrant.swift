@@ -15,7 +15,7 @@ import firebase_messaging
 import firebase_storage
 import flutter_app_badger
 import path_provider_foundation
-import share_plus_macos
+import share_plus
 import sqflite
 import syncfusion_pdfviewer_macos
 import url_launcher_macos
