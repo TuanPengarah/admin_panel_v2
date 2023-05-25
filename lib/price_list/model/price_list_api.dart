@@ -18,77 +18,77 @@ class PriceListApi {
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gsheet%40af-fix-database.iam.gserviceaccount.com"
 }
 ''';
-  static final _spreadSheetId = '1Sng5zl52Px3KUhAXW4G7IFPyIMmCnrP_SPCS_nTXsbk';
+  static const _spreadSheetId = '1Sng5zl52Px3KUhAXW4G7IFPyIMmCnrP_SPCS_nTXsbk';
 
   static final _gsheet = GSheets(_credential);
-  static Worksheet _userSheet;
+  static Worksheet? _userSheet;
 
   static Future init() async {
     try {
       final spreadsheet = await _gsheet.spreadsheet(_spreadSheetId);
       _userSheet = await _getWorkSheet(spreadsheet, title: 'Parts');
       final firstRow = PriceListField.getFields();
-      _userSheet.values.insertRow(1, firstRow);
+      _userSheet?.values.insertRow(1, firstRow);
     } on Exception catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  static Future<Worksheet> _getWorkSheet(
+  static Future<Worksheet?> _getWorkSheet(
     Spreadsheet spreadsheet, {
-    String title,
+    String? title,
   }) async {
     try {
-      return await spreadsheet.addWorksheet(title);
+      return await spreadsheet.addWorksheet(title.toString());
     } catch (e) {
-      return spreadsheet.worksheetByTitle(title);
+      return spreadsheet.worksheetByTitle(title.toString());
     }
   }
 
   static Future insert(List<Map<String, dynamic>> rowList) async {
     if (_userSheet == null) return;
-    _userSheet.values.map.appendRows(rowList);
+    _userSheet?.values.map.appendRows(rowList);
   }
 
   static Future<List<PriceListModel>> getAll() async {
     if (_userSheet == null) return <PriceListModel>[];
-    final pricelist = await _userSheet.values.map.allRows();
+    final pricelist = await _userSheet?.values.map.allRows();
 
-    return pricelist.map(PriceListModel.fromJson).toList();
+    return pricelist!.map(PriceListModel.fromJson).toList();
   }
 
   static Future update({
-    @required int id,
-    @required String partsKey,
-    @required String modelKey,
-    @required String hargaKey,
-    @required String partsValue,
-    @required String modelValue,
-    @required String hargaValue,
+    required int id,
+    required String partsKey,
+    required String modelKey,
+    required String hargaKey,
+    required String partsValue,
+    required String modelValue,
+    required String hargaValue,
   }) async {
     if (_userSheet == null) return;
 
     //update model
-    await _userSheet.values.insertValueByKeys(
+    await _userSheet?.values.insertValueByKeys(
       modelValue,
       columnKey: modelKey,
       rowKey: id,
     );
     //update parts
-    await _userSheet.values.insertValueByKeys(
+    await _userSheet?.values.insertValueByKeys(
       partsValue,
       columnKey: partsKey,
       rowKey: id,
     );
     //update harga
-    await _userSheet.values.insertValueByKeys(
+    await _userSheet?.values.insertValueByKeys(
       hargaValue,
       columnKey: hargaKey,
       rowKey: id,
     );
 
     //update id
-    await _userSheet.values.insertValueByKeys(
+    await _userSheet?.values.insertValueByKeys(
         DateTime.now().millisecondsSinceEpoch,
         columnKey: 'ID',
         rowKey: id);
@@ -97,9 +97,9 @@ class PriceListApi {
   Future<void> delete(int id) async {
     if (_userSheet == null) return;
 
-    _userSheet.values.rowIndexOf(id).then((value) {
+    _userSheet?.values.rowIndexOf(id).then((value) {
       if (value > 0) {
-        _userSheet.deleteRow(value);
+        _userSheet?.deleteRow(value);
       }
     });
   }

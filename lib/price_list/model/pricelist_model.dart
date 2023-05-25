@@ -8,7 +8,11 @@ class PriceListModel {
   int id;
   int harga;
 
-  PriceListModel({this.model, this.parts, this.harga, this.id});
+  PriceListModel(
+      {required this.model,
+      required this.parts,
+      required this.harga,
+      required this.id});
 
   // factory PriceListModel.fromJson(dynamic json) {
   //   return PriceListModel(

@@ -1,4 +1,3 @@
-import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/notification/model/notification_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
@@ -15,10 +14,10 @@ class NotificationController extends GetxController {
   }
 
   Future<void> deleteAllNotification(List<NotificationsModel> history) async {
-    history.forEach((element) async {
-      await DatabaseHelper.instance.deleteNotification(element.id);
-      print(element.id);
-    });
+    // history.forEach((element) async {
+    //   // await DatabaseHelper.instance.deleteNotification(element.id);
+    //   print(element.id);
+    // });
     update();
   }
 
@@ -31,7 +30,8 @@ class NotificationController extends GetxController {
   }
 
   Future<void> getValue() async {
-    if (!GetPlatform.isWeb)
+    if (!GetPlatform.isWeb) {
       groupValue.value = box.read<bool>('initNotif') ?? false;
+    }
   }
 }

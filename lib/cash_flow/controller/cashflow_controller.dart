@@ -21,7 +21,7 @@ class CashFlowController extends GetxController {
   final hargaText = TextEditingController();
   final remarksText = TextEditingController();
 
-  Future initCashFlow;
+  Future? initCashFlow;
 
   @override
   void onInit() {
@@ -51,7 +51,7 @@ class CashFlowController extends GetxController {
               update();
             });
           },
-          child: Text('Pasti'),
+          child: const Text('Pasti'),
         ),
         TextButton(
           onPressed: Get.back,
@@ -75,7 +75,7 @@ class CashFlowController extends GetxController {
       'remark': remarksText.text,
     };
 
-    Get.dialog(AlertDialog(
+    Get.dialog(const AlertDialog(
       title: Text('Melakukan Perubahan...'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -107,7 +107,7 @@ class CashFlowController extends GetxController {
         .collection('cashFlow')
         .get()
         .then((snapshot) {
-      snapshot.docs.forEach((doc) {
+      for (var doc in snapshot.docs) {
         // DateTime dt = (doc['timeStamp'] as Timestamp).toDate();
         // FirebaseFirestore.instance
         //     .collection('Sales')
@@ -120,7 +120,7 @@ class CashFlowController extends GetxController {
         // });
 
         cashFlow.add(CashFlowModel.fromJson(doc));
-      });
+      }
     });
     // cashFlow.forEach((element) {
     //   masuk.value += element.isModal == false
@@ -140,7 +140,7 @@ class CashFlowController extends GetxController {
       total.value = double.parse(masuk.value.toString()) -
           double.parse(keluar.value.toString());
     }
-    cashFlow..sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+    cashFlow.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
     update();
   }
 
@@ -148,16 +148,16 @@ class CashFlowController extends GetxController {
     var status = 'Menambah data pada Cash Flow...'.obs;
     Get.dialog(
       AlertDialog(
-        title: Text('Menambah Cash Flow'),
+        title: const Text('Menambah Cash Flow'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(color: Colors.grey),
-            SizedBox(height: 10),
+            const CircularProgressIndicator(color: Colors.grey),
+            const SizedBox(height: 10),
             Obx(() {
               return Text(
                 status.value,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
                 ),
@@ -167,11 +167,11 @@ class CashFlowController extends GetxController {
         ),
       ),
     );
-    final _graphController = Get.find<GraphController>();
+    final graphController = Get.find<GraphController>();
     double hargaRaw = double.parse(hargaText.text);
     int harga = int.parse(hargaRaw.toStringAsFixed(0));
     final String months =
-        _graphController.checkMonths(DateTime.now().month - 1);
+        graphController.checkMonths(DateTime.now().month - 1);
     var firestore = FirebaseFirestore.instance.collection('Sales').doc(year);
     Map<String, dynamic> cashflowPayload = {
       'remark': remarksText.text,
@@ -217,7 +217,7 @@ class CashFlowController extends GetxController {
       status.value = 'Mengemaskini status....';
 
       await getCashFlow();
-      await _graphController.getGraphFromFirestore();
+      await graphController.getGraphFromFirestore();
       update();
       status.value = 'Selesai';
       Get.back();

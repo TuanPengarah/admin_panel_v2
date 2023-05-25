@@ -17,7 +17,7 @@ class CrudTechnician {
     ref.once().then((snapshot) {
       final json = snapshot.snapshot.value as Map<dynamic, dynamic>;
       final technician = Technician.fromJson(json);
-      print('result = ${technician.nama}');
+      debugPrint('result = ${technician.nama}');
     });
   }
 

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class CashFlowCard extends GetView<CashFlowController> {
   final bool isAllRecord;
 
-  CashFlowCard(this.isAllRecord);
+  const CashFlowCard(this.isAllRecord, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +20,15 @@ class CashFlowCard extends GetView<CashFlowController> {
               boxShadow: [
                 BoxShadow(
                   color: Get.isDarkMode
-                      ? Color.fromARGB(66, 15, 13, 13)
-                      : Colors.grey[500],
-                  offset: Offset(4.0, 4.0),
+                      ? const Color.fromARGB(66, 15, 13, 13)
+                      : Colors.grey.shade500,
+                  offset: const Offset(4.0, 4.0),
                   blurRadius: 15,
                   spreadRadius: 1.0,
                 ),
                 BoxShadow(
                   color: Get.isDarkMode ? Colors.black26 : Colors.white,
-                  offset: Offset(-4.0, -4.0),
+                  offset: const Offset(-4.0, -4.0),
                   blurRadius: 15,
                   spreadRadius: 1.0,
                 )
@@ -38,7 +38,7 @@ class CashFlowCard extends GetView<CashFlowController> {
           )
         : Card(
             // elevation: 0,
-            margin: EdgeInsets.symmetric(horizontal: 18),
+            margin: const EdgeInsets.symmetric(horizontal: 18),
             child: _content(),
           );
   }
@@ -48,7 +48,7 @@ class CashFlowCard extends GetView<CashFlowController> {
       padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
-          Text(
+          const Text(
             'J U M L A H',
             style: TextStyle(
               fontSize: 19,
@@ -56,7 +56,7 @@ class CashFlowCard extends GetView<CashFlowController> {
               color: Colors.grey,
             ),
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Obx(() {
             return Text(
               // controller.total.value < 0
@@ -69,7 +69,7 @@ class CashFlowCard extends GetView<CashFlowController> {
               ),
             );
           }),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Obx(() {
             return Wrap(
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -96,46 +96,44 @@ class CashFlowCard extends GetView<CashFlowController> {
     );
   }
 
-  Container _budget({
-    String title,
-    String price,
-    IconData icon,
-    Color color,
+  Row _budget({
+    required String title,
+    required String price,
+    required IconData icon,
+    required Color color,
   }) {
-    return Container(
-      child: Row(
-        children: [
-          Container(
-            height: 45,
-            width: 45,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade50,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Icon(
-              icon,
-              color: color,
-            ),
+    return Row(
+      children: [
+        Container(
+          height: 45,
+          width: 45,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade50,
+            borderRadius: BorderRadius.circular(100),
           ),
-          SizedBox(width: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '$title',
-                style: TextStyle(color: Colors.grey),
-              ),
-              Text(
-                'RM$price',
-                style: TextStyle(
-                  color: Get.isDarkMode ? Colors.white : Colors.grey.shade800,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          child: Icon(
+            icon,
+            color: color,
           ),
-        ],
-      ),
+        ),
+        const SizedBox(width: 15),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(color: Colors.grey),
+            ),
+            Text(
+              'RM$price',
+              style: TextStyle(
+                color: Get.isDarkMode ? Colors.white : Colors.grey.shade800,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

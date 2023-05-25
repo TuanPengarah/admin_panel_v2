@@ -10,13 +10,13 @@ import 'package:shimmer/shimmer.dart';
 
 class TabPriceList extends StatelessWidget {
   final List<PriceListModel> list;
-  TabPriceList({@required this.list});
+  TabPriceList({super.key, required this.list});
 
   final _controller = Get.find<PriceListController>();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _controller.getList.timeout(Duration(seconds: 10)),
+      future: _controller.getList?.timeout(const Duration(seconds: 10)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return ListView.builder(
@@ -32,10 +32,10 @@ class TabPriceList extends StatelessWidget {
                       Shimmer.fromColors(
                         baseColor: Get.isDarkMode
                             ? Colors.grey.shade900
-                            : Colors.grey[300],
+                            : Colors.grey.shade300,
                         highlightColor: Get.isDarkMode
                             ? Colors.grey.shade800
-                            : Colors.grey[200],
+                            : Colors.grey.shade200,
                         child: Container(
                           height: 13,
                           width: Random().nextInt(250).toDouble() + 100,
@@ -52,7 +52,7 @@ class TabPriceList extends StatelessWidget {
               });
         } else if (_controller.internet.value == true ||
             _controller.offlineMode.value == true) {
-          return list.length > 0
+          return list.isNotEmpty
               ? RefreshIndicator(
                   onRefresh: () async => await _controller.getPriceList(),
                   child: AnimationLimiter(
@@ -87,20 +87,20 @@ class TabPriceList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.browser_not_supported,
                         size: 120,
                         color: Colors.grey,
                       ),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         'Maaf, tiada senarai harga ditemui untuk model ini!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.grey,
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       SizedBox(
                         width: 260,
                         height: 40,
@@ -109,14 +109,14 @@ class TabPriceList extends StatelessWidget {
                             Haptic.feedbackClick();
                             _controller.addListDialog(isEdit: false);
                           },
-                          icon: Icon(Icons.add),
-                          label: Text('Tambah Senarai Harga'),
+                          icon: const Icon(Icons.add),
+                          label: const Text('Tambah Senarai Harga'),
                         ),
                       ),
                       TextButton.icon(
                         onPressed: () async {
                           Get.dialog(
-                            AlertDialog(
+                            const AlertDialog(
                               content: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -128,8 +128,8 @@ class TabPriceList extends StatelessWidget {
                           await _controller.getPriceList();
                           Get.back();
                         },
-                        icon: Icon(Icons.refresh),
-                        label: Text('Segar Semula'),
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Segar Semula'),
                       ),
                     ],
                   ),
@@ -156,13 +156,13 @@ class TabPriceList extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: _controller.activateOffline,
-                      child: Text('Aktifkan Mod Luar Talian'),
+                      child: const Text('Aktifkan Mod Luar Talian'),
                     ),
                     const Spacer(),
                     Text(
-                      '${_controller.errorText.value}',
+                      _controller.errorText.value,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     )
                   ],
                 ),

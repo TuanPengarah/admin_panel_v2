@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-
 class Spareparts {
-  final String id;
+  final String? id;
   final String model;
   final String jenisSpareparts;
   final String supplier;
@@ -13,17 +11,17 @@ class Spareparts {
 
   Spareparts({
     this.id,
-    @required this.model,
-    @required this.jenisSpareparts,
-    @required this.supplier,
-    @required this.kualiti,
-    @required this.maklumatSpareparts,
-    @required this.tarikh,
-    @required this.harga,
-    @required this.partsID,
+    required this.model,
+    required this.jenisSpareparts,
+    required this.supplier,
+    required this.kualiti,
+    required this.maklumatSpareparts,
+    required this.tarikh,
+    required this.harga,
+    required this.partsID,
   });
 
-  factory Spareparts.fromMap(json) => new Spareparts(
+  factory Spareparts.fromMap(json) => Spareparts(
         id: '${json['id']}',
         model: json['model'],
         jenisSpareparts: json['jenisParts'],
@@ -36,7 +34,7 @@ class Spareparts {
       );
 
   factory Spareparts.fromRealtimeDatabase(Map<dynamic, dynamic> value) =>
-      new Spareparts(
+      Spareparts(
           id: value['id'],
           model: value['Model'],
           jenisSpareparts: value['Jenis Spareparts'],

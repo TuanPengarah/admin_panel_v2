@@ -1,6 +1,5 @@
 import 'package:admin_panel/API/notif_fcm.dart';
-import 'package:admin_panel/API/sqlite.dart';
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/home/controller/home_controller.dart';
@@ -11,7 +10,7 @@ import 'package:get/get.dart';
 class ChatController extends GetxController {
   List<ChatModel> chat = [];
   TextEditingController typing = TextEditingController();
-  Future chatList;
+  Future? chatList;
   final _params = Get.parameters;
   final _data = Get.arguments;
   final _authController = Get.find<AuthController>();
@@ -22,7 +21,7 @@ class ChatController extends GetxController {
     chatStream
         .listen(streamChat)
         .cancel()
-        .then((value) => print('stream closed'));
+        .then((value) => debugPrint('stream closed'));
     _homeController.isChat = false;
     super.onClose();
   }
@@ -32,15 +31,15 @@ class ChatController extends GetxController {
     _homeController.isChat = true;
     // streamChat();
     chatStream.listen(streamChat);
-    chatList = getChat(_params['id']);
+    chatList = getChat(_params['id'].toString());
     super.onInit();
   }
 
   void streamChat(RemoteMessage message) {
     // chatStream.listen((message) {
     if (message.data['screen'] == '/chat' && _homeController.isChat == true) {
-      print('incoming message');
-      getChat(_params['id']);
+      debugPrint('incoming message');
+      getChat(_params['id'].toString());
     }
 
     // });
@@ -48,10 +47,10 @@ class ChatController extends GetxController {
 
   void sendChat(ChatModel chitChat) async {
     if (typing.text.isNotEmpty) {
-      await DatabaseHelper.instance.addChat(chitChat);
+      // await DatabaseHelper.instance.addChat(chitChat);
       typing.clear();
-      await getChat(chitChat.idUser);
-      print('sending to token: ${_data['token']}');
+      await getChat(chitChat.idUser.toString());
+      debugPrint('sending to token: ${_data['token']}');
       await NotifFCM()
           .postData(
             'Mesej dari ${_authController.userName.value}',
@@ -64,22 +63,22 @@ class ChatController extends GetxController {
             photoURL: _data['photoURL'],
             photoURL1: _data['photoURL1'],
           )
-          .then((value) => print(value.statusText.toString()));
+          .then((value) => debugPrint(value.statusText.toString()));
     }
   }
 
   Future<void> getChat(String idUser) async {
     chat = [];
-    var chatList = await DatabaseHelper.instance.getChat(idUser);
-    chat = chatList;
-    chat.sort((b, a) => a.id.compareTo(b.id));
+    // var chatList = await DatabaseHelper.instance.getChat(idUser);
+    // chat = chatList;
+    // chat.sort((b, a) => a.id!.compareTo(b.id));
     update();
   }
 
   void deletedChat() {
-    chat.forEach((element) {
-      DatabaseHelper.instance.deletedChat(element.id);
-    });
+    // chat.forEach((element) {
+    //   DatabaseHelper.instance.deletedChat(element.id);
+    // });
     chat.clear();
     Get.back();
     Get.back();
@@ -89,7 +88,7 @@ class ChatController extends GetxController {
 
   Future<void> refreshChat() async {
     Haptic.feedbackClick();
-    await getChat(_params['id']);
+    await getChat(_params['id'].toString());
     Get.back();
   }
 

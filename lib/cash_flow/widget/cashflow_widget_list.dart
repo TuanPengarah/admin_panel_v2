@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class ListCashFlow extends GetView<CashFlowController> {
+  const ListCashFlow({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -17,14 +19,14 @@ class ListCashFlow extends GetView<CashFlowController> {
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: Get.isDarkMode ? Colors.black26 : Colors.grey[500],
-                offset: Offset(4.0, 4.0),
+                color: Get.isDarkMode ? Colors.black26 : Colors.grey.shade500,
+                offset: const Offset(4.0, 4.0),
                 blurRadius: 15,
                 spreadRadius: 1.0,
               ),
               BoxShadow(
                 color: Get.isDarkMode ? Colors.black26 : Colors.white,
-                offset: Offset(-4.0, -4.0),
+                offset: const Offset(-4.0, -4.0),
                 blurRadius: 15,
                 spreadRadius: 1.0,
               )
@@ -34,14 +36,14 @@ class ListCashFlow extends GetView<CashFlowController> {
               future: controller.initCashFlow,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
                 return Material(
                   color: Colors.transparent,
                   child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: controller.cashFlow.length,
                     itemBuilder: (context, i) {
                       var cash = controller.cashFlow[i];
@@ -63,11 +65,11 @@ class ListCashFlow extends GetView<CashFlowController> {
                           trailing: cash.isModal == true
                               ? Text(
                                   '-RM${cash.jumlah}',
-                                  style: TextStyle(color: Colors.red),
+                                  style: const TextStyle(color: Colors.red),
                                 )
                               : Text(
                                   '+RM${cash.jumlah}',
-                                  style: TextStyle(color: Colors.green),
+                                  style: const TextStyle(color: Colors.green),
                                 ),
                         ),
                       );

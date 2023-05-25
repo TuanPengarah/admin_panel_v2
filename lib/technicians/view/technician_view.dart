@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/technicians/controller/technician_controller.dart';
 import 'package:extended_image/extended_image.dart';
@@ -10,37 +10,40 @@ import 'package:get/get.dart';
 class TechnicianView extends StatelessWidget {
   final _data = Get.arguments;
   final _authController = Get.find<AuthController>();
+
+  TechnicianView({super.key});
   @override
   Widget build(BuildContext context) {
-    final _technicianController = Get.put(TechnicianController());
+    final technicianController = Get.put(TechnicianController());
     return Scaffold(
       appBar: AppBar(
-        title: Text('Semua Juruteknik'),
+        title: const Text('Semua Juruteknik'),
         actions: [
           _authController.jawatan.value.contains('Founder')
               ? IconButton(
                   onPressed: () => Get.toNamed(MyRoutes.technicianAdd),
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                 )
               : const SizedBox(),
           IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: _technicianController.getTechnician,
+            icon: const Icon(Icons.refresh),
+            onPressed: () {},
+            // onPressed:{} _technicianController.getTechnician,
           )
         ],
       ),
       body: FutureBuilder(
-        future: _technicianController.getTechList,
+        future: technicianController.getTechList,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (_technicianController.technicians.isEmpty) {
-            return Center(
+          if (technicianController.technicians.isEmpty) {
+            return const Center(
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: EdgeInsets.all(15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,10 +68,10 @@ class TechnicianView extends StatelessWidget {
             assignId: true,
             builder: (logic) {
               return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: _technicianController.technicians.length,
+                physics: const BouncingScrollPhysics(),
+                itemCount: technicianController.technicians.length,
                 itemBuilder: (BuildContext context, int i) {
-                  var technician = _technicianController.technicians[i];
+                  var technician = technicianController.technicians[i];
                   return AnimationConfiguration.staggeredList(
                     position: i,
                     duration: const Duration(milliseconds: 375),
@@ -76,7 +79,7 @@ class TechnicianView extends StatelessWidget {
                       child: FadeInAnimation(
                         child: ListTile(
                           leading: AdvancedAvatar(
-                            name: '${technician.nama}',
+                            name: technician.nama,
                             size: 40,
                             image: ExtendedNetworkImageProvider(
                                 technician.photoURL,
@@ -86,11 +89,11 @@ class TechnicianView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(200),
                             ),
                           ),
-                          title: Text('${technician.nama}'),
-                          subtitle: Text('${technician.jawatan}'),
+                          title: Text(technician.nama),
+                          subtitle: Text(technician.jawatan),
                           onTap: () {
                             if (_data == null) {
-                              _technicianController.techInfo(i);
+                              technicianController.techInfo(i);
                             } else {
                               var result = {
                                 'nama': technician.nama,

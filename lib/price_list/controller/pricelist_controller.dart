@@ -1,7 +1,5 @@
-import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
-import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/price_list/model/price_list_api.dart';
 import 'package:admin_panel/price_list/model/pricelist_field.dart';
 import 'package:admin_panel/price_list/model/pricelist_model.dart';
@@ -15,7 +13,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 class PriceListController extends GetxController {
   List<PriceListModel> priceList = [];
-  Future<String> getList;
+  Future<String>? getList;
 
   TextEditingController modelText = TextEditingController();
   TextEditingController partsText = TextEditingController();
@@ -65,36 +63,36 @@ class PriceListController extends GetxController {
             Text(
               '${pricelist.parts} ${pricelist.model}',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
             Text(
               'RM ${pricelist.harga}',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
+              style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 5),
             Text(
               'Tarikh dikemaskini: $tarikh',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
+              style: const TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 15),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.copy),
-              title: Text('Salin Senarai Harga'),
+              leading: const Icon(Icons.copy),
+              title: const Text('Salin Senarai Harga'),
               onTap: () => copyPricelistText(pricelist),
             ),
             ListTile(
-              leading: Icon(Icons.fingerprint),
-              title: Text('Salin ID'),
+              leading: const Icon(Icons.fingerprint),
+              title: const Text('Salin ID'),
               onTap: () => copyPricelistID(pricelist),
             ),
             internet.value == true
                 ? ListTile(
-                    leading: Icon(Icons.edit),
-                    title: Text('Edit'),
+                    leading: const Icon(Icons.edit),
+                    title: const Text('Edit'),
                     onTap: () => addListDialog(
                       isEdit: true,
                       list: pricelist,
@@ -106,11 +104,11 @@ class PriceListController extends GetxController {
                 : const SizedBox(),
             internet.value == true
                 ? ListTile(
-                    leading: Icon(Icons.delete),
-                    title: Text('Buang'),
+                    leading: const Icon(Icons.delete),
+                    title: const Text('Buang'),
                     onTap: () => Get.dialog(
                       AlertDialog(
-                        title: Text('Adakah anda pasti?'),
+                        title: const Text('Adakah anda pasti?'),
                         content: Text(
                             'Adakah anda pasti untuk membuang senarai harga ${pricelist.parts} ${pricelist.model}'),
                         actions: [
@@ -133,7 +131,7 @@ class PriceListController extends GetxController {
                               Haptic.feedbackClick();
                               Get.back();
                             },
-                            child: Text('Batal'),
+                            child: const Text('Batal'),
                           ),
                         ],
                       ),
@@ -149,7 +147,7 @@ class PriceListController extends GetxController {
   }
 
   void deletePriceList(int id) async {
-    Get.dialog(AlertDialog(
+    Get.dialog(const AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -158,7 +156,7 @@ class PriceListController extends GetxController {
       ),
     ));
     await PriceListApi().delete(id);
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     await getPriceList();
     update();
     Get.back();
@@ -172,10 +170,6 @@ class PriceListController extends GetxController {
     Clipboard.setData(ClipboardData(
             text:
                 '${pricelist.parts} ${pricelist.model}\nHarga: RM ${pricelist.harga}'))
-        .onError((error, stackTrace) => ShowSnackbar.error(
-            'Kesalahan telah berlaku',
-            'Gagal untuk menyalin ke papan clipboard anda: $error',
-            false))
         .whenComplete(() => ShowSnackbar.success(
             'Senarai harga telah harga disalin',
             'Senarai harga telah disalin ke papan clipboard anda',
@@ -185,12 +179,8 @@ class PriceListController extends GetxController {
 
   void copyPricelistID(PriceListModel pricelist) {
     Haptic.feedbackClick();
-    Clipboard.setData(ClipboardData(text: '${pricelist.id}'))
-        .onError((error, stackTrace) => ShowSnackbar.error(
-            'Kesalahan telah berlaku',
-            'Gagal untuk menyalin id ke papan clipboard anda: $error',
-            false))
-        .whenComplete(() => ShowSnackbar.success(
+    Clipboard.setData(ClipboardData(text: '${pricelist.id}')).whenComplete(() =>
+        ShowSnackbar.success(
             'ID telah harga disalin',
             'Senarai harga ID (${pricelist.id}) telah disalin ke papan clipboard anda',
             false));
@@ -200,10 +190,10 @@ class PriceListController extends GetxController {
   void activateOffline() async {
     offlineMode.value = true;
     priceList = [];
-    List<PriceListModel> cache =
-        await DatabaseHelper.instance.getCachePriceList();
-    priceList.addAll(cache);
-    priceList.sort((a, b) => a.parts.compareTo(b.parts));
+    // List<PriceListModel> cache =
+    //     await DatabaseHelper.instance.getCachePriceList();
+    // priceList.addAll(cache);
+    // priceList.sort((a, b) => a.parts.compareTo(b.parts));
     Haptic.feedbackError();
     update();
   }
@@ -213,21 +203,21 @@ class PriceListController extends GetxController {
       var connect = await ConnectivityWrapper.instance.isConnected;
       bool adaInternet = connect;
       if (adaInternet == true) {
-        var data = await PriceListApi.getAll().timeout(Duration(seconds: 10),
-            onTimeout: () {
+        var data = await PriceListApi.getAll()
+            .timeout(const Duration(seconds: 10), onTimeout: () {
           errorText.value = 'Sambungan Tamat';
           throw Exception('Connection Failed!');
         });
         priceList = [];
 
-        await DatabaseHelper.instance.deleteCachePriceList();
+        // await DatabaseHelper.instance.deleteCachePriceList();
 
         for (var value in data) {
           priceList.add(value);
           priceList.sort((a, b) => a.parts.compareTo(b.parts));
-          if (!GetPlatform.isMacOS) {
-            DatabaseHelper.instance.addCachePriceList(value);
-          }
+          // if (!GetPlatform.isMacOS) {
+          //   DatabaseHelper.instance.addCachePriceList(value);
+          // }
 
           update();
         }
@@ -248,20 +238,20 @@ class PriceListController extends GetxController {
     String id = DateTime.now().millisecondsSinceEpoch.toString();
     Get.dialog(
       AlertDialog(
-        title: Text(
+        title: const Text(
           'Menambah ke Google Sheet',
           textAlign: TextAlign.center,
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(color: Colors.grey),
-            SizedBox(height: 10),
+            const CircularProgressIndicator(color: Colors.grey),
+            const SizedBox(height: 10),
             Obx(() {
               return Text(
                 status.value,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
                 ),
@@ -271,9 +261,9 @@ class PriceListController extends GetxController {
         ),
       ),
     );
-    PartsSuggestion partsSuggestion = PartsSuggestion(parts: partsText.text);
+    // PartsSuggestion partsSuggestion = PartsSuggestion(parts: partsText.text);
 
-    ModelSuggestion modelSuggestion = ModelSuggestion(model: modelText.text);
+    // ModelSuggestion modelSuggestion = ModelSuggestion(model: modelText.text);
 
     try {
       status.value = 'Menambah senarai harga ke Google Sheet...';
@@ -287,10 +277,11 @@ class PriceListController extends GetxController {
 
       await PriceListApi.insert([partsPrice.toJson()]);
       status.value = 'Menambah data sqlite...';
-      await DatabaseHelper.instance.addModelSuggestion(modelSuggestion);
-      await DatabaseHelper.instance.addPartsSuggestion(partsSuggestion);
+
+      // await DatabaseHelper.instance.addModelSuggestion(modelSuggestion);
+      // await DatabaseHelper.instance.addPartsSuggestion(partsSuggestion);
       status.value = 'Selesai!';
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       await getPriceList();
       Haptic.feedbackSuccess();
       Get.back();
@@ -299,7 +290,7 @@ class PriceListController extends GetxController {
           'Senarai disimpan ke Google Sheet anda!', false);
     } on Exception catch (e) {
       status.value = 'Kesalahan telah berlaku';
-      print(e);
+      debugPrint(e.toString());
       Get.back();
       Haptic.feedbackError();
       ShowSnackbar.error('Senarai tidak dapat ditambah',
@@ -315,21 +306,21 @@ class PriceListController extends GetxController {
   // }
 
   void addListDialog({
-    @required bool isEdit,
-    PriceListModel list,
-    String model,
-    String parts,
-    String harga,
+    required bool isEdit,
+    PriceListModel? list,
+    String? model,
+    String? parts,
+    String? harga,
   }) {
     if (isEdit == true) {
-      modelText.text = model;
-      partsText.text = parts;
-      priceText.text = harga;
+      modelText.text = model.toString();
+      partsText.text = parts.toString();
+      priceText.text = harga.toString();
       Get.back();
     }
     Get.bottomSheet(
       GestureDetector(
-        onTap: () => Get.focusScope.unfocus(),
+        onTap: () => Get.focusScope?.unfocus(),
         child: Material(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -341,15 +332,17 @@ class PriceListController extends GetxController {
                   Container(
                     alignment: Alignment.centerRight,
                     child: TextButton.icon(
-                      label: isEdit == true ? Text('Edit') : Text('Tambah'),
+                      label: isEdit == true
+                          ? const Text('Edit')
+                          : const Text('Tambah'),
                       onPressed: () {
                         if (modelText.text.isNotEmpty &&
                             partsText.text.isNotEmpty &&
                             priceText.text.isNotEmpty) {
                           Get.dialog(
                             AlertDialog(
-                              title: Text('Adakah Anda Pasti?'),
-                              content: Text(
+                              title: const Text('Adakah Anda Pasti?'),
+                              content: const Text(
                                   'Pastikan maklumat yang telah diberikan adalah benar!'),
                               actions: [
                                 TextButton(
@@ -371,7 +364,7 @@ class PriceListController extends GetxController {
                                     if (isEdit == false) {
                                       addPriceList();
                                     } else {
-                                      Get.dialog(AlertDialog(
+                                      Get.dialog(const AlertDialog(
                                         content: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
@@ -380,18 +373,14 @@ class PriceListController extends GetxController {
                                         ),
                                       ));
                                       await PriceListApi.update(
-                                        id: list.id,
+                                        id: list!.id,
                                         partsKey: PriceListField.parts,
                                         hargaKey: PriceListField.harga,
                                         modelKey: PriceListField.model,
                                         hargaValue: priceText.text,
                                         modelValue: modelText.text,
                                         partsValue: partsText.text,
-                                      ).onError((error, stackTrace) =>
-                                          ShowSnackbar.error(
-                                              'Kesalahan telah berlaku',
-                                              '${error.toString()}',
-                                              true));
+                                      );
 
                                       await getPriceList();
 
@@ -402,7 +391,7 @@ class PriceListController extends GetxController {
                                           false);
                                     }
                                   },
-                                  child: Text('Pasti'),
+                                  child: const Text('Pasti'),
                                 ),
                                 const SizedBox(height: 20),
                               ],
@@ -417,14 +406,16 @@ class PriceListController extends GetxController {
                               true);
                         }
                       },
-                      icon: isEdit == true ? Icon(Icons.edit) : Icon(Icons.add),
+                      icon: isEdit == true
+                          ? const Icon(Icons.edit)
+                          : const Icon(Icons.add),
                     ),
                   ),
                   Text(
                     isEdit == false
                         ? 'Tambah Senarai Harga'
                         : 'Edit Senarai Harga',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
@@ -437,13 +428,13 @@ class PriceListController extends GetxController {
                       autofocus: true,
                       textCapitalization: TextCapitalization.characters,
                       textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(labelText: 'Model'),
+                      decoration: const InputDecoration(labelText: 'Model'),
                     ),
                     suggestionsCallback: (String pattern) =>
                         getModelName(pattern),
                     onSuggestionSelected: (PriceListModel suggestion) {
                       partsFocus.requestFocus();
-                      return modelText.text = suggestion.model;
+                      // return modelText.text = suggestion.model;
                     },
                     itemBuilder: (BuildContext context, PriceListModel data) {
                       return ListTile(
@@ -454,38 +445,43 @@ class PriceListController extends GetxController {
                     hideOnEmpty: true,
                     hideSuggestionsOnKeyboardHide: true,
                   ),
-                  SizedBox(height: 15),
-                  TypeAheadField(
-                    textFieldConfiguration: TextFieldConfiguration(
-                      controller: partsText,
-                      focusNode: partsFocus,
-                      textInputAction: TextInputAction.next,
-                      textCapitalization: TextCapitalization.characters,
-                      decoration: InputDecoration(labelText: 'Parts'),
-                    ),
-                    suggestionsCallback: (String pattern) async =>
-                        await DatabaseHelper.instance
-                            .getPartsSuggestion(pattern),
-                    onSuggestionSelected: (PartsSuggestion suggestion) {
-                      priceFocus.requestFocus();
-                      return partsText.text = suggestion.parts;
-                    },
-                    itemBuilder: (BuildContext context, PartsSuggestion data) {
-                      return ListTile(
-                        title: Text(data.parts),
-                      );
-                    },
-                    getImmediateSuggestions: false,
-                    hideOnEmpty: true,
-                    hideSuggestionsOnKeyboardHide: true,
+                  const SizedBox(height: 15),
+                  TextField(
+                    controller: partsText,
+                    focusNode: partsFocus,
+                    textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.characters,
+                    decoration: const InputDecoration(labelText: 'Parts'),
+                    // textFieldConfiguration: TextFieldConfiguration(
+                    //   controller: partsText,
+                    //   focusNode: partsFocus,
+                    //   textInputAction: TextInputAction.next,
+                    //   textCapitalization: TextCapitalization.characters,
+                    //   decoration: InputDecoration(labelText: 'Parts'),
+                    // ),
+                    // suggestionsCallback: (String pattern) async =>
+                    //     await DatabaseHelper.instance
+                    //         .getPartsSuggestion(pattern),
+                    // onSuggestionSelected: (PartsSuggestion suggestion) {
+                    //   priceFocus.requestFocus();
+                    //   return partsText.text = suggestion.parts;
+                    // },
+                    // itemBuilder: (BuildContext context, PartsSuggestion data) {
+                    //   return ListTile(
+                    //     title: Text(data.parts),
+                    //   );
+                    // },
+                    // getImmediateSuggestions: false,
+                    // hideOnEmpty: true,
+                    // hideSuggestionsOnKeyboardHide: true,
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   TextField(
                     controller: priceText,
                     focusNode: priceFocus,
                     textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Harga',
                       hintText: 'RM',
                     ),

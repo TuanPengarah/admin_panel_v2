@@ -29,13 +29,13 @@ class AuthController extends GetxController {
   var cawangan = ''.obs;
   var jumlahRepair = 0.obs;
   var jumlahKeuntungan = 0.obs;
-  String token = '';
+  String? token = '';
 
   @override
   void onReady() {
     final user = _auth.currentUser;
     if (user != null) {
-      checkUserData(user.email);
+      checkUserData(user.email.toString());
     }
     if (kIsWeb) {
       if (user != null) {
@@ -58,13 +58,13 @@ class AuthController extends GetxController {
       if (kIsWeb) {
         await _auth
             .setPersistence(Persistence.LOCAL)
-            .then((value) => print('persist set to local on web'));
+            .then((value) => debugPrint('persist set to local on web'));
       }
 
       await FirebaseDatabase.instance
           .ref()
           .child('Technician')
-          .child(value.user.uid)
+          .child(value.user!.uid)
           .once()
           .then((snapshot) async {
         if (snapshot.snapshot.value == null || !snapshot.snapshot.exists) {
@@ -75,14 +75,14 @@ class AuthController extends GetxController {
               true);
           btnController.error();
           Haptic.feedbackError();
-          await Future.delayed(Duration(seconds: 2));
+          await Future.delayed(const Duration(seconds: 2));
           btnController.reset();
         } else {
-          await checkUserData(value.user.email);
+          await checkUserData(value.user!.email.toString());
 
           btnController.success();
           Haptic.feedbackSuccess();
-          await Future.delayed(Duration(seconds: 1));
+          await Future.delayed(const Duration(seconds: 1));
           Get.offAllNamed('/home');
           ShowSnackbar.success(
               'Selamat Kembali $userName', 'Log masuk berjaya!', true);
@@ -93,7 +93,7 @@ class AuthController extends GetxController {
         ShowSnackbar.error('Kesalahan telah berlaku!', err.toString(), true);
         btnController.error();
         Haptic.feedbackError();
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         btnController.reset();
       },
     );
@@ -104,8 +104,8 @@ class AuthController extends GetxController {
     Haptic.feedbackError();
     Get.dialog(
       AlertDialog(
-        title: Text('Log Keluar'),
-        content: Text('Adakah anda pasti untuk log keluar?'),
+        title: const Text('Log Keluar'),
+        content: const Text('Adakah anda pasti untuk log keluar?'),
         actions: [
           TextButton(
             child: Text(
@@ -147,7 +147,7 @@ class AuthController extends GetxController {
             },
           ),
           TextButton(
-            child: Text('Batal'),
+            child: const Text('Batal'),
             onPressed: () => Get.back(),
           ),
         ],
@@ -157,7 +157,7 @@ class AuthController extends GetxController {
 
   Future<void> checkUserData(String email) async {
     final box = GetStorage();
-    final _notifController = Get.put(NotificationController());
+    final notifController = Get.put(NotificationController());
     final user = FirebaseAuth.instance.currentUser;
     bool internet = true;
     var connect = await ConnectivityWrapper.instance.isConnected;
@@ -172,7 +172,7 @@ class AuthController extends GetxController {
       await FirebaseDatabase.instance
           .ref()
           .child('Technician')
-          .child(user.uid)
+          .child(user!.uid)
           .once()
           .then((snapshot) async {
         final json = snapshot.snapshot.value as Map<dynamic, dynamic>;
@@ -199,28 +199,28 @@ class AuthController extends GetxController {
         //notification config
         if (!GetPlatform.isWeb) {
           if (box.read<bool>('initNotif') == true) {
-            _notifController.subscribedToFCM('socmed');
+            notifController.subscribedToFCM('socmed');
             if (jawatan.value == 'Founder') {
-              print('Notifikasi settlement telah diset kan sekali');
-              _notifController.subscribedToFCM('settlement');
+              debugPrint('Notifikasi settlement telah diset kan sekali');
+              notifController.subscribedToFCM('settlement');
             } else {
-              _notifController.unsubscribedFromFCM('settlement');
+              notifController.unsubscribedFromFCM('settlement');
             }
           } else {
-            _notifController.unsubscribedFromFCM('socmed');
+            notifController.unsubscribedFromFCM('socmed');
             if (jawatan.value == 'Founder') {
-              print('Notifikasi settlement akan dibatalkan sekali');
-              _notifController.unsubscribedFromFCM('settlement');
+              debugPrint('Notifikasi settlement akan dibatalkan sekali');
+              notifController.unsubscribedFromFCM('settlement');
             } else {
-              _notifController.unsubscribedFromFCM('settlement');
+              notifController.unsubscribedFromFCM('settlement');
             }
           }
         }
-        final String deviceToken = await FirebaseMessaging.instance.getToken();
-        print('your new device token: $deviceToken');
+        final String? deviceToken = await FirebaseMessaging.instance.getToken();
+        debugPrint('your new device token: $deviceToken');
 
         if (token != deviceToken) {
-          print('tukar token baru: $deviceToken');
+          debugPrint('tukar token baru: $deviceToken');
           token = deviceToken;
           FirebaseDatabase.instance
               .ref()
@@ -237,8 +237,8 @@ class AuthController extends GetxController {
       userEmail.value = box.read('userEmail');
       userName.value = box.read('userName');
       cawangan.value = box.read('cawangan');
-      jumlahRepair.value = box.read<int>('jumlahRepair');
-      jumlahKeuntungan.value = box.read<int>('jumlahKeuntungan');
+      jumlahRepair.value = box.read<int>('jumlahRepair') ?? 0;
+      jumlahKeuntungan.value = box.read<int>('jumlahKeuntungan') ?? 0;
       jawatan.value = box.read('jawatan');
       photoURL.value = box.read('photoURL');
       token = box.read('token');

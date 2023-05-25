@@ -7,7 +7,7 @@ import 'cashflow_bottomsheet.dart';
 class CashFlowAdd extends GetView<CashFlowController> {
   final bool isAdd;
   final bool isEdit;
-  CashFlowAdd({@required this.isAdd, @required this.isEdit});
+  const CashFlowAdd({super.key, required this.isAdd, required this.isEdit});
 
   @override
   Widget build(BuildContext context) {

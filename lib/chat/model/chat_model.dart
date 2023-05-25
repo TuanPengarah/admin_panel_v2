@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
-
 class ChatModel {
-  final int id;
-  final String idUser;
+  final int? id;
+  final String? idUser;
   final String content;
   final String date;
   final int whoChat;
@@ -10,12 +8,12 @@ class ChatModel {
   ChatModel({
     this.id,
     this.idUser,
-    @required this.content,
-    @required this.date,
-    @required this.whoChat,
+    required this.content,
+    required this.date,
+    required this.whoChat,
   });
 
-  factory ChatModel.fromMap(Map<String, dynamic> json) => new ChatModel(
+  factory ChatModel.fromMap(Map<String, dynamic> json) => ChatModel(
         id: json['id'],
         idUser: json['idUser'],
         content: json['content'].toString(),

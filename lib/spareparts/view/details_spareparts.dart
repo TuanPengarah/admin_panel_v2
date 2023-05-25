@@ -16,14 +16,16 @@ class DetailsSpareparts extends GetView<SparepartController> {
 
   final _detailsController = Get.put(DetailsSparepartsController());
 
+  DetailsSpareparts({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Hero(
-        tag: _params['id'],
+        tag: _params['id'].toString(),
         child: Scaffold(
           body: CustomScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             slivers: [
               SliverAppBar(
                 flexibleSpace: FlexibleSpaceBar(
@@ -46,7 +48,7 @@ class DetailsSpareparts extends GetView<SparepartController> {
                             onSelected: (value) =>
                                 _detailsController.popupMenuSeleceted(
                                     value,
-                                    _params['id'],
+                                    _params['id'].toString(),
                                     _data['Model'],
                                     _data['Jenis Spareparts']),
                             itemBuilder: (context) => PopupMenuOverview.items
@@ -62,8 +64,8 @@ class DetailsSpareparts extends GetView<SparepartController> {
                           )
                         : IconButton(
                             onPressed: () => _detailsController
-                                .saveSpareparts(_params['id']),
-                            icon: Icon(Icons.save),
+                                .saveSpareparts(_params['id'].toString()),
+                            icon: const Icon(Icons.save),
                           );
                   }),
                 ],
@@ -84,10 +86,10 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                 leading: Obx(() {
                                   return _detailsController.editMode.value ==
                                           true
-                                      ? Icon(Icons.edit)
-                                      : Icon(Icons.hardware);
+                                      ? const Icon(Icons.edit)
+                                      : const Icon(Icons.hardware);
                                 }),
-                                title: Text('Jenis Spareparts'),
+                                title: const Text('Jenis Spareparts'),
                                 subtitle: Obx(() {
                                   return Text(
                                       _detailsController.jenisParts.value);
@@ -103,10 +105,10 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                 leading: Obx(() {
                                   return _detailsController.editMode.value ==
                                           true
-                                      ? Icon(Icons.edit)
-                                      : Icon(Icons.phone_android);
+                                      ? const Icon(Icons.edit)
+                                      : const Icon(Icons.phone_android);
                                 }),
-                                title: Text('Model'),
+                                title: const Text('Model'),
                                 subtitle: Obx(() {
                                   return Text(_detailsController.model.value);
                                 }),
@@ -118,8 +120,8 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               borderRadius: BorderRadius.circular(20),
                               onTap: () {},
                               child: ListTile(
-                                leading: Icon(Icons.pending_actions),
-                                title: Text('Tarikh Kemaskini'),
+                                leading: const Icon(Icons.pending_actions),
+                                title: const Text('Tarikh Kemaskini'),
                                 subtitle: Text(
                                     controller.convertEpoch(_data['Tarikh'])),
                               ),
@@ -133,10 +135,10 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                 leading: Obx(() {
                                   return _detailsController.editMode.value ==
                                           true
-                                      ? Icon(Icons.edit)
-                                      : Icon(Icons.phonelink_setup);
+                                      ? const Icon(Icons.edit)
+                                      : const Icon(Icons.phonelink_setup);
                                 }),
-                                title: Text('Kualiti'),
+                                title: const Text('Kualiti'),
                                 subtitle: Obx(() {
                                   return Text(_detailsController
                                       .selectedKualitiParts.value);
@@ -152,10 +154,11 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                 leading: Obx(() {
                                   return _detailsController.editMode.value ==
                                           true
-                                      ? Icon(Icons.edit)
-                                      : Icon(Icons.precision_manufacturing);
+                                      ? const Icon(Icons.edit)
+                                      : const Icon(
+                                          Icons.precision_manufacturing);
                                 }),
-                                title: Text('Supplier'),
+                                title: const Text('Supplier'),
                                 subtitle: Obx(() {
                                   return Text(Inventory.getSupplierCode(
                                       _detailsController
@@ -173,10 +176,10 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                 leading: Obx(() {
                                   return _detailsController.editMode.value ==
                                           true
-                                      ? Icon(Icons.edit)
-                                      : Icon(Icons.summarize);
+                                      ? const Icon(Icons.edit)
+                                      : const Icon(Icons.summarize);
                                 }),
-                                title: Text('Maklumat Spareparts'),
+                                title: const Text('Maklumat Spareparts'),
                                 subtitle: Obx(() {
                                   return Text(
                                       _detailsController.maklumatParts.value);
@@ -189,9 +192,9 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               borderRadius: BorderRadius.circular(20),
                               onTap: () {},
                               child: ListTile(
-                                leading: Icon(Icons.fingerprint),
-                                title: Text('Parts ID'),
-                                subtitle: Text(_params['id']),
+                                leading: const Icon(Icons.fingerprint),
+                                title: const Text('Parts ID'),
+                                subtitle: Text(_params['id'].toString()),
                               ),
                             ),
                           ),
@@ -203,10 +206,10 @@ class DetailsSpareparts extends GetView<SparepartController> {
                                 leading: Obx(() {
                                   return _detailsController.editMode.value ==
                                           true
-                                      ? Icon(Icons.edit)
-                                      : Icon(Icons.request_quote);
+                                      ? const Icon(Icons.edit)
+                                      : const Icon(Icons.request_quote);
                                 }),
-                                title: Text('Harga Supplier'),
+                                title: const Text('Harga Supplier'),
                                 subtitle: Obx(() {
                                   return Text(
                                       'RM ${_detailsController.hargaParts.value}');
@@ -219,20 +222,20 @@ class DetailsSpareparts extends GetView<SparepartController> {
                               borderRadius: BorderRadius.circular(20),
                               onTap: () {},
                               child: ListTile(
-                                leading: Icon(Icons.payment),
-                                title: Text('Harga Jual'),
+                                leading: const Icon(Icons.payment),
+                                title: const Text('Harga Jual'),
                                 subtitle: Text(
                                     'RM ${_priceController.calculateFromWidget(double.parse(_detailsController.hargaParts.value)).toStringAsFixed(0)}'),
                               ),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           Text.rich(
                             TextSpan(
                               text:
                                   'Harga jual adalah harga yang disarankan oleh AINA dan ditetapkan untuk waranti 1 bulan, sila klik di ',
-                              style:
-                                  TextStyle(color: Colors.grey, fontSize: 13),
+                              style: const TextStyle(
+                                  color: Colors.grey, fontSize: 13),
                               children: [
                                 TextSpan(
                                   text: 'sini untuk melihat Pengiraan Harga!',
@@ -249,7 +252,7 @@ class DetailsSpareparts extends GetView<SparepartController> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

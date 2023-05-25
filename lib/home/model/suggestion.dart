@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
-
 class ModelSuggestion {
   final String model;
 
-  ModelSuggestion({@required this.model});
+  ModelSuggestion({required this.model});
 
   Map<String, dynamic> toMap() {
     return {
@@ -15,7 +13,7 @@ class ModelSuggestion {
 class PartsSuggestion {
   final String parts;
 
-  PartsSuggestion({@required this.parts});
+  PartsSuggestion({required this.parts});
 
   Map<String, dynamic> toMap() {
     return {
@@ -27,7 +25,7 @@ class PartsSuggestion {
 class NamaSuggestion {
   final String nama;
 
-  NamaSuggestion({@required this.nama});
+  NamaSuggestion({required this.nama});
 
   Map<String, dynamic> toMap() {
     return {
@@ -39,7 +37,7 @@ class NamaSuggestion {
 class RosakSuggestion {
   final String rosak;
 
-  RosakSuggestion({@required this.rosak});
+  RosakSuggestion({required this.rosak});
 
   Map<String, dynamic> toMap() {
     return {

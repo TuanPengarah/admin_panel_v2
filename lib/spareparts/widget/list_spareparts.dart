@@ -7,19 +7,19 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 class ListSpareparts extends StatelessWidget {
-  final List<Spareparts> list;
+  final List<Spareparts>? list;
 
   ListSpareparts({
-    Key key,
+    super.key,
     this.list,
-  }) : super(key: key);
+  });
 
   final _sparepartsController = Get.find<SparepartController>();
   final _data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
-    return list.length > 0
+    return list!.isNotEmpty
         ? RefreshIndicator(
             onRefresh: () async {
               await _sparepartsController.refreshDialog(false);
@@ -27,9 +27,9 @@ class ListSpareparts extends StatelessWidget {
             child: Scrollbar(
               child: AnimationLimiter(
                 child: ListView.builder(
-                    itemCount: list.length,
+                    itemCount: list!.length,
                     itemBuilder: (context, i) {
-                      var spareparts = list[i];
+                      var spareparts = list![i];
                       return AnimationConfiguration.staggeredList(
                         position: i,
                         duration: const Duration(milliseconds: 400),
@@ -49,20 +49,20 @@ class ListSpareparts extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.browser_not_supported,
                   size: 120,
                   color: Colors.grey,
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'Maaf, tiada spareparts ditemui untuk model ini!',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.grey,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 SizedBox(
                   width: 260,
                   height: 40,
@@ -71,16 +71,16 @@ class ListSpareparts extends StatelessWidget {
                       Haptic.feedbackClick();
                       Get.toNamed(MyRoutes.sparepartsAdd);
                     },
-                    icon: Icon(Icons.add),
-                    label: Text('Tambah Spareparts'),
+                    icon: const Icon(Icons.add),
+                    label: const Text('Tambah Spareparts'),
                   ),
                 ),
                 TextButton.icon(
                   onPressed: () async {
                     await _sparepartsController.refreshDialog(true);
                   },
-                  icon: Icon(Icons.refresh),
-                  label: Text('Segar Semula'),
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Segar Semula'),
                 ),
               ],
             ),
@@ -90,13 +90,11 @@ class ListSpareparts extends StatelessWidget {
   ListTile listSpareparts(Spareparts spareparts) {
     return ListTile(
         leading: Hero(
-          tag: spareparts.id,
+          tag: spareparts.id.toString(),
           child: CircleAvatar(
             backgroundColor: Get.theme.colorScheme.surfaceVariant,
             child: Text(
-              spareparts.supplier == 'Lain...'
-                  ? '...'
-                  : '${spareparts.supplier}',
+              spareparts.supplier == 'Lain...' ? '...' : spareparts.supplier,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Get.theme.colorScheme.onSurfaceVariant,
@@ -109,7 +107,7 @@ class ListSpareparts extends StatelessWidget {
         subtitle: Text(spareparts.maklumatSpareparts),
         trailing: Text('RM${spareparts.harga}'),
         onTap: () {
-          print(spareparts.partsID);
+          debugPrint(spareparts.partsID);
           _sparepartsController.isSearch.value = false;
           if (_data == null) {
             var arguments = {
@@ -121,7 +119,8 @@ class ListSpareparts extends StatelessWidget {
               'Supplier': spareparts.supplier,
               'Maklumat Spareparts': spareparts.maklumatSpareparts,
             };
-            _sparepartsController.goToDetails(arguments, spareparts.id);
+            _sparepartsController.goToDetails(
+                arguments, spareparts.id.toString());
           } else {
             final data = {
               'model':

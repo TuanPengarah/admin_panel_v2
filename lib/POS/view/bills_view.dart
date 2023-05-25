@@ -6,20 +6,21 @@ import 'package:get/get.dart';
 class BillsView extends StatelessWidget {
   final _paymentController = Get.put(PaymentController());
 
+  BillsView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Buat Invois'),
+          title: const Text('Buat Invois'),
           actions: [
             IconButton(
               onPressed: () => Get.toNamed(MyRoutes.posview),
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
             ),
           ],
         ),
         body: GetBuilder<PaymentController>(builder: (logic) {
-          return _paymentController.bills.length != 0
+          return _paymentController.bills.isNotEmpty
               ? Column(
                   children: [
                     Expanded(
@@ -47,11 +48,10 @@ class BillsView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
+                          SizedBox(
                             width: Get.width - 140,
                             child: ElevatedButton(
                               onPressed: () => _paymentController.choosePrint(),
-                              child: Text('Hasilkan Resit'),
                               style: ButtonStyle(
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
@@ -60,13 +60,15 @@ class BillsView extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                              child: const Text('Hasilkan Resit'),
                             ),
                           ),
                           Obx(() {
                             return Text(
                               'Jumlah:\n RM ${_paymentController.totalBillsPrice.value}',
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             );
                           }),
                         ],
@@ -74,9 +76,9 @@ class BillsView extends StatelessWidget {
                     ),
                   ],
                 )
-              : Center(
+              : const Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: EdgeInsets.all(15.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,

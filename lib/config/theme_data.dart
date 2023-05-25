@@ -83,14 +83,14 @@ class MyThemes {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.grey.shade200,
-        contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+        contentPadding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(width: 0, color: Colors.transparent),
+          borderSide: const BorderSide(width: 0, color: Colors.transparent),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(width: 0, color: Colors.transparent),
+          borderSide: const BorderSide(width: 0, color: Colors.transparent),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
@@ -117,7 +117,7 @@ class MyThemes {
           fontWeight: FontWeight.bold,
         ),
       ),
-      pageTransitionsTheme: PageTransitionsTheme(
+      pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
@@ -150,14 +150,14 @@ class MyThemes {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.grey.shade900,
-        contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 25),
+        contentPadding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(width: 0, color: Colors.transparent),
+          borderSide: const BorderSide(width: 0, color: Colors.transparent),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
-          borderSide: BorderSide(width: 0, color: Colors.transparent),
+          borderSide: const BorderSide(width: 0, color: Colors.transparent),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
@@ -184,7 +184,7 @@ class MyThemes {
           fontWeight: FontWeight.bold,
         ),
       ),
-      pageTransitionsTheme: PageTransitionsTheme(
+      pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),

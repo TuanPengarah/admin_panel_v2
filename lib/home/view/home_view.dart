@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeView extends StatefulWidget {
+  const HomeView({super.key});
+
   @override
   State<HomeView> createState() => _HomeViewState();
 }
@@ -34,7 +36,8 @@ class _HomeViewState extends State<HomeView> {
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-            labelTextStyle: MaterialStateProperty.all<TextStyle>(TextStyle(
+            labelTextStyle:
+                MaterialStateProperty.all<TextStyle>(const TextStyle(
           fontSize: 12,
         ))),
         child: StreamBuilder(
@@ -52,47 +55,49 @@ class _HomeViewState extends State<HomeView> {
                       _homeController.navTap(index),
                   labelBehavior:
                       NavigationDestinationLabelBehavior.onlyShowSelected,
-                  animationDuration: Duration(milliseconds: 500),
+                  animationDuration: const Duration(milliseconds: 500),
                   destinations: [
-                    NavigationDestination(
+                    const NavigationDestination(
                       icon: Icon(Icons.dashboard_outlined),
                       selectedIcon: Icon(Icons.dashboard),
                       label: 'Utama',
                     ),
-                    NavigationDestination(
+                    const NavigationDestination(
                       icon: Icon(Icons.person_outlined),
                       selectedIcon: Icon(Icons.person),
                       label: 'Pelanggan',
                     ),
                     NavigationDestination(
-                      icon: snapshot.data == null ||
-                              snapshot.data.docs.length == 0
-                          ? Icon(Icons.date_range_outlined)
-                          : badge.Badge(
-                              badgeContent: Text('${snapshot.data.docs.length}',
-                                  style: TextStyle(color: Colors.white)),
-                              child: Icon(Icons.date_range_outlined),
-                              badgeAnimation: badge.BadgeAnimation.scale(),
-                            ),
-                      selectedIcon: snapshot.data == null ||
-                              snapshot.data.docs.length == 0
-                          ? Icon(Icons.date_range)
+                      icon: snapshot.data == null || snapshot.data!.docs.isEmpty
+                          ? const Icon(Icons.date_range_outlined)
                           : badge.Badge(
                               badgeContent: Text(
-                                '${snapshot.data.docs.length}',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              child: Icon(Icons.date_range),
-                              badgeAnimation: badge.BadgeAnimation.scale(),
+                                  '${snapshot.data!.docs.length}',
+                                  style: const TextStyle(color: Colors.white)),
+                              badgeAnimation:
+                                  const badge.BadgeAnimation.scale(),
+                              child: const Icon(Icons.date_range_outlined),
                             ),
+                      selectedIcon:
+                          snapshot.data == null || snapshot.data!.docs.isEmpty
+                              ? const Icon(Icons.date_range)
+                              : badge.Badge(
+                                  badgeContent: Text(
+                                    '${snapshot.data!.docs.length}',
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  badgeAnimation:
+                                      const badge.BadgeAnimation.scale(),
+                                  child: const Icon(Icons.date_range),
+                                ),
                       label: 'MySID',
                     ),
-                    NavigationDestination(
+                    const NavigationDestination(
                       icon: Icon(Icons.category_outlined),
                       selectedIcon: Icon(Icons.category),
                       label: 'Parts',
                     ),
-                    NavigationDestination(
+                    const NavigationDestination(
                       icon: Icon(Icons.line_weight_outlined),
                       selectedIcon: Icon(Icons.line_weight),
                       label: 'Harga',

@@ -7,7 +7,7 @@ class NotifFCMEvent extends GetConnect {
   Future<Response> postData(
     String title,
     String body, {
-    String token,
+    String? token,
   }) {
     return post(
       'https://fcm.googleapis.com/fcm/send',

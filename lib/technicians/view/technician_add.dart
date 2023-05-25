@@ -5,12 +5,16 @@ import 'package:get/get.dart';
 
 class TechnicianAdd extends StatelessWidget {
   final _controller = Get.put(TechnicianAddController());
+
+  TechnicianAdd({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
+      backgroundColor:
+          Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
       appBar: AppBar(
-        backgroundColor: Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
+        backgroundColor:
+            Get.isDarkMode ? Colors.black : Theme.of(context).primaryColor,
         elevation: 0,
       ),
       body: Column(
@@ -19,13 +23,15 @@ class TechnicianAdd extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Container(
               alignment: Alignment.topLeft,
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Tambah Staff',
-                    style:
-                        TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold),
                   ),
                   Text(
                     'Tambah staff atau juruteknik Af-Fix',
@@ -41,8 +47,10 @@ class TechnicianAdd extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Get.isDarkMode ? Color(0xff131313) : Get.theme.scaffoldBackgroundColor,
-                borderRadius: BorderRadius.only(
+                color: Get.isDarkMode
+                    ? const Color(0xff131313)
+                    : Get.theme.scaffoldBackgroundColor,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(25),
                   topRight: Radius.circular(25),
                 ),
@@ -69,7 +77,7 @@ class TechnicianAdd extends StatelessWidget {
                               ? Container()
                               : TextButton(
                                   onPressed: details.onStepCancel,
-                                  child: Text('Batal'),
+                                  child: const Text('Batal'),
                                 ),
                         ],
                       ),

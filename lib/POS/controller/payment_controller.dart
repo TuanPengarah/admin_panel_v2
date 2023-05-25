@@ -1,7 +1,7 @@
 import 'package:admin_panel/API/notif_fcm_event.dart';
 import 'package:admin_panel/POS/model/invoice_model.dart';
 import 'package:admin_panel/POS/model/payment_model.dart';
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
@@ -57,7 +57,7 @@ class PaymentController extends GetxController {
     super.onInit();
     currentTechnician.value = _authController.userName.value;
     currentTechnicianID = _authController.userUID.value;
-    var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
+    var jiffy9 = Jiffy()..add(duration: const Duration(days: 0));
     tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
     environment = DateTime.now().millisecondsSinceEpoch.toString();
     debugPrint('Environment invoices has been init: $environment');
@@ -74,7 +74,7 @@ class PaymentController extends GetxController {
   void calculatePrice(int harga) {
     hargaSpareparts = harga;
     _priceController.calculatePriceFromPayment(hargaSpareparts, warantiCost);
-    print(hargaSpareparts);
+    debugPrint(hargaSpareparts.toString());
     recommendedPrice.value = _priceController.jumlah.value;
   }
 
@@ -91,34 +91,34 @@ class PaymentController extends GetxController {
     switch (selectedWaranti.value) {
       case 'Tiada Waranti':
         warantiCost = 0;
-        var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
+        var jiffy9 = Jiffy()..add(duration: const Duration(days: 0));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
       case '1 Minggu':
         warantiCost = 10;
-        var jiffy9 = Jiffy()..add(duration: Duration(days: 7));
+        var jiffy9 = Jiffy()..add(duration: const Duration(days: 7));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
       case '1 Bulan':
         warantiCost = 30;
-        var jiffy9 = Jiffy()..add(duration: Duration(days: 30));
+        var jiffy9 = Jiffy()..add(duration: const Duration(days: 30));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
-        print(tempohWaranti);
+        debugPrint(tempohWaranti);
         break;
       case '2 Bulan':
         warantiCost = 50;
-        var jiffy9 = Jiffy()..add(duration: Duration(days: 60));
+        var jiffy9 = Jiffy()..add(duration: const Duration(days: 60));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
-        print(tempohWaranti);
+        debugPrint(tempohWaranti);
         break;
       case '3 Bulan':
         warantiCost = 70;
-        var jiffy9 = Jiffy()..add(duration: Duration(days: 90));
+        var jiffy9 = Jiffy()..add(duration: const Duration(days: 90));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
         break;
       default:
         warantiCost = 10;
-        var jiffy9 = Jiffy()..add(duration: Duration(days: 0));
+        var jiffy9 = Jiffy()..add(duration: const Duration(days: 0));
         tempohWaranti = jiffy9.format('dd-MM-yyyy').toString();
     }
   }
@@ -139,7 +139,7 @@ class PaymentController extends GetxController {
     } else if (currentSteps.value == 2) {
       Haptic.feedbackClick();
       currentSteps.value++;
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       focusHarga.requestFocus();
     } else if (currentSteps.value == 3) {
       if (priceText.text.isEmpty) {
@@ -160,9 +160,9 @@ class PaymentController extends GetxController {
 
   void paymentConfirmation() async {
     Get.dialog(AlertDialog(
-      title: Text('Adakah Anda Pasti?'),
-      content:
-          Text('Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
+      title: const Text('Adakah Anda Pasti?'),
+      content: const Text(
+          'Pastikan maklumat pembayaran tersebut adalah benar dan tepat!'),
       actions: [
         TextButton(
           onPressed: () {
@@ -189,7 +189,7 @@ class PaymentController extends GetxController {
             reset();
             update();
           },
-          child: Text('Pasti'),
+          child: const Text('Pasti'),
         ),
       ],
     ));
@@ -197,21 +197,21 @@ class PaymentController extends GetxController {
 
   Future<void> addToDatabase() async {
     Haptic.feedbackClick();
-    final _graphController = Get.find<GraphController>();
+    final graphController = Get.find<GraphController>();
     var title = ''.obs;
     Get.dialog(
       AlertDialog(
-        title: Text('Membuat perubahan di database'),
+        title: const Text('Membuat perubahan di database'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(color: Colors.grey),
-            SizedBox(height: 10),
+            const CircularProgressIndicator(color: Colors.grey),
+            const SizedBox(height: 10),
             Obx(() {
               return Text(
                 title.value,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 12,
                 ),
@@ -241,8 +241,8 @@ class PaymentController extends GetxController {
         title.value = 'Update status pada repair history pelanggan...';
         Map<String, dynamic> data = {
           'isWarranty': true,
-          'Tarikh Waranti': '$tempohWaranti',
-          'Kerosakkan': '${currentStock.value}',
+          'Tarikh Waranti': tempohWaranti,
+          'Kerosakkan': currentStock.value,
           'Status': 'Selesai',
           'Harga': double.parse(priceText.text),
           'Technician': currentTechnician.value,
@@ -294,10 +294,10 @@ class PaymentController extends GetxController {
 
       //TAMBAH HARGA JUAL PADA GRAPH SALES
       if (selectedDibayar.value == 'Dibayar') {
-        String months = _graphController.checkMonths(DateTime.now().month - 1);
+        String months = graphController.checkMonths(DateTime.now().month - 1);
         title.value = 'Menambah harga jual pada graph sales...';
         DocumentReference hargaJual =
-            firestore.collection('Sales').doc(_graphController.year);
+            firestore.collection('Sales').doc(graphController.year);
         firestore.runTransaction((transaction) async {
           DocumentSnapshot snap = await transaction.get(hargaJual);
 
@@ -325,7 +325,7 @@ class PaymentController extends GetxController {
 
         await firestore
             .collection('Sales')
-            .doc(_graphController.year)
+            .doc(graphController.year)
             .collection('cashFlow')
             .add(cashflow);
       }
@@ -396,28 +396,35 @@ class PaymentController extends GetxController {
       }
 
       title.value = 'Menyegarkan semula semua data...';
-      final _sparepartsController = Get.find<SparepartController>();
-      final _authController = Get.find<AuthController>();
-      await _authController.checkUserData(_authController.userEmail.value);
-      await _sparepartsController.getSparepartsList();
-      await _graphController.getGraphFromFirestore();
+      final sparepartsController = Get.put(SparepartController());
+      final authController = Get.put(AuthController());
+      await authController.checkUserData(authController.userEmail.value);
+      await sparepartsController.getSparepartsList();
+      await graphController.getGraphFromFirestore();
       title.value = 'Selesai!';
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
+
+      //Ios Ada bug
+
       NotifFCMEvent()
           .postData(
             'Invois telah dibuka!',
-            'Juruteknik ${_authController.userName.value} telah membuka invois dengan berjumlah RM${priceText.text}',
-            token: _authController.token,
+            'Juruteknik ${authController.userName.value} telah membuka invois dengan berjumlah RM${priceText.text}',
+            token: authController.token,
           )
           .then((value) => debugPrint(value.body.toString()));
+
       Haptic.feedbackSuccess();
       Get.back();
       Get.back();
     } on Exception catch (e) {
       debugPrint(e.toString());
       Haptic.feedbackSuccess();
-      await Future.delayed(Duration(seconds: 1));
       Get.back();
+      Get.back();
+      Get.back();
+      Get.back();
+      await Future.delayed(const Duration(seconds: 1));
       ShowSnackbar.error('Kesalahan telah berlaku!', e.toString(), false);
     }
   }
@@ -459,7 +466,7 @@ class PaymentController extends GetxController {
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            title: Text('Pilih Spareparts / Stock'),
+            title: const Text('Pilih Spareparts / Stock'),
             onTap: () async {
               Haptic.feedbackClick();
               var data = await Get.toNamed(MyRoutes.spareparts,
@@ -472,7 +479,7 @@ class PaymentController extends GetxController {
             },
           ),
           ListTile(
-            title: Text('Software'),
+            title: const Text('Software'),
             onTap: () {
               Haptic.feedbackClick();
               currentStock.value = 'Software';
@@ -481,7 +488,7 @@ class PaymentController extends GetxController {
             },
           ),
           ListTile(
-            title: Text('Servis Upah Pasang'),
+            title: const Text('Servis Upah Pasang'),
             onTap: () {
               Haptic.feedbackClick();
               currentStock.value = 'Servis Upah Pasang';
@@ -490,18 +497,18 @@ class PaymentController extends GetxController {
             },
           ),
           ListTile(
-            title: Text('Lain-lain'),
+            title: const Text('Lain-lain'),
             onTap: () async {
               Haptic.feedbackClick();
               await Get.dialog(
                 AlertDialog(
-                  title: Text('Maklumat Servis'),
+                  title: const Text('Maklumat Servis'),
                   content: TextField(
                     controller: otherServicesText,
                     maxLines: 2,
                     textCapitalization: TextCapitalization.sentences,
                     autofocus: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Masukkan maklumat jenis stock / servis',
                     ),
                   ),
@@ -556,16 +563,16 @@ class PaymentController extends GetxController {
     bool result = false;
     await Get.dialog(
       AlertDialog(
-        title: Text('Anda pasti untuk keluar?'),
-        content:
-            Text('Segala maklumat yang telah anda masukkan akan di padam!'),
+        title: const Text('Anda pasti untuk keluar?'),
+        content: const Text(
+            'Segala maklumat yang telah anda masukkan akan di padam!'),
         actions: [
           TextButton(
             onPressed: () {
               result = false;
               Get.back();
             },
-            child: Text('Batal'),
+            child: const Text('Batal'),
           ),
           TextButton(
             onPressed: () {

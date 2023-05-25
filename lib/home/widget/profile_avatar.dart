@@ -10,20 +10,19 @@ class ProfileAvatar extends StatelessWidget {
   final String jawatan;
   final String cawangan;
 
-  const ProfileAvatar({
-    Key key,
-    @required this.name,
-    @required this.photoURL,
-    @required this.email,
-    @required this.jawatan,
-    @required this.cawangan,
-  }) : super(key: key);
+  const ProfileAvatar({super.key, 
+    required this.name,
+    required this.photoURL,
+    required this.email,
+    required this.jawatan,
+    required this.cawangan,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      child: Container(
+      child: SizedBox(
         width: Get.width,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -91,15 +90,15 @@ class ProfileAvatar extends StatelessWidget {
           : CrossAxisAlignment.center,
       children: [
         Text(
-          '$name',
-          style: TextStyle(
+          name,
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25,
           ),
         ),
         Text(
-          '$jawatan',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          jawatan,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5),
         Row(
@@ -117,7 +116,7 @@ class ProfileAvatar extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             Text(
-              '$cawangan',
+              cawangan,
               style: TextStyle(
                 color: Get.theme.colorScheme.secondary,
               ),
@@ -134,12 +133,11 @@ class YourRecord extends StatelessWidget {
   final int jumlahKeuntungan;
   final bool isMy;
 
-  YourRecord({
-    Key key,
-    @required this.jumlahRepair,
-    @required this.jumlahKeuntungan,
-    @required this.isMy,
-  }) : super(key: key);
+  const YourRecord({super.key, 
+    required this.jumlahRepair,
+    required this.jumlahKeuntungan,
+    required this.isMy,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -151,16 +149,16 @@ class YourRecord extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 5),
+              margin: const EdgeInsets.only(left: 5),
               child: Text(
                 isMy == true ? 'Rekod Anda' : 'Rekod Juruteknik',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   // fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -181,7 +179,7 @@ class YourRecord extends StatelessWidget {
                             color: Get.theme.colorScheme.secondary,
                             size: 40,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             'Jumlah Repair',
                             textAlign: TextAlign.center,
@@ -192,7 +190,7 @@ class YourRecord extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             '$jumlahRepair',
                             textAlign: TextAlign.center,
@@ -209,7 +207,7 @@ class YourRecord extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Container(
                     height: 180,
@@ -227,7 +225,7 @@ class YourRecord extends StatelessWidget {
                             color: Get.theme.colorScheme.secondary,
                             size: 40,
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             'Jumlah Komisen',
                             textAlign: TextAlign.center,
@@ -238,7 +236,7 @@ class YourRecord extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Text(
                             'RM$jumlahKeuntungan',
                             textAlign: TextAlign.center,

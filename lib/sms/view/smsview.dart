@@ -6,6 +6,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../config/haptic_feedback.dart';
 
 class SMSView extends GetView<SMSController> {
+  const SMSView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +36,8 @@ class SMSView extends GetView<SMSController> {
                       Get.back();
                       Haptic.feedbackClick();
                       Get.dialog(
-                        AlertDialog(
-                          title: const Text('Menghantar mesej...'),
+                        const AlertDialog(
+                          title: Text('Menghantar mesej...'),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -79,10 +81,10 @@ class SMSView extends GetView<SMSController> {
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 25),
             child: TextField(
               controller: controller.recipientText,
-              decoration: InputDecoration(
-                label: const Text('Penerima'),
+              decoration: const InputDecoration(
+                label: Text('Penerima'),
                 hintText: 'Letak koma jika ingin hantar penerima yang lain',
-                hintStyle: const TextStyle(fontSize: 14),
+                hintStyle: TextStyle(fontSize: 14),
               ),
             ),
           ),
@@ -101,10 +103,10 @@ class SMSView extends GetView<SMSController> {
             child: TextField(
               controller: controller.messageText,
               maxLines: 10,
-              decoration: InputDecoration(
-                label: const Text('Mesej'),
+              decoration: const InputDecoration(
+                label: Text('Mesej'),
                 hintText: 'Sila masukkan mesej anda!',
-                hintStyle: const TextStyle(fontSize: 14),
+                hintStyle: TextStyle(fontSize: 14),
               ),
             ),
           ),
@@ -114,7 +116,7 @@ class SMSView extends GetView<SMSController> {
             child: const Text(
               'PERINGATAN: Kadar untuk hantar SMS adalah berbayar!\nKadar SMS adalah RM 0.0075 per SMS',
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.grey,
               ),
             ),
@@ -123,7 +125,7 @@ class SMSView extends GetView<SMSController> {
           Container(
             alignment: Alignment.center,
             child: GestureDetector(
-              child: Text(
+              child: const Text(
                 'https://sms.ala.my',
                 textAlign: TextAlign.center,
                 style: TextStyle(

@@ -2,9 +2,9 @@ class SMSStatusModel {
   String status;
   String reason;
 
-  SMSStatusModel({this.status, this.reason});
+  SMSStatusModel({required this.status, required this.reason});
 
-  factory SMSStatusModel.get(Map<String, dynamic> json) => new SMSStatusModel(
+  factory SMSStatusModel.get(Map<String, dynamic> json) => SMSStatusModel(
         status: json['status'],
         reason: json['reason'],
       );

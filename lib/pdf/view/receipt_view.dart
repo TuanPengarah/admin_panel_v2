@@ -7,17 +7,19 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ReceiptPDF extends StatelessWidget {
   final _controller = Get.put(ReceiptPDFController());
+
+  ReceiptPDF({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Maklumat Resit'),
+        title: const Text('Maklumat Resit'),
         actions: [
           IconButton(
             onPressed: () {
               _controller.sharePDF();
             },
-            icon: Icon(Icons.share),
+            icon: const Icon(Icons.share),
           ),
         ],
       ),
@@ -25,16 +27,13 @@ class ReceiptPDF extends StatelessWidget {
           future: _controller.writeReceiptPDF(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Scaffold(
+              return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),
                 ),
               );
             }
             return SfPdfViewer.file(File(_controller.fullPath));
-            // return PDFViewerScaffold(
-
-            //     path: _controller.fullPath);
           }),
     );
   }

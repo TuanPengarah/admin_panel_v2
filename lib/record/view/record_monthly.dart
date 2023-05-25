@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 
 class MonthlyRecordView extends GetView<GraphController> {
+  const MonthlyRecordView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rekod Bulanan'),
+        title: const Text('Rekod Bulanan'),
       ),
       body: ListView.builder(
           itemCount: controller.getTotalMonth(),

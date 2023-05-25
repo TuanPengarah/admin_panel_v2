@@ -12,19 +12,21 @@ class MysidUpdate extends StatelessWidget {
   final _data = Get.arguments;
   final _params = Get.parameters;
 
+  MysidUpdate({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Material(
       child: Hero(
-        tag: _params['id'],
+        tag: _params['id'].toString(),
         child: Scaffold(
           body: NestedScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  title: Text('Kemaskini Status'),
+                  title: const Text('Kemaskini Status'),
                   expandedHeight: 350,
                   snap: false,
                   pinned: true,
@@ -36,7 +38,7 @@ class MysidUpdate extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: 100),
+                          const SizedBox(height: 100),
                           Obx(() {
                             return CircularPercentIndicator(
                               radius: 100.0,
@@ -51,12 +53,12 @@ class MysidUpdate extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     "Jumlah status\nkeselurahan",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(),
                                   ),
-                                  SizedBox(height: 4),
+                                  const SizedBox(height: 4),
                                   Text(
                                     '${_mysidController.percentage.value.toStringAsFixed(0)}%',
                                     style: TextStyle(
@@ -71,7 +73,7 @@ class MysidUpdate extends StatelessWidget {
                               progressColor: Get.theme.colorScheme.secondary,
                             );
                           }),
-                          SizedBox(height: 40),
+                          const SizedBox(height: 40),
                         ],
                       ),
                     ),
@@ -81,16 +83,16 @@ class MysidUpdate extends StatelessWidget {
                       () => _mysidController.percentage.value >= 90
                           ? IconButton(
                               onPressed: () {
-                                final _mysidController =
+                                final mysidController =
                                     Get.put(SMSController());
 
-                                _mysidController.recipientText.text =
+                                mysidController.recipientText.text =
                                     '6${_data['No Phone']}';
-                                _mysidController.messageText.text =
+                                mysidController.messageText.text =
                                     'Peranti (Mysid: ${_params['id']}) anda telah siap dibaiki. Anda boleh pickup peranti anda sekarang! Harap maklum dan terima kasih!';
                                 Get.toNamed(MyRoutes.smsView);
                               },
-                              icon: Icon(Icons.sms),
+                              icon: const Icon(Icons.sms),
                             )
                           : const SizedBox(),
                     ),
@@ -98,14 +100,15 @@ class MysidUpdate extends StatelessWidget {
                 ),
               ];
             },
-            body: MysidCard(params: _params, data: _data),
+            body: MysidCard(
+                params: {'id': _params['id'].toString()}, data: _data),
           ),
           floatingActionButton: FloatingActionButton.extended(
             isExtended: false,
             heroTag: null,
             onPressed: () => _mysidController.setMysid(context),
-            label: Text('Kemaskini'),
-            icon: Icon(Icons.drive_file_rename_outline_outlined),
+            label: const Text('Kemaskini'),
+            icon: const Icon(Icons.drive_file_rename_outline_outlined),
           ),
         ),
       ),

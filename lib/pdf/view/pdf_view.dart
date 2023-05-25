@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/pdf/controller/pdf_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +11,15 @@ class PdfViewerWidget extends StatelessWidget {
   final _pdfController = Get.put(PdfController());
   final _authController = Get.find<AuthController>();
   final _data = Get.arguments;
+
+  PdfViewerWidget({super.key});
   @override
   Widget build(BuildContext context) {
     DateTime dt = (_data['timeStamp'] as Timestamp).toDate();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Jobsheet details'),
+        title: const Text('Jobsheet details'),
         actions: [
           IconButton(
             onPressed: () => _pdfController.sendEmailPDF(
@@ -25,14 +27,14 @@ class PdfViewerWidget extends StatelessWidget {
               _authController.userName.toString(),
               _data['nama'],
             ),
-            icon: Icon(Icons.email),
+            icon: const Icon(Icons.email),
           ),
           IconButton(
             onPressed: () {
-              print(_data['kerosakkan']);
+              debugPrint(_data['kerosakkan']);
               _pdfController.sharePDF();
             },
-            icon: Icon(Icons.share),
+            icon: const Icon(Icons.share),
           ),
         ],
       ),
@@ -51,7 +53,7 @@ class PdfViewerWidget extends StatelessWidget {
           ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Scaffold(
+              return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),
                 ),

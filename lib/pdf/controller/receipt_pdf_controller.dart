@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:admin_panel/POS/controller/payment_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:get/get.dart';
@@ -20,16 +20,16 @@ class ReceiptPDFController extends GetxController {
     String currentEmail = email;
     if (email.isEmpty) {
       currentEmail = userName.split(" ").join("").toLowerCase() + '@email.com';
-      print(currentEmail);
+      debugPrint(currentEmail);
     }
     final MailOptions mailOptions = MailOptions(
       body:
           'Assalumalaikum dan salam sejahtera $userName!<br><br>Ini adalah resit pembayaran untuk peranti awak. $userName boleh simpan resit ini untuk tujuan rujukan😁<br><br>------------------<br>Pssst! Untuk pengetahuan, $userName boleh semak status baiki peranti dan semak status waranti dengan melayari aplikasi web kami https://af-fix.com/e-warranty dan masukkan email awak dan password: 123456🤫<br><br>--AINA',
       subject: '$technician dari Juruteknik Af-Fix🧑‍🔧',
-      recipients: ['$currentEmail'],
+      recipients: [currentEmail],
       isHTML: true,
       attachments: [
-        '$fullPath',
+        fullPath,
       ],
     );
     await FlutterMailer.send(mailOptions);
@@ -54,10 +54,10 @@ class ReceiptPDFController extends GetxController {
       pw.MultiPage(
           pageFormat: PdfPageFormat.a5,
           crossAxisAlignment: pw.CrossAxisAlignment.start,
-          margin: pw.EdgeInsets.all(15),
+          margin: const pw.EdgeInsets.all(15),
           header: (pw.Context context) {
             return pw.Header(
-              decoration: pw.BoxDecoration(),
+              decoration: const pw.BoxDecoration(),
               child: pw.Column(
                 children: [
                   pw.Row(
@@ -76,7 +76,7 @@ class ReceiptPDFController extends GetxController {
                           ),
                           pw.Text(
                             'Sila simpan resit ini untuk tujuan waranti (jika ada)',
-                            style: pw.TextStyle(
+                            style: const pw.TextStyle(
                               color: PdfColors.grey,
                             ),
                           ),
@@ -147,13 +147,13 @@ class ReceiptPDFController extends GetxController {
                               .toList(),
                           border: null,
                           columnWidths: {
-                            0: pw.FlexColumnWidth(7),
-                            1: pw.FlexColumnWidth(2),
-                            2: pw.FlexColumnWidth(2)
+                            0: const pw.FlexColumnWidth(7),
+                            1: const pw.FlexColumnWidth(2),
+                            2: const pw.FlexColumnWidth(2)
                           },
                           headerStyle:
                               pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                          headerDecoration: pw.BoxDecoration(
+                          headerDecoration: const pw.BoxDecoration(
                             color: PdfColors.blue300,
                           ),
                           cellHeight: 30,
@@ -176,7 +176,7 @@ class ReceiptPDFController extends GetxController {
                                   pw.TableCellVerticalAlignment.middle,
                               children: [
                                 pw.Padding(
-                                  padding: pw.EdgeInsets.all(10),
+                                  padding: const pw.EdgeInsets.all(10),
                                   child: pw.Text(
                                     'Butir',
                                     style: pw.TextStyle(
@@ -185,7 +185,7 @@ class ReceiptPDFController extends GetxController {
                                   ),
                                 ),
                                 pw.Padding(
-                                  padding: pw.EdgeInsets.all(10),
+                                  padding: const pw.EdgeInsets.all(10),
                                   child: pw.Text(
                                     'Waranti',
                                     style: pw.TextStyle(
@@ -194,7 +194,7 @@ class ReceiptPDFController extends GetxController {
                                   ),
                                 ),
                                 pw.Padding(
-                                  padding: pw.EdgeInsets.all(10),
+                                  padding: const pw.EdgeInsets.all(10),
                                   child: pw.Text(
                                     'Harga',
                                     style: pw.TextStyle(
@@ -209,18 +209,18 @@ class ReceiptPDFController extends GetxController {
                                   pw.TableCellVerticalAlignment.bottom,
                               children: [
                                 pw.Padding(
-                                  padding: pw.EdgeInsets.all(10),
+                                  padding: const pw.EdgeInsets.all(10),
                                   child: pw.Text(
                                     '${_paymentController.bills[0]['title']}',
                                   ),
                                 ),
                                 pw.Padding(
-                                  padding: pw.EdgeInsets.all(10),
+                                  padding: const pw.EdgeInsets.all(10),
                                   child: pw.Text(
                                       '${_paymentController.bills[0]['waranti']}'),
                                 ),
                                 pw.Padding(
-                                  padding: pw.EdgeInsets.all(10),
+                                  padding: const pw.EdgeInsets.all(10),
                                   child: pw.Text(
                                     '${_paymentController.bills[0]['harga']}',
                                   ),
@@ -229,9 +229,9 @@ class ReceiptPDFController extends GetxController {
                             ),
                           ],
                           columnWidths: {
-                            0: pw.FlexColumnWidth(7),
-                            1: pw.FlexColumnWidth(2),
-                            2: pw.FlexColumnWidth(2)
+                            0: const pw.FlexColumnWidth(7),
+                            1: const pw.FlexColumnWidth(2),
+                            2: const pw.FlexColumnWidth(2)
                           },
                         ),
                   pw.Divider(color: PdfColors.blue300),
@@ -258,7 +258,7 @@ class ReceiptPDFController extends GetxController {
                   child: pw.Text(
                     'Anda juga boleh melihat status waranti di laman portal kami: www.af-fix.com/e-warranty',
                     textAlign: pw.TextAlign.center,
-                    style: pw.TextStyle(
+                    style: const pw.TextStyle(
                       color: PdfColors.grey,
                       fontSize: 10,
                     ),
@@ -275,6 +275,6 @@ class ReceiptPDFController extends GetxController {
     final File file = File(path);
     await file.writeAsBytes(await pdf.save());
     Haptic.feedbackSuccess();
-    print(fullPath);
+    debugPrint(fullPath);
   }
 }

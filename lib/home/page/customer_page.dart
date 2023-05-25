@@ -13,8 +13,8 @@ import 'package:shimmer/shimmer.dart';
 import '../controller/customer_search.dart';
 
 class CustomerPage extends StatelessWidget {
-  final isGrab;
-  CustomerPage(this.isGrab);
+  final bool isGrab;
+  CustomerPage(this.isGrab, {super.key});
   final _customerController = Get.find<CustomerController>();
 
   @override
@@ -31,10 +31,10 @@ class CustomerPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.person_outlined),
+                  const Icon(Icons.person_outlined),
                   Text(
-                    '${_customerController.customerListRead.value}',
-                    style: TextStyle(fontSize: 10),
+                    _customerController.customerListRead.value,
+                    style: const TextStyle(fontSize: 10),
                   )
                 ],
               ),
@@ -63,7 +63,7 @@ class CustomerPage extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  icon: Icon(Icons.sort),
+                  icon: const Icon(Icons.sort),
                   onSelected: (value) {
                     _customerController.sorting(value);
                     _customerController.currentlySelected = value.text;
@@ -87,7 +87,7 @@ class CustomerPage extends StatelessWidget {
                                   color:
                                       _customerController.currentlySelected ==
                                               i.text
-                                          ? Get.theme.textTheme.bodyLarge.color
+                                          ? Get.theme.textTheme.bodyLarge?.color
                                           : Colors.grey,
                                   fontWeight:
                                       _customerController.currentlySelected ==
@@ -107,7 +107,7 @@ class CustomerPage extends StatelessWidget {
                           Get.toNamed(MyRoutes.jobsheet,
                               arguments: [false, '', '', '', '']);
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.add,
                         ),
                       )
@@ -128,13 +128,13 @@ class CustomerPage extends StatelessWidget {
                       itemBuilder: (context, i) {
                         return Shimmer.fromColors(
                           baseColor: Get.isDarkMode
-                              ? Colors.grey[900]
+                              ? Colors.grey.shade900
                               : Colors.black26,
                           highlightColor: Get.isDarkMode
-                              ? Colors.grey[700]
+                              ? Colors.grey.shade700
                               : Colors.grey.shade400,
                           child: ListTile(
-                            leading: CircleAvatar(),
+                            leading: const CircleAvatar(),
                             title: Container(
                               height: 10,
                               width: double.infinity,
@@ -163,7 +163,7 @@ class CustomerPage extends StatelessWidget {
                             await _customerController.getCustomerDetails();
                             Haptic.feedbackSuccess();
                           },
-                          child: Text(
+                          child: const Text(
                             'Muat Semula',
                           ),
                         )
@@ -172,7 +172,7 @@ class CustomerPage extends StatelessWidget {
                   );
                 }
                 if (_customerController.customerList.isEmpty) {
-                  return Center(
+                  return const Center(
                       child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -214,7 +214,7 @@ class CustomerPage extends StatelessWidget {
   Slidable customerTiles(customer, image) {
     return Slidable(
       startActionPane: ActionPane(
-        motion: ScrollMotion(),
+        motion: const ScrollMotion(),
         children: [
           SlidableAction(
             backgroundColor: Get.theme.colorScheme.primaryContainer,
@@ -236,7 +236,7 @@ class CustomerPage extends StatelessWidget {
         ],
       ),
       endActionPane: ActionPane(
-        motion: ScrollMotion(),
+        motion: const ScrollMotion(),
         children: [
           SlidableAction(
             backgroundColor: Get.theme.colorScheme.tertiaryContainer,
@@ -300,7 +300,7 @@ class CustomerPage extends StatelessWidget {
         leading: Hero(
           tag: customer['UID'],
           child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: AdvancedAvatar(
               size: 35,
               name: customer['Nama'],

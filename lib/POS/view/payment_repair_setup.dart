@@ -6,14 +6,16 @@ import 'package:get/get.dart';
 class PaymentSetup extends StatelessWidget {
   final _controller = Get.find<PaymentController>();
 
+  PaymentSetup({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final _data = Get.arguments;
+    final data = Get.arguments;
     return WillPopScope(
       onWillPop: () => _controller.exitPaymentSetup(),
       child: Scaffold(
         body: GestureDetector(
-          onTap: () => Get.focusScope.unfocus(),
+          onTap: () => Get.focusScope?.unfocus(),
           child: SafeArea(
             child: Column(
               children: [
@@ -24,7 +26,7 @@ class PaymentSetup extends StatelessWidget {
                         bool exit = await _controller.exitPaymentSetup();
                         if (exit == true) Get.back();
                       },
-                      icon: Icon(Icons.arrow_back)),
+                      icon: const Icon(Icons.arrow_back)),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -33,24 +35,24 @@ class PaymentSetup extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           'Invois',
                           style: TextStyle(
                               fontSize: 40, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          _data == null
+                          data == null
                               ? 'Sunting dan tambah kaedah Invois'
-                              : 'Tambah invois untuk ${_data['model']}',
+                              : 'Tambah invois untuk ${data['model']}',
                         ),
-                        SizedBox(height: 18),
+                        const SizedBox(height: 18),
                       ],
                     ),
                   ),
                 ),
                 Expanded(
                   child: Card(
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(25),
                         topRight: Radius.circular(25),
@@ -74,12 +76,12 @@ class PaymentSetup extends StatelessWidget {
                                           ? 'Hasilkan Invois'
                                           : 'Seterusnya'),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 _controller.currentSteps.value == 0
                                     ? Container()
                                     : TextButton(
                                         onPressed: details.onStepCancel,
-                                        child: Text('Batal'),
+                                        child: const Text('Batal'),
                                       ),
                               ],
                             ),

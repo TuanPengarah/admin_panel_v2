@@ -15,6 +15,8 @@ import '../controller/payment_controller.dart';
 class ViewInvoiceDetail extends StatelessWidget {
   final _customerController = Get.find<CustomerController>();
   final _id = Get.parameters;
+
+  ViewInvoiceDetail({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,11 +24,10 @@ class ViewInvoiceDetail extends StatelessWidget {
         title: const Text('Maklumat Invois'),
         actions: [
           QudsPopupButton(
-            child: Icon(Icons.more_vert),
             items: [
               QudsPopupMenuItem(
-                title: Text('Maklumat Pelanggan'),
-                leading: Icon(Icons.person),
+                title: const Text('Maklumat Pelanggan'),
+                leading: const Icon(Icons.person),
                 onPressed: () {
                   var customer = _customerController.customerList.where((cust) {
                     return cust['UID'] == _id['uid'];
@@ -43,35 +44,35 @@ class ViewInvoiceDetail extends StatelessWidget {
                 },
               ),
               QudsPopupMenuItem(
-                title: Text(
+                title: const Text(
                   'Buang',
                   style: TextStyle(color: Colors.red),
                 ),
-                leading: Icon(
+                leading: const Icon(
                   Icons.delete,
                   color: Colors.red,
                 ),
                 onPressed: () {
                   Get.dialog(
                     AlertDialog(
-                      icon: Icon(Icons.delete),
-                      title: Text('Buang Invois'),
-                      content:
-                          Text('Adakah anda pasti untuk membuang invois ini?'),
+                      icon: const Icon(Icons.delete),
+                      title: const Text('Buang Invois'),
+                      content: const Text(
+                          'Adakah anda pasti untuk membuang invois ini?'),
                       actions: [
                         TextButton(
                           onPressed: () async {
                             Get.closeAllSnackbars();
                             Get.back();
                             Get.back();
-                            await Future.delayed(Duration(seconds: 1));
+                            await Future.delayed(const Duration(seconds: 1));
                             await FirebaseDatabase.instance
                                 .ref('Invoices/${_id['id']}')
                                 .remove();
                             ShowSnackbar.success('Operasi selesai!',
                                 'Invois telah dipadam', false);
                           },
-                          child: Text(
+                          child: const Text(
                             'Pasti',
                             style: TextStyle(color: Colors.red),
                           ),
@@ -81,7 +82,7 @@ class ViewInvoiceDetail extends StatelessWidget {
                             Haptic.feedbackSuccess();
                             Get.back();
                           },
-                          child: Text('Batal'),
+                          child: const Text('Batal'),
                         ),
                       ],
                     ),
@@ -89,6 +90,7 @@ class ViewInvoiceDetail extends StatelessWidget {
                 },
               ),
             ],
+            child: const Icon(Icons.more_vert),
           ),
         ],
       ),
@@ -103,15 +105,13 @@ class ViewInvoiceDetail extends StatelessWidget {
             }
 
             if (snapshot.hasData) {
-              var data = snapshot.data.snapshot.value as Map<dynamic, dynamic>;
+              var data = snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
               var invoice = InvoiceDetailsModel.fromDatabase(data);
               double totalPrice = 0;
 
-              invoice.invoiceList.forEach(
-                (total) {
-                  totalPrice += double.parse(total['price'].toString());
-                },
-              );
+              for (var total in invoice.invoiceList) {
+                totalPrice += double.parse(total['price'].toString());
+              }
 
               return Column(
                 children: [
@@ -175,14 +175,15 @@ class ViewInvoiceDetail extends StatelessWidget {
                                   payment.totalBillsPrice.value = totalPrice;
                                   payment.customerName = customer['Nama'];
                                   payment.phoneNumber = customer['No Phone'];
-                                  print(payment.bills);
+                                  // debugPrint(payment.bills);
                                   Get.toNamed(MyRoutes.pdfReceiptViewer,
                                       arguments: {
                                         'isBills': true,
                                         'tarikh': DateFormat('dd-MM-yyyy')
                                             .format(DateTime
                                                 .fromMillisecondsSinceEpoch(
-                                                    int.parse(_id['id'])))
+                                                    int.parse(
+                                                        _id['id'].toString())))
                                       });
                                 },
                                 child: const Text('Hasilkan Resit'),
@@ -195,13 +196,13 @@ class ViewInvoiceDetail extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Jumlah',
                                     style: TextStyle(fontSize: 12),
                                   ),
                                   Text(
                                     'RM $totalPrice',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
                                   ),
@@ -214,7 +215,7 @@ class ViewInvoiceDetail extends StatelessWidget {
                             invoice.ispay == true
                                 ? '- Invois Ini Telah Dibayar -'
                                 : '- Invois Ini Belum Dibayar Lagi',
-                            style: TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ],
                       ),
@@ -223,8 +224,8 @@ class ViewInvoiceDetail extends StatelessWidget {
                 ],
               );
             }
-            return Center(
-              child: const Text('An error has accured'),
+            return const Center(
+              child: Text('An error has accured'),
             );
           }),
     );

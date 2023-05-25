@@ -29,7 +29,7 @@ class SparepartsSearch extends SearchDelegate {
             query = '';
           }
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.close,
         ),
       ),
@@ -43,7 +43,7 @@ class SparepartsSearch extends SearchDelegate {
         Haptic.feedbackError();
         close(context, null);
       },
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
     );
   }
 
@@ -68,7 +68,7 @@ class SparepartsSearch extends SearchDelegate {
                   Text(
                     'Spareparts atau jenis spareparts \'$query\' tidak dapat ditemui',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                     ),
                   ),
@@ -89,20 +89,20 @@ class SparepartsSearch extends SearchDelegate {
               return ListSpareparts().listSpareparts(spareparts);
             },
           )
-        : Center(
+        : const Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.manage_search,
                     size: 120,
                     color: Colors.grey,
                   ),
-                  const SizedBox(height: 5),
-                  const Text(
+                  SizedBox(height: 5),
+                  Text(
                     'Cari spareparts dengan memasukkan kata kunci \'Jenis Sparepart\' atau \'Model Smartphone\'',
                     textAlign: TextAlign.center,
                     style: TextStyle(

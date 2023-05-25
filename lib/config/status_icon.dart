@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class StatusIcon extends StatelessWidget {
-  final iconstatus;
+  final String iconstatus;
 
-  StatusIcon(this.iconstatus);
+  const StatusIcon(this.iconstatus, {super.key});
 
   Widget _buildIcon() {
     if (iconstatus == 'Belum Selesai') {
       return IconButton(
-        icon: Icon(
+        icon: const Icon(
           Icons.refresh,
           color: Colors.grey,
         ),
@@ -17,18 +17,18 @@ class StatusIcon extends StatelessWidget {
       );
     } else if (iconstatus == 'Selesai') {
       return IconButton(
-        icon: Icon(Icons.done, color: Colors.grey),
+        icon: const Icon(Icons.done, color: Colors.grey),
         onPressed: () {},
         tooltip: 'Selesai',
       );
     } else if (iconstatus == 'Tak Boleh') {
       return IconButton(
-        icon: Icon(Icons.close, color: Colors.grey),
+        icon: const Icon(Icons.close, color: Colors.grey),
         onPressed: () {},
         tooltip: 'Tak Boleh Buat',
       );
     }
-    return new Container(
+    return Container(
       child: _buildIcon(),
     );
   }

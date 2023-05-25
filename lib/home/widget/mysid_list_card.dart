@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class MysidUI {
-  static Card mySidListCard(QueryDocumentSnapshot<Object> document,
-      BuildContext context, Function tap) {
+  static Card mySidListCard(QueryDocumentSnapshot<Object?> document,
+      BuildContext context, Function() tap) {
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
@@ -24,7 +24,7 @@ class MysidUI {
                     child: Text(
                       document['Model'],
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ),
                   Column(
@@ -33,14 +33,14 @@ class MysidUI {
                     children: [
                       Text(
                         document['Kerosakkan'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
                         ),
                       ),
                       Text(
                         document.id.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
                         ),
@@ -53,7 +53,7 @@ class MysidUI {
                 padding: const EdgeInsets.only(top: 5.0),
                 child: Text(
                   document['Nama'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
                   ),
@@ -63,18 +63,18 @@ class MysidUI {
                 padding: const EdgeInsets.only(top: 5.0),
                 child: Text(
                   document['No Phone'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.grey,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               LinearPercentIndicator(
-                leading: Icon(Icons.history, color: Colors.grey),
-                trailing: Icon(Icons.done, color: Colors.grey),
+                leading: const Icon(Icons.history, color: Colors.grey),
+                trailing: const Icon(Icons.done, color: Colors.grey),
                 width: MediaQuery.of(context).size.width - 110,
                 lineHeight: 3.2,
                 percent: document['Percent'],
@@ -88,14 +88,14 @@ class MysidUI {
                   children: [
                     Text(
                       'RM ${document['Harga'].toString()}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 22,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
                       document['Tarikh'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
                         color: Colors.grey,
                       ),

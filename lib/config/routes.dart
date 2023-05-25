@@ -49,7 +49,7 @@ class MyRoutes {
     GetPage(name: login, page: () => LoginView()),
     GetPage(
       name: home,
-      page: () => HomeView(),
+      page: () => const HomeView(),
       binding: HomeBinding(),
     ),
     GetPage(
@@ -59,7 +59,7 @@ class MyRoutes {
     ),
     GetPage(
       name: jobsheetHistory,
-      page: () => JobsheetHistory(),
+      page: () => const JobsheetHistory(),
       binding: JobSheetHistoryBinding(),
     ),
     GetPage(name: overview, page: () => CustomerView()),
@@ -67,12 +67,12 @@ class MyRoutes {
     GetPage(name: pdfJobsheeetViewer, page: () => PdfViewerWidget()),
     GetPage(name: mysidUpdate, page: () => MysidUpdate()),
     GetPage(name: repairLog, page: () => RepairLogView()),
-    GetPage(name: mysidHisory, page: () => MysidHistoryView()),
-    GetPage(name: spareparts, page: () => AllSparepartsView()),
+    GetPage(name: mysidHisory, page: () => const MysidHistoryView()),
+    GetPage(name: spareparts, page: () => const AllSparepartsView()),
     GetPage(name: sparepartsDetails, page: () => DetailsSpareparts()),
     GetPage(name: sparepartsAdd, page: () => AddSparepart()),
-    GetPage(name: sparepartsHistory, page: () => HistorySparepartsView()),
-    GetPage(name: priceCalc, page: () => PriceCalculatorView()),
+    // GetPage(name: sparepartsHistory, page: () => HistorySparepartsView()),
+    GetPage(name: priceCalc, page: () => const PriceCalculatorView()),
     GetPage(name: technician, page: () => TechnicianView()),
     GetPage(name: technicianAdd, page: () => TechnicianAdd()),
     GetPage(name: technicianDetails, page: () => TechnicianInfo()),
@@ -90,7 +90,7 @@ class MyRoutes {
         binding: PriceListBinding()),
     GetPage(
       name: cashFlow,
-      page: () => CashFlowView(),
+      page: () => const CashFlowView(),
       binding: CashFlowBinding(),
     ),
     GetPage(
@@ -102,11 +102,11 @@ class MyRoutes {
       page: () => RecordView(),
       binding: AllRecordBinding(),
     ),
-    GetPage(name: notifHistory, page: () => NotificationHistoryView()),
+    // GetPage(name: notifHistory, page: () => NotificationHistoryView()),
     GetPage(name: chat, page: () => ChatView(), binding: ChatBinding()),
     GetPage(
       name: monthlyRecord,
-      page: () => MonthlyRecordView(),
+      page: () => const MonthlyRecordView(),
       binding: MonthlyBinding(),
     ),
     GetPage(
@@ -115,12 +115,12 @@ class MyRoutes {
         binding: CashFlowStatementBinding()),
     GetPage(
       name: smsView,
-      page: () => SMSView(),
+      page: () => const SMSView(),
       binding: SMSBinding(),
     ),
     GetPage(
       name: cashFlowViewAll,
-      page: () => CashflowViewAll(),
+      page: () => const CashflowViewAll(),
     ),
     GetPage(
       name: setting,
@@ -128,7 +128,7 @@ class MyRoutes {
     ),
     GetPage(
       name: invoisView,
-      page: () => ViewInvoice(),
+      page: () => const ViewInvoice(),
     ),
     GetPage(
       name: detailsInvoice,

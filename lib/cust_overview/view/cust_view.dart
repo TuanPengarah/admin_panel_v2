@@ -9,8 +9,10 @@ class CustomerView extends StatelessWidget {
   final _data = Get.arguments;
   final _screen = [
     CustomerInfoPage(),
-    RepairHistoryPage(),
+    const RepairHistoryPage(),
   ];
+
+  CustomerView({super.key});
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -20,9 +22,9 @@ class CustomerView extends StatelessWidget {
           bottomNavigationBar: Obx(() => NavigationBar(
                 onDestinationSelected: (index) =>
                     _overviewController.currentIndex.value = index,
-                animationDuration: Duration(milliseconds: 500),
+                animationDuration: const Duration(milliseconds: 500),
                 selectedIndex: _overviewController.currentIndex.value,
-                destinations: [
+                destinations: const [
                   NavigationDestination(
                     icon: Icon(Icons.person_outline),
                     selectedIcon: Icon(Icons.person),

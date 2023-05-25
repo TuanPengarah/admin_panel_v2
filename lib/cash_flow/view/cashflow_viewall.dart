@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CashflowViewAll extends GetView<CashFlowController> {
+  const CashflowViewAll({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -12,12 +14,12 @@ class CashflowViewAll extends GetView<CashFlowController> {
       child: Hero(
         tag: 'cf',
         child: Scaffold(
-          appBar: AppBar(title: Text('Senarai Cash Flow')),
+          appBar: AppBar(title: const Text('Senarai Cash Flow')),
           body: FutureBuilder(
               future: controller.initCashFlow,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -36,11 +38,11 @@ class CashflowViewAll extends GetView<CashFlowController> {
                         trailing: cash.isModal == true
                             ? Text(
                                 '-RM${cash.jumlah}',
-                                style: TextStyle(color: Colors.red),
+                                style: const TextStyle(color: Colors.red),
                               )
                             : Text(
                                 '+RM${cash.jumlah}',
-                                style: TextStyle(color: Colors.green),
+                                style: const TextStyle(color: Colors.green),
                               ),
                         onLongPress: () {
                           controller.hargaText.text = cash.jumlah.toString();

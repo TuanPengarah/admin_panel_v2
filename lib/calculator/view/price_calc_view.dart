@@ -8,15 +8,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PriceCalculatorView extends StatelessWidget {
+  const PriceCalculatorView({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final _priceController = Get.put(PriceCalculatorController());
-    final _priceListController = Get.put(PriceListController());
+    final priceController = Get.put(PriceCalculatorController());
+    final priceListController = Get.put(PriceListController());
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            title: Text('Pengiraan Harga'),
+            title: const Text('Pengiraan Harga'),
             expandedHeight: 300,
             pinned: true,
             backgroundColor: Get.theme.colorScheme.primary,
@@ -26,11 +28,11 @@ class PriceCalculatorView extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  _priceListController.priceText.text =
-                      _priceController.jumlah.value.toStringAsFixed(0);
-                  _priceListController.addListDialog(isEdit: false);
+                  priceListController.priceText.text =
+                      priceController.jumlah.value.toStringAsFixed(0);
+                  priceListController.addListDialog(isEdit: false);
                 },
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
               ),
             ],
           ),
@@ -45,7 +47,7 @@ class PriceCalculatorView extends StatelessWidget {
                       PriceCalculatorWidget().titleContent(),
                       FlutterSlider(
                         values: [
-                          double.parse(_priceController.supplierPrice.value)
+                          double.parse(priceController.supplierPrice.value)
                         ],
                         max: 2000,
                         min: 0,
@@ -64,21 +66,21 @@ class PriceCalculatorView extends StatelessWidget {
                           ),
                         ),
                         onDragging: (handlerIndex, lowerValue, upperValue) {
-                          _priceController.supplierPriceTitle.text =
+                          priceController.supplierPriceTitle.text =
                               '${lowerValue.toStringAsFixed(0)}';
-                          _priceController.supplierPrice.value = double.parse(
-                                  _priceController.supplierPriceTitle.text)
+                          priceController.supplierPrice.value = double.parse(
+                                  priceController.supplierPriceTitle.text)
                               .toStringAsFixed(0);
-                          _priceController.calculatePrice(
-                              int.parse(_priceController.supplierPrice.value));
+                          priceController.calculatePrice(
+                              int.parse(priceController.supplierPrice.value));
                         },
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       PriceCalculatorWidget().titleContent2(),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       FlutterSlider(
                         values: [
-                          _priceController.tempohWarranti.value == '1 Bulan'
+                          priceController.tempohWarranti.value == '1 Bulan'
                               ? 30
                               : 1
                         ],
@@ -108,19 +110,19 @@ class PriceCalculatorView extends StatelessWidget {
                               color: Get.theme.colorScheme.secondary),
                         ),
                         onDragging: (handlerIndex, lowerValue, upperValue) {
-                          _priceController.tempohWarranti.value = lowerValue;
-                          _priceController.changeWaranti();
-                          _priceController.calculatePrice(
-                              int.parse(_priceController.supplierPrice.value));
+                          priceController.tempohWarranti.value = lowerValue;
+                          priceController.changeWaranti();
+                          priceController.calculatePrice(
+                              int.parse(priceController.supplierPrice.value));
                         },
                       ),
-                      SizedBox(height: 50),
-                      Text(
+                      const SizedBox(height: 50),
+                      const Text(
                         'Pengiraan harga ini kemungkinan besar adalah tidak tepat! Sila semak jenis spareparts dan semak kesukaran untuk membaiki peranti tersebut!',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.grey, fontSize: 12),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                     ],
                   ),
                 ),

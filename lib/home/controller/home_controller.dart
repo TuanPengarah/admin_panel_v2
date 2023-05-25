@@ -1,16 +1,13 @@
 import 'dart:async';
-import 'package:admin_panel/API/sqlite.dart';
-import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/notification/controller/notification_controller.dart';
-import 'package:admin_panel/notification/model/notification_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:quick_actions/quick_actions.dart';
-import '../../auth/controller/firebaseAuth_controller.dart';
+import '../../auth/controller/firebaseauth_controller.dart';
 import '../../config/snackbar.dart';
 
 class HomeController extends GetxController {
@@ -41,20 +38,20 @@ class HomeController extends GetxController {
     super.onClose();
   }
 
-  void _handleMessage(RemoteMessage message) async {
-    var screen = message.data['screen'];
+  void _handleMessage(RemoteMessage? message) async {
+    var screen = message?.data['screen'];
     if (screen == null) {
       return null;
     } else if (screen == '/chat') {
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
 
-      ChatModel chitChat = new ChatModel(
-        content: message.notification.body,
-        date: message.sentTime.toString(),
-        whoChat: 1,
-        idUser: message.data['uid'],
-      );
-      Get.dialog(AlertDialog(
+      // ChatModel chitChat = new ChatModel(
+      //   content: message!.notification!.body.toString(),
+      //   date: message.sentTime.toString(),
+      //   whoChat: 1,
+      //   idUser: message.data['uid'],
+      // );
+      Get.dialog(const AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -62,12 +59,12 @@ class HomeController extends GetxController {
           ],
         ),
       ));
-      await Future.delayed(Duration(seconds: 4));
-      await DatabaseHelper.instance.addChat(chitChat);
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 4));
+      // await DatabaseHelper.instance.addChat(chitChat);
+      await Future.delayed(const Duration(seconds: 2));
       Get.back();
       Get.toNamed(screen, arguments: {
-        'name': message.data['name'],
+        'name': message!.data['name'],
         'photoURL': message.data['photoURL1'],
         'photoURL1': message.data['photoURL'],
         'token': message.data['userToken'],
@@ -79,16 +76,10 @@ class HomeController extends GetxController {
     } else {
       Get.toNamed(screen);
     }
-    if (message.notification != null) {
-      NotificationsModel notif = new NotificationsModel(
-        title: message.notification.title,
-        body: message.notification.body,
-        tarikh: message.sentTime.toString(),
-      );
-      print('waiting for 5 seconds to init sqlite');
-      await Future.delayed(Duration(seconds: 5));
-      print('inserting on notification history...');
-      await DatabaseHelper.instance.addNotificationHistory(notif);
+    if (message!.notification != null) {
+      debugPrint('waiting for 5 seconds to init sqlite');
+      await Future.delayed(const Duration(seconds: 5));
+      debugPrint('inserting on notification history...');
     }
   }
 
@@ -99,56 +90,55 @@ class HomeController extends GetxController {
       }
       semaphore = 1;
       debugPrint('masej masyuk');
-      NotificationsModel notif = new NotificationsModel(
-        title: message.notification.title,
-        body: message.notification.body,
-        tarikh: DateTime.now().toString(),
-      );
-      ChatModel chitChat = new ChatModel(
-        content: notif.body,
-        date: DateTime.now().toString(),
-        whoChat: 1,
-        idUser: message.data['uid'],
-      );
+      // NotificationsModel notif = new NotificationsModel(
+      //   title: message.notification!.title.toString(),
+      //   body: message.notification!.body.toString(),
+      //   tarikh: DateTime.now().toString(),
+      // );
+      // ChatModel chitChat = new ChatModel(
+      //   content: notif.body,
+      //   date: DateTime.now().toString(),
+      //   whoChat: 1,
+      //   idUser: message.data['uid'],
+      // );
 
       String screen = message.data['screen'];
-      DatabaseHelper.instance.addNotificationHistory(notif);
 
       if (screen == '/chat' && isChat == false) {
-        await DatabaseHelper.instance.addChat(chitChat);
-        ShowSnackbar.notify(
-          message.notification.title,
-          message.notification.body,
-          onTap: (test) {
-            if (screen == null) {
-              return null;
-            } else if (screen == '/chat') {
-              Get.closeCurrentSnackbar();
-              Get.toNamed(screen, arguments: {
-                'name': message.data['name'],
-                'photoURL': message.data['photoURL1'],
-                'photoURL1': message.data['photoURL'],
-                'token': message.data['userToken'],
-                'userToken': message.data['token'],
-                'uid': message.data['uid'],
-              }, parameters: {
-                'id': message.data['uid']
-              });
-            } else {
-              Get.closeCurrentSnackbar();
-              Get.toNamed(screen);
-            }
-          },
-        );
+        // await DatabaseHelper.instance.addChat(chitChat);
+        // ShowSnackbar.notify(
+        //   message.notification.title,
+        //   message.notification.body,
+        //   onTap: (test) {
+        //     if (screen == null) {
+        //       return null;
+        //     } else if (screen == '/chat') {
+        //       Get.closeCurrentSnackbar();
+        //       Get.toNamed(screen, arguments: {
+        //         'name': message.data['name'],
+        //         'photoURL': message.data['photoURL1'],
+        //         'photoURL1': message.data['photoURL'],
+        //         'token': message.data['userToken'],
+        //         'userToken': message.data['token'],
+        //         'uid': message.data['uid'],
+        //       }, parameters: {
+        //         'id': message.data['uid']
+        //       });
+        //     } else {
+        //       Get.closeCurrentSnackbar();
+        //       Get.toNamed(screen);
+        //     }
+        //   },
+        // );
       } else if (screen == '/chat' && isChat == true) {
-        await DatabaseHelper.instance.addChat(chitChat);
+        // await DatabaseHelper.instance.addChat(chitChat);
       } else if (message.data['token'] != _authController.token) {
-        ShowSnackbar.notify(
-            message.notification.title, message.notification.body);
+        ShowSnackbar.notify(message.notification!.title.toString(),
+            message.notification!.body.toString());
       } else {
         Haptic.feedbackClick();
       }
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       semaphore = 0;
     });
   }
@@ -159,18 +149,16 @@ class HomeController extends GetxController {
       FirebaseMessaging.instance.subscribeToTopic('adminPanel');
     }
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-    RemoteMessage initialMessage =
+    RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
-    if (initialMessage != null) {
-      _handleMessage(initialMessage);
-    }
+    _handleMessage(initialMessage);
     if (!GetPlatform.isWeb) {
       //notification config
       if (box.read<bool>('initNotif') == true) {
         _notifController.subscribedToFCM('socmed');
         if (_authController.jawatan.value == 'Founder') {
-          print('Notifikasi settlement telah diset kan sekali');
+          debugPrint('Notifikasi settlement telah diset kan sekali');
           _notifController.subscribedToFCM('settlement');
         } else {
           _notifController.unsubscribedFromFCM('settlement');
@@ -178,7 +166,7 @@ class HomeController extends GetxController {
       } else {
         _notifController.unsubscribedFromFCM('socmed');
         if (_authController.jawatan.value == 'Founder') {
-          print('Notifikasi settlement akan dibatalkan sekali');
+          debugPrint('Notifikasi settlement akan dibatalkan sekali');
           _notifController.unsubscribedFromFCM('settlement');
         } else {
           _notifController.unsubscribedFromFCM('settlement');

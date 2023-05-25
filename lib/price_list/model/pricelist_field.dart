@@ -1,8 +1,8 @@
 class PriceListField {
-  static final id = 'ID';
-  static final model = 'MODEL';
-  static final parts = 'PARTS';
-  static final harga = 'HARGA';
+  static const id = 'ID';
+  static const model = 'MODEL';
+  static const parts = 'PARTS';
+  static const harga = 'HARGA';
 
   static List<String> getFields() => [
         id,

@@ -1,6 +1,4 @@
-import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/inventory.dart';
-import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:admin_panel/price_list/model/pricelist_model.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
@@ -18,30 +16,30 @@ class AddSparepartStepper {
           state: _controller.currentSteps.value != 0
               ? StepState.complete
               : StepState.indexed,
-          title: Text('Supplier'),
+          title: const Text('Supplier'),
           isActive: _controller.currentSteps.value >= 0,
           content: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
                 color: Get.isDarkMode
                     ? Colors.grey.shade900
                     : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10)),
             child: DropdownButton(
-              underline: SizedBox(),
+              underline: const SizedBox(),
               items: Inventory.supplier.map((String value) {
                 return DropdownMenuItem(
+                  value: value,
                   child: Text(
                     Inventory.getSupplierCode(
                       value.toString(),
                     ),
                   ),
-                  value: value,
                 );
               }).toList(),
               value: _controller.selectedSupplier.value,
-              onChanged: (String newValue) {
-                _controller.selectedSupplier.value = newValue;
+              onChanged: (String? newValue) {
+                _controller.selectedSupplier.value = newValue.toString();
               },
             ),
           ),
@@ -51,7 +49,7 @@ class AddSparepartStepper {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 1,
-          title: Text('Model Smartphone'),
+          title: const Text('Model Smartphone'),
           content: TypeAheadField(
             textFieldConfiguration: TextFieldConfiguration(
               controller: _controller.modelParts,
@@ -87,62 +85,62 @@ class AddSparepartStepper {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 2,
-          title: Text('Jenis Spareparts'),
-          content: TypeAheadField(
-            textFieldConfiguration: TextFieldConfiguration(
-              controller: _controller.jenisParts,
-              focusNode: _controller.focusJenisSparepart,
-              textCapitalization: TextCapitalization.characters,
-              textInputAction: TextInputAction.next,
-              onSubmitted: (newText) {
-                _controller.nextStepper();
-              },
-              decoration: InputDecoration(
-                  hintText: 'cth: Lcd, Battery, Back Camera...',
-                  errorText: _controller.errJenisParts.value == true
-                      ? 'Sila masukkan jenis spareparts!'
-                      : null),
-            ),
-            suggestionsCallback: (String pattern) async =>
-                await DatabaseHelper.instance.getPartsSuggestion(pattern),
-            onSuggestionSelected: (PartsSuggestion suggestion) =>
-                _controller.jenisParts.text = suggestion.parts,
-            itemBuilder: (BuildContext context, PartsSuggestion data) {
-              return ListTile(
-                title: Text(data.parts),
-              );
+          title: const Text('Jenis Spareparts'),
+          content: TextField(
+            controller: _controller.jenisParts,
+            focusNode: _controller.focusJenisSparepart,
+            textCapitalization: TextCapitalization.characters,
+            textInputAction: TextInputAction.next,
+            onSubmitted: (newText) {
+              _controller.nextStepper();
             },
-            getImmediateSuggestions: false,
-            hideOnEmpty: true,
-            hideSuggestionsOnKeyboardHide: true,
+            decoration: InputDecoration(
+                hintText: 'cth: Lcd, Battery, Back Camera...',
+                errorText: _controller.errJenisParts.value == true
+                    ? 'Sila masukkan jenis spareparts!'
+                    : null),
           ),
+          // textFieldConfiguration: TextFieldConfiguration(
+
+          // suggestionsCallback: (String pattern) async =>
+          //     await DatabaseHelper.instance.getPartsSuggestion(pattern),
+          // onSuggestionSelected: (PartsSuggestion suggestion) =>
+          //     _controller.jenisParts.text = suggestion.parts,
+          // itemBuilder: (BuildContext context, PartsSuggestion data) {
+          //   return ListTile(
+          //     title: Text(data.parts),
+          //   );
+          // },
+          // getImmediateSuggestions: false,
+          // hideOnEmpty: true,
+          // hideSuggestionsOnKeyboardHide: true,
         ),
         Step(
           state: _controller.currentSteps.value > 3
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 3,
-          title: Text('Kualiti Spareparts'),
+          title: const Text('Kualiti Spareparts'),
           content: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
                 color: Get.isDarkMode
                     ? Colors.grey.shade900
                     : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(10)),
             child: DropdownButton(
-              underline: SizedBox(),
+              underline: const SizedBox(),
               items: Inventory.quality.map((String value) {
                 return DropdownMenuItem(
+                  value: value,
                   child: Text(
                     value.toString(),
                   ),
-                  value: value,
                 );
               }).toList(),
               value: _controller.selectedQuality.value,
-              onChanged: (String newValue) {
-                _controller.selectedQuality.value = newValue;
+              onChanged: (String? newValue) {
+                _controller.selectedQuality.value = newValue.toString();
               },
             ),
           ),
@@ -152,10 +150,10 @@ class AddSparepartStepper {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 4,
-          title: Text('Harga'),
+          title: const Text('Harga'),
           content: TextField(
             keyboardType: GetPlatform.isIOS
-                ? TextInputType.numberWithOptions(signed: true, decimal: true)
+                ? const TextInputType.numberWithOptions(signed: true, decimal: true)
                 : TextInputType.phone,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}'))
@@ -178,7 +176,7 @@ class AddSparepartStepper {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 5,
-          title: Text('Maklumat Spareparts'),
+          title: const Text('Maklumat Spareparts'),
           content: TextField(
             controller: _controller.maklumatParts,
             focusNode: _controller.focusMaklumatParts,
@@ -199,12 +197,12 @@ class AddSparepartStepper {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 6,
-          title: Text('Kuantiti'),
+          title: const Text('Kuantiti'),
           content: TextField(
             controller: _controller.kuantitiParts,
             focusNode: _controller.focusKuantitiParts,
             keyboardType: GetPlatform.isIOS
-                ? TextInputType.numberWithOptions(signed: true, decimal: true)
+                ? const TextInputType.numberWithOptions(signed: true, decimal: true)
                 : TextInputType.phone,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}'))
@@ -222,7 +220,7 @@ class AddSparepartStepper {
         ),
         Step(
           isActive: _controller.currentSteps.value >= 6,
-          title: Text('Kepastian'),
+          title: const Text('Kepastian'),
           content: Column(
             children: [
               kepastianContent(
@@ -251,11 +249,11 @@ class AddSparepartStepper {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Expanded(child: Text('$title')),
+          Expanded(child: Text(title)),
           Expanded(
             child: Text(
-              '$subtitle',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              subtitle,
+              style: const TextStyle(fontWeight: FontWeight.bold),
               overflow: TextOverflow.ellipsis,
             ),
           ),

@@ -13,7 +13,7 @@ class StepsPayment {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 0,
-          title: Text('Jenis Stock / Servis'),
+          title: const Text('Jenis Stock / Servis'),
           content: Container(
             alignment: Alignment.bottomCenter,
             child: Column(
@@ -23,14 +23,14 @@ class StepsPayment {
                   return Text(
                     _controller.currentStock.value,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   );
                 }),
                 TextButton(
                   onPressed: () => _controller.chooseServices(),
-                  child: Text('Klik sini untuk pilih...'),
+                  child: const Text('Klik sini untuk pilih...'),
                 ),
               ],
             ),
@@ -41,7 +41,7 @@ class StepsPayment {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 1,
-          title: Text('Pilih Juruteknik'),
+          title: const Text('Pilih Juruteknik'),
           content: Container(
             alignment: Alignment.bottomCenter,
             child: Column(
@@ -50,14 +50,14 @@ class StepsPayment {
                 Obx(
                   () => Text(
                     _controller.currentTechnician.value,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 TextButton(
                   onPressed: () => _controller.chooseTechnician(),
-                  child: Text('Pilih juruteknik lain..'),
+                  child: const Text('Pilih juruteknik lain..'),
                 ),
               ],
             ),
@@ -68,10 +68,10 @@ class StepsPayment {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 2,
-          title: Text('Waranti'),
+          title: const Text('Waranti'),
           content: Container(
             width: Get.width,
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
                 color: Get.isDarkMode
                     ? Colors.grey.shade900
@@ -79,18 +79,18 @@ class StepsPayment {
                 borderRadius: BorderRadius.circular(10)),
             child: DropdownButton(
               icon: Container(),
-              underline: SizedBox(),
+              underline: const SizedBox(),
               items: Management.waranti.map((String value) {
                 return DropdownMenuItem(
+                  value: value,
                   child: Text(
                     value.toString(),
                   ),
-                  value: value,
                 );
               }).toList(),
               value: _controller.selectedWaranti.value,
-              onChanged: (String newValue) {
-                _controller.selectedWaranti.value = newValue;
+              onChanged: (String? newValue) {
+                _controller.selectedWaranti.value = newValue.toString();
                 _controller.changeWaranti();
                 _controller.calculatePrice(_controller.hargaSpareparts);
               },
@@ -102,7 +102,7 @@ class StepsPayment {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 3,
-          title: Text('Harga'),
+          title: const Text('Harga'),
           content: Container(
             alignment: Alignment.center,
             child: Column(
@@ -112,7 +112,7 @@ class StepsPayment {
                     focusNode: _controller.focusHarga,
                     controller: _controller.priceText,
                     keyboardType: GetPlatform.isIOS
-                        ? TextInputType.numberWithOptions(
+                        ? const TextInputType.numberWithOptions(
                             signed: true, decimal: true)
                         : TextInputType.phone,
                     inputFormatters: [
@@ -127,10 +127,10 @@ class StepsPayment {
                             : null),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Harga yang disarankan oleh AINA: RM${_controller.recommendedPrice.value}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                   ),
                 )
@@ -146,7 +146,7 @@ class StepsPayment {
           title: const Text('Status Invois'),
           content: Container(
             width: Get.width,
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             decoration: BoxDecoration(
                 color: Get.isDarkMode
                     ? Colors.grey.shade900
@@ -154,18 +154,18 @@ class StepsPayment {
                 borderRadius: BorderRadius.circular(10)),
             child: DropdownButton(
               icon: Container(),
-              underline: SizedBox(),
+              underline: const SizedBox(),
               items: Management.dahBayar.map((String value) {
                 return DropdownMenuItem(
+                  value: value,
                   child: Text(
                     value.toString(),
                   ),
-                  value: value,
                 );
               }).toList(),
               value: _controller.selectedDibayar.value,
-              onChanged: (String newValue) {
-                _controller.selectedDibayar.value = newValue;
+              onChanged: (String? newValue) {
+                _controller.selectedDibayar.value = newValue.toString();
                 // _controller.changeWaranti();
                 // _controller.calculatePrice(_controller.hargaSpareparts);
               },
@@ -177,14 +177,14 @@ class StepsPayment {
               ? StepState.complete
               : StepState.indexed,
           isActive: _controller.currentSteps.value >= 5,
-          title: Text('Kepastian'),
+          title: const Text('Kepastian'),
           content: Column(
             children: [
               _info('Jenis Stock: ', _controller.currentStock.value),
               _info('Juruteknik: ', _controller.currentTechnician.value),
               _info('Waranti: ', _controller.selectedWaranti.value),
               _info('Harga: ', 'RM${_controller.priceText.text}'),
-              _info('Status Invois: ', '${_controller.selectedDibayar.value}'),
+              _info('Status Invois: ', _controller.selectedDibayar.value),
             ],
           ),
         ),
@@ -194,12 +194,12 @@ class StepsPayment {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(child: Text('$title')),
+        Expanded(child: Text(title)),
         Expanded(
           child: Text(
-            '$info',
+            info,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),

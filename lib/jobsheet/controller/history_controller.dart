@@ -1,4 +1,3 @@
-import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:flutter/material.dart';
@@ -10,21 +9,21 @@ class JobsheetHistoryController extends GetxController {
   void delete(int id) {
     Get.dialog(
       AlertDialog(
-        title: Text('Adakah anda pasti'),
-        content: Text('Adakah anda pasti untuk membuang item ini?'),
+        title: const Text('Adakah anda pasti'),
+        content: const Text('Adakah anda pasti untuk membuang item ini?'),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: Text('Batal'),
+            child: const Text('Batal'),
           ),
           TextButton(
             onPressed: () async {
-              await DatabaseHelper.instance.deleteCustomerHistory(id);
+              // await DatabaseHelper.instance.deleteCustomerHistory(id);
               Get.back();
               Get.back();
               update();
             },
-            child: Text(
+            child: const Text(
               'Buang',
               style: TextStyle(color: Colors.red),
             ),
@@ -51,56 +50,56 @@ class JobsheetHistoryController extends GetxController {
   void showDetails(JobsheetHistoryModel history) {
     Get.dialog(
       AlertDialog(
-        title: Text('Maklumat Sejarah Jobsheet'),
+        title: const Text('Maklumat Sejarah Jobsheet'),
         content: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 'Nama Customer: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(history.name == '' ? '--' : history.name),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Nombor untuk dihubungi: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(history.noPhone == '' ? '--' : history.noPhone),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Email: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(history.email == '' ? '--' : history.email),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Model Smartphone: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(history.model == '' ? '--' : history.model),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Password: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(history.password == '' ? '--' : history.password),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Kerosakkan: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(history.kerosakkan == '' ? '--' : history.kerosakkan),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Anggaran Harga: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(history.price == '' ? '--' : history.price),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                 'Remarks: ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -110,8 +109,8 @@ class JobsheetHistoryController extends GetxController {
         ),
         actions: [
           TextButton(
-            onPressed: () => delete(history.id),
-            child: Text(
+            onPressed: () => delete(history.id!.toInt()),
+            child: const Text(
               'Buang',
               style: TextStyle(
                 color: Colors.red,
@@ -120,7 +119,7 @@ class JobsheetHistoryController extends GetxController {
           ),
           TextButton(
             onPressed: () => getToJobsheet(history),
-            child: Text('Tambah ke Jobsheet'),
+            child: const Text('Tambah ke Jobsheet'),
           ),
         ],
       ),

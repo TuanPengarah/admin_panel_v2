@@ -7,18 +7,18 @@ class NotifFCM extends GetConnect {
   Future<Response> postData(
     String title,
     String body, {
-    bool isChat,
-    String token,
-    String userToken,
-    String uid,
-    String photoURL,
-    String photoURL1,
-    String name,
+    bool? isChat,
+    String? token,
+    String? userToken,
+    String? uid,
+    String? photoURL,
+    String? photoURL1,
+    String? name,
   }) {
     return post(
       'https://fcm.googleapis.com/fcm/send',
       {
-        'to': token == null ? '/topics/adminPanel' : token,
+        'to': token ?? '/topics/adminPanel',
         'token': token,
         "mutable_content": true,
         "content_available": true,
@@ -30,7 +30,7 @@ class NotifFCM extends GetConnect {
           "channel_id": 'fcm', // For Android Version < 8
         },
         'data': {
-          'isChat': isChat == null ? false : isChat,
+          'isChat': isChat ?? false,
           'screen': isChat == null ? null : '/chat',
           'photoURL': isChat == null ? null : photoURL,
           'photoURL1': isChat == null ? null : photoURL1,

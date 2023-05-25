@@ -26,7 +26,7 @@ class PriceListSearch extends SearchDelegate {
             query = '';
           }
         },
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.close),
       ),
     ];
   }
@@ -38,7 +38,7 @@ class PriceListSearch extends SearchDelegate {
         Haptic.feedbackError();
         close(context, null);
       },
-      icon: Icon(
+      icon: const Icon(
         Icons.arrow_back,
       ),
     );
@@ -94,20 +94,20 @@ class PriceListSearch extends SearchDelegate {
               );
             },
           )
-        : Center(
+        : const Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.manage_search,
                     size: 120,
                     color: Colors.grey,
                   ),
-                  const SizedBox(height: 5),
-                  const Text(
+                  SizedBox(height: 5),
+                  Text(
                     'Cari senarai harga dengan memasukkan kata kunci \'Jenis Sparepart\' atau \'Model Smartphone\'',
                     textAlign: TextAlign.center,
                     style: TextStyle(

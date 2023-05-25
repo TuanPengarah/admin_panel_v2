@@ -19,7 +19,7 @@ class CustomerController extends GetxController {
   var customerListRead = ''.obs;
   String currentlySelected = '';
   final box = GetStorage();
-  Future getCust;
+  Future? getCust;
 
   @override
   void onInit() {
@@ -60,31 +60,31 @@ class CustomerController extends GetxController {
   void deleteUser(String uid, String nama) {
     Get.dialog(
       AlertDialog(
-        title: Text('Amaran!'),
-        content: Text(
+        title: const Text('Amaran!'),
+        content: const Text(
           'Jika anda membuang pelanggan ini, segala maklumat sejarah baiki dan data peribadi pada pelanggan ini akan dipadam!',
         ),
         actions: [
           TextButton(
             onPressed: () async {
-              var _firestoreDelete = FirebaseFirestore.instance;
-              await _firestoreDelete
+              var firestoreDelete = FirebaseFirestore.instance;
+              await firestoreDelete
                   .collection('customer')
                   .doc(uid)
                   .collection('repair history')
                   .get()
                   .then((value) {
-                value.docs.forEach((element) {
-                  _firestoreDelete
+                for (var element in value.docs) {
+                  firestoreDelete
                       .collection('customer')
                       .doc(uid)
                       .collection('repair history')
                       .doc(element.id)
                       .delete();
-                });
+                }
               });
 
-              await _firestoreDelete.collection('customer').doc(uid).delete();
+              await firestoreDelete.collection('customer').doc(uid).delete();
               Get.back();
               Get.back();
               ShowSnackbar.success(
@@ -99,7 +99,7 @@ class CustomerController extends GetxController {
           ),
           TextButton(
             onPressed: () => Get.back(),
-            child: Text(
+            child: const Text(
               'Batal',
             ),
           ),

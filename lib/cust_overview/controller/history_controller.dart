@@ -37,7 +37,7 @@ class RepairHistoryController extends GetxController {
   void showShareJobsheet(Map<String, dynamic> data) {
     var jiffy1 = Jiffy(data['tarikh'], 'dd-MM-yyyy');
     var jiffy2 = Jiffy(data['waranti'], 'dd-MM-yyyy');
-    int minggu = jiffy2.diff(jiffy1, Units.WEEK);
+    num minggu = jiffy2.diff(jiffy1, Units.WEEK);
     debugPrint('jumlah waranti $minggu');
     Get.bottomSheet(
       Material(
@@ -45,9 +45,9 @@ class RepairHistoryController extends GetxController {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.receipt),
-              title: Text('Maklumat'),
-              subtitle: Text('Lihat maklumat untuk model ini'),
+              leading: const Icon(Icons.receipt),
+              title: const Text('Maklumat'),
+              subtitle: const Text('Lihat maklumat untuk model ini'),
               onTap: () {
                 var params = <String, String>{'id': data['mysid']};
 
@@ -66,9 +66,9 @@ class RepairHistoryController extends GetxController {
               },
             ),
             ListTile(
-              leading: Icon(Icons.receipt),
-              title: Text('Hasilkan Jobsheet'),
-              subtitle: Text('Hasilkan maklumat Jobsheet'),
+              leading: const Icon(Icons.receipt),
+              title: const Text('Hasilkan Jobsheet'),
+              subtitle: const Text('Hasilkan maklumat Jobsheet'),
               onTap: () {
                 Get.back();
                 Get.toNamed(MyRoutes.pdfJobsheeetViewer, arguments: data);
@@ -76,9 +76,9 @@ class RepairHistoryController extends GetxController {
             ),
             data['status'] == 'Selesai'
                 ? ListTile(
-                    leading: Icon(Icons.receipt_long),
-                    title: Text('Hasilkan Resit'),
-                    subtitle: Text('Print maklumat Invois!'),
+                    leading: const Icon(Icons.receipt_long),
+                    title: const Text('Hasilkan Resit'),
+                    subtitle: const Text('Print maklumat Invois!'),
                     onTap: () {
                       // Get.back();
                       Get.put(PriceCalculatorController());
@@ -87,7 +87,7 @@ class RepairHistoryController extends GetxController {
 
                       final value = {
                         'title': data['kerosakkan'],
-                        'waranti': '${_getWarranty(minggu)}',
+                        'waranti': _getWarranty(minggu.toInt()),
                         'harga': data['price'],
                         'technician': data['technician'],
                         'noTel': data['noTel'],
@@ -98,7 +98,7 @@ class RepairHistoryController extends GetxController {
                           double.parse(data['price']);
                       payment.customerName = data['nama'];
                       payment.phoneNumber = data['noTel'];
-                      print(payment.bills[0]);
+                      debugPrint(payment.bills[0]);
                       Get.back();
                       Get.toNamed(MyRoutes.pdfReceiptViewer, arguments: {
                         'isBills': false,
@@ -108,7 +108,7 @@ class RepairHistoryController extends GetxController {
                     },
                   )
                 : Container(),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -122,16 +122,18 @@ class RepairHistoryController extends GetxController {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.print),
-              title: Text('Print Resit Waranti'),
-              subtitle: Text('Print maklumat resit waranti untuk model ini!'),
+              leading: const Icon(Icons.print),
+              title: const Text('Print Resit Waranti'),
+              subtitle:
+                  const Text('Print maklumat resit waranti untuk model ini!'),
               onTap: () {},
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ListTile(
-              leading: Icon(Icons.picture_as_pdf),
-              title: Text('Hasilkan Resit Waranti PDF'),
-              subtitle: Text('Hasilkan maklumat resit waranti berformat PDF!'),
+              leading: const Icon(Icons.picture_as_pdf),
+              title: const Text('Hasilkan Resit Waranti PDF'),
+              subtitle:
+                  const Text('Hasilkan maklumat resit waranti berformat PDF!'),
               onTap: () {
                 Get.put(PriceCalculatorController());
 
@@ -147,7 +149,7 @@ class RepairHistoryController extends GetxController {
                 payment.totalBillsPrice.value = double.parse(data['price']);
                 payment.customerName = data['nama'];
                 payment.phoneNumber = '';
-                print(payment.bills[0]);
+                debugPrint(payment.bills[0]);
                 Get.back();
                 Get.toNamed(MyRoutes.pdfReceiptViewer,
                     arguments: {'isBills': false});
@@ -169,11 +171,11 @@ class RepairHistoryController extends GetxController {
         .get()
         .then((snapshot) => items = snapshot.docs);
 
-    items.forEach((item) {
+    for (var item in items) {
       if (item['Status'] == 'Selesai') {
         sum += item['Harga'];
       }
-    });
+    }
     totalPrice.value = sum.toString();
   }
 }

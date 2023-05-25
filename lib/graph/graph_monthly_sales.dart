@@ -7,6 +7,8 @@ import 'package:intl/intl.dart';
 class GraphMonthlySales extends StatelessWidget {
   final _graphController = Get.find<GraphController>();
 
+  GraphMonthlySales({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<GraphController>(
@@ -64,8 +66,8 @@ class GraphMonthlySales extends StatelessWidget {
                         interval: 1,
                         getTitlesWidget: (value, meta) {
                           return Text(
-                            '${_graphController.showMonthsGraph(value.toInt())}',
-                            style: TextStyle(fontSize: 10),
+                            _graphController.showMonthsGraph(value.toInt()),
+                            style: const TextStyle(fontSize: 10),
                           );
                         }),
                     // rotateAngle: 40,
@@ -77,8 +79,9 @@ class GraphMonthlySales extends StatelessWidget {
                     sideTitles: SideTitles(
                       getTitlesWidget: (value, tilesMeta) {
                         return Text(
-                          '${NumberFormat.compactCurrency(symbol: '').format(value)}',
-                          style: TextStyle(fontSize: 10),
+                          NumberFormat.compactCurrency(symbol: '')
+                              .format(value),
+                          style: const TextStyle(fontSize: 10),
                         );
                       },
                       reservedSize: 30,

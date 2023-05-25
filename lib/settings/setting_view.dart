@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ViewSettings extends StatelessWidget {
-  ViewSettings({Key key}) : super(key: key);
   final _otherController = Get.put(OtherController());
+
+  ViewSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +14,15 @@ class ViewSettings extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.large(
-            title: Text('Tetapan'),
+            title: const Text('Tetapan'),
           ),
           SliverList(
             delegate: SliverChildListDelegate(
               [
                 OtherSettings(),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 OtherSettings().logOutButton(),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Icon(
                     GetPlatform.isIOS
                         ? Icons.apple
@@ -33,13 +34,13 @@ class ViewSettings extends StatelessWidget {
                   return Text(
                     'Af-Fix Admin Panel V2.0\n- ${_otherController.deviceModel.value} -\nDibangunkan oleh Akid Fikri Azhar',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 13,
                     ),
                   );
                 }),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),

@@ -25,7 +25,7 @@ class PriceCalculatorWidget {
                     color: Colors.black.withOpacity(0.27),
                     spreadRadius: 5,
                     blurRadius: 10,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ],
               ),
@@ -37,12 +37,12 @@ class PriceCalculatorWidget {
                   children: [
                     Obx(() => Text(
                           'RM ${_priceController.jumlah.value.toStringAsFixed(0)}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w500,
                           ),
                         )),
-                    Text(
+                    const Text(
                       'Anggaran Harga Jual',
                       style: TextStyle(
                         fontSize: 18,
@@ -50,12 +50,12 @@ class PriceCalculatorWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     Obx(() {
                       return _details('Harga Sparepart: ',
                           'RM ${_priceController.supplierPrice}');
                     }),
-                    SizedBox(height: 7),
+                    const SizedBox(height: 7),
                     Obx(
                       () => _details(
                           'Waranti ', _priceController.tempohWarranti.value),
@@ -75,15 +75,15 @@ class PriceCalculatorWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          '$title',
-          style: TextStyle(
+          title,
+          style: const TextStyle(
             color: Colors.grey,
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
-          '$content',
-          style: TextStyle(
+          content,
+          style: const TextStyle(
             color: Colors.grey,
             fontWeight: FontWeight.bold,
           ),
@@ -96,7 +96,7 @@ class PriceCalculatorWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        const Text(
           'Harga supplier',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -113,7 +113,7 @@ class PriceCalculatorWidget {
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
             ],
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),
@@ -123,10 +123,10 @@ class PriceCalculatorWidget {
                 _priceController.calculatePrice(
                     int.parse(_priceController.supplierPrice.value));
               } on Exception catch (e) {
-                print(e);
+                debugPrint(e.toString());
               }
             },
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -142,7 +142,7 @@ class PriceCalculatorWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        const Text(
           'Tempoh Waranti',
           style: TextStyle(
             fontWeight: FontWeight.bold,
@@ -151,7 +151,7 @@ class PriceCalculatorWidget {
         Obx(() => Text(
               _priceController.tempohWarranti.value,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),

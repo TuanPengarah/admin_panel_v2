@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 class MySidPage extends StatelessWidget {
   final _homeController = Get.find<HomeController>();
 
+  MySidPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +20,7 @@ class MySidPage extends StatelessWidget {
           SliverAppBar(
             pinned: true,
             expandedHeight: 150,
-            leading: Icon(Icons.date_range_outlined),
+            leading: const Icon(Icons.date_range_outlined),
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 'MyStatus ID',
@@ -29,7 +31,7 @@ class MySidPage extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                icon: Icon(Icons.history),
+                icon: const Icon(Icons.history),
                 onPressed: () {
                   Haptic.feedbackClick();
                   Get.toNamed(MyRoutes.mysidHisory);
@@ -50,27 +52,27 @@ class MySidPage extends StatelessWidget {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
-                if (snapshot.data.docChanges.isNotEmpty) {
-                  Future.delayed(Duration(seconds: 1), () {
-                    _homeController.totalMysid.value = snapshot.data.size;
-                    if (snapshot.data.docs.isEmpty) {
+                if (snapshot.data!.docChanges.isNotEmpty) {
+                  Future.delayed(const Duration(seconds: 1), () {
+                    _homeController.totalMysid.value = snapshot.data!.size;
+                    if (snapshot.data!.docs.isEmpty) {
                       if (!GetPlatform.isWeb) {
                         FlutterAppBadger.removeBadge();
                       }
                     } else {
                       if (!GetPlatform.isWeb) {
-                        FlutterAppBadger.updateBadgeCount(snapshot.data.size);
+                        FlutterAppBadger.updateBadgeCount(snapshot.data!.size);
                       }
                     }
                   });
                 }
-                if (snapshot.data.docChanges.isEmpty) {
-                  Future.delayed(Duration(seconds: 1), () {
-                    _homeController.totalMysid.value = snapshot.data.size;
+                if (snapshot.data!.docChanges.isEmpty) {
+                  Future.delayed(const Duration(seconds: 1), () {
+                    _homeController.totalMysid.value = snapshot.data!.size;
                   });
                   return Builder(builder: (context) {
                     return ConstrainedBox(
@@ -78,8 +80,8 @@ class MySidPage extends StatelessWidget {
                           minWidth: Get.width, minHeight: Get.height / 2),
                       child: Container(
                         width: Get.width,
-                        padding: EdgeInsets.all(18),
-                        child: Column(
+                        padding: const EdgeInsets.all(18),
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -101,7 +103,7 @@ class MySidPage extends StatelessWidget {
                   });
                 }
                 return Column(
-                  children: snapshot.data.docs.map(
+                  children: snapshot.data!.docs.map(
                     (document) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(

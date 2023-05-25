@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 2.0.3+10
 
 environment:
-  sdk: ">=2.11.0 <3.0.0"
+  sdk: "3.0.0"
 
 dependencies:
   flutter:
@@ -15,7 +15,6 @@ dependencies:
 
   # UI/UX
   cupertino_icons: ^1.0.2
-  sliding_sheet: ^0.5.2
   rounded_loading_button: ^2.0.9
   lottie:
   fl_chart: ^0.61.0
@@ -56,7 +55,7 @@ dependencies:
   url_launcher: ^6.1.2
   share_plus: ^6.3.1
   file_picker: ^5.0.1
-  extended_image: ^7.0.2
+  extended_image: ^8.0.1
   cross_file: ^0.3.3+2
   
   # Data Models
@@ -78,6 +77,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_lints: ^2.0.1
 
   flutter_launcher_icons:
 flutter_icons:

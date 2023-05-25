@@ -6,15 +6,17 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class CashFlowStatementPDF extends GetView<CashFlowStatementController> {
   final _data = Get.arguments;
+
+  CashFlowStatementPDF({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cash Flow Statement'),
+        title: const Text('Cash Flow Statement'),
         actions: [
           IconButton(
             onPressed: () => controller.sharePDF(_data['bulan']),
-            icon: Icon(Icons.share),
+            icon: const Icon(Icons.share),
           ),
         ],
       ),
@@ -27,7 +29,7 @@ class CashFlowStatementPDF extends GetView<CashFlowStatementController> {
           ),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }

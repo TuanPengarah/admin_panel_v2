@@ -9,6 +9,8 @@ import 'package:stacked_bar_chart/stacked_bar_chart.dart';
 class DashboardPage extends StatelessWidget {
   final _graphController = Get.find<GraphController>();
 
+  DashboardPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +35,12 @@ class DashboardPage extends StatelessWidget {
                     Haptic.feedbackClick();
                     Get.toNamed(MyRoutes.cashFlow);
                   },
-                  icon: Icon(Icons.account_balance_wallet),
+                  icon: const Icon(Icons.account_balance_wallet),
                 ),
               ],
               bottom: PreferredSize(
+                preferredSize: const Size(0, 20),
                 child: Container(),
-                preferredSize: Size(0, 20),
               ),
               expandedHeight: 600,
               flexibleSpace: FlexibleSpaceBar(
@@ -46,14 +48,14 @@ class DashboardPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: Get.context.width,
+                    SizedBox(
+                      width: Get.context!.width,
                       child: FutureBuilder(
                           future: _graphController.getGraph,
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return Center(
+                              return const Center(
                                 child: CircularProgressIndicator(
                                   color: Colors.white,
                                 ),
@@ -79,7 +81,7 @@ class DashboardPage extends StatelessWidget {
                                       TextSpan(
                                         text:
                                             '${_graphController.percentBulanan.value}%',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 12.2,
                                           color: Colors.red,
                                         ),
@@ -98,7 +100,7 @@ class DashboardPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 0),
-                                  child: Container(
+                                  child: SizedBox(
                                     height: 330,
                                     // child: GraphMonthlySales(),
                                     child: Graph(
@@ -195,12 +197,12 @@ class DashboardPage extends StatelessWidget {
                                             .primaryContainer,
                                       ),
                                       onBarTapped: (GraphBar bar) {
-                                        print(bar.high);
+                                        debugPrint(bar.high.toString());
                                       },
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 5),
+                                const SizedBox(height: 5),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -212,7 +214,7 @@ class DashboardPage extends StatelessWidget {
                                           width: 20,
                                           color: Get.theme.colorScheme.tertiary,
                                         ),
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         const Text(
                                           'Harga Jual',
                                         ),
@@ -225,7 +227,7 @@ class DashboardPage extends StatelessWidget {
                                           width: 20,
                                           color: Colors.amber[900],
                                         ),
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                         const Text(
                                           'Modal',
                                         ),
@@ -233,7 +235,7 @@ class DashboardPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 20),
+                                const SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -243,7 +245,7 @@ class DashboardPage extends StatelessWidget {
                                       width: 20,
                                       color: Get.theme.colorScheme.primary,
                                     ),
-                                    SizedBox(width: 10),
+                                    const SizedBox(width: 10),
                                     const Text(
                                       'Untung Bersih',
                                     ),
@@ -253,7 +255,7 @@ class DashboardPage extends StatelessWidget {
                             );
                           }),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -261,7 +263,7 @@ class DashboardPage extends StatelessWidget {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  Column(
+                  const Column(
                     children: [
                       Hero(tag: 'rekod', child: DashboardCardAll(true)),
                       SizedBox(height: 30),

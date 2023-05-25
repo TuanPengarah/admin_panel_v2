@@ -26,5 +26,5 @@ class IconMenu {
   final String text;
   final IconData icon;
 
-  const IconMenu({@required this.text, @required this.icon});
+  const IconMenu({required this.text, required this.icon});
 }

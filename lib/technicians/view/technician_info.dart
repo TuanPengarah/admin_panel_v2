@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/home/widget/profile_avatar.dart';
 import 'package:admin_panel/technicians/controller/technician_controller.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,8 @@ class TechnicianInfo extends StatelessWidget {
   final _params = Get.parameters;
   final _controller = Get.find<TechnicianController>();
   final _authController = Get.find<AuthController>();
+
+  TechnicianInfo({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,7 @@ class TechnicianInfo extends StatelessWidget {
                   tooltip: 'Buang Juruteknik',
                   onPressed: () => _controller.deleteTechnician(
                       _data['photoURL'], _data['id'], _data['name']),
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                 )
               : const SizedBox(),
           _authController.userName.value != _data['name']
@@ -41,7 +43,7 @@ class TechnicianInfo extends StatelessWidget {
                       'uid': _data['uid']
                     },
                     parameters: {
-                      'id': _params['id'],
+                      'id': _params['id'].toString(),
                     },
                   ),
                   icon: const Icon(Icons.send),
@@ -67,15 +69,15 @@ class TechnicianInfo extends StatelessWidget {
                 jumlahKeuntungan: _data['jumlahKeuntungan'],
                 jumlahRepair: _data['jumlahRepair'],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               TextButton(
-                child: Text('Token Peranti (FCM)'),
+                child: const Text('Token Peranti (FCM)'),
                 onPressed: () => Get.dialog(AlertDialog(
                   content: SelectableText('${_data['token']}'),
                   actions: [
                     TextButton(
                       onPressed: () => Get.back(),
-                      child: Text('Tutup'),
+                      child: const Text('Tutup'),
                     ),
                   ],
                 )),

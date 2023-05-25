@@ -19,16 +19,16 @@ class PdfController extends GetxController {
     String currentEmail = email;
     if (email.isEmpty) {
       currentEmail = userName.split(" ").join("").toLowerCase() + '@email.com';
-      print(currentEmail);
+      debugPrint(currentEmail);
     }
     final MailOptions mailOptions = MailOptions(
       body:
           'Assalumalaikum dan salam sejahtera $userName!<br><br>Disini kami lampirkan resit Jobsheet untuk peranti awak. $userName boleh simpan resit ini untuk tujuan rujukan😁<br><br>------------------<br>Pssst! Untuk pengetahuan, $userName boleh semak status baiki peranti dengan mengimbas kod QR atau boleh terus melayari aplikasi web kami https://af-fix.com/mysid dan masukkan nombor MyStatus Identification (MySID) yang terdapat pada resit Jobsheet awak🤫<br><br>--AINA',
       subject: '$technician dari Juruteknik Af-Fix🧑‍🔧',
-      recipients: ['$currentEmail'],
+      recipients: [currentEmail],
       isHTML: true,
       attachments: [
-        '$fullPath',
+        fullPath,
       ],
     );
     await FlutterMailer.send(mailOptions);
@@ -40,16 +40,16 @@ class PdfController extends GetxController {
   }
 
   Future<void> writeJobsheetPdf({
-    @required String mysid,
-    @required String namaCust,
-    @required String noTel,
-    @required String model,
-    @required String kerosakkan,
-    @required String price,
-    @required String remarks,
-    @required String technician,
-    @required String cawangan,
-    @required String tarikh,
+    required String mysid,
+    required String namaCust,
+    required String noTel,
+    required String model,
+    required String kerosakkan,
+    required String price,
+    required String remarks,
+    required String technician,
+    required String cawangan,
+    required String tarikh,
   }) async {
     var assetImage = pw.MemoryImage(
       (await rootBundle.load('assets/images/splash_dark.png'))
@@ -60,7 +60,7 @@ class PdfController extends GetxController {
       pw.MultiPage(
           pageFormat: PdfPageFormat.a5,
           crossAxisAlignment: pw.CrossAxisAlignment.start,
-          margin: pw.EdgeInsets.all(15),
+          margin: const pw.EdgeInsets.all(15),
           header: (pw.Context context) => _jobsheetHeader(assetImage, mysid),
           build: (pw.Context context) {
             return <pw.Widget>[
@@ -70,9 +70,9 @@ class PdfController extends GetxController {
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      _jobsheetSubheader('Tarikh: ', '$tarikh'),
-                      _jobsheetSubheader('Juruteknik: ', '$technician'),
-                      _jobsheetSubheader('Cawangan: ', '$cawangan'),
+                      _jobsheetSubheader('Tarikh: ', tarikh),
+                      _jobsheetSubheader('Juruteknik: ', technician),
+                      _jobsheetSubheader('Cawangan: ', cawangan),
                     ],
                   ),
                   pw.BarcodeWidget(
@@ -85,10 +85,10 @@ class PdfController extends GetxController {
                 ],
               ),
               pw.SizedBox(height: 10),
-              _jobsheetContent('Nama Pelanggan: ', '$namaCust'),
-              _jobsheetContent('No Telefon: ', '$noTel'),
-              _jobsheetContent('Model: ', '$model'),
-              _jobsheetContent('Kerosakkan: ', '$kerosakkan'),
+              _jobsheetContent('Nama Pelanggan: ', namaCust),
+              _jobsheetContent('No Telefon: ', noTel),
+              _jobsheetContent('Model: ', model),
+              _jobsheetContent('Kerosakkan: ', kerosakkan),
               _jobsheetContent('Anggaran Harga: ', 'RM$price'),
               _jobsheetContent('Remarks: ', '*$remarks'),
               pw.SizedBox(height: 10),
@@ -111,21 +111,21 @@ class PdfController extends GetxController {
                 pw.SizedBox(height: 5),
                 pw.Text(
                   '1. Kami berhak untuk mengubah mana-mana terma dan syarat.',
-                  style: pw.TextStyle(
+                  style: const pw.TextStyle(
                     color: PdfColors.grey,
                     fontSize: 9,
                   ),
                 ),
                 pw.Text(
                   '2. Kami tidak bertanggungjawab sekiranya ada kehilangan data.',
-                  style: pw.TextStyle(
+                  style: const pw.TextStyle(
                     color: PdfColors.grey,
                     fontSize: 9,
                   ),
                 ),
                 pw.Text(
                   '3. Pastikan kad memori, dan sim kad anda tidak dimasukkan daripada peranti anda semasa menghantar peranti anda kepada kami.',
-                  style: pw.TextStyle(
+                  style: const pw.TextStyle(
                     color: PdfColors.grey,
                     fontSize: 9,
                   ),
@@ -134,7 +134,7 @@ class PdfController extends GetxController {
                 pw.Text(
                   'Untuk maklumat lebih lanjut tentang terma ,syarat dan juga privasi. Sila layari website kami - https://af-fix.com/terms',
                   textAlign: pw.TextAlign.center,
-                  style: pw.TextStyle(
+                  style: const pw.TextStyle(
                     color: PdfColors.grey,
                     fontSize: 8,
                   ),
@@ -154,7 +154,7 @@ class PdfController extends GetxController {
 
   pw.Header _jobsheetHeader(pw.MemoryImage assetImage, String mysid) {
     return pw.Header(
-      decoration: pw.BoxDecoration(),
+      decoration: const pw.BoxDecoration(),
       child: pw.Row(
         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
         children: <pw.Widget>[
@@ -173,12 +173,12 @@ class PdfController extends GetxController {
               pw.RichText(
                 text: pw.TextSpan(
                   text: 'MyStatus Identification(Mysid) : ',
-                  style: pw.TextStyle(
+                  style: const pw.TextStyle(
                     color: PdfColors.grey,
                   ),
                   children: [
                     pw.TextSpan(
-                      text: '$mysid',
+                      text: mysid,
                       style: pw.TextStyle(
                         fontWeight: pw.FontWeight.bold,
                       ),

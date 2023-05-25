@@ -33,9 +33,9 @@ class PriceCalculatorController extends GetxController {
     }
 
     total = total.round() + markup.toDouble();
-    print(total);
+    // debugPrint(total);
     total = (total / 10).roundToDouble();
-    print(total);
+    // debugPrint(total);
     total = total * 10;
     jumlah.value = total;
     return total;

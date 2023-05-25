@@ -1,4 +1,3 @@
-import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/spareparts/controller/add_spareparts_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,16 +5,16 @@ import 'package:get/get.dart';
 class HistorySparepartsController extends GetxController {
   final _addSpareparts = Get.find<AddSparepartsController>();
   void detailsDialog({
-    @required String model,
-    @required String jenisParts,
-    @required String kualiti,
-    @required String supplier,
-    @required String harga,
-    @required String maklumatParts,
+    required String model,
+    required String jenisParts,
+    required String kualiti,
+    required String supplier,
+    required String harga,
+    required String maklumatParts,
   }) {
     Get.dialog(
       AlertDialog(
-        title: Text('Maklumat Spareparts'),
+        title: const Text('Maklumat Spareparts'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,13 +39,13 @@ class HistorySparepartsController extends GetxController {
               Get.back();
               Get.back();
             },
-            child: Text(
+            child: const Text(
               'Tambah ke spareparts',
             ),
           ),
           TextButton(
             onPressed: () => Get.back(),
-            child: Text('Tutup'),
+            child: const Text('Tutup'),
           )
         ],
       ),
@@ -60,7 +59,7 @@ class HistorySparepartsController extends GetxController {
         Text(title),
         Text(
           info,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -69,23 +68,22 @@ class HistorySparepartsController extends GetxController {
   }
 
   void deleteHistory(int id) {
-    print(id);
     Get.dialog(
       AlertDialog(
-        title: Text('Adakah anda pasti'),
-        content: Text('Adakah anda pasti untuk membuang item ini?'),
+        title: const Text('Adakah anda pasti'),
+        content: const Text('Adakah anda pasti untuk membuang item ini?'),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: Text('Batal'),
+            child: const Text('Batal'),
           ),
           TextButton(
             onPressed: () async {
-              await DatabaseHelper.instance.deleteSparepartsHistory(id);
+              // await DatabaseHelper.instance.deleteSparepartsHistory(id);
               Get.back();
               update();
             },
-            child: Text(
+            child: const Text(
               'Buang',
               style: TextStyle(color: Colors.red),
             ),

@@ -10,16 +10,16 @@ import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:masonry_grid/masonry_grid.dart';
-
-import '../../auth/controller/firebaseAuth_controller.dart';
+import '../../auth/controller/firebaseauth_controller.dart';
 import '../controller/customer_controller.dart';
 
 class DashboardPage2 extends StatelessWidget {
-  DashboardPage2({Key key}) : super(key: key);
   final _authController = Get.find<AuthController>();
   final _graphController = Get.find<GraphController>();
   final _customerController = Get.find<CustomerController>();
   final _cashFlowController = Get.put(CashFlowController());
+
+  DashboardPage2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class DashboardPage2 extends StatelessWidget {
               actions: [
                 IconButton(
                   onPressed: () => Get.toNamed(MyRoutes.setting),
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.settings_outlined,
                   ),
                 ),
@@ -70,21 +70,22 @@ class DashboardPage2 extends StatelessWidget {
                               text: 'Salam, ',
                               children: <TextSpan>[
                                 TextSpan(
-                                    text:
-                                        '${_authController.userName.value.split(' ').elementAt(0)}',
-                                    style: TextStyle(
+                                    text: _authController.userName.value
+                                        .split(' ')
+                                        .elementAt(0),
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                     )),
                               ],
                             ),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 30, fontWeight: FontWeight.w300),
                           ),
                         ),
                         const SizedBox(height: 30),
-                        Align(
+                        const Align(
                           alignment: Alignment.centerLeft,
-                          child: const Text(
+                          child: Text(
                             'Papan Utama',
                             style: TextStyle(
                               fontSize: 21,
@@ -134,14 +135,15 @@ class DashboardPage2 extends StatelessWidget {
                             (context, AsyncSnapshot<DatabaseEvent> snapshot) {
                           List invItem = [];
                           if (snapshot.hasData) {
-                            var data = snapshot.data.snapshot.value
-                                as Map<dynamic, dynamic>;
+                            final data = snapshot.data!.snapshot;
 
-                            if (data != null) {
-                              data.forEach((key, value) {
-                                invItem.add({'id': key, ...value});
-                              });
+                            for (var element in data.children) {
+                              invItem.add(element);
                             }
+
+                            // data.forEach((key, value) {
+                            //   invItem.add({'id': key, ...value});
+                            // });
                           }
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -174,19 +176,6 @@ class DashboardPage2 extends StatelessWidget {
                           Haptic.feedbackClick();
                           Get.toNamed(MyRoutes.invoisView);
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Lihat',
-                            ),
-                            const SizedBox(width: 5),
-                            Icon(
-                              Icons.arrow_forward,
-                              size: 19,
-                            )
-                          ],
-                        ),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                             Theme.of(context).colorScheme.onTertiaryContainer,
@@ -194,6 +183,19 @@ class DashboardPage2 extends StatelessWidget {
                           foregroundColor: MaterialStateProperty.all<Color>(
                             Theme.of(context).colorScheme.onTertiary,
                           ),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Lihat',
+                            ),
+                            SizedBox(width: 5),
+                            Icon(
+                              Icons.arrow_forward,
+                              size: 19,
+                            )
+                          ],
                         ),
                       ),
                     ),
@@ -238,7 +240,7 @@ class DashboardPage2 extends StatelessWidget {
 
                             // averageLine: true,
                             // averageLabel: true,
-                            kLine: ['max', 'min', 'first', 'last'],
+                            kLine: const ['max', 'min', 'first', 'last'],
                           ),
                           const SizedBox(height: 10),
                           Text(
@@ -250,7 +252,9 @@ class DashboardPage2 extends StatelessWidget {
                           Text(
                             snapshot.connectionState == ConnectionState.waiting
                                 ? '--'
-                                : '${_graphController.getUntungKasar(DateTime.now().month - 1).toStringAsFixed(0)}',
+                                : _graphController
+                                    .getUntungKasar(DateTime.now().month - 1)
+                                    .toStringAsFixed(0),
                             style: TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
@@ -267,7 +271,9 @@ class DashboardPage2 extends StatelessWidget {
                           Text(
                             snapshot.connectionState == ConnectionState.waiting
                                 ? '--'
-                                : '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: '').format(_graphController.untungKasar.value)}',
+                                : NumberFormat.compactCurrency(
+                                        decimalDigits: 2, symbol: '')
+                                    .format(_graphController.untungKasar.value),
                             style: const TextStyle(
                               fontSize: 18,
                               color: Colors.teal,
@@ -315,7 +321,7 @@ class DashboardPage2 extends StatelessWidget {
                             cubicSmoothingFactor: 0.2,
                             // averageLine: true,
                             // averageLabel: true,
-                            kLine: ['max', 'min', 'first', 'last'],
+                            kLine: const ['max', 'min', 'first', 'last'],
                           ),
                           const SizedBox(height: 10),
                           Text(
@@ -327,7 +333,11 @@ class DashboardPage2 extends StatelessWidget {
                           Text(
                             snapshot.connectionState == ConnectionState.waiting
                                 ? '--'
-                                : '${_graphController.getMonthsHargajual(DateTime.now().month - 1).toDouble().toStringAsFixed(0)}',
+                                : _graphController
+                                    .getMonthsHargajual(
+                                        DateTime.now().month - 1)
+                                    .toDouble()
+                                    .toStringAsFixed(0),
                             style: TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
@@ -343,7 +353,9 @@ class DashboardPage2 extends StatelessWidget {
                           Text(
                             snapshot.connectionState == ConnectionState.waiting
                                 ? '--'
-                                : '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: '').format(_graphController.jumlahModal.value)}',
+                                : NumberFormat.compactCurrency(
+                                        decimalDigits: 2, symbol: '')
+                                    .format(_graphController.jumlahModal.value),
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -391,7 +403,7 @@ class DashboardPage2 extends StatelessWidget {
                             cubicSmoothingFactor: 0.2,
                             // averageLine: true,
                             // averageLabel: true,
-                            kLine: ['max', 'min', 'first', 'last'],
+                            kLine: const ['max', 'min', 'first', 'last'],
                           ),
                           const SizedBox(height: 10),
                           Text(
@@ -403,7 +415,9 @@ class DashboardPage2 extends StatelessWidget {
                           Text(
                             snapshot.connectionState == ConnectionState.waiting
                                 ? '--'
-                                : '${_graphController.getUntungBersih(DateTime.now().month - 1).toStringAsFixed(0)}',
+                                : _graphController
+                                    .getUntungBersih(DateTime.now().month - 1)
+                                    .toStringAsFixed(0),
                             style: TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
@@ -419,7 +433,10 @@ class DashboardPage2 extends StatelessWidget {
                           Text(
                             snapshot.connectionState == ConnectionState.waiting
                                 ? '--'
-                                : '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: '').format(_graphController.untungBersih.value)}',
+                                : NumberFormat.compactCurrency(
+                                        decimalDigits: 2, symbol: '')
+                                    .format(
+                                        _graphController.untungBersih.value),
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -476,7 +493,7 @@ class DashboardPage2 extends StatelessWidget {
                                 Haptic.feedbackClick();
                                 Get.toNamed(MyRoutes.monthlyRecord);
                               },
-                              child: Text('Rekod'),
+                              child: const Text('Rekod'),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -499,7 +516,7 @@ class DashboardPage2 extends StatelessWidget {
                   children: [
                     const SizedBox(height: 20),
                     Obx(() => Text(
-                          '${_customerController.customerListRead.value}',
+                          _customerController.customerListRead.value,
                           style: TextStyle(
                             fontSize: 35,
                             fontWeight: FontWeight.bold,
@@ -508,7 +525,7 @@ class DashboardPage2 extends StatelessWidget {
                         )),
                     const Text(
                       'Orang',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.grey,
                       ),
                     ),
@@ -539,7 +556,7 @@ class DashboardPage2 extends StatelessWidget {
                         )),
                     const Text(
                       'Peranti dibaiki',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.grey,
                       ),
                     ),
@@ -565,7 +582,7 @@ class DashboardPage2 extends StatelessWidget {
                           const SizedBox(height: 20),
                           const Text(
                             'Kesulurahan (RM)',
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.grey,
                             ),
                           ),
@@ -580,7 +597,8 @@ class DashboardPage2 extends StatelessWidget {
                                   ),
                                 )
                               : Obx(() => Text(
-                                    '${_cashFlowController.total.value.toStringAsFixed(0)}',
+                                    _cashFlowController.total.value
+                                        .toStringAsFixed(0),
                                     style: TextStyle(
                                       fontSize: 35,
                                       fontWeight: FontWeight.bold,
@@ -589,76 +607,70 @@ class DashboardPage2 extends StatelessWidget {
                                     ),
                                   )),
                           const SizedBox(height: 10),
-                          Container(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Icon(
-                                    Icons.arrow_upward,
-                                    color: Colors.green,
-                                    size: 18,
-                                  ),
+                          Row(
+                            children: [
+                              const Expanded(
+                                child: Icon(
+                                  Icons.arrow_upward,
+                                  color: Colors.green,
+                                  size: 18,
                                 ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Masuk',
-                                        style: TextStyle(color: Colors.grey),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Masuk',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                    Text(
+                                      'RM${_cashFlowController.masuk.value}',
+                                      style: TextStyle(
+                                        color: Get.isDarkMode
+                                            ? Colors.white
+                                            : Colors.grey.shade800,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        'RM${_cashFlowController.masuk.value}',
-                                        style: TextStyle(
-                                          color: Get.isDarkMode
-                                              ? Colors.white
-                                              : Colors.grey.shade800,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 10),
-                          Container(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Icon(
-                                    Icons.arrow_downward,
-                                    color: Colors.red,
-                                    size: 18,
-                                  ),
+                          Row(
+                            children: [
+                              const Expanded(
+                                child: Icon(
+                                  Icons.arrow_downward,
+                                  color: Colors.red,
+                                  size: 18,
                                 ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        'Keluar',
-                                        style: TextStyle(color: Colors.grey),
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Keluar',
+                                      style: TextStyle(color: Colors.grey),
+                                    ),
+                                    Text(
+                                      'RM${_cashFlowController.keluar.value}',
+                                      style: TextStyle(
+                                        color: Get.isDarkMode
+                                            ? Colors.white
+                                            : Colors.grey.shade800,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        'RM${_cashFlowController.keluar.value}',
-                                        style: TextStyle(
-                                          color: Get.isDarkMode
-                                              ? Colors.white
-                                              : Colors.grey.shade800,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 20),
                           SizedBox(
@@ -668,7 +680,7 @@ class DashboardPage2 extends StatelessWidget {
                                 Haptic.feedbackClick();
                                 Get.toNamed(MyRoutes.cashFlow);
                               },
-                              child: Text('Lebih lanjut'),
+                              child: const Text('Lebih lanjut'),
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -684,12 +696,12 @@ class DashboardPage2 extends StatelessWidget {
   }
 
   Container _dashboard(
-      {@required BuildContext context,
-      @required String title,
-      @required IconData icon,
-      List<Widget> children,
-      Color backgroundColor,
-      Color avatarColor}) {
+      {required BuildContext context,
+      required String title,
+      required IconData icon,
+      List<Widget>? children,
+      Color? backgroundColor,
+      Color? avatarColor}) {
     return Container(
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),

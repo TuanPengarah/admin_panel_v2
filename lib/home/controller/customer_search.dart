@@ -24,7 +24,7 @@ class CustomerSearch extends SearchDelegate {
             query = '';
           }
         },
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
       ),
     ];
   }
@@ -33,14 +33,14 @@ class CustomerSearch extends SearchDelegate {
   Widget buildLeading(BuildContext context) {
     return IconButton(
         onPressed: () => close(context, null),
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back,
         ));
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    return _customerController.customerList.length <= 0
+    return _customerController.customerList.isEmpty
         ? Center(
             child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -48,12 +48,12 @@ class CustomerSearch extends SearchDelegate {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.person_off, size: 150, color: Colors.grey),
-                SizedBox(height: 10),
+                const Icon(Icons.person_off, size: 150, color: Colors.grey),
+                const SizedBox(height: 10),
                 Text(
                   'Pelanggan yang bernama $query tidak dapat ditemui!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                   ),
                 ),
@@ -76,21 +76,21 @@ class CustomerSearch extends SearchDelegate {
               return CustomerPage(false).customerTiles(customer, image);
             }),
           )
-        : Center(
+        : const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Icon(
+                Icon(
                   Icons.person_search,
                   size: 120,
                   color: Colors.grey,
                 ),
-                const SizedBox(height: 10),
-                const Text(
+                SizedBox(height: 10),
+                Text(
                   'Anda boleh cari nama atau nombor telefon pelanggan',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.grey,
                   ),
                 )

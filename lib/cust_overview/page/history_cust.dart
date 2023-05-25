@@ -5,11 +5,13 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 class RepairHistoryPage extends StatelessWidget {
+  const RepairHistoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final _historyController = Get.put(RepairHistoryController());
+    final historyController = Get.put(RepairHistoryController());
     return NestedScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return [
           SliverAppBar(
@@ -27,16 +29,16 @@ class RepairHistoryPage extends StatelessWidget {
         ];
       },
       body: FutureBuilder(
-        future: _historyController.getFromFirestore(),
+        future: historyController.getFromFirestore(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (_historyController.items.isEmpty) {
-            return Padding(
-              padding: const EdgeInsets.all(12.0),
+          if (historyController.items.isEmpty) {
+            return const Padding(
+              padding: EdgeInsets.all(12.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,20 +63,20 @@ class RepairHistoryPage extends StatelessWidget {
 
           return Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Obx(
-                () => _historyController.totalPrice.value == '0.0'
-                    ? Text(
+                () => historyController.totalPrice.value == '0.0'
+                    ? const Text(
                         'Pelanggan ini tidak pernah mengeluarkan modal',
                         style: TextStyle(color: Colors.grey),
                       )
                     : Text.rich(
                         TextSpan(
                           text: 'Jumlah yang telah dibelanjakan:',
-                          style: TextStyle(color: Colors.grey),
+                          style: const TextStyle(color: Colors.grey),
                           children: [
                             TextSpan(
-                              text: ' RM${_historyController.totalPrice.value}',
+                              text: ' RM${historyController.totalPrice.value}',
                               style: TextStyle(
                                 color: Get.theme.colorScheme.primary,
                               ),
@@ -86,16 +88,16 @@ class RepairHistoryPage extends StatelessWidget {
               Expanded(
                 child: AnimationLimiter(
                   child: ListView.builder(
-                    itemCount: _historyController.items.length,
+                    itemCount: historyController.items.length,
                     itemBuilder: (context, int i) {
-                      var doc = _historyController.items[i];
+                      var doc = historyController.items[i];
                       return AnimationConfiguration.staggeredList(
                         position: i,
                         duration: const Duration(milliseconds: 400),
                         child: SlideAnimation(
                           verticalOffset: 80.0,
                           child: FadeInAnimation(
-                            child: historyCard(doc, _historyController),
+                            child: historyCard(doc, historyController),
                           ),
                         ),
                       );
@@ -111,20 +113,20 @@ class RepairHistoryPage extends StatelessWidget {
   }
 
   Card historyCard(dynamic doc, RepairHistoryController controller) {
-    final _data = Get.arguments;
+    final data = Get.arguments;
     return Card(
       child: Ink(
         child: InkWell(
           onTap: () {
             var payload = <String, dynamic>{
-              'nama': _data['Nama'],
-              'noTel': _data['No Phone'],
+              'nama': data['Nama'],
+              'noTel': data['No Phone'],
               'model': doc['Model'],
               'kerosakkan': doc['Kerosakkan'].toString(),
               'price': doc['Harga'].toString(),
               'remarks': doc['Remarks'],
               'mysid': doc['MID'],
-              'email': _data['Email'],
+              'email': data['Email'],
               'timeStamp': doc['timeStamp'],
               'technician': doc['Technician'],
               'status': doc['Status'],
@@ -146,33 +148,33 @@ class RepairHistoryPage extends StatelessWidget {
                     Flexible(
                       child: Text(
                         doc['Model'],
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
                       doc['MID'],
-                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                      style: const TextStyle(fontSize: 13, color: Colors.grey),
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   doc['Kerosakkan'],
-                  style: TextStyle(color: Colors.grey),
+                  style: const TextStyle(color: Colors.grey),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   doc['Remarks'],
-                  style: TextStyle(color: Colors.grey),
+                  style: const TextStyle(color: Colors.grey),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       'RM${doc['Harga']}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 25,
                         color: Colors.grey,
                       ),
@@ -180,11 +182,11 @@ class RepairHistoryPage extends StatelessWidget {
                     StatusIcon(doc['Status']),
                   ],
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 doc['Status'] == 'Selesai'
                     ? Text(
                         'Waranti bermula dari ${doc['Tarikh']} hingga ${doc['Tarikh Waranti']}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
                         ),
@@ -192,7 +194,7 @@ class RepairHistoryPage extends StatelessWidget {
                     : Container(),
                 Text(
                   'Di uruskan oleh: ${doc['Technician']} pada tarikh ${doc['Tarikh']}',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 12,
                     color: Colors.grey,
                   ),

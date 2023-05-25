@@ -1,4 +1,3 @@
-import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
@@ -16,7 +15,7 @@ class SparepartController extends GetxController {
 
   var isSearch = false.obs;
 
-  Future getPartList;
+  Future? getPartList;
 
   @override
   void onInit() {
@@ -46,7 +45,7 @@ class SparepartController extends GetxController {
     Haptic.feedbackClick();
     if (onAppBar == true) {
       Get.dialog(
-        AlertDialog(
+        const AlertDialog(
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -64,8 +63,9 @@ class SparepartController extends GetxController {
       Get.back();
     }
     update();
-    if (onAppBar == true)
+    if (onAppBar == true) {
       ShowSnackbar.success('Segar Semula', 'Segar semula selesai', false);
+    }
   }
 
   Future<void> getSparepartsList() async {
@@ -82,10 +82,10 @@ class SparepartController extends GetxController {
       await FirebaseDatabase.instance
           .ref()
           .child("Spareparts")
-          .once()
+          .get()
           .then((snapshot) async {
         spareparts.clear();
-        Map<dynamic, dynamic> values = snapshot.snapshot.value;
+        Map<dynamic, dynamic>? values = snapshot.value as Map<dynamic, dynamic>;
         try {} catch (e) {
           debugPrint(e.toString());
         }
@@ -96,35 +96,35 @@ class SparepartController extends GetxController {
           totalPartsPrice.value += double.parse(value['Harga']);
         });
 
-        spareparts..sort((a, b) => b.tarikh.compareTo(a.tarikh));
+        spareparts.sort((a, b) => b.tarikh.compareTo(a.tarikh));
       });
       if (!GetPlatform.isWeb) {
-        spareparts.forEach((element) async {
-          Spareparts parts = Spareparts(
-              id: element.id,
-              model: element.model,
-              jenisSpareparts: element.jenisSpareparts,
-              supplier: element.supplier,
-              kualiti: element.kualiti,
-              maklumatSpareparts: element.maklumatSpareparts,
-              tarikh: element.tarikh,
-              harga: element.harga,
-              partsID: element.id);
-          await DatabaseHelper.instance.deleteSparepartsCache();
-          await DatabaseHelper.instance.addSparepartsCache(parts);
-        });
+        // spareparts.forEach((element) async {
+        //   Spareparts parts = Spareparts(
+        //       id: element.id,
+        //       model: element.model,
+        //       jenisSpareparts: element.jenisSpareparts,
+        //       supplier: element.supplier,
+        //       kualiti: element.kualiti,
+        //       maklumatSpareparts: element.maklumatSpareparts,
+        //       tarikh: element.tarikh,
+        //       harga: element.harga,
+        //       partsID: element.id);
+        //   // await DatabaseHelper.instance.deleteSparepartsCache();
+        //   // await DatabaseHelper.instance.addSparepartsCache(parts);
+        // });
       }
     } else {
       debugPrint('offline mode');
       spareparts = [];
       totalPartsPrice.value = 00.00;
-      var cache = await DatabaseHelper.instance.getSparepartsCache();
-      spareparts = cache;
+      // var cache = await DatabaseHelper.instance.getSparepartsCache();
+      // spareparts = cache;
       totalSpareparts.value = spareparts.length;
-      spareparts.forEach((element) {
+      for (var element in spareparts) {
         totalPartsPrice.value += double.parse(element.harga);
-      });
-      spareparts..sort((a, b) => b.tarikh.compareTo(a.tarikh));
+      }
+      spareparts.sort((a, b) => b.tarikh.compareTo(a.tarikh));
     }
   }
 }

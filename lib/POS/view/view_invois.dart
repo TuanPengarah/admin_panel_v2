@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ViewInvoice extends StatelessWidget {
+  const ViewInvoice({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Invois'),
+        title: const Text('Invois'),
         actions: [
           IconButton(
             onPressed: () => Get.toNamed(MyRoutes.bills, arguments: {false}),
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
           ),
         ],
       ),
@@ -20,7 +22,7 @@ class ViewInvoice extends StatelessWidget {
           stream: FirebaseDatabase.instance.ref('Invoices').onValue,
           builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -32,7 +34,7 @@ class ViewInvoice extends StatelessWidget {
             }
 
             if (snapshot.hasData) {
-              var data = snapshot.data.snapshot.value as Map<dynamic, dynamic>;
+              var data = snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
 
               List invItem = [];
 

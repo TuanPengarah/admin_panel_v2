@@ -8,6 +8,8 @@ import '../widget/sparepart_card.dart';
 class SparepartPage extends StatelessWidget {
   final _sparepartController = Get.find<SparepartController>();
 
+  SparepartPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,7 @@ class SparepartPage extends StatelessWidget {
             SliverAppBar(
               pinned: true,
               expandedHeight: 150,
-              leading: Icon(Icons.category_outlined),
+              leading: const Icon(Icons.category_outlined),
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
                   'Spareparts',
@@ -37,7 +39,7 @@ class SparepartPage extends StatelessWidget {
                   onPressed: () async {
                     await _sparepartController.refreshDialog(false);
                   },
-                  icon: Icon(Icons.refresh),
+                  icon: const Icon(Icons.refresh),
                 ),
               ],
             ),
@@ -53,7 +55,7 @@ class SparepartPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               'Senarai Spareparts',
                               style: TextStyle(
                                 fontSize: 17,
@@ -63,9 +65,9 @@ class SparepartPage extends StatelessWidget {
                             TextButton(
                               onPressed: () {
                                 Haptic.feedbackClick();
-                                return Get.toNamed(MyRoutes.spareparts);
+                                Get.toNamed(MyRoutes.spareparts);
                               },
-                              child: Text(
+                              child: const Text(
                                 'Lihat Semua',
                                 style: TextStyle(
                                   fontSize: 12,
@@ -80,7 +82,7 @@ class SparepartPage extends StatelessWidget {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
+                            return const Center(
                               child: LinearProgressIndicator(),
                             );
                           }
@@ -90,7 +92,7 @@ class SparepartPage extends StatelessWidget {
                               return ListView.builder(
                                   padding: EdgeInsets.zero,
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: _sparepartController
                                               .spareparts.length >=
                                           5
@@ -101,14 +103,14 @@ class SparepartPage extends StatelessWidget {
                                         _sparepartController.spareparts[i];
                                     return ListTile(
                                       leading: Hero(
-                                        tag: spareparts.id,
+                                        tag: spareparts.id.toString(),
                                         child: CircleAvatar(
                                           backgroundColor: Get
                                               .theme.colorScheme.surfaceVariant,
                                           child: Text(
                                             spareparts.supplier == 'Lain...'
                                                 ? '...'
-                                                : '${spareparts.supplier}',
+                                                : spareparts.supplier,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Get.theme.colorScheme
@@ -118,8 +120,8 @@ class SparepartPage extends StatelessWidget {
                                       ),
                                       title: Text(
                                           '${spareparts.jenisSpareparts} ${spareparts.model}'),
-                                      subtitle: Text(
-                                          '${spareparts.maklumatSpareparts}'),
+                                      subtitle:
+                                          Text(spareparts.maklumatSpareparts),
                                       onTap: () {
                                         Haptic.feedbackClick();
                                         var arguments = {

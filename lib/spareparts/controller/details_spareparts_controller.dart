@@ -69,9 +69,9 @@ class DetailsSparepartsController extends GetxController {
         selectedSupplier.value != _data['Supplier']) {
       Haptic.feedbackClick();
       Get.dialog(AlertDialog(
-        title: Text('Simpan perubahan?'),
+        title: const Text('Simpan perubahan?'),
         content:
-            Text('Pastikan segala maklumat pada spareparts ini adalah betul!'),
+            const Text('Pastikan segala maklumat pada spareparts ini adalah betul!'),
         actions: [
           TextButton(
             onPressed: () {
@@ -79,7 +79,7 @@ class DetailsSparepartsController extends GetxController {
               initEditable();
               Get.back();
             },
-            child: Text('Batal'),
+            child: const Text('Batal'),
           ),
           TextButton(
             onPressed: () async {
@@ -94,7 +94,7 @@ class DetailsSparepartsController extends GetxController {
                 partsID: id,
               );
               Get.dialog(
-                AlertDialog(
+                const AlertDialog(
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -126,7 +126,7 @@ class DetailsSparepartsController extends GetxController {
                     'Kesalahan telah berlaku: $e', false);
               }
             },
-            child: Text('Simpan perubahan'),
+            child: const Text('Simpan perubahan'),
           ),
         ],
       ));
@@ -138,14 +138,14 @@ class DetailsSparepartsController extends GetxController {
   Future<void> deleteSpareparts(String id, String model, String jenis) async {
     Haptic.feedbackError();
     Get.dialog(AlertDialog(
-      title: Text('Adakah anda pasti?'),
+      title: const Text('Adakah anda pasti?'),
       content:
           Text('Adakah anda pasti untuk membuang sparepart $jenis $model?'),
       actions: [
         TextButton(
           onPressed: () async {
             Get.dialog(
-              AlertDialog(
+              const AlertDialog(
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -179,7 +179,7 @@ class DetailsSparepartsController extends GetxController {
         ),
         TextButton(
           onPressed: () => Get.back(),
-          child: Text('Batal'),
+          child: const Text('Batal'),
         ),
       ],
     ));
@@ -189,7 +189,7 @@ class DetailsSparepartsController extends GetxController {
     if (editMode.value == true) {
       Get.dialog(
         AlertDialog(
-          title: Text('Sunting Jenis Spareparts'),
+          title: const Text('Sunting Jenis Spareparts'),
           content: Obx(() {
             return TextField(
               controller: jenisPartsController,
@@ -209,7 +209,7 @@ class DetailsSparepartsController extends GetxController {
                 jenisPartsController.text = jenisParts.value;
                 errJenisParts.value = false;
               },
-              child: Text('Batal'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
@@ -221,7 +221,7 @@ class DetailsSparepartsController extends GetxController {
                   Get.back();
                 }
               },
-              child: Text('Simpan'),
+              child: const Text('Simpan'),
             ),
           ],
         ),
@@ -233,7 +233,7 @@ class DetailsSparepartsController extends GetxController {
     if (editMode.value == true) {
       Get.dialog(
         AlertDialog(
-          title: Text('Sunting Model Smartphone'),
+          title: const Text('Sunting Model Smartphone'),
           content: Obx(() {
             return TextField(
               controller: modelController,
@@ -252,7 +252,7 @@ class DetailsSparepartsController extends GetxController {
                 modelController.text = model.value;
                 errMode.value = false;
               },
-              child: Text('Batal'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
@@ -264,7 +264,7 @@ class DetailsSparepartsController extends GetxController {
                   Get.back();
                 }
               },
-              child: Text('Simpan'),
+              child: const Text('Simpan'),
             ),
           ],
         ),
@@ -276,7 +276,7 @@ class DetailsSparepartsController extends GetxController {
     if (editMode.value == true) {
       Get.dialog(
         AlertDialog(
-          title: Text('Sunting Maklumat Spareparts'),
+          title: const Text('Sunting Maklumat Spareparts'),
           content: Obx(() {
             return TextField(
               controller: maklumatPartsController,
@@ -296,7 +296,7 @@ class DetailsSparepartsController extends GetxController {
                 maklumatPartsController.text = maklumatParts.value;
                 errMaklumatParts.value = false;
               },
-              child: Text('Batal'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
@@ -308,7 +308,7 @@ class DetailsSparepartsController extends GetxController {
                   Get.back();
                 }
               },
-              child: Text('Simpan'),
+              child: const Text('Simpan'),
             ),
           ],
         ),
@@ -320,7 +320,7 @@ class DetailsSparepartsController extends GetxController {
     if (editMode.value == true) {
       Get.dialog(
         AlertDialog(
-          title: Text('Sunting Harga Spareparts'),
+          title: const Text('Sunting Harga Spareparts'),
           content: Obx(() {
             return TextField(
               controller: hargaPartsController,
@@ -339,7 +339,7 @@ class DetailsSparepartsController extends GetxController {
                 hargaPartsController.text = hargaParts.value;
                 errHarga.value = false;
               },
-              child: Text('Batal'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
@@ -351,7 +351,7 @@ class DetailsSparepartsController extends GetxController {
                   Get.back();
                 }
               },
-              child: Text('Simpan'),
+              child: const Text('Simpan'),
             ),
           ],
         ),
@@ -363,29 +363,29 @@ class DetailsSparepartsController extends GetxController {
     if (editMode.value == true) {
       Get.dialog(
         AlertDialog(
-          title: Text('Sunting Kualiti Spareparts'),
+          title: const Text('Sunting Kualiti Spareparts'),
           content: Obx(() {
             return Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                   color: Get.isDarkMode
                       ? Colors.grey.shade900
                       : Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(10)),
               child: DropdownButton(
-                icon: SizedBox(),
-                underline: SizedBox(),
+                icon: const SizedBox(),
+                underline: const SizedBox(),
                 items: Inventory.quality.map((String value) {
                   return DropdownMenuItem(
+                    value: value,
                     child: Text(
                       value.toString(),
                     ),
-                    value: value,
                   );
                 }).toList(),
                 value: selectedKualitiParts.value,
-                onChanged: (String newValue) {
-                  selectedKualitiParts.value = newValue;
+                onChanged: (String? newValue) {
+                  selectedKualitiParts.value = newValue.toString();
                 },
               ),
             );
@@ -396,13 +396,13 @@ class DetailsSparepartsController extends GetxController {
                 Get.back();
                 selectedKualitiParts.value = _data['Kualiti'];
               },
-              child: Text('Batal'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
                 Get.back();
               },
-              child: Text('Simpan'),
+              child: const Text('Simpan'),
             ),
           ],
         ),
@@ -414,31 +414,31 @@ class DetailsSparepartsController extends GetxController {
     if (editMode.value == true) {
       Get.dialog(
         AlertDialog(
-          title: Text('Sunting Supplier'),
+          title: const Text('Sunting Supplier'),
           content: Obx(() {
             return Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                   color: Get.isDarkMode
                       ? Colors.grey.shade900
                       : Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(10)),
               child: DropdownButton(
-                icon: SizedBox(),
-                underline: SizedBox(),
+                icon: const SizedBox(),
+                underline: const SizedBox(),
                 items: Inventory.supplier.map((String value) {
                   return DropdownMenuItem(
+                    value: value,
                     child: Text(
                       Inventory.getSupplierCode(
                         value.toString(),
                       ),
                     ),
-                    value: value,
                   );
                 }).toList(),
                 value: selectedSupplier.value,
-                onChanged: (String newValue) {
-                  selectedSupplier.value = newValue;
+                onChanged: (String? newValue) {
+                  selectedSupplier.value = newValue.toString();
                 },
               ),
             );
@@ -449,13 +449,13 @@ class DetailsSparepartsController extends GetxController {
                 Get.back();
                 selectedSupplier.value = _data['Supplier'];
               },
-              child: Text('Batal'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
                 Get.back();
               },
-              child: Text('Simpan'),
+              child: const Text('Simpan'),
             ),
           ],
         ),

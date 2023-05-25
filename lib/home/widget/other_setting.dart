@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/config/get_route_export.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
@@ -10,14 +10,16 @@ class OtherSettings extends StatelessWidget {
   final _authController = Get.find<AuthController>();
   final _otherController = Get.find<OtherController>();
 
+  OtherSettings({super.key});
+
   Widget logOutButton() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 45),
       height: 45,
       child: ElevatedButton.icon(
         onPressed: () => _authController.performLogOut(),
-        icon: Icon(Icons.logout),
-        label: Text('Log Keluar'),
+        icon: const Icon(Icons.logout),
+        label: const Text('Log Keluar'),
         style: ButtonStyle(
           elevation: MaterialStateProperty.all<double>(8),
           shadowColor:
@@ -46,8 +48,8 @@ class OtherSettings extends StatelessWidget {
             ///OTHERS FUNCTIONS
             Container(
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(
+              margin: const EdgeInsets.only(left: 5),
+              child: const Text(
                 'Lain-lain',
                 style: TextStyle(
                   fontSize: 18,
@@ -55,7 +57,7 @@ class OtherSettings extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Card(
               color: Theme.of(context).colorScheme.surfaceVariant,
               child: InkWell(
@@ -66,8 +68,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.point_of_sale,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('POS'),
-                  subtitle: Text('Point Of Sales'),
+                  title: const Text('POS'),
+                  subtitle: const Text('Point Of Sales'),
                 ),
               ),
             ),
@@ -81,8 +83,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.badge,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('Juruteknik'),
-                  subtitle: Text('Senerai semua juruteknik di Af-Fix'),
+                  title: const Text('Juruteknik'),
+                  subtitle: const Text('Senerai semua juruteknik di Af-Fix'),
                 ),
               ),
             ),
@@ -96,8 +98,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.calculate,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('Pengiraan Harga'),
-                  subtitle: Text('Alat untuk mengira harga spareparts'),
+                  title: const Text('Pengiraan Harga'),
+                  subtitle: const Text('Alat untuk mengira harga spareparts'),
                 ),
               ),
             ),
@@ -111,19 +113,19 @@ class OtherSettings extends StatelessWidget {
                     Icons.sms,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('SMS Gateway'),
-                  subtitle: Text('Hantar SMS kepada pelanggan'),
+                  title: const Text('SMS Gateway'),
+                  subtitle: const Text('Hantar SMS kepada pelanggan'),
                 ),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
 
             ///SETTINGS
 
             Container(
               alignment: Alignment.centerLeft,
-              margin: EdgeInsets.only(left: 5),
-              child: Text(
+              margin: const EdgeInsets.only(left: 5),
+              child: const Text(
                 'Pengurusan Peranti',
                 style: TextStyle(
                   fontSize: 18,
@@ -131,7 +133,7 @@ class OtherSettings extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Card(
               color: Get.theme.colorScheme.surfaceVariant,
               child: InkWell(
@@ -139,7 +141,7 @@ class OtherSettings extends StatelessWidget {
                 onTap: () {
                   Get.dialog(
                     AlertDialog(
-                      title: Text('Pilih Tema'),
+                      title: const Text('Pilih Tema'),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -216,8 +218,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.palette,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('Tema'),
-                  subtitle: Text('Pilih tema untuk aplikasi ini'),
+                  title: const Text('Tema'),
+                  subtitle: const Text('Pilih tema untuk aplikasi ini'),
                 ),
               ),
             ),
@@ -231,8 +233,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.notification_important,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('Peringatan Media Sosial'),
-                  subtitle: Text('Notifikasi untuk membuat siaran'),
+                  title: const Text('Peringatan Media Sosial'),
+                  subtitle: const Text('Notifikasi untuk membuat siaran'),
                 ),
               ),
             ),
@@ -246,8 +248,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.notifications,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('Sejarah Notifikasi'),
-                  subtitle: Text('Lihat semua sejarah notifikasi anda'),
+                  title: const Text('Sejarah Notifikasi'),
+                  subtitle: const Text('Lihat semua sejarah notifikasi anda'),
                 ),
               ),
             ),
@@ -257,18 +259,18 @@ class OtherSettings extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
                   Get.dialog(AlertDialog(
-                    title: Text('Pilih kaedah penyimpanan'),
+                    title: const Text('Pilih kaedah penyimpanan'),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ListTile(
-                          leading: Icon(Icons.file_copy),
-                          title: Text('Simpan ke peranti anda'),
+                          leading: const Icon(Icons.file_copy),
+                          title: const Text('Simpan ke peranti anda'),
                           onTap: _otherController.saveDBToDevice,
                         ),
                         ListTile(
-                          leading: Icon(Icons.upload),
-                          title: Text('Simpan ke Firebase Storage'),
+                          leading: const Icon(Icons.upload),
+                          title: const Text('Simpan ke Firebase Storage'),
                           onTap: () {
                             Get.back();
                             _otherController.uploadToFirebase();
@@ -283,8 +285,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.upload_file,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('Eksport Database'),
-                  subtitle: Text('Eksport segala maklumat SQLite'),
+                  title: const Text('Eksport Database'),
+                  subtitle: const Text('Eksport segala maklumat SQLite'),
                 ),
               ),
             ),
@@ -295,18 +297,18 @@ class OtherSettings extends StatelessWidget {
                 onTap: () {
                   Get.dialog(
                     AlertDialog(
-                      title: Text('Pilih kaedah import'),
+                      title: const Text('Pilih kaedah import'),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ListTile(
-                            leading: Icon(Icons.file_copy),
-                            title: Text('Ambil dari peranti anda'),
+                            leading: const Icon(Icons.file_copy),
+                            title: const Text('Ambil dari peranti anda'),
                             onTap: _otherController.getFromDevices,
                           ),
                           ListTile(
-                            leading: Icon(Icons.download),
-                            title: Text('Ambil dari Firebase Storage'),
+                            leading: const Icon(Icons.download),
+                            title: const Text('Ambil dari Firebase Storage'),
                             onTap: () {
                               Get.back();
                               _otherController.downloadFromFirebase();
@@ -322,8 +324,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.sim_card_download_outlined,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('Import Database'),
-                  subtitle: Text('Import maklumat SQLite'),
+                  title: const Text('Import Database'),
+                  subtitle: const Text('Import maklumat SQLite'),
                 ),
               ),
             ),
@@ -334,14 +336,14 @@ class OtherSettings extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
                   Get.dialog(AlertDialog(
-                    title: Text('Buang Database?'),
-                    content: Text(
+                    title: const Text('Buang Database?'),
+                    content: const Text(
                         'Segala maklumat SQLite anda akan dibuang. Adakah anda pasti?'),
                     actions: [
                       TextButton(
                         onPressed: () async {
                           Haptic.feedbackError();
-                          await _otherController.deletedSQLite();
+                          // await _otherController.deletedSQLite();
                         },
                         child: Text('Buang',
                             style: TextStyle(
@@ -353,7 +355,7 @@ class OtherSettings extends StatelessWidget {
                           Haptic.feedbackClick();
                           Get.back();
                         },
-                        child: Text('Batal'),
+                        child: const Text('Batal'),
                       ),
                     ],
                   ));
@@ -363,8 +365,8 @@ class OtherSettings extends StatelessWidget {
                     Icons.delete,
                     color: Get.theme.colorScheme.secondary,
                   ),
-                  title: Text('Buang Database'),
-                  subtitle: Text('Buang segala maklumat SQLite'),
+                  title: const Text('Buang Database'),
+                  subtitle: const Text('Buang segala maklumat SQLite'),
                 ),
               ),
             ),

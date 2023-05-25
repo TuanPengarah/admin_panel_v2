@@ -7,12 +7,10 @@ class RadioTile extends StatelessWidget {
   final Function onChanged;
 
   const RadioTile(
-      {Key key,
-      @required this.label,
-      @required this.value,
-      @required this.groupValue,
-      @required this.onChanged})
-      : super(key: key);
+      {super.key, required this.label,
+      required this.value,
+      required this.groupValue,
+      required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class RadioTile extends StatelessWidget {
             Radio(
               value: value,
               groupValue: groupValue,
-              onChanged: (bool newValue) {
+              onChanged: (bool? newValue) {
                 onChanged(newValue);
               },
             ),

@@ -9,22 +9,22 @@ class DashboardCardMonths extends StatelessWidget {
   final int bulan;
   final bool isSpecific;
   final bool isDashboard;
-  DashboardCardMonths(this.bulan, this.isSpecific, this.isDashboard);
+  const DashboardCardMonths(this.bulan, this.isSpecific, this.isDashboard, {super.key});
   @override
   Widget build(BuildContext context) {
-    final _graphController = Get.find<GraphController>();
+    final graphController = Get.find<GraphController>();
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      child: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      child: SizedBox(
         width: Get.width,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
               Text(
-                'Rekod Data Bulan ${_graphController.checkMonthsMalay(bulan)}',
+                'Rekod Data Bulan ${graphController.checkMonthsMalay(bulan)}',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
                 ),
@@ -36,19 +36,19 @@ class DashboardCardMonths extends StatelessWidget {
                 alignment: WrapAlignment.center,
                 children: [
                   infoCard(
-                      'Untung Kasar', _graphController.getUntungKasar(bulan)),
+                      'Untung Kasar', graphController.getUntungKasar(bulan)),
                   infoCard(
-                      'Untung Bersih', _graphController.getUntungBersih(bulan)),
+                      'Untung Bersih', graphController.getUntungBersih(bulan)),
                   infoCard('Jumlah Modal',
-                      _graphController.getMonthsHargajual(bulan).toDouble()),
+                      graphController.getMonthsHargajual(bulan).toDouble()),
                 ],
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               isSpecific == false
                   ? ElevatedButton.icon(
                       onPressed: () => Get.toNamed(MyRoutes.monthlyRecord),
-                      label: Text('Lihat Rekod Mengikut Bulan '),
-                      icon: Icon(Icons.read_more),
+                      label: const Text('Lihat Rekod Mengikut Bulan '),
+                      icon: const Icon(Icons.read_more),
                       style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all<Color>(
                             Get.theme.colorScheme.onTertiary),
@@ -69,10 +69,10 @@ class DashboardCardMonths extends StatelessWidget {
                               var payload = {
                                 'bulan': bulan,
                                 'untungKasar':
-                                    _graphController.getUntungKasar(bulan),
+                                    graphController.getUntungKasar(bulan),
                                 'untungBersih':
-                                    _graphController.getUntungBersih(bulan),
-                                'modal': _graphController
+                                    graphController.getUntungBersih(bulan),
+                                'modal': graphController
                                     .getMonthsHargajual(bulan)
                                     .toDouble(),
                               };
@@ -90,7 +90,7 @@ class DashboardCardMonths extends StatelessWidget {
                               elevation: MaterialStateProperty.all<double>(7),
                             ),
                             // icon: Icon(Icons.picture_as_pdf),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 'Hasilkan Cash Flow Statement',
                                 textAlign: TextAlign.center,
@@ -122,7 +122,7 @@ class DashboardCardMonths extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '$title',
+              title,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Get.theme.colorScheme.secondary,
@@ -133,7 +133,7 @@ class DashboardCardMonths extends StatelessWidget {
             Text(
               total <= 0.0
                   ? '--'
-                  : '${NumberFormat.compactCurrency(decimalDigits: 2, symbol: 'RM').format(total)}',
+                  : NumberFormat.compactCurrency(decimalDigits: 2, symbol: 'RM').format(total),
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Get.theme.colorScheme.secondary,

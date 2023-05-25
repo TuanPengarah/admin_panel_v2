@@ -1,10 +1,8 @@
-import 'package:admin_panel/API/sqlite.dart';
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/auth/model/technician_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
-import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +10,12 @@ import 'package:get/get.dart';
 
 class TechnicianController extends GetxController {
   List<Technician> technicians = [];
-  Future getTechList;
+  Future? getTechList;
   final _authController = Get.find<AuthController>();
 
   @override
   void onInit() {
-    getTechList = getTechnician();
+    // getTechList = getTechnician();
     super.onInit();
   }
 
@@ -38,7 +36,7 @@ class TechnicianController extends GetxController {
     };
 
     var params = <String, String>{
-      'id': technician.id,
+      'id': technician.id.toString(),
     };
 
     Get.toNamed(MyRoutes.technicianDetails,
@@ -50,14 +48,14 @@ class TechnicianController extends GetxController {
     String photoLocation = '${namaStaff.toLowerCase().replaceAll(' ', '')}.jpg';
     Get.dialog(
       AlertDialog(
-        title: Text('Buang Staff?'),
-        content: Text(
+        title: const Text('Buang Staff?'),
+        content: const Text(
             'Jika anda teruskan, staff ini tidak boleh menggunakan aplikasi ini lagi! Adakah anda pasti?'),
         actions: [
           TextButton(
             onPressed: () async {
               if (url != '') {
-                print('nak deleted ye');
+                debugPrint('nak deleted ye');
                 await FirebaseStorage.instance
                     .ref('technicians/photoURL/$photoLocation')
                     .delete();
@@ -69,7 +67,7 @@ class TechnicianController extends GetxController {
                     .child(uid)
                     .remove()
                     .then((value) async {
-                  await getTechnician();
+                  // await getTechnician();
                   Get.back();
                   Get.back();
                   Haptic.feedbackSuccess();
@@ -92,7 +90,7 @@ class TechnicianController extends GetxController {
           ),
           TextButton(
             onPressed: () => Get.back(),
-            child: Text(
+            child: const Text(
               'Batal',
             ),
           ),
@@ -101,36 +99,36 @@ class TechnicianController extends GetxController {
     );
   }
 
-  Future<void> getTechnician() async {
-    var connect = await ConnectivityWrapper.instance.isConnected;
-    bool internet = connect;
-    if (internet == true) {
-      await FirebaseDatabase.instance
-          .ref()
-          .child('Technician')
-          .once()
-          .then((snapshot) async {
-        Map<dynamic, dynamic> values = snapshot.snapshot.value;
-        technicians = [];
-        try {
-          await DatabaseHelper.instance.deleteTechnicianCache();
-        } catch (e) {
-          debugPrint(e.toString());
-        }
-        values.forEach((key, value) {
-          technicians.add(Technician.fromJson(value));
-          DatabaseHelper.instance
-              .addTechnicianCache(Technician.fromJson(value));
-        });
-        technicians..sort((a, b) => a.nama.compareTo(b.nama));
-      });
-      update();
-    } else {
-      technicians = [];
-      var cache = await DatabaseHelper.instance.getTechnicianCache();
-      technicians = cache;
-      technicians..sort((a, b) => a.nama.compareTo(b.nama));
-      update();
-    }
-  }
+  // Future<void> getTechnician() async {
+  //   var connect = await ConnectivityWrapper.instance.isConnected;
+  //   bool internet = connect;
+  //   if (internet == true) {
+  //     await FirebaseDatabase.instance
+  //         .ref()
+  //         .child('Technician')
+  //         .once()
+  //         .then((snapshot) async {
+  //       Map<dynamic, dynamic> values = snapshot.snapshot.value;
+  //       technicians = [];
+  //       // try {
+  //       //   await DatabaseHelper.instance.deleteTechnicianCache();
+  //       // } catch (e) {
+  //       //   debugPrint(e.toString());
+  //       // }
+  //       values.forEach((key, value) {
+  //         technicians.add(Technician.fromJson(value));
+  //         DatabaseHelper.instance
+  //             .addTechnicianCache(Technician.fromJson(value));
+  //       });
+  //       technicians..sort((a, b) => a.nama.compareTo(b.nama));
+  //     });
+  //     update();
+  //   } else {
+  //     technicians = [];
+  //     var cache = await DatabaseHelper.instance.getTechnicianCache();
+  //     technicians = cache;
+  //     technicians..sort((a, b) => a.nama.compareTo(b.nama));
+  //     update();
+  //   }
+  // }
 }

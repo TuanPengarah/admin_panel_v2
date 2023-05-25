@@ -41,8 +41,8 @@ class OverviewController extends GetxController {
         Haptic.feedbackError();
         Get.dialog(
           AlertDialog(
-            title: Text('Amaran!'),
-            content: Text(
+            title: const Text('Amaran!'),
+            content: const Text(
               'Jika anda membuang pelanggan ini, segala maklumat sejarah baiki dan data peribadi pada pelanggan ini akan dipadam!',
             ),
             actions: [
@@ -55,7 +55,7 @@ class OverviewController extends GetxController {
               ),
               TextButton(
                 onPressed: () => Get.back(),
-                child: Text(
+                child: const Text(
                   'Batal',
                 ),
               ),
@@ -71,7 +71,7 @@ class OverviewController extends GetxController {
     namaEdit.text = customerName.value;
     Get.dialog(
       AlertDialog(
-        title: Text('Sunting Nama Pelanggan'),
+        title: const Text('Sunting Nama Pelanggan'),
         content: Obx(
           () => TextField(
             controller: namaEdit,
@@ -86,7 +86,7 @@ class OverviewController extends GetxController {
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: Text(
+            child: const Text(
               'Batal',
             ),
           ),
@@ -100,7 +100,7 @@ class OverviewController extends GetxController {
                 Get.back();
               }
             },
-            child: Text(
+            child: const Text(
               'Simpan',
             ),
           ),
@@ -115,7 +115,7 @@ class OverviewController extends GetxController {
     phoneEdit.text = noPhone.value;
     Get.dialog(
       AlertDialog(
-        title: Text('Sunting Nombor Panggilan'),
+        title: const Text('Sunting Nombor Panggilan'),
         content: Obx(
           () => TextField(
             controller: phoneEdit,
@@ -130,7 +130,7 @@ class OverviewController extends GetxController {
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: Text(
+            child: const Text(
               'Batal',
             ),
           ),
@@ -144,7 +144,7 @@ class OverviewController extends GetxController {
                 Get.back();
               }
             },
-            child: Text(
+            child: const Text(
               'Simpan',
             ),
           ),
@@ -158,8 +158,8 @@ class OverviewController extends GetxController {
     Haptic.feedbackSuccess();
     if (customerName != _data['Nama'] || noPhone != _data['No Phone']) {
       await Get.dialog(AlertDialog(
-        title: Text('Simpan suntingan anda?'),
-        content: Text(
+        title: const Text('Simpan suntingan anda?'),
+        content: const Text(
             'Adakah anda pasti untuk menyimpan segala suntingan anda ke server pelanggan?'),
         actions: [
           TextButton(
@@ -168,18 +168,18 @@ class OverviewController extends GetxController {
               result = false;
               Get.back();
             },
-            child: Text('Batal'),
+            child: const Text('Batal'),
           ),
           TextButton(
             onPressed: () async {
-              var _firestore = FirebaseFirestore.instance;
+              var firestore = FirebaseFirestore.instance;
 
               Map<String, dynamic> data = {
                 'Nama': customerName.value,
                 'No Phone': noPhone.value,
               };
 
-              await _firestore
+              await firestore
                   .collection('customer')
                   .doc(uid)
                   .update(data)
@@ -199,7 +199,7 @@ class OverviewController extends GetxController {
                     'Gagal untuk mengemaskini data pelanggan: $err', false);
               });
             },
-            child: Text('Simpan'),
+            child: const Text('Simpan'),
           ),
         ],
       ));
@@ -210,24 +210,24 @@ class OverviewController extends GetxController {
   }
 
   void deleteUserData(String uid, String name) async {
-    var _firestore = FirebaseFirestore.instance;
-    await _firestore
+    var firestore = FirebaseFirestore.instance;
+    await firestore
         .collection('customer')
         .doc(uid)
         .collection('repair history')
         .get()
         .then((value) {
-      value.docs.forEach((element) {
-        _firestore
+      for (var element in value.docs) {
+        firestore
             .collection('customer')
             .doc(uid)
             .collection('repair history')
             .doc(element.id)
             .delete();
-      });
+      }
     });
 
-    await _firestore.collection('customer').doc(uid).delete();
+    await firestore.collection('customer').doc(uid).delete();
     Get.back();
     Get.back();
     ShowSnackbar.success('Selesai!', 'Pelanggan $name telah dipadam', false);
@@ -248,27 +248,27 @@ class OverviewController extends GetxController {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-                leading: Icon(Icons.phone),
-                title: Text('Hubungi'),
-                subtitle: Text('$noFon'),
+                leading: const Icon(Icons.phone),
+                title: const Text('Hubungi'),
+                subtitle: Text(noFon),
                 onTap: () => launchCaller(noFon)),
             ListTile(
-                leading: Icon(Icons.textsms),
-                title: Text('SMS'),
-                subtitle: Text('$noFon'),
+                leading: const Icon(Icons.textsms),
+                title: const Text('SMS'),
+                subtitle: Text(noFon),
                 onTap: () => launchSms(noFon)),
             ListTile(
-                leading: Icon(Icons.chat_bubble),
-                title: Text('WhatsApp'),
-                subtitle: Text('$noFon'),
+                leading: const Icon(Icons.chat_bubble),
+                title: const Text('WhatsApp'),
+                subtitle: Text(noFon),
                 onTap: () => launchWhatsapp(noFon, nama)),
             ListTile(
-                leading: Icon(Icons.content_copy),
-                title: Text('Salin ke Clipboard'),
-                subtitle: Text('$noFon'),
+                leading: const Icon(Icons.content_copy),
+                title: const Text('Salin ke Clipboard'),
+                subtitle: Text(noFon),
                 onTap: () {
                   Get.back();
-                  Clipboard.setData(ClipboardData(text: "$noFon"));
+                  Clipboard.setData(ClipboardData(text: noFon));
                   ShowSnackbar.notify('Nombor telefon di salin!',
                       '$noFon telah disalin pada Clipboard peranti anda');
                 }),
@@ -279,7 +279,7 @@ class OverviewController extends GetxController {
   }
 
   void copyUID(String uid) {
-    Clipboard.setData(ClipboardData(text: "$uid"));
+    Clipboard.setData(ClipboardData(text: uid));
     ShowSnackbar.notify(
         'Pengguna ID di salin!', '$uid telah disalin pada Clipboard anda');
   }
@@ -298,7 +298,7 @@ class OverviewController extends GetxController {
   void launchEmail(String email, String nama) async {
     final Uri params = Uri(
       scheme: 'mailto',
-      path: '$email',
+      path: email,
       query: 'subject=Pemberitahuan daripada Af-Fix&body=Assalamualaikum $nama',
     );
     var url = params.toString();

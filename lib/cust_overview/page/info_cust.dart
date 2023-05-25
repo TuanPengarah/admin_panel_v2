@@ -9,6 +9,8 @@ class CustomerInfoPage extends StatelessWidget {
   final _data = Get.arguments;
   final _overviewController = Get.find<OverviewController>();
 
+  CustomerInfoPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
@@ -53,7 +55,7 @@ class CustomerInfoPage extends StatelessWidget {
                   ? IconButton(
                       onPressed: () =>
                           _overviewController.saveUserData(_data['UID']),
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.save,
                       ),
                     )
@@ -96,7 +98,7 @@ class CustomerInfoPage extends StatelessWidget {
                               _data['Email'],
                               _data['UID']),
                           borderRadius: BorderRadius.circular(25),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -136,9 +138,10 @@ class CustomerInfoPage extends StatelessWidget {
                               : Icons.phone,
                           pressed: () {
                             if (_overviewController.isEdit.value != true) {
-                              if (_data['No Phone'] != '')
+                              if (_data['No Phone'] != '') {
                                 _overviewController.showSheet(
                                     _data['No Phone'], _data['Nama']);
+                              }
                             } else {
                               _overviewController.editPhone();
                             }
@@ -163,7 +166,7 @@ class CustomerInfoPage extends StatelessWidget {
                       icon: Icons.badge,
                       pressed: () => _overviewController.copyUID(_data['UID']),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
@@ -175,10 +178,10 @@ class CustomerInfoPage extends StatelessWidget {
   }
 
   Card infoCard({
-    String title,
-    String subtitle,
-    IconData icon,
-    Function pressed,
+    String? title,
+    String? subtitle,
+    IconData? icon,
+    Function()? pressed,
   }) {
     return Card(
       elevation: 2,

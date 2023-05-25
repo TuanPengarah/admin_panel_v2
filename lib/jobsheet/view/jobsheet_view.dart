@@ -1,6 +1,4 @@
-import 'package:admin_panel/API/sqlite.dart';
 import 'package:admin_panel/config/routes.dart';
-import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/jobsheet/controller/jobsheet_controller.dart';
 import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:admin_panel/price_list/model/pricelist_model.dart';
@@ -14,13 +12,16 @@ extension Utility on BuildContext {
   void nextEditableTextFocus() {
     do {
       FocusScope.of(this).nextFocus();
-    } while (FocusScope.of(this).focusedChild.context.widget is! EditableText);
+    } while (
+        FocusScope.of(this).focusedChild!.context!.widget is! EditableText);
   }
 }
 
 class JobsheetView extends StatelessWidget {
   final _jobsheetController = Get.find<JobsheetController>();
   final _pricelistController = Get.find<PriceListController>();
+
+  JobsheetView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class JobsheetView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Get.theme.colorScheme.surface,
         body: GestureDetector(
-          onTap: () => Get.focusScope.unfocus(),
+          onTap: () => Get.focusScope?.unfocus(),
           child: SafeArea(
             child: Column(
               children: [
@@ -43,7 +44,7 @@ class JobsheetView extends StatelessWidget {
                           Get.back();
                         }
                       },
-                      icon: Icon(Icons.arrow_back),
+                      icon: const Icon(Icons.arrow_back),
                     ),
                     Row(
                       children: [
@@ -52,7 +53,7 @@ class JobsheetView extends StatelessWidget {
                             : IconButton(
                                 onPressed: () =>
                                     Get.toNamed(MyRoutes.jobsheetHistory),
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.history,
                                 ),
                               ),
@@ -61,7 +62,7 @@ class JobsheetView extends StatelessWidget {
                             : IconButton(
                                 onPressed: () =>
                                     _jobsheetController.selectContact(),
-                                icon: Icon(Icons.contact_page),
+                                icon: const Icon(Icons.contact_page),
                               ),
                       ],
                     ),
@@ -87,16 +88,16 @@ class JobsheetView extends StatelessWidget {
                                 color: Get.theme.colorScheme.secondary,
                               ),
                             )),
-                        SizedBox(height: 18),
+                        const SizedBox(height: 18),
                       ],
                     ),
                   ),
                 ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () => Get.focusScope.unfocus(),
+                    onTap: () => Get.focusScope?.unfocus(),
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           // color: Get.theme.colorScheme.surface,
                           ),
                       child: Obx(
@@ -107,7 +108,7 @@ class JobsheetView extends StatelessWidget {
                           controlsBuilder: (context, details) {
                             return Column(
                               children: [
-                                SizedBox(height: 15),
+                                const SizedBox(height: 15),
                                 Row(
                                   children: <Widget>[
                                     Expanded(
@@ -166,44 +167,60 @@ class JobsheetView extends StatelessWidget {
                                   : StepState.indexed,
                               isActive:
                                   _jobsheetController.currentSteps.value >= 0,
-                              content: TypeAheadField(
-                                textFieldConfiguration: TextFieldConfiguration(
-                                  autofocus: true,
-                                  focusNode: _jobsheetController.focusNamaCust,
-                                  controller: _jobsheetController.namaCust,
-                                  textInputAction: TextInputAction.next,
-                                  textCapitalization: TextCapitalization.words,
-                                  onSubmitted: (text) {
-                                    _jobsheetController.nextStep();
-                                    FocusScope.of(context).requestFocus(
-                                        _jobsheetController.focusNoPhone);
-                                  },
-                                  decoration: InputDecoration(
-                                    errorText:
-                                        _jobsheetController.errNama.value ==
-                                                true
-                                            ? 'Sila masukkan nama pelanggan'
-                                            : null,
-                                  ),
-                                ),
-                                suggestionsCallback: (String pattern) async =>
-                                    await DatabaseHelper.instance
-                                        .getNamaSuggestion(pattern),
-                                onSuggestionSelected:
-                                    (NamaSuggestion suggestion) =>
-                                        _jobsheetController.namaCust.text =
-                                            suggestion.nama,
-                                itemBuilder: (BuildContext context,
-                                    NamaSuggestion data) {
-                                  return ListTile(
-                                    title: Text(data.nama),
-                                  );
+                              content: TextField(
+                                autofocus: true,
+                                focusNode: _jobsheetController.focusNamaCust,
+                                controller: _jobsheetController.namaCust,
+                                textInputAction: TextInputAction.next,
+                                textCapitalization: TextCapitalization.words,
+                                onSubmitted: (text) {
+                                  _jobsheetController.nextStep();
+                                  FocusScope.of(context).requestFocus(
+                                      _jobsheetController.focusNoPhone);
                                 },
-                                getImmediateSuggestions: false,
-                                hideOnEmpty: true,
-                                hideSuggestionsOnKeyboardHide: true,
+                                decoration: InputDecoration(
+                                  errorText:
+                                      _jobsheetController.errNama.value == true
+                                          ? 'Sila masukkan nama pelanggan'
+                                          : null,
+                                ),
+                                // textFieldConfiguration: TextFieldConfiguration(
+                                //   autofocus: true,
+                                //   focusNode: _jobsheetController.focusNamaCust,
+                                //   controller: _jobsheetController.namaCust,
+                                //   textInputAction: TextInputAction.next,
+                                //   textCapitalization: TextCapitalization.words,
+                                //   onSubmitted: (text) {
+                                //     _jobsheetController.nextStep();
+                                //     FocusScope.of(context).requestFocus(
+                                //         _jobsheetController.focusNoPhone);
+                                //   },
+                                //   decoration: InputDecoration(
+                                //     errorText:
+                                //         _jobsheetController.errNama.value ==
+                                //                 true
+                                //             ? 'Sila masukkan nama pelanggan'
+                                //             : null,
+                                //   ),
+                                // ),
+                                // suggestionsCallback: (String pattern) async =>
+                                //     await DatabaseHelper.instance
+                                //         .getNamaSuggestion(pattern),
+                                // onSuggestionSelected:
+                                //     (NamaSuggestion suggestion) =>
+                                //         _jobsheetController.namaCust.text =
+                                //             suggestion.nama,
+                                // itemBuilder: (BuildContext context,
+                                //     NamaSuggestion data) {
+                                //   return ListTile(
+                                //     title: Text(data.nama),
+                                //   );
+                                // },
+                                // getImmediateSuggestions: false,
+                                // hideOnEmpty: true,
+                                // hideSuggestionsOnKeyboardHide: true,
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Nama Customer',
                               ),
                             ),
@@ -218,7 +235,7 @@ class JobsheetView extends StatelessWidget {
                                 controller: _jobsheetController.noPhone,
                                 textInputAction: TextInputAction.next,
                                 keyboardType: GetPlatform.isIOS
-                                    ? TextInputType.numberWithOptions(
+                                    ? const TextInputType.numberWithOptions(
                                         signed: true, decimal: true)
                                     : TextInputType.phone,
                                 inputFormatters: [
@@ -235,7 +252,7 @@ class JobsheetView extends StatelessWidget {
                                       : null,
                                 ),
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Nombor telefon untuk dihubungi',
                               ),
                             ),
@@ -253,7 +270,7 @@ class JobsheetView extends StatelessWidget {
                                 onSubmitted: (text) =>
                                     _jobsheetController.nextStep(),
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Email *Optional',
                               ),
                             ),
@@ -295,7 +312,7 @@ class JobsheetView extends StatelessWidget {
                                 hideOnEmpty: true,
                                 hideSuggestionsOnKeyboardHide: true,
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Model Smartphone',
                               ),
                             ),
@@ -313,7 +330,7 @@ class JobsheetView extends StatelessWidget {
                                 onSubmitted: (text) =>
                                     _jobsheetController.nextStep(),
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Password Smartphone *Optional',
                               ),
                             ),
@@ -338,7 +355,7 @@ class JobsheetView extends StatelessWidget {
                                           : null,
                                 ),
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Kerosakkan',
                               ),
                             ),
@@ -353,7 +370,7 @@ class JobsheetView extends StatelessWidget {
                                 controller: _jobsheetController.harga,
                                 textInputAction: TextInputAction.next,
                                 keyboardType: GetPlatform.isIOS
-                                    ? TextInputType.numberWithOptions(
+                                    ? const TextInputType.numberWithOptions(
                                         signed: true, decimal: true)
                                     : TextInputType.phone,
                                 inputFormatters: [
@@ -369,7 +386,7 @@ class JobsheetView extends StatelessWidget {
                                           : null,
                                 ),
                               ),
-                              title: Text(
+                              title: const Text(
                                 'Anggaran Harga',
                               ),
                             ),
@@ -386,7 +403,7 @@ class JobsheetView extends StatelessWidget {
                                   textCapitalization:
                                       TextCapitalization.sentences,
                                   maxLines: 5),
-                              title: Text(
+                              title: const Text(
                                 'Remarks',
                               ),
                             ),

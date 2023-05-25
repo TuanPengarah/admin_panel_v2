@@ -9,7 +9,7 @@ class SparepartsCard extends StatelessWidget {
   final bool isAllRecord;
   final _sparepartController = Get.find<SparepartController>();
 
-  SparepartsCard(this.isAllRecord);
+  SparepartsCard(this.isAllRecord, {super.key});
   @override
   Widget build(BuildContext context) {
     return isAllRecord == false
@@ -23,7 +23,7 @@ class SparepartsCard extends StatelessWidget {
             child: _content(),
           )
         : Card(
-            margin: EdgeInsets.symmetric(horizontal: 18),
+            margin: const EdgeInsets.symmetric(horizontal: 18),
             child: _content(),
           );
   }
@@ -84,7 +84,7 @@ class SparepartsCard extends StatelessWidget {
                       Haptic.feedbackClick();
                       Get.toNamed(MyRoutes.sparepartsAdd);
                     },
-                    icon: Icon(Icons.add),
+                    icon: const Icon(Icons.add),
                     style: ButtonStyle(
                       foregroundColor: MaterialStateProperty.all<Color>(
                           Get.theme.colorScheme.onTertiary),
@@ -94,8 +94,8 @@ class SparepartsCard extends StatelessWidget {
                           Get.theme.colorScheme.tertiary),
                       elevation: MaterialStateProperty.all<double>(7),
                     ),
-                    label: Padding(
-                      padding: const EdgeInsets.all(13.0),
+                    label: const Padding(
+                      padding: EdgeInsets.all(13.0),
                       child: Text('Tambah Spareparts'),
                     ),
                   ),

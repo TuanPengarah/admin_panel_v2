@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MysidHistoryView extends StatelessWidget {
+  const MysidHistoryView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Sejarah MyStatus ID',
         ),
       ),
@@ -21,15 +23,15 @@ class MysidHistoryView extends StatelessWidget {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (snapshot.data.docs.isEmpty) {
+          if (snapshot.data!.docs.isEmpty) {
             return Container(
               width: Get.width,
-              padding: EdgeInsets.all(18),
-              child: Column(
+              padding: const EdgeInsets.all(18),
+              child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -50,15 +52,15 @@ class MysidHistoryView extends StatelessWidget {
           }
           return Scrollbar(
             child: ListView(
-              physics: BouncingScrollPhysics(),
-              children: snapshot.data.docs.map(
+              physics: const BouncingScrollPhysics(),
+              children: snapshot.data!.docs.map(
                 (document) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 3),
                     child: Hero(
                       tag: document.id,
-                      child: MysidUI.mySidListCard(document, context, (){
+                      child: MysidUI.mySidListCard(document, context, () {
                         Haptic.feedbackClick();
                         var params = <String, String>{
                           'id': document.id,

@@ -25,7 +25,7 @@ class CashFlowStatementController extends GetxController {
   }
 
   Future<void> writeCashFlowStatement(int bulan,
-      {double untungBersih, double untungKasar, double modal}) async {
+      {double? untungBersih, double? untungKasar, double? modal}) async {
     List<CashFlowModel> cashFlow = [];
     double jumlahBukanSparepartsOut = 0.0;
     double jumlahBukanSparepartsIn = 0.0;
@@ -46,15 +46,15 @@ class CashFlowStatementController extends GetxController {
         .collection('cashFlow')
         .get();
 
-    snapshot.docs.forEach((doc) {
+    for (var doc in snapshot.docs) {
       DateTime dt = (doc['timeStamp'] as Timestamp).toDate();
 
       if (dt.month == bulan + 1) {
         cashFlow.add(CashFlowModel.fromJson(doc));
       }
-    });
-    cashFlow..sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
-    cashFlow.forEach((e) {
+    }
+    cashFlow.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+    for (var e in cashFlow) {
       if (e.isSpareparts == true &&
           e.isModal == true &&
           e.isJualPhone == true) {
@@ -81,12 +81,12 @@ class CashFlowStatementController extends GetxController {
           e.isModal == true) {
         jumlahJualPhoneOut += e.jumlah;
       }
-    });
+    }
 
     pdf.addPage(
       pw.MultiPage(
           pageFormat: PdfPageFormat.a4,
-          margin: pw.EdgeInsets.all(15),
+          margin: const pw.EdgeInsets.all(15),
           footer: (pw.Context context) {
             return pw.Column(
               children: [
@@ -101,12 +101,12 @@ class CashFlowStatementController extends GetxController {
           build: (pw.Context context) {
             return <pw.Widget>[
               _statementHeader(assetImage, bulan),
+              _statementSubheader('Jumlah keseluruhan',
+                  'RM ${untungKasar?.toStringAsFixed(2)}'),
               _statementSubheader(
-                  'Jumlah keseluruhan', 'RM ${untungKasar.toStringAsFixed(2)}'),
+                  'Jumlah Modal', 'RM ${modal?.toStringAsFixed(2)}'),
               _statementSubheader(
-                  'Jumlah Modal', 'RM ${modal.toStringAsFixed(2)}'),
-              _statementSubheader(
-                  'Untung Bersih', 'RM ${untungBersih.toStringAsFixed(2)}'),
+                  'Untung Bersih', 'RM ${untungBersih?.toStringAsFixed(2)}'),
               pw.SizedBox(height: 30),
               pw.Text('Cash Flow Keseluruhan: -'),
               pw.SizedBox(height: 10),
@@ -127,7 +127,7 @@ class CashFlowStatementController extends GetxController {
                         ])
                     .toList(),
                 headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                headerDecoration: pw.BoxDecoration(
+                headerDecoration: const pw.BoxDecoration(
                   color: PdfColors.blue300,
                 ),
               ),
@@ -174,7 +174,7 @@ class CashFlowStatementController extends GetxController {
                       ])
                   .toList(),
               headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-              headerDecoration: pw.BoxDecoration(
+              headerDecoration: const pw.BoxDecoration(
                 color: PdfColors.blue300,
               ),
             ),
@@ -233,7 +233,7 @@ class CashFlowStatementController extends GetxController {
                       ])
                   .toList(),
               headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-              headerDecoration: pw.BoxDecoration(
+              headerDecoration: const pw.BoxDecoration(
                 color: PdfColors.blue300,
               ),
             ),
@@ -289,7 +289,7 @@ class CashFlowStatementController extends GetxController {
                       ])
                   .toList(),
               headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-              headerDecoration: pw.BoxDecoration(
+              headerDecoration: const pw.BoxDecoration(
                 color: PdfColors.blue300,
               ),
             ),

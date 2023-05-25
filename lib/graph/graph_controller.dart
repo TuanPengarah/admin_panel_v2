@@ -22,7 +22,7 @@ class GraphController extends GetxController {
   List<double> untungBersihSpike = [];
   List<double> modalSpike = [];
 
-  Future getGraph;
+  Future? getGraph;
   @override
   void onInit() {
     getGraph = getGraphFromFirestore();
@@ -73,7 +73,9 @@ class GraphController extends GetxController {
 
   int getTotalMonth() {
     int totalMonths = 0;
-    for (int i = 0; i < DateTime.now().month; i++) totalMonths++;
+    for (int i = 0; i < DateTime.now().month; i++) {
+      totalMonths++;
+    }
     return totalMonths;
   }
 
@@ -86,10 +88,10 @@ class GraphController extends GetxController {
 
     untungBulananTahunLepasSpike.add(0);
 
-    line.forEach((element) {
+    for (var element in line) {
       untungBulananTahunLepasSpike.add(element);
-      print(element);
-    });
+      debugPrint(element.toString());
+    }
 
     return line;
   }
@@ -97,48 +99,49 @@ class GraphController extends GetxController {
   double findY(double untungKasar, double modal) {
     if (untungKasar < modal) {
       return modal;
-    } else
+    } else {
       return untungKasar;
+    }
   }
 
   String checkMonths(int i) {
     switch (i) {
       case 0:
         return 'January';
-        break;
+
       case 1:
         return 'February';
-        break;
+
       case 2:
         return 'March';
-        break;
+
       case 3:
         return 'April';
-        break;
+
       case 4:
         return 'May';
-        break;
+
       case 5:
         return 'June';
-        break;
+
       case 6:
         return 'July';
-        break;
+
       case 7:
         return 'August';
-        break;
+
       case 8:
         return 'September';
-        break;
+
       case 9:
         return 'October';
-        break;
+
       case 10:
         return 'November';
-        break;
+
       case 11:
         return 'December';
-        break;
+
       default:
         return 'December';
     }
@@ -148,40 +151,40 @@ class GraphController extends GetxController {
     switch (i) {
       case 0:
         return 'Januari';
-        break;
+
       case 1:
         return 'Februari';
-        break;
+
       case 2:
         return 'Mac';
-        break;
+
       case 3:
         return 'April';
-        break;
+
       case 4:
         return 'Mei';
-        break;
+
       case 5:
         return 'Jun';
-        break;
+
       case 6:
         return 'Julai';
-        break;
+
       case 7:
         return 'Ogos';
-        break;
+
       case 8:
         return 'September';
-        break;
+
       case 9:
         return 'Oktober';
-        break;
+
       case 10:
         return 'November';
-        break;
+
       case 11:
         return 'Disember';
-        break;
+
       default:
         return 'Disember';
     }
@@ -273,7 +276,7 @@ class GraphController extends GetxController {
     graphSupplier = [];
     await sales.doc(year).get().then((value) async {
       if (value.exists) {
-        print('sales report exists');
+        debugPrint('sales report exists');
         graphJual.add(value);
         await sales
             .doc(year)
@@ -287,7 +290,7 @@ class GraphController extends GetxController {
         jualanBulanIni();
         update();
       } else {
-        print('generating sales report');
+        debugPrint('generating sales report');
         Map<String, dynamic> data = {
           'January': 0,
           'February': 0,

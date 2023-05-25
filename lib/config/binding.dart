@@ -1,4 +1,4 @@
-import 'package:admin_panel/API/firestoreAPI.dart';
+import 'package:admin_panel/API/firestore_api.dart';
 import 'package:admin_panel/POS/controller/payment_controller.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/cash_flow/controller/cashflow_controller.dart';

@@ -1,12 +1,9 @@
 import 'dart:math';
-import 'package:admin_panel/API/firestoreAPI.dart';
-import 'package:admin_panel/API/sqlite.dart';
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/API/firestore_api.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/config/snackbar.dart';
-import 'package:admin_panel/home/model/suggestion.dart';
-import 'package:admin_panel/jobsheet/model/jobsheet_history.dart';
 import 'package:admin_panel/sms/controller/sms_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -27,16 +24,16 @@ class JobsheetController extends GetxController {
   final harga = TextEditingController();
   final remarks = TextEditingController();
 
-  final focusNamaCust = new FocusNode();
-  final focusNoPhone = new FocusNode();
-  final focusEmail = new FocusNode();
-  final focusModelPhone = new FocusNode();
-  final focusPassPhone = new FocusNode();
-  final focusKerosakkan = new FocusNode();
-  final focusHarga = new FocusNode();
-  final focusRemarks = new FocusNode();
+  final focusNamaCust = FocusNode();
+  final focusNoPhone = FocusNode();
+  final focusEmail = FocusNode();
+  final focusModelPhone = FocusNode();
+  final focusPassPhone = FocusNode();
+  final focusKerosakkan = FocusNode();
+  final focusHarga = FocusNode();
+  final focusRemarks = FocusNode();
 
-  final FlutterContactPicker _contactPicker = new FlutterContactPicker();
+  final FlutterContactPicker _contactPicker = FlutterContactPicker();
 
   var errNama = false.obs;
   var errNoPhone = false.obs;
@@ -58,7 +55,7 @@ class JobsheetController extends GetxController {
     }
     checkExistingCust();
     focusNoPhone.addListener(() {
-      print('tengah focus no phone');
+      debugPrint('tengah focus no phone');
     });
 
     super.onInit();
@@ -73,44 +70,42 @@ class JobsheetController extends GetxController {
     }
   }
 
-  void showShareJobsheet(Map<String, String> data) {
+  void showShareJobsheet(Map<String, String?> data) {
     Get.bottomSheet(
       Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
-            leading: Icon(Icons.message),
-            title: Text('SMS Gateway'),
-            subtitle: Text('Hantar pemberitahuan SMS ke pelanggan ini'),
+            leading: const Icon(Icons.message),
+            title: const Text('SMS Gateway'),
+            subtitle: const Text('Hantar pemberitahuan SMS ke pelanggan ini'),
             onTap: () {
               Get.back();
-              final _smsController = Get.put(SMSController());
-              _smsController.recipientText.text = '6${noPhone.text}';
-              _smsController.messageText.text =
+              final smsController = Get.put(SMSController());
+              smsController.recipientText.text = '6${noPhone.text}';
+              smsController.messageText.text =
                   'Terima kasih kerana drop off peranti anda! Klik sini untuk menjejaki status repair peranti anda: af-fix.com/mysid?id=$mySID';
               Get.toNamed(MyRoutes.smsView);
             },
           ),
           ListTile(
-            leading: Icon(Icons.picture_as_pdf),
-            title: Text('Hasilkan PDF'),
-            subtitle: Text('Hasilkan PDF untuk maklumat jobsheet ini'),
+            leading: const Icon(Icons.picture_as_pdf),
+            title: const Text('Hasilkan PDF'),
+            subtitle: const Text('Hasilkan PDF untuk maklumat jobsheet ini'),
             onTap: () {
-              Get.toNamed(MyRoutes.pdfJobsheeetViewer,
-                  parameters: data,
-                  arguments: {
-                    'isReceipt': false,
-                    'timeStamp': Timestamp.fromDate(DateTime.now()),
-                    'technician': _authController.userName.value,
-                    'nama': namaCust.text,
-                    'noTel': noPhone.text,
-                    'model': modelPhone.text,
-                    'kerosakkan': kerosakkan.text,
-                    'price': harga.text,
-                    'remarks': remarks.text,
-                    'mysid': mySID.value,
-                    'email': data['email'],
-                  });
+              Get.toNamed(MyRoutes.pdfJobsheeetViewer, arguments: {
+                'isReceipt': false,
+                'timeStamp': Timestamp.fromDate(DateTime.now()),
+                'technician': _authController.userName.value,
+                'nama': namaCust.text,
+                'noTel': noPhone.text,
+                'model': modelPhone.text,
+                'kerosakkan': kerosakkan.text,
+                'price': harga.text,
+                'remarks': remarks.text,
+                'mysid': mySID.value,
+                'email': data['email'],
+              });
             },
           ),
         ],
@@ -125,8 +120,8 @@ class JobsheetController extends GetxController {
     if (namaCust.text.isNotEmpty) {
       await Get.dialog(
         AlertDialog(
-          title: Text('Anda pasti untuk keluar?'),
-          content: Text(
+          title: const Text('Anda pasti untuk keluar?'),
+          content: const Text(
               'Segala maklumat yang telah anda masukkan di Jobsheet ini akan di padam!'),
           actions: [
             TextButton(
@@ -134,7 +129,7 @@ class JobsheetController extends GetxController {
                 result = false;
                 Get.back();
               },
-              child: Text('Batal'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
@@ -172,7 +167,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errNama.value = false;
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         focusNoPhone.requestFocus();
       }
     } else if (currentSteps.value == 1) {
@@ -182,12 +177,12 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errNoPhone.value = false;
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         focusEmail.requestFocus();
       }
     } else if (currentSteps.value == 2) {
       currentSteps.value++;
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       focusModelPhone.requestFocus();
     } else if (currentSteps.value == 3) {
       if (modelPhone.text.isEmpty) {
@@ -196,12 +191,12 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errModel.value = false;
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         focusPassPhone.requestFocus();
       }
     } else if (currentSteps.value == 4) {
       currentSteps.value++;
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       focusKerosakkan.requestFocus();
     } else if (currentSteps.value == 5) {
       if (kerosakkan.text.isEmpty) {
@@ -210,7 +205,7 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errKerosakkan.value = false;
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         focusHarga.requestFocus();
       }
     } else if (currentSteps.value == 6) {
@@ -220,26 +215,26 @@ class JobsheetController extends GetxController {
       } else {
         currentSteps.value++;
         errPrice.value = false;
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         focusRemarks.requestFocus();
       }
     } else if (currentSteps.value == 7) {
-      Get.focusScope.unfocus();
+      Get.focusScope!.unfocus();
       Get.dialog(AlertDialog(
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 30),
-            Text(
+            const CircularProgressIndicator(),
+            const SizedBox(height: 30),
+            const Text(
               'Menambah Jobsheet ke pangkalan data...',
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Obx(() => Text(
                   'Status: ${_firestoreController.status.value}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 11,
                   ),
@@ -251,27 +246,27 @@ class JobsheetController extends GetxController {
       String userName = namaCust.text;
 
       if (kIsWeb == false) {
-        await DatabaseHelper.instance.addCustomerHistory(JobsheetHistoryModel(
-          name: namaCust.text,
-          noPhone: noPhone.text,
-          email: email.text,
-          model: modelPhone.text,
-          password: passPhone.text,
-          kerosakkan: kerosakkan.text,
-          price: harga.text,
-          remarks: remarks.text,
-          userUID: mySID.value,
-        ));
+        // await DatabaseHelper.instance.addCustomerHistory(JobsheetHistoryModel(
+        //   name: namaCust.text,
+        //   noPhone: noPhone.text,
+        //   email: email.text,
+        //   model: modelPhone.text,
+        //   password: passPhone.text,
+        //   kerosakkan: kerosakkan.text,
+        //   price: harga.text,
+        //   remarks: remarks.text,
+        //   userUID: mySID.value,
+        // ));
 
-        await DatabaseHelper.instance
-            .addNamaSuggestion(NamaSuggestion(nama: namaCust.text));
-        await DatabaseHelper.instance
-            .addModelSuggestion(ModelSuggestion(model: modelPhone.text));
+        // await DatabaseHelper.instance
+        //     .addNamaSuggestion(NamaSuggestion(nama: namaCust.text));
+        // await DatabaseHelper.instance
+        //     .addModelSuggestion(ModelSuggestion(model: modelPhone.text));
       }
       if (currentEmail.isEmpty) {
         currentEmail =
-            userName.split(" ").join("").toLowerCase() + '@email.com';
-        print(currentEmail);
+            '${userName.split(" ").join("").toLowerCase()}@email.com';
+        debugPrint(currentEmail);
       }
       await _firestoreController
           .addJobSheet(
@@ -314,8 +309,8 @@ class JobsheetController extends GetxController {
       }).catchError((err) async {
         Haptic.feedbackError();
         errFirestore.value = true;
-        await Future.delayed(Duration(seconds: 6));
-        Get.focusScope.unfocus();
+        await Future.delayed(const Duration(seconds: 6));
+        Get.focusScope!.unfocus();
         var payload = <String, String>{
           'nama': namaCust.text,
           'noTel': noPhone.text,
@@ -333,7 +328,7 @@ class JobsheetController extends GetxController {
   }
 
   void previousStep() {
-    Get.focusScope.unfocus();
+    Get.focusScope!.unfocus();
     if (currentSteps.value > 0) {
       currentSteps.value = currentSteps.value - 1;
     } else {
@@ -342,14 +337,14 @@ class JobsheetController extends GetxController {
   }
 
   void stepTap(int index) {
-    Get.focusScope.unfocus();
+    Get.focusScope!.unfocus();
   }
 
   void selectContact() async {
     final contact = await _contactPicker.selectContact();
     if (contact != null) {
-      String contactNum = contact.phoneNumbers.first;
-      namaCust.text = contact.fullName;
+      String contactNum = contact.phoneNumbers!.first;
+      namaCust.text = contact.fullName.toString();
       noPhone.text = contactNum
           .replaceAll('+6', '')
           .replaceAll(' ', '')

@@ -7,11 +7,13 @@ import 'package:get/get.dart';
 
 class POSView extends StatelessWidget {
   final _controller = Get.find<PaymentController>();
+
+  POSView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pending Payment'),
+        title: const Text('Pending Payment'),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -21,11 +23,11 @@ class POSView extends StatelessWidget {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (snapshot.data.docs.isEmpty) {
+          if (snapshot.data!.docs.isEmpty) {
             return Center(
                 child: Padding(
               padding: const EdgeInsets.all(12.0),
@@ -35,9 +37,10 @@ class POSView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.money_off, color: Colors.grey, size: 120),
-                      SizedBox(height: 10),
-                      Text(
+                      const Icon(Icons.money_off,
+                          color: Colors.grey, size: 120),
+                      const SizedBox(height: 10),
+                      const Text(
                         'Maaf! tidak menjumpai sebarang pending payment',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -61,7 +64,7 @@ class POSView extends StatelessWidget {
             ));
           }
           return ListView(
-            children: snapshot.data.docs.map((doc) {
+            children: snapshot.data!.docs.map((doc) {
               return MysidUI.mySidListCard(doc, context, () {
                 var data = {
                   'model': doc['Model'],

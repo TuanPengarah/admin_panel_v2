@@ -1,13 +1,11 @@
 import 'dart:math';
 import 'package:admin_panel/API/notif_fcm_event.dart';
-import 'package:admin_panel/API/sqlite.dart';
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/graph/graph_controller.dart';
 import 'package:admin_panel/home/controller/sparepart_controller.dart';
-import 'package:admin_panel/home/model/suggestion.dart';
 import 'package:admin_panel/price_list/controller/pricelist_controller.dart';
 import 'package:admin_panel/spareparts/model/sparepart_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -36,11 +34,11 @@ class AddSparepartsController extends GetxController {
   var partsID = ''.obs;
   var status = ''.obs;
 
-  final focusJenisSparepart = new FocusNode();
-  final focusModelSmartphone = new FocusNode();
-  final focusHargaParts = new FocusNode();
-  final focusMaklumatParts = new FocusNode();
-  final focusKuantitiParts = new FocusNode();
+  final focusJenisSparepart = FocusNode();
+  final focusModelSmartphone = FocusNode();
+  final focusHargaParts = FocusNode();
+  final focusMaklumatParts = FocusNode();
+  final focusKuantitiParts = FocusNode();
 
   var errModelParts = false.obs;
   var errJenisParts = false.obs;
@@ -61,8 +59,8 @@ class AddSparepartsController extends GetxController {
     if (modelParts.text.isNotEmpty) {
       await Get.dialog(
         AlertDialog(
-          title: Text('Anda pasti untuk keluar?'),
-          content: Text(
+          title: const Text('Anda pasti untuk keluar?'),
+          content: const Text(
               'Segala maklumat yang telah anda masukkan di Spareparts ini akan di padam!'),
           actions: [
             TextButton(
@@ -70,7 +68,7 @@ class AddSparepartsController extends GetxController {
                 result = false;
                 Get.back();
               },
-              child: Text('Batal'),
+              child: const Text('Batal'),
             ),
             TextButton(
               onPressed: () {
@@ -110,15 +108,15 @@ class AddSparepartsController extends GetxController {
     Haptic.feedbackClick();
     if (currentSteps.value == 0) {
       currentSteps += 1;
-      await Future.delayed(Duration(milliseconds: 300));
-      Get.focusScope.requestFocus(focusModelSmartphone);
+      await Future.delayed(const Duration(milliseconds: 300));
+      Get.focusScope?.requestFocus(focusModelSmartphone);
     } else if (currentSteps.value == 1) {
       if (modelParts.text.isEmpty) {
         errModelParts.value = true;
       } else {
         currentSteps += 1;
         errModelParts.value = false;
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         focusJenisSparepart.requestFocus();
       }
     } else if (currentSteps.value == 2) {
@@ -131,7 +129,7 @@ class AddSparepartsController extends GetxController {
         focusJenisSparepart.unfocus();
       }
     } else if (currentSteps.value == 3) {
-      await Future.delayed(Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
       focusHargaParts.requestFocus();
       currentSteps += 1;
     } else if (currentSteps.value == 4) {
@@ -140,7 +138,7 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errHargaParts.value = false;
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         focusMaklumatParts.requestFocus();
       }
     } else if (currentSteps.value == 5) {
@@ -149,7 +147,7 @@ class AddSparepartsController extends GetxController {
       } else {
         currentSteps += 1;
         errMaklumatParts.value = false;
-        await Future.delayed(Duration(milliseconds: 300));
+        await Future.delayed(const Duration(milliseconds: 300));
         focusKuantitiParts.requestFocus();
       }
     } else if (currentSteps.value == 6) {
@@ -167,24 +165,24 @@ class AddSparepartsController extends GetxController {
 
   void backStepper() {
     Haptic.feedbackError();
-    Get.focusScope.unfocus();
+    Get.focusScope?.unfocus();
     currentSteps -= 1;
   }
 
   Future<void> addToRTDB() async {
-    final _graphController = Get.find<GraphController>();
+    final graphController = Get.find<GraphController>();
     status.value = 'Menyediakan maklumat spareparts anda...';
 
     Get.dialog(AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 30),
+          const CircularProgressIndicator(),
+          const SizedBox(height: 30),
           Obx(() => Text(
                 status.value,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 11,
                 ),
@@ -195,27 +193,27 @@ class AddSparepartsController extends GetxController {
 
     try {
       if (!kIsWeb) {
-        await DatabaseHelper.instance.addSparepartsHistory(
-          Spareparts(
-            model: modelParts.text,
-            jenisSpareparts: jenisParts.text,
-            supplier: selectedSupplier.value,
-            kualiti: selectedQuality.value,
-            maklumatSpareparts: maklumatParts.text,
-            tarikh: timeStamp.value,
-            harga: hargaParts.text,
-            partsID: partsID.value,
-          ),
-        );
-        await DatabaseHelper.instance
-            .addPartsSuggestion(PartsSuggestion(parts: jenisParts.text));
-        await DatabaseHelper.instance
-            .addModelSuggestion(ModelSuggestion(model: modelParts.text));
+        // await DatabaseHelper.instance.addSparepartsHistory(
+        //   Spareparts(
+        //     model: modelParts.text,
+        //     jenisSpareparts: jenisParts.text,
+        //     supplier: selectedSupplier.value,
+        //     kualiti: selectedQuality.value,
+        //     maklumatSpareparts: maklumatParts.text,
+        //     tarikh: timeStamp.value,
+        //     harga: hargaParts.text,
+        //     partsID: partsID.value,
+        //   ),
+        // );
+        // await DatabaseHelper.instance
+        //     .addPartsSuggestion(PartsSuggestion(parts: jenisParts.text));
+        // await DatabaseHelper.instance
+        //     .addModelSuggestion(ModelSuggestion(model: modelParts.text));
       }
       var firestore = FirebaseFirestore.instance;
       for (int i = 0; i < int.parse(kuantitiParts.text); i++) {
         generatePartsID();
-        Spareparts spareparts = new Spareparts(
+        Spareparts spareparts = Spareparts(
           model: modelParts.text,
           jenisSpareparts: jenisParts.text,
           supplier: selectedSupplier.value,
@@ -225,7 +223,7 @@ class AddSparepartsController extends GetxController {
           harga: hargaParts.text,
           partsID: partsID.value,
         );
-        await Future.delayed(Duration(milliseconds: 100));
+        await Future.delayed(const Duration(milliseconds: 100));
         status.value =
             'Memasukkan maklumat spareparts anda ke pangkalan data...';
         await FirebaseDatabase.instance
@@ -236,11 +234,11 @@ class AddSparepartsController extends GetxController {
 
         //TAMBAH MODAL PADA GRAPH SALES
 
-        String months = _graphController.checkMonths(DateTime.now().month - 1);
+        String months = graphController.checkMonths(DateTime.now().month - 1);
         status.value = 'Menambah harga modal pada graph sales...';
         DocumentReference hargaModal = firestore
             .collection('Sales')
-            .doc(_graphController.year)
+            .doc(graphController.year)
             .collection('supplierRecord')
             .doc('record');
         firestore.runTransaction((transaction) async {
@@ -268,14 +266,14 @@ class AddSparepartsController extends GetxController {
 
         await firestore
             .collection('Sales')
-            .doc(_graphController.year)
+            .doc(graphController.year)
             .collection('cashFlow')
             .add(cashflow);
       }
 
       status.value = 'Menyegarkan semula semua data...';
       await _sparepartsController.refreshDialog(false);
-      await _graphController.getGraphFromFirestore();
+      await graphController.getGraphFromFirestore();
       NotifFCMEvent().postData(
         'Sparepart telah ditambah!',
         'Sparepart ${jenisParts.text} ${modelParts.text} telah dimasukkan ke inventori anda dengan bernilai RM${hargaParts.text}',
@@ -283,7 +281,7 @@ class AddSparepartsController extends GetxController {
       );
       status.value = 'Selesai!';
       Haptic.feedbackSuccess();
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       Get.offAllNamed(MyRoutes.home);
       final bool exist = _priceListController.priceList.any((item) =>
           item.parts.contains(jenisParts.text) &&
@@ -295,7 +293,7 @@ class AddSparepartsController extends GetxController {
     } on Exception catch (e) {
       status.value = 'Opps! Kesalahan talah berlaku: $e';
       Haptic.feedbackError();
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       Get.back();
       ShowSnackbar.error('Gagal untuk menambah spareparts',
           'Kesalahan telah berlaku: $e', false);
@@ -303,12 +301,12 @@ class AddSparepartsController extends GetxController {
   }
 
   void showRecommended() {
-    final _addPriceList = Get.put(PriceListController());
-    final _calc = Get.put(PriceCalculatorController());
+    final addPriceList = Get.put(PriceListController());
+    final calc = Get.put(PriceCalculatorController());
     Get.dialog(
       AlertDialog(
-        title: Text('Tambah ke senarai harga'),
-        content: Text(
+        title: const Text('Tambah ke senarai harga'),
+        content: const Text(
             'Adakah anda ingin memasukkan harga sparepart tersebut ke senarai harga? (Sila tekan batal jika sparepart tersebut telah wujud di senarai harga)'),
         actions: [
           TextButton(
@@ -327,13 +325,13 @@ class AddSparepartsController extends GetxController {
               Haptic.feedbackClick();
               Get.back();
               double harga =
-                  _calc.calculateFromWidget(double.parse(hargaParts.text));
-              _addPriceList.modelText.text = modelParts.text;
-              _addPriceList.partsText.text = jenisParts.text;
-              _addPriceList.priceText.text = harga.toStringAsFixed(0);
-              _addPriceList.addListDialog(isEdit: false);
+                  calc.calculateFromWidget(double.parse(hargaParts.text));
+              addPriceList.modelText.text = modelParts.text;
+              addPriceList.partsText.text = jenisParts.text;
+              addPriceList.priceText.text = harga.toStringAsFixed(0);
+              addPriceList.addListDialog(isEdit: false);
             },
-            child: Text('Tambah'),
+            child: const Text('Tambah'),
           ),
         ],
       ),

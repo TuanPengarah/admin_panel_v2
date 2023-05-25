@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/home/controller/other_controller.dart';
 import 'package:admin_panel/home/widget/other_setting.dart';
 import 'package:admin_panel/home/widget/profile_avatar.dart';
@@ -9,13 +9,15 @@ import 'package:get/get.dart';
 class SettingPage extends StatelessWidget {
   final _otherController = Get.find<OtherController>();
   final _authController = Get.find<AuthController>();
+
+  SettingPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: RefreshIndicator(
       onRefresh: () async {
         await _authController.checkUserData(
-          FirebaseAuth.instance.currentUser.email,
+          FirebaseAuth.instance.currentUser!.email.toString(),
         );
       },
       child: CustomScrollView(
@@ -70,11 +72,11 @@ class SettingPage extends StatelessWidget {
                     jumlahRepair: _authController.jumlahRepair.value,
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 OtherSettings(),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 OtherSettings().logOutButton(),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Icon(
                     GetPlatform.isIOS
                         ? Icons.apple
@@ -86,13 +88,13 @@ class SettingPage extends StatelessWidget {
                   return Text(
                     'Af-Fix Admin Panel V2.0\n- ${_otherController.deviceModel.value} -\nDibangunkan oleh Akid Fikri Azhar',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 13,
                     ),
                   );
                 }),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
               ],
             ),
           ),

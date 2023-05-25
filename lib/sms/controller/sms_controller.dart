@@ -26,7 +26,7 @@ class SMSController extends GetxController {
       debugPrint('${value.statusCode} ${value.statusText}');
       debugPrint('${result.status} ${result.reason}');
       status = result.reason;
-      return '$status';
+      return status;
     });
     return status;
   }

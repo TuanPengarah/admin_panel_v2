@@ -9,9 +9,9 @@ class SMSApi extends GetConnect {
     return post(
       _url,
       {
-        'token_uid': '$_uid',
-        'token_key': '$_key',
-        'receipients': '$noPhone',
+        'token_uid': _uid,
+        'token_key': _key,
+        'receipients': noPhone,
         'message': '$_merchant: $message',
       },
     );

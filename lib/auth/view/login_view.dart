@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/auth/view/login_dialog.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/theme_data.dart';
@@ -8,6 +8,8 @@ import 'package:lottie/lottie.dart';
 
 class LoginView extends StatelessWidget {
   final _authController = Get.find<AuthController>();
+
+  LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,18 @@ class LoginView extends StatelessWidget {
                     ),
                   ),
                   ShaderMask(
-                    child: SizedBox(
+                    shaderCallback: ((bounds) => LinearGradient(
+                          colors: [
+                            Get.theme.colorScheme.primary,
+                            Get.theme.colorScheme.primary
+                          ],
+                          stops: const [
+                            0.0,
+                            0.0,
+                          ],
+                        ).createShader(bounds)),
+                    blendMode: BlendMode.srcATop,
+                    child: const SizedBox(
                         width: 55.0,
                         height: 55.0,
                         child: Image(
@@ -51,17 +64,6 @@ class LoginView extends StatelessWidget {
                             'assets/images/splash_light.png',
                           ),
                         )),
-                    shaderCallback: ((bounds) => LinearGradient(
-                          colors: [
-                            Get.theme.colorScheme.primary,
-                            Get.theme.colorScheme.primary
-                          ],
-                          stops: [
-                            0.0,
-                            0.0,
-                          ],
-                        ).createShader(bounds)),
-                    blendMode: BlendMode.srcATop,
                   ),
                   // Image.asset(
                   //   Get.isDarkMode
@@ -69,7 +71,7 @@ class LoginView extends StatelessWidget {
                   //       : 'assets/images/splash_dark.png',
                   //   scale: 7,
                   // ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
                     'Admin Panel',
                     textAlign: TextAlign.center,
@@ -80,8 +82,8 @@ class LoginView extends StatelessWidget {
                       color: Get.theme.colorScheme.primary,
                     ),
                   ),
-                  SizedBox(height: 15),
-                  Text(
+                  const SizedBox(height: 15),
+                  const Text(
                     'Urus segala maklumat dan data pelanggan yang telah atau masih dibaiki di Af-Fix Smartphone Repair!',
                     textAlign: TextAlign.center,
                   ),
@@ -95,9 +97,6 @@ class LoginView extends StatelessWidget {
                         ShowBottomSheet.showLoginSheet(
                             context, _authController);
                       },
-                      child: Text(
-                        'Mula Sekarang!',
-                      ),
                       style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all<Color>(
                             Get.theme.colorScheme.onInverseSurface),
@@ -107,9 +106,12 @@ class LoginView extends StatelessWidget {
                             Get.theme.colorScheme.secondary),
                         elevation: MaterialStateProperty.all<double>(10),
                       ),
+                      child: const Text(
+                        'Mula Sekarang!',
+                      ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

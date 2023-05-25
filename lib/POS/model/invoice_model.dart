@@ -1,14 +1,12 @@
-import 'package:flutter/foundation.dart';
-
 class InvoiceModel {
   final String title;
   final double price;
   final String warranty;
 
   InvoiceModel({
-    @required this.title,
-    @required this.price,
-    @required this.warranty,
+    required this.title,
+    required this.price,
+    required this.warranty,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,10 +25,10 @@ class InvoiceDetailsModel {
   final String technician;
 
   InvoiceDetailsModel({
-    @required this.invoiceList,
-    @required this.custUID,
-    @required this.ispay,
-    @required this.technician,
+    required this.invoiceList,
+    required this.custUID,
+    required this.ispay,
+    required this.technician,
   });
 
   factory InvoiceDetailsModel.fromDatabase(Map<dynamic, dynamic> json) {

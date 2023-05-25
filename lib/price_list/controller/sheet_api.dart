@@ -9,11 +9,11 @@ class GoogleSheet extends GetConnect {
   // static const urlDeleteList =
   //     'https://script.google.com/macros/s/AKfycbxAWFSoKzFKkPR5QLFwx9U5f1rKGl8X5T8RpT61CWYXGAZq7YABvZW0SCC2tx3PEPgzcQ/exec';
 
-  static const STATUS_SUCCESS = 'SUCCESS';
-  static const STATUS_FAILURE = 'FAILURE';
+  static const statusSucess = 'SUCCESS';
+  static const statusFailure = 'FAILURE';
 
   Future<Response> getList() => get(urlGetList).timeout(
-        Duration(seconds: 10),
+        const Duration(seconds: 10),
       );
 
   Future<Response> addList(String params) => get(urlAddList + params);

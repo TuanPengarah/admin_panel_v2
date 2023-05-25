@@ -8,25 +8,27 @@ import 'package:intl/intl.dart';
 class RepairLogView extends StatelessWidget {
   final _params = Get.parameters;
   final _controller = Get.find<MysidController>();
+
+  RepairLogView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Repair Log'),
+        title: const Text('Repair Log'),
         actions: [
           IconButton(
-            onPressed: () => _controller.urlMysid(_params['id']),
-            icon: Icon(Icons.open_in_browser),
+            onPressed: () => _controller.urlMysid(_params['id'].toString()),
+            icon: const Icon(Icons.open_in_browser),
           ),
           IconButton(
             onPressed: () {
               Get.dialog(
                 AlertDialog(
-                  title: Text(
+                  title: const Text(
                     'Tanda Sebagai Tidak Boleh Dibaiki?',
                     textAlign: TextAlign.center,
                   ),
-                  content: Text(
+                  content: const Text(
                     'Jika anda tanda sebagai tidak boleh dibaiki, Anda tidak boleh untuk membuka resit dan akan di padam pada halaman MyStatus ID',
                     textAlign: TextAlign.center,
                   ),
@@ -44,15 +46,15 @@ class RepairLogView extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () async =>
-                          await _controller.setAsCannotRepair(_params['id']),
-                      child: Text('Tanda'),
+                      onPressed: () async => await _controller
+                          .setAsCannotRepair(_params['id'].toString()),
+                      child: const Text('Tanda'),
                     ),
                   ],
                 ),
               );
             },
-            icon: Icon(Icons.error_outline),
+            icon: const Icon(Icons.error_outline),
           ),
         ],
       ),
@@ -66,14 +68,14 @@ class RepairLogView extends StatelessWidget {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (snapshot.data.docs.isEmpty) {
+            if (snapshot.data!.docs.isEmpty) {
               return SizedBox(
                 width: Get.width,
-                child: Column(
+                child: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -94,8 +96,8 @@ class RepairLogView extends StatelessWidget {
               );
             }
             return ListView(
-              physics: BouncingScrollPhysics(),
-              children: snapshot.data.docs.map((doc) {
+              physics: const BouncingScrollPhysics(),
+              children: snapshot.data!.docs.map((doc) {
                 DateTime dt = (doc['timeStamp'] as Timestamp).toDate();
                 String date =
                     DateFormat('dd-MM-yyyy | hh:mm a').format(dt).toString();

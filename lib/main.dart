@@ -25,38 +25,38 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await GetStorage.init();
 
-  bool _isLogin = false;
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  bool isLogin = false;
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackground);
 
-  final _user = FirebaseAuth.instance.currentUser;
-  if (_user != null) {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
     debugPrint('user already signed in');
-    _isLogin = true;
+    isLogin = true;
   } else {
     debugPrint('User is currently signed out');
-    _isLogin = false;
+    isLogin = false;
   }
 
   await PriceListApi.init();
   runApp(MyApp(
-    isLogin: _isLogin,
+    isLogin: isLogin,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final bool isLogin;
-  MyApp({this.isLogin});
+  const MyApp({super.key, required this.isLogin});
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
-      builder: (ColorScheme lightDynamic, ColorScheme darkDynamic) {
+      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         ColorScheme colorSchemeLight;
         ColorScheme colorSchemeDark;
-        if (lightDynamic != null && darkDynamic != null) {
-          colorSchemeLight = lightDynamic.harmonized();
+        if (darkDynamic != null) {
+          colorSchemeLight = lightDynamic!.harmonized();
           colorSchemeDark = darkDynamic.harmonized();
         } else {
           colorSchemeLight = lightColorScheme;

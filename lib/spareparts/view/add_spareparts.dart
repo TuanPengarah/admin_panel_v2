@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 
 class AddSparepart extends StatelessWidget {
   final _controller = Get.put(AddSparepartsController());
+
+  AddSparepart({super.key});
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -31,7 +33,7 @@ class AddSparepart extends StatelessWidget {
                                 Get.back();
                               }
                             },
-                            icon: Icon(Icons.arrow_back),
+                            icon: const Icon(Icons.arrow_back),
                           ),
                           Row(
                             children: [
@@ -40,7 +42,7 @@ class AddSparepart extends StatelessWidget {
                                   : IconButton(
                                       onPressed: () => Get.toNamed(
                                           MyRoutes.sparepartsHistory),
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.history,
                                       ),
                                     ),
@@ -61,7 +63,7 @@ class AddSparepart extends StatelessWidget {
                               color: Get.theme.colorScheme.secondary,
                             ),
                           )),
-                      SizedBox(height: 18),
+                      const SizedBox(height: 18),
                     ],
                   ),
                 ),
@@ -70,9 +72,9 @@ class AddSparepart extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: Get.isDarkMode
-                        ? Color(0xff131313)
+                        ? const Color(0xff131313)
                         : Get.theme.scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
                     ),

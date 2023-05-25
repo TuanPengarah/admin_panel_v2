@@ -1,5 +1,5 @@
 import 'package:admin_panel/API/notif_fcm.dart';
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/notification/controller/notification_controller.dart';
 import 'package:admin_panel/notification/widget/radio_notif.dart';
@@ -9,6 +9,8 @@ import '../../config/haptic_feedback.dart';
 
 class NotificationSettingView extends GetView<NotificationController> {
   final _authController = Get.find<AuthController>();
+
+  NotificationSettingView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +25,7 @@ class NotificationSettingView extends GetView<NotificationController> {
           children: [
             Container(
               alignment: Alignment.center,
-              child: Icon(
+              child: const Icon(
                 Icons.notification_important,
                 color: Colors.grey,
                 size: 180,
@@ -45,7 +47,8 @@ class NotificationSettingView extends GetView<NotificationController> {
                     Haptic.feedbackSuccess();
                     controller.subscribedToFCM('socmed');
                     if (_authController.jawatan.value == 'Founder') {
-                      print('Notifikasi settlement telah diset kan sekali');
+                      debugPrint(
+                          'Notifikasi settlement telah diset kan sekali');
                       controller.subscribedToFCM('settlement');
                     }
                   },
@@ -60,21 +63,22 @@ class NotificationSettingView extends GetView<NotificationController> {
                     Haptic.feedbackError();
                     controller.unsubscribedFromFCM('socmed');
                     if (_authController.jawatan.value == 'Founder') {
-                      print('Notifikasi settlement akan dibatalkan sekali');
+                      debugPrint(
+                          'Notifikasi settlement akan dibatalkan sekali');
                       controller.unsubscribedFromFCM('settlement');
                     }
                   },
                 )),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             TextButton(
               onPressed: () async {
-                print(_authController.token);
+                debugPrint(_authController.token);
                 Haptic.feedbackClick();
                 ShowSnackbar.notify(
                   'Notifikasi telah diset!',
                   'Notifikasi akan berbunyi dalam 10 saat dari sekarang',
                 );
-                await Future.delayed(Duration(seconds: 10));
+                await Future.delayed(const Duration(seconds: 10));
                 NotifFCM()
                     .postData(
                       'Percubaan Notifikasi',
@@ -86,9 +90,9 @@ class NotificationSettingView extends GetView<NotificationController> {
                       //     'https://firebasestorage.googleapis.com/v0/b/af-fix-database.appspot.com/o/technicians%2FphotoURL%2Fakid.jpg?alt=media&token=0c585605-d795-4c06-9b45-d709abd2d4f4',
                       // name: 'Akid Fikri Azhar',
                     )
-                    .then((value) => print(value.statusText));
+                    .then((value) => debugPrint(value.statusText));
               },
-              child: Text('Cuba Notifikasi Peranti'),
+              child: const Text('Cuba Notifikasi Peranti'),
             ),
           ],
         ),

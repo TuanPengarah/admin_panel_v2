@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-
 class JobsheetHistoryModel {
-  final int id;
+  final int? id;
   final String name;
   final String noPhone;
   final String email;
@@ -14,19 +12,19 @@ class JobsheetHistoryModel {
 
   JobsheetHistoryModel({
     this.id,
-    @required this.name,
-    @required this.noPhone,
-    @required this.email,
-    @required this.model,
-    @required this.password,
-    @required this.kerosakkan,
-    @required this.price,
-    @required this.remarks,
-    @required this.userUID,
+    required this.name,
+    required this.noPhone,
+    required this.email,
+    required this.model,
+    required this.password,
+    required this.kerosakkan,
+    required this.price,
+    required this.remarks,
+    required this.userUID,
   });
 
   factory JobsheetHistoryModel.fromMap(Map<String, dynamic> json) =>
-      new JobsheetHistoryModel(
+      JobsheetHistoryModel(
           id: json['id'],
           email: json['email'],
           kerosakkan: json['kerosakkan'],

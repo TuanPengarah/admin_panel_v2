@@ -9,13 +9,15 @@ import 'package:get/get.dart';
 class PriceListView extends StatelessWidget {
   final _controller = Get.put(PriceListController());
 
+  PriceListView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: ModelBrands.brandsTab.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Senarai Harga'),
+          title: const Text('Senarai Harga'),
           actions: [
             IconButton(
               onPressed: () {
@@ -25,11 +27,11 @@ class PriceListView extends StatelessWidget {
                   delegate: PriceListSearch(),
                 );
               },
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
             ),
             IconButton(
               onPressed: () => _controller.addListDialog(isEdit: false),
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
             ),
           ],
           bottom: TabBar(
@@ -50,7 +52,7 @@ class PriceListView extends StatelessWidget {
                         ? _controller.priceList
                         : _controller.priceList.where((e) {
                             return e.model.toString().toLowerCase().contains(
-                                ModelBrands.brandsTab[i].text.toLowerCase());
+                                ModelBrands.brandsTab[i].text!.toLowerCase());
                           }).toList(),
                   ),
               ],

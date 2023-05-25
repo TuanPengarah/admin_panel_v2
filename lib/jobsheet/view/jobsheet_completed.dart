@@ -8,6 +8,8 @@ import 'package:lottie/lottie.dart';
 class JobsheetCompleted extends StatelessWidget {
   final _jobsheetController = Get.find<JobsheetController>();
   final _data = Get.parameters;
+
+  JobsheetCompleted({super.key});
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -20,7 +22,7 @@ class JobsheetCompleted extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           alignment: Alignment.bottomCenter,
           child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
@@ -37,28 +39,28 @@ class JobsheetCompleted extends StatelessWidget {
                             ? 'Jobsheet untuk pelanggan ini telah berjaya di buka tetapi gagal untuk memasukan ke Server Pelanggan. Sila cuba sebentar lagi!'
                             : 'Tahniah! Jobsheet untuk pelanggan ini telah berjaya di buka dan telah dimasukkan di Server Pelanggan',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
                       )),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   SizedBox(
                     width: MediaQuery.of(context).size.width - 40,
                     height: 50,
                     child: ElevatedButton.icon(
-                        icon: Icon(Icons.share),
+                        icon: const Icon(Icons.share),
                         onPressed: () =>
                             _jobsheetController.showShareJobsheet(_data),
-                        label: Text('Hasilkan maklumat Jobsheet')),
+                        label: const Text('Hasilkan maklumat Jobsheet')),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextButton(
                     onPressed: () {
                       Haptic.feedbackSuccess();
                       Get.offAllNamed(MyRoutes.home);
                     },
-                    child: Text('Tutup'),
+                    child: const Text('Tutup'),
                   ),
                 ],
               ),

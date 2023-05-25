@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseAuth_controller.dart';
+import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
 import 'package:admin_panel/chat/controller/chat_controller.dart';
 import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
@@ -12,6 +12,8 @@ class ChatView extends GetView<ChatController> {
   final _data = Get.arguments;
   final _params = Get.parameters;
   final _authController = Get.find<AuthController>();
+
+  ChatView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,13 +32,13 @@ class ChatView extends GetView<ChatController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ListTile(
-                        title: Text('Buang semua perbualan'),
-                        leading: Icon(Icons.clear),
+                        title: const Text('Buang semua perbualan'),
+                        leading: const Icon(Icons.clear),
                         onTap: () {
                           Get.dialog(
                             AlertDialog(
-                              title: Text('Amaran'),
-                              content: Text(
+                              title: const Text('Amaran'),
+                              content: const Text(
                                   'Adakan anda pasti untuk membuang semua perbualan?'),
                               actions: [
                                 TextButton(
@@ -51,7 +53,7 @@ class ChatView extends GetView<ChatController> {
                                     Haptic.feedbackError();
                                     Get.back();
                                   },
-                                  child: Text('Batal'),
+                                  child: const Text('Batal'),
                                 ),
                               ],
                             ),
@@ -59,8 +61,8 @@ class ChatView extends GetView<ChatController> {
                         },
                       ),
                       ListTile(
-                        title: Text('Segar semula'),
-                        leading: Icon(Icons.refresh),
+                        title: const Text('Segar semula'),
+                        leading: const Icon(Icons.refresh),
                         onTap: () => controller.refreshChat(),
                       ),
                     ],
@@ -68,7 +70,7 @@ class ChatView extends GetView<ChatController> {
                 ),
               );
             },
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
           ),
         ],
       ),
@@ -86,12 +88,12 @@ class ChatView extends GetView<ChatController> {
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }
                         return controller.chat.isEmpty
-                            ? Center(
+                            ? const Center(
                                 child: SingleChildScrollView(
                                   physics: BouncingScrollPhysics(),
                                   child: Column(
@@ -116,9 +118,9 @@ class ChatView extends GetView<ChatController> {
                                 ),
                               )
                             : ListView.builder(
-                                physics: BouncingScrollPhysics(),
+                                physics: const BouncingScrollPhysics(),
                                 reverse: true,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 18, vertical: 20),
                                 itemCount: controller.chat.length,
                                 itemBuilder: (context, i) {
@@ -153,12 +155,12 @@ class ChatView extends GetView<ChatController> {
                           keyboardType: TextInputType.multiline,
                           textInputAction: TextInputAction.newline,
                           textCapitalization: TextCapitalization.sentences,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Tulis sesuatu...',
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Ink(
                           child: InkWell(
@@ -175,7 +177,7 @@ class ChatView extends GetView<ChatController> {
                             child: CircleAvatar(
                               backgroundColor: Get.theme.primaryColor,
                               radius: 30,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.send,
                                 color: Colors.white,
                               ),
@@ -210,22 +212,22 @@ class ChatView extends GetView<ChatController> {
                 ),
               ),
         Container(
-          margin: EdgeInsets.symmetric(vertical: 10),
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
           width: Get.width / 1.8,
           decoration: BoxDecoration(
             color: Get.isDarkMode
                 ? Colors.blueGrey.shade800
                 : Colors.blue.shade100,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+              topLeft: const Radius.circular(20),
+              topRight: const Radius.circular(20),
               bottomLeft: chat.whoChat == 0
-                  ? Radius.circular((20))
-                  : Radius.circular(0),
+                  ? const Radius.circular((20))
+                  : const Radius.circular(0),
               bottomRight: chat.whoChat == 1
-                  ? Radius.circular((20))
-                  : Radius.circular(0),
+                  ? const Radius.circular((20))
+                  : const Radius.circular(0),
             ),
           ),
           child: Column(
@@ -247,9 +249,9 @@ class ChatView extends GetView<ChatController> {
               SelectableText(
                 chat.content.toString(),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
-                '$date',
+                date,
                 style: TextStyle(
                   color: Get.isDarkMode ? Colors.white70 : Colors.grey.shade700,
                   fontSize: 10,

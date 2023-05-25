@@ -25,22 +25,22 @@ class FirestoreContoller extends GetxController {
   }
 
   Future<String> addJobSheet({
-    @required String email,
-    @required String nama,
-    @required String noPhone,
-    @required String mysid,
-    @required String model,
-    @required String password,
-    @required String kerosakkan,
-    @required int harga,
-    @required String technician,
-    @required String remarks,
-    String userUID,
-    bool isExisting,
+    required String email,
+    required String nama,
+    required String noPhone,
+    required String mysid,
+    required String model,
+    required String password,
+    required String kerosakkan,
+    required int harga,
+    required String technician,
+    required String remarks,
+    String? userUID,
+    bool? isExisting,
   }) async {
     if (isExisting == false) {
       status.value = 'Menyediakan data pelanggan...';
-      print('Menyediakan data pelanggan...');
+      debugPrint('Menyediakan data pelanggan...');
       FirebaseApp app = await Firebase.initializeApp(
         name: 'Secondary',
         options: Firebase.app().options,
@@ -48,7 +48,7 @@ class FirestoreContoller extends GetxController {
       await FirebaseAuth.instanceFor(app: app)
           .createUserWithEmailAndPassword(email: email, password: '123456')
           .then((credential) async {
-        userUID = credential.user.uid.toString();
+        userUID = credential.user!.uid.toString();
         await _firestore.collection('customer').doc(userUID).set({
           'Email': email,
           'Nama': nama,
@@ -60,7 +60,7 @@ class FirestoreContoller extends GetxController {
           'timeStamp': FieldValue.serverTimestamp(),
         });
         debugPrint(userUID);
-        await credential.user.updateDisplayName(nama);
+        await credential.user!.updateDisplayName(nama);
         status.value = 'Tahniah! data pelanggan telah di setkan!';
       }).catchError((err) async {
         app.delete();
@@ -68,7 +68,7 @@ class FirestoreContoller extends GetxController {
         status.value = 'Kesalahan telah berlaku! : $err';
         ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
         app.delete();
-        await Future.delayed(Duration(seconds: 3));
+        await Future.delayed(const Duration(seconds: 3));
         Get.back();
       });
 
@@ -128,6 +128,7 @@ class FirestoreContoller extends GetxController {
         .catchError((err) {
       status.value = 'Kesalahan telah berlaku! : $err';
       ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
+      return err;
     });
 
     // Tambah data ke MySID Collection
@@ -141,6 +142,7 @@ class FirestoreContoller extends GetxController {
         .catchError((err) {
       status.value = 'Kesalahan telah berlaku! : $err';
       ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
+      return err;
     });
 
     await _firestore
@@ -152,6 +154,7 @@ class FirestoreContoller extends GetxController {
         .catchError((err) {
       status.value = 'Kesalahan telah berlaku! : $err';
       ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
+      return err;
     });
 
     // Tambah point
@@ -166,6 +169,7 @@ class FirestoreContoller extends GetxController {
           .catchError((err) {
             status.value = 'Kesalahan telah berlaku! : $err';
             ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
+            return err;
           });
     } else {
       DocumentReference documentReference =
@@ -185,6 +189,7 @@ class FirestoreContoller extends GetxController {
           .catchError((err) {
             status.value = 'Kesalahan telah berlaku! : $err';
             ShowSnackbar.error('Kesalahan telah berlaku!', err, false);
+            return err;
           });
     }
 

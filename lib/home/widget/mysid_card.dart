@@ -6,13 +6,11 @@ import '../../config/haptic_feedback.dart';
 import '../../config/routes.dart';
 
 class MysidCard extends StatelessWidget {
-  const MysidCard({
-    Key key,
-    @required Map<String, String> params,
-    @required dynamic data,
+  const MysidCard({super.key, 
+    required Map<String, String> params,
+    required dynamic data,
   })  : _params = params,
-        _data = data,
-        super(key: key);
+        _data = data;
 
   final Map<String, String> _params;
   final dynamic _data;
@@ -26,7 +24,7 @@ class MysidCard extends StatelessWidget {
         child: SafeArea(
           child: ListView(
             children: [
-              Text(
+              const Text(
                 'Maklumat Kerosakkan',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -34,47 +32,47 @@ class MysidCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ListTile(
-                leading: Icon(Icons.date_range),
-                title: Text('No MySID'),
-                subtitle: Text(_params['id']),
+                leading: const Icon(Icons.date_range),
+                title: const Text('No MySID'),
+                subtitle: Text(_params['id'].toString()),
               ),
               ListTile(
-                leading: Icon(Icons.phonelink_erase_outlined),
-                title: Text('Kerosakkan'),
+                leading: const Icon(Icons.phonelink_erase_outlined),
+                title: const Text('Kerosakkan'),
                 subtitle: Text(_data['Kerosakkan']),
               ),
               ListTile(
-                leading: Icon(Icons.phone_android_outlined),
-                title: Text('Model'),
+                leading: const Icon(Icons.phone_android_outlined),
+                title: const Text('Model'),
                 subtitle: Text(_data['Model']),
               ),
               ListTile(
-                leading: Icon(Icons.pattern),
-                title: Text('Password'),
+                leading: const Icon(Icons.pattern),
+                title: const Text('Password'),
                 subtitle: Text(_data['Password']),
               ),
               ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Pelanggan'),
+                leading: const Icon(Icons.person),
+                title: const Text('Pelanggan'),
                 subtitle: Text(_data['Nama']),
               ),
               ListTile(
-                leading: Icon(Icons.phone),
-                title: Text('Nombor Telefon'),
+                leading: const Icon(Icons.phone),
+                title: const Text('Nombor Telefon'),
                 subtitle: Text(_data['No Phone']),
               ),
               ListTile(
-                leading: Icon(Icons.text_snippet_outlined),
-                title: Text('Catatan'),
+                leading: const Icon(Icons.text_snippet_outlined),
+                title: const Text('Catatan'),
                 subtitle: Text(_data['Remarks']),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text.rich(
                 TextSpan(
                   text: 'Sila ',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.grey,
                   ),
                   children: [
@@ -87,15 +85,15 @@ class MysidCard extends StatelessWidget {
                         ..onTap = () {
                           Haptic.feedbackClick();
                           Get.toNamed(MyRoutes.repairLog,
-                              parameters: {'id': _params['id']});
+                              parameters: {'id': _params['id'].toString()});
                         },
                     ),
-                    TextSpan(text: ' untuk melihat status Repair Log'),
+                    const TextSpan(text: ' untuk melihat status Repair Log'),
                   ],
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 60),
+              const SizedBox(height: 60),
             ],
           ),
         ),

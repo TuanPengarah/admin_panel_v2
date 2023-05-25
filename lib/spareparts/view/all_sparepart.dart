@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AllSparepartsView extends GetView<SparepartController> {
+  const AllSparepartsView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -24,14 +26,14 @@ class AllSparepartsView extends GetView<SparepartController> {
                   delegate: SparepartsSearch(),
                 );
               },
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
             ),
             IconButton(
               onPressed: () {
                 Haptic.feedbackClick();
                 Get.toNamed(MyRoutes.sparepartsAdd);
               },
-              icon: Icon(Icons.add),
+              icon: const Icon(Icons.add),
             ),
           ],
           bottom: TabBar(
@@ -48,7 +50,7 @@ class AllSparepartsView extends GetView<SparepartController> {
             return GestureDetector(
               onTap: () => controller.isSearch.value = false,
               child: TabBarView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: [
                   for (var i = 0; i < ModelBrands.brandsTab.length; i++)
                     ListSpareparts(
@@ -56,7 +58,7 @@ class AllSparepartsView extends GetView<SparepartController> {
                           ? controller.spareparts
                           : controller.spareparts.where((e) {
                               return e.model.toString().toLowerCase().contains(
-                                  ModelBrands.brandsTab[i].text.toLowerCase());
+                                  ModelBrands.brandsTab[i].text!.toLowerCase());
                             }).toList(),
                     ),
                 ],
