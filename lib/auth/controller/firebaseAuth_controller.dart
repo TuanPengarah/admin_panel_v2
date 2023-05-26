@@ -52,19 +52,19 @@ class AuthController extends GetxController {
   void performLogin(String email, String password,
       RoundedLoadingButtonController btnController) async {
     Haptic.feedbackClick();
-    _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) async {
+
+    try {
+      final user = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       if (kIsWeb) {
         await _auth
             .setPersistence(Persistence.LOCAL)
             .then((value) => debugPrint('persist set to local on web'));
       }
-
       await FirebaseDatabase.instance
           .ref()
           .child('Technician')
-          .child(value.user!.uid)
+          .child(user.user!.uid)
           .once()
           .then((snapshot) async {
         if (snapshot.snapshot.value == null || !snapshot.snapshot.exists) {
@@ -78,7 +78,7 @@ class AuthController extends GetxController {
           await Future.delayed(const Duration(seconds: 2));
           btnController.reset();
         } else {
-          await checkUserData(value.user!.email.toString());
+          await checkUserData(user.user!.email.toString());
 
           btnController.success();
           Haptic.feedbackSuccess();
@@ -88,15 +88,14 @@ class AuthController extends GetxController {
               'Selamat Kembali $userName', 'Log masuk berjaya!', true);
         }
       });
-    }).catchError(
-      (err) async {
-        ShowSnackbar.error('Kesalahan telah berlaku!', err.toString(), true);
-        btnController.error();
-        Haptic.feedbackError();
-        await Future.delayed(const Duration(seconds: 2));
-        btnController.reset();
-      },
-    );
+    } on FirebaseAuthException catch (err) {
+      ShowSnackbar.error('Kesalahan telah berlaku!', err.toString(), true);
+      btnController.error();
+      Haptic.feedbackError();
+      await Future.delayed(const Duration(seconds: 2));
+      btnController.reset();
+      return;
+    }
   }
 
   ///LOG OUT

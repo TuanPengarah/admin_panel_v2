@@ -22,10 +22,11 @@ class SMSController extends GetxController {
   Future<String> sendSMS() async {
     String status = '';
     await SMSApi().sendSMS(recipientText.text, messageText.text).then((value) {
-      SMSStatusModel result = SMSStatusModel.get(value.body);
       debugPrint('${value.statusCode} ${value.statusText}');
+      SMSStatusModel result = SMSStatusModel.get(value.body);
+
       debugPrint('${result.status} ${result.reason}');
-      status = result.reason;
+      status = result.reason.toString();
       return status;
     });
     return status;
