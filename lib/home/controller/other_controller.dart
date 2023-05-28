@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
+import 'package:admin_panel/auth/controller/firebase_auth_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:device_info_plus/device_info_plus.dart';

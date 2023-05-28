@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
+import 'package:admin_panel/auth/controller/firebase_auth_controller.dart';
 import 'package:admin_panel/config/get_route_export.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';

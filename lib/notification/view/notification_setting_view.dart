@@ -1,5 +1,5 @@
 import 'package:admin_panel/API/notif_fcm.dart';
-import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
+import 'package:admin_panel/auth/controller/firebase_auth_controller.dart';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:admin_panel/notification/controller/notification_controller.dart';
 import 'package:admin_panel/notification/widget/radio_notif.dart';

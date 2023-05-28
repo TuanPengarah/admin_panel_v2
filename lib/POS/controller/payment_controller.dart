@@ -1,7 +1,7 @@
 import 'package:admin_panel/API/notif_fcm_event.dart';
 import 'package:admin_panel/POS/model/invoice_model.dart';
 import 'package:admin_panel/POS/model/payment_model.dart';
-import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
+import 'package:admin_panel/auth/controller/firebase_auth_controller.dart';
 import 'package:admin_panel/calculator/controller/price_calc_controller.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';
 import 'package:admin_panel/config/routes.dart';

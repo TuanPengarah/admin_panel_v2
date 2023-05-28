@@ -2,8 +2,10 @@ import 'package:admin_panel/POS/view/invoice_details_view.dart';
 import 'package:admin_panel/POS/view/view_invois.dart';
 import 'package:admin_panel/cash_flow/view/cashflow_viewall.dart';
 import 'package:admin_panel/config/binding.dart';
+import 'package:admin_panel/post/view/view_create_post.dart';
 import 'package:admin_panel/settings/setting_view.dart';
 import 'package:get/get.dart';
+import '../post/view/view_result_post.dart';
 import 'get_route_export.dart';
 
 class MyRoutes {
@@ -44,6 +46,8 @@ class MyRoutes {
   static const setting = '/setting';
   static const invoisView = '/view-invoice';
   static const detailsInvoice = '/invoice-detail';
+  static const resultPost = '/post/result';
+  static const createPost = '/post';
 
   List<GetPage> page = [
     GetPage(name: login, page: () => LoginView()),
@@ -133,6 +137,8 @@ class MyRoutes {
     GetPage(
       name: detailsInvoice,
       page: () => ViewInvoiceDetail(),
-    )
+    ),
+    GetPage(name: resultPost, page: () => ViewResultPost()),
+    GetPage(name: createPost, page: () => ViewCreatePost()),
   ];
 }

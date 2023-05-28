@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
+import 'package:admin_panel/auth/controller/firebase_auth_controller.dart';
 import 'package:admin_panel/auth/controller/show_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

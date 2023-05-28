@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
+import 'package:admin_panel/auth/controller/firebase_auth_controller.dart';
 import 'package:admin_panel/chat/controller/chat_controller.dart';
 import 'package:admin_panel/chat/model/chat_model.dart';
 import 'package:admin_panel/config/haptic_feedback.dart';

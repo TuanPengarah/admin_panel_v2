@@ -31,6 +31,7 @@ dependencies:
   chart_sparkline: ^1.0.12
   grouped_list: ^5.1.2
   quds_popup_menu: ^0.0.1+1
+  dotted_border: ^2.0.0+3
 
   # API Services
   firebase_core_platform_interface: ^4.5.2
@@ -57,11 +58,13 @@ dependencies:
   file_picker: ^5.0.1
   extended_image: ^8.0.1
   cross_file: ^0.3.3+2
+  gallery_saver: ^2.3.2
+  path_provider: ^2.0.9
+  widgets_to_image: ^0.0.2
   
   # Data Models
   intl: ^0.17.0
   flutter_native_contact_picker: ^0.0.3
-  path_provider: ^2.0.9
   pdf:
   syncfusion_flutter_pdfviewer: ^21.1.35
   flutter_app_badger: ^1.2.0

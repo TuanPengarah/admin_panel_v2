@@ -10,7 +10,7 @@ import 'package:flutter_advanced_avatar/flutter_advanced_avatar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:masonry_grid/masonry_grid.dart';
-import '../../auth/controller/firebaseauth_controller.dart';
+import '../../auth/controller/firebase_auth_controller.dart';
 import '../controller/customer_controller.dart';
 
 class DashboardPage2 extends StatelessWidget {
@@ -690,6 +690,34 @@ class DashboardPage2 extends StatelessWidget {
                   ],
                 );
               }),
+          _dashboard(
+            context: context,
+            title: 'Af-Fix Post',
+            icon: Icons.image,
+            children: [
+              const SizedBox(height: 10),
+              const Icon(
+                Icons.image,
+                color: Colors.grey,
+                size: 40,
+              ),
+              const SizedBox(height: 10),
+              const Text('Hasilkan gambar untuk post ke media sosial.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.grey)),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Haptic.feedbackClick();
+                    Get.toNamed(MyRoutes.createPost);
+                  },
+                  child: const Text('Hasilkan'),
+                ),
+              ),
+            ],
+          ),
         ],
       );
     });

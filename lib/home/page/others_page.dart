@@ -1,4 +1,4 @@
-import 'package:admin_panel/auth/controller/firebaseauth_controller.dart';
+import 'package:admin_panel/auth/controller/firebase_auth_controller.dart';
 import 'package:admin_panel/home/controller/other_controller.dart';
 import 'package:admin_panel/home/widget/other_setting.dart';
 import 'package:admin_panel/home/widget/profile_avatar.dart';
