@@ -1,3 +1,4 @@
+import 'package:admin_panel/config/routes.dart';
 import 'package:admin_panel/post/controller/controller_create_post.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,12 @@ class ViewCreatePost extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Af-Fix Post'),
+        actions: [
+          IconButton(
+            onPressed: () => Get.toNamed(MyRoutes.historyPost),
+            icon: const Icon(Icons.history),
+          ),
+        ],
       ),
       body: GetBuilder(
           init: ControllerCreatePost(),

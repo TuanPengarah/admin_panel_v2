@@ -4,6 +4,7 @@ import 'package:admin_panel/config/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,6 +12,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
 
 import '../../config/routes.dart';
+import '../model/history_post.dart';
 
 class ControllerCreatePost extends GetxController {
   final key = GlobalKey<FormState>();
@@ -31,6 +33,30 @@ class ControllerCreatePost extends GetxController {
 
     addMasalah();
     jenisGambarText.text = jenisGambar;
+  }
+
+  void deleteHistory(Box box, List keys, int i) {
+    box.delete(keys[i]);
+    update();
+  }
+
+  void pickHistory(HistoryPost sejarah) {
+    imageLocation = File(sejarah.path);
+
+    jenisGambarText.text = sejarah.jenisGambar;
+    imageName = sejarah.imageName;
+    masalah = sejarah.masalah.where((e) => e.isNotEmpty).toList();
+
+    modelPhoneText.text = sejarah.model;
+    repairText.text = sejarah.repair;
+
+    for (int i = 0; i < masalah.length; i++) {
+      masalahController.add(TextEditingController());
+      masalahController[i].text = masalah[i];
+    }
+    Get.back();
+
+    update();
   }
 
   void chooseType() {
@@ -75,12 +101,21 @@ class ControllerCreatePost extends GetxController {
   }
 
   void uploadImage() async {
+    Get.dialog(
+      const AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [CircularProgressIndicator.adaptive()],
+        ),
+      ),
+    );
     final fileImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (fileImage == null) {
       ShowSnackbar.error('Kesalahan telah berlaku',
           'Sila masukkan gambar peranti yang telah dibaiki', false);
+      Get.back();
       return;
     }
     final croppedImage = await ImageCropper().cropImage(
@@ -99,6 +134,9 @@ class ControllerCreatePost extends GetxController {
       imageLocation = File(croppedImage.path);
       imageName = fileImage.name;
       update();
+      Get.back();
+    } else {
+      Get.back();
     }
   }
 
@@ -129,6 +167,7 @@ class ControllerCreatePost extends GetxController {
 
   void addMasalah() {
     masalah.add('');
+
     for (int i = 0; i < masalah.length; i++) {
       masalahController.add(TextEditingController());
       masalahController[i].text = masalah[i];
@@ -143,6 +182,16 @@ class ControllerCreatePost extends GetxController {
   }
 
   void savePost() async {
+    final data = HistoryPost(
+      path: imageLocation.path,
+      imageName: imageName.toString(),
+      jenisGambar: jenisGambarText.text,
+      model: modelPhoneText.text,
+      repair: repairText.text,
+      masalah: masalah,
+    ).toDB();
+
+    await Hive.box('historyPost').add(data);
     final appStorage = await getApplicationDocumentsDirectory();
     final file = File('${appStorage.path}/post.png');
 

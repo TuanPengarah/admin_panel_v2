@@ -23,7 +23,7 @@ class ViewResultPost extends StatelessWidget {
         child: WidgetsToImage(
           controller: _controller.screenController,
           child: Container(
-            width: double.infinity,
+            width: 400,
             height: 400,
             decoration: BoxDecoration(
               color:
