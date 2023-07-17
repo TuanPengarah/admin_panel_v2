@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:admin_panel/config/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -102,10 +103,13 @@ class ControllerCreatePost extends GetxController {
 
   void uploadImage() async {
     Get.dialog(
-      const AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [CircularProgressIndicator.adaptive()],
+      BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [CircularProgressIndicator.adaptive()],
+          ),
         ),
       ),
     );
@@ -182,6 +186,21 @@ class ControllerCreatePost extends GetxController {
   }
 
   void savePost() async {
+    Get.dialog(
+      BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Menghasilkan gambar...'),
+              SizedBox(height: 5),
+              CircularProgressIndicator.adaptive(),
+            ],
+          ),
+        ),
+      ),
+    );
     final data = HistoryPost(
       path: imageLocation.path,
       imageName: imageName.toString(),
@@ -190,7 +209,7 @@ class ControllerCreatePost extends GetxController {
       repair: repairText.text,
       masalah: masalah,
     ).toDB();
-
+    await Hive.openBox('historyPost');
     await Hive.box('historyPost').add(data);
     final appStorage = await getApplicationDocumentsDirectory();
     final file = File('${appStorage.path}/post.png');
@@ -203,6 +222,9 @@ class ControllerCreatePost extends GetxController {
       Share.shareXFiles(
         [XFile(resultFile.path)],
       );
+      Get.back();
+    } else {
+      Get.back();
     }
   }
 }
